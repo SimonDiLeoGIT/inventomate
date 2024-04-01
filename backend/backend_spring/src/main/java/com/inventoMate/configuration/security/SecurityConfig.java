@@ -2,6 +2,7 @@ package com.inventoMate.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,8 +33,11 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain httpSecurity(final HttpSecurity http) throws Exception {
 		return http
-				.authorizeHttpRequests(authz -> authz.requestMatchers("/api/messages/protected", "/api/messages/admin")
-						.authenticated().anyRequest().permitAll())
+				.authorizeHttpRequests(authz -> authz
+						.requestMatchers(HttpMethod.GET, "/api/roles/**").hasAuthority("read:roles")
+						.requestMatchers(HttpMethod.PUT, "/api/roles/**").hasAuthority("assign:roles-to-user")
+						.anyRequest().permitAll()
+						)
 				.cors(Customizer.withDefaults())
 				.oauth2ResourceServer(
 						oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(makePermissionsConverter()))
