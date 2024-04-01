@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.auth0.client.mgmt.ManagementAPI;
@@ -61,17 +62,12 @@ public class RoleAuth0ServiceImpl {
 				.build();
 	}
 	
-	public Object assignRolToUser(String roleId, String userId) throws Auth0Exception {
+	public HttpStatus assignRolToUser(String roleId, String userId) throws Auth0Exception {
 		List<String> users = new LinkedList<String>();
 		users.add(userId);
-		return managementAPI.roles()
+		return HttpStatus.valueOf(managementAPI.roles()
 				.assignUsers(roleId,users)
-				.execute().getBody();
-	}
-
-
-	public Object getUsers() throws Auth0Exception {
-		return managementAPI.users().list(null).execute().getBody();
+				.execute().getStatusCode());
 	}
 	
 }
