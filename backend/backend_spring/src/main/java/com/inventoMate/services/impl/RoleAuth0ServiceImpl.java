@@ -1,6 +1,5 @@
 package com.inventoMate.services.impl;
 
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,35 +18,31 @@ import com.inventoMate.dtos.roles.RolePermissionsDTO;
 
 import lombok.AllArgsConstructor;
 
-
 @Service
 @AllArgsConstructor
 public class RoleAuth0ServiceImpl {
-	
+
 	private final ManagementAPI managementAPI;
 	private final ModelMapper modelMapper;
-	
-	
+
 	public List<RoleDTO> getAllRoles() throws Auth0Exception {
 		List<Role> roles = managementAPI.roles().list(null).execute().getBody().getItems();
 		List<RoleDTO> rolesDTO = roles.stream()
-			    .map(role -> modelMapper.map(role, RoleDTO.class))
-			    .collect(Collectors.toList());
-		
+				.map(role -> modelMapper.map(role, RoleDTO.class))
+				.collect(Collectors.toList());
+
 		return rolesDTO;
 	}
-
 
 	public RoleDTO getRolById(String roleId) throws Auth0Exception {
 		Role role = managementAPI.roles()
 				.get(roleId)
 				.execute().getBody();
-				
+
 		return modelMapper.map(role, RoleDTO.class);
 	}
 
-
-	public RolePermissionsDTO getPermissionsRole(String roleId) throws Auth0Exception {		
+	public RolePermissionsDTO getPermissionsRole(String roleId) throws Auth0Exception {
 		Role role = managementAPI.roles().get(roleId).execute().getBody();
 		List<Permission> permissions = managementAPI.roles()
 				.listPermissions(roleId, null)
@@ -61,13 +56,13 @@ public class RoleAuth0ServiceImpl {
 						.collect(Collectors.toList()))
 				.build();
 	}
-	
+
 	public HttpStatus assignRolToUser(String roleId, String userId) throws Auth0Exception {
 		List<String> users = new LinkedList<String>();
 		users.add(userId);
 		return HttpStatus.valueOf(managementAPI.roles()
-				.assignUsers(roleId,users)
+				.assignUsers(roleId, users)
 				.execute().getStatusCode());
 	}
-	
+
 }
