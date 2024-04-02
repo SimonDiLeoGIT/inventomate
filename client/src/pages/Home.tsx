@@ -14,22 +14,22 @@ export const Home = () => {
     const fetchData = async () => {
       try {
         const accessToken = await getAccessTokenSilently();
-        console.log(accessToken)
+        // console.log(accessToken)
         const config = {
-          url: 'http://localhost:8080/api/messages/public',
+          url: 'http://localhost:8080/api/roles',
           method: "GET",
           headers: {
             "content-type": "application/json",
-            // Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         };
-
+        console.log(config)
         const response = await axios(config);
-        console.log(response)
+        console.log("response", response)
         setData(response.data);
       } catch (error) {
         setError(error as Error);
-        console.log(data)
+        console.log(error)
       }
     };
 
