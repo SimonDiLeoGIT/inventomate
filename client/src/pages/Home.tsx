@@ -1,7 +1,6 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-
+import { useAuth0 } from "@auth0/auth0-react"
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 export const Home = () => {
 
@@ -13,7 +12,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const accessToken = await getAccessTokenSilently();
+        const accessToken = await getAccessTokenSilently()
         // console.log(accessToken)
         const config = {
           url: 'http://localhost:8080/api/roles',
@@ -23,12 +22,13 @@ export const Home = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         };
+
         console.log(config)
-        const response = await axios(config);
+        const response = await axios(config)
         console.log("response", response)
-        setData(response.data);
+        setData(response.data)
       } catch (error) {
-        setError(error as Error);
+        setError(error as Error)
         console.log(error)
       }
     };
@@ -46,6 +46,7 @@ export const Home = () => {
         <img className='m-auto' src={user?.picture} alt={user?.name} />
         <h2 className='font-bold'>{user?.name}</h2>
         <p>{user?.email}</p>
+        <p>{user?.address}</p>
         <button
           className='bg-red-300 w-48 h-12 rounded-lg font-bold text-gray-800 hover:opacity-80 mt-4'
           onClick={() => logout({
