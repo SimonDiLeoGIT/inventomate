@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Login } from "../pages/Login"
 import { Home } from "../pages/Home"
 import { useAuth0 } from "@auth0/auth0-react";
+import { Navbar } from "../components/Navbar";
 // import { Navbar } from "../Navbar/Navbar"
 
 export const Router = () => {
@@ -14,9 +15,9 @@ export const Router = () => {
 
   return (
     <BrowserRouter>
-      {/* <header className="h-20">
+      <header className="w-screen h-20">
         <Navbar />
-      </header> */}
+      </header>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
