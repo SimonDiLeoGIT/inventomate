@@ -1,5 +1,5 @@
 import { Auth0Provider } from '@auth0/auth0-react'
-import { Router } from './Router'
+import App from '../App'
 
 export const AutenticationProvider = () => {
 
@@ -16,7 +16,7 @@ export const AutenticationProvider = () => {
         redirect_uri: window.location.origin
       }}
     >
-      <Router />
+      <App />
     </Auth0Provider>
   )
 }

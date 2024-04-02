@@ -1,10 +1,9 @@
-import { AutenticationProvider } from './utils/AuthenticationProvider';
-
+import { Router } from "./utils/Router"
 
 function App() {
 
   return (
-    <AutenticationProvider />
+    <Router />
   )
 }
 
