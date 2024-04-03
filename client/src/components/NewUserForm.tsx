@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react"
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import { jwtDecode } from 'jwt-decode'
 
 interface Role {
