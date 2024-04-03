@@ -36,6 +36,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authz -> authz
 						.requestMatchers(HttpMethod.GET, "/api/roles/**").hasAuthority("read:roles")
 						.requestMatchers(HttpMethod.PUT, "/api/roles/**").hasAuthority("assign:roles-to-user")
+						.requestMatchers(HttpMethod.POST, "/api/users/create").hasAuthority("create:user")
 						.anyRequest().permitAll()
 						)
 				.cors(Customizer.withDefaults())
