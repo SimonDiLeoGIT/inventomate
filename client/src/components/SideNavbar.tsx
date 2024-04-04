@@ -29,7 +29,7 @@ export const SideNavbar = () => {
 
 
   return (
-    <nav className="fixed left-0 border w-56 bottom-0 top-20">
+    <nav className="text-color-black fixed left-0 border w-56 bottom-0 top-20">
       <header className="p-2">
         <h2 className="font-bold">Settings</h2>
       </header>
