@@ -9,7 +9,7 @@ export const Router = () => {
 
   return (
     <BrowserRouter>
-      <header className="w-screen h-20">
+      <header className="w-full h-20 overflow-x-hidden">
         <Navbar />
       </header>
       <SideNavbar />

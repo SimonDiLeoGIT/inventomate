@@ -7,7 +7,7 @@ export const Navbar = () => {
   const { user, logout } = useAuth0();
 
   return (
-    <nav className="w-full border-b border-color-border-light-grey h-full flex shadow-md">
+    <nav className="w-full border-b border-color-border-light-grey h-20 flex shadow-md fixed top-0">
       <h1 className='font-bold ml-4 h-full flex items-center py-2'>
         <img src={logo} alt="InventoMateLogo" className="h-full" />
         <p>InventoMate</p>

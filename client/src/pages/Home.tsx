@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { jwtDecode } from 'jwt-decode'
+import { SideNavbar } from "../components/SideNavbar";
 
 export const Home = () => {
 
@@ -28,10 +29,9 @@ export const Home = () => {
   }, [getAccessTokenSilently])
 
   return (
-
-    <section className='ml-56 w-full text-center'>
-      <h1 className="font-bold text-lg my-4">User Permisions</h1>
-      <ul>
+    <main className="text-center m-auto w-96 mt-20">
+      <h1 className="font-bold text-lg">User Permisions</h1>
+      <ul className="">
         {permissions?.map(p => {
           return (
             <li className="p-2 border border-stone-700 mb-2 rounded-xl">
@@ -40,6 +40,6 @@ export const Home = () => {
           )
         })}
       </ul>
-    </section>
+    </main>
   );
 };
