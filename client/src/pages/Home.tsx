@@ -14,6 +14,7 @@ export const Home = () => {
       try {
         const accessToken = await getAccessTokenSilently()
 
+        console.log("accestoken: ", accessToken)
         const decodedToken = jwtDecode(accessToken)
         console.log("decoded: ", decodedToken)
         setPermissions(decodedToken?.permissions)
@@ -28,7 +29,7 @@ export const Home = () => {
 
   return (
 
-    <section className='w-96 m-auto'>
+    <section className='ml-56 w-full text-center'>
       <h1 className="font-bold text-lg my-4">User Permisions</h1>
       <ul>
         {permissions?.map(p => {

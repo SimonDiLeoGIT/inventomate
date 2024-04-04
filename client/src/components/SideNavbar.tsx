@@ -29,14 +29,14 @@ export const SideNavbar = () => {
 
 
   return (
-    <nav className="text-color-black fixed left-0 border w-56 bottom-0 top-20">
+    <nav className="text-color-black fixed left-0 border-r border-color-border-light-grey w-56 bottom-0 top-20">
       <header className="p-2">
         <h2 className="font-bold">Settings</h2>
       </header>
       <ul>
         {permissions?.includes('create:user')
           &&
-          <li className="border rounded-lg">
+          <li className="border border-color-border-light-grey rounded-lg">
             <Link
               to='/add-user'
               className="block p-2"
@@ -45,7 +45,7 @@ export const SideNavbar = () => {
             </Link>
           </li>
         }
-        <li className="border rounded-lg">
+        <li className="border border-color-border-very-light-grey font-semibold rounded-lg hover:cursor-pointer hover:bg-color-border-light-grey hover:bg-opacity-10">
           <Link
             to='/group'
             className="block p-2"

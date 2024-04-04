@@ -17,7 +17,7 @@ export const Navbar = () => {
         </li>
         <li className="m-auto mr-4">
           <button
-            className='rounded-lg hover:bg-color-light-red hover:opacity-80'
+            className='rounded-lg hover:bg-color-light-red hover:bg-opacity-20 flex'
             onClick={() => logout({
               openUrl() {
                 window.location.origin;

@@ -16,8 +16,10 @@ export default {
       'color-light-orange': '#FFD28D',
       /* Light Red */
       'color-light-red': '#FF8D8D',
-      /* Light Red */
+      /* Light Grey */
       'color-border-light-grey': '#929292',
+      /* Very Light Grey */
+      'color-border-very-light-grey': '#C9C9C9',
     },
     fontFamily: {
       'roboto': ['roboto', 'sans-serif'],
