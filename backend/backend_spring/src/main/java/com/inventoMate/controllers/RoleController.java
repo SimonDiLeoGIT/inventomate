@@ -24,15 +24,15 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/api/roles")
-public class RoleController{
+public class RoleController {
 
 	private final RoleAuth0ServiceImpl roleService;
-	
+
 	@GetMapping
 	public ResponseEntity<List<RoleDTO>> getAll() throws Auth0Exception {
 		return ResponseEntity.ok(roleService.getAllRoles());
 	}
-	
+
 	@GetMapping("/{roleId}")
 	public ResponseEntity<RoleDTO> getRoleById(@PathVariable String roleId) throws Auth0Exception {
 		return ResponseEntity.ok(roleService.getRolById(roleId));
@@ -42,11 +42,10 @@ public class RoleController{
 	public ResponseEntity<RolePermissionsDTO> getPermissionsRole(@PathVariable String roleId) throws Auth0Exception {
 		return ResponseEntity.ok(roleService.getPermissionsRole(roleId));
 	}
-	
+
 	@PutMapping()
 	public ResponseEntity<HttpStatus> assignRolToUser(@RequestBody RolToUserDTO rolToUserDTO) throws Auth0Exception {
-		return ResponseEntity.ok(roleService.assignRolToUser(rolToUserDTO.getRolId(),rolToUserDTO.getUserId()));
+		return ResponseEntity.ok(roleService.assignRolToUser(rolToUserDTO.getRolId(), rolToUserDTO.getUserId()));
 	}
-	
-	
+
 }

@@ -7,7 +7,7 @@ export const Login = () => {
   return (
     <section className='grid place-content-center h-screen'>
       <button
-        className='bg-orange-300 w-48 h-12 rounded-lg font-bold text-gray-800 hover:opacity-80'
+        className='bg-color-light-orange w-48 h-12 rounded-lg font-bold text-gray-800 hover:opacity-80'
         onClick={() => loginWithRedirect()}
       >
         Login

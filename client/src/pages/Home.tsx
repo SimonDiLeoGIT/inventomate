@@ -1,29 +1,45 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import { Login } from './Login';
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, useState } from "react";
+import { jwtDecode } from 'jwt-decode'
+import { SideNavbar } from "../components/SideNavbar";
 
 export const Home = () => {
-  const { isAuthenticated, user, logout } = useAuth0();
 
-  if (!isAuthenticated) {
-    return <Login />
-  }
+  const { getAccessTokenSilently } = useAuth0()
+
+  const [permissions, setPermissions] = useState<string[]>()
+
+  useEffect(() => {
+
+    const getToken = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently()
+
+        console.log("accestoken: ", accessToken)
+        const decodedToken = jwtDecode(accessToken)
+        console.log("decoded: ", decodedToken)
+        setPermissions(decodedToken?.permissions)
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    getToken()
+  }, [getAccessTokenSilently])
 
   return (
-    <section className='grid place-content-center mt-40'>
-      <div className='text-center'>
-        <img className='m-auto' src={user?.picture} alt={user?.name} />
-        <h2 className='font-bold'>{user?.name}</h2>
-        <p>{user?.email}</p>
-        <button
-          className='bg-red-300 w-48 h-12 rounded-lg font-bold text-gray-800 hover:opacity-80 mt-4'
-          onClick={() => logout({
-            openUrl() {
-              window.location.origin;
-            }
-          })}>
-          Log Out
-        </button>
-      </div>
-    </section>
+    <main className="text-center m-auto w-96 mt-20">
+      <h1 className="font-bold text-lg">User Permisions</h1>
+      <ul className="">
+        {permissions?.map(p => {
+          return (
+            <li className="p-2 border border-stone-700 mb-2 rounded-xl">
+              {p}
+            </li>
+          )
+        })}
+      </ul>
+    </main>
   );
 };
