@@ -1,16 +1,19 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import logo from "../assets/icons/InventoMateLogo.png"
 import logout_icon from "../assets/icons/logout-svgrepo-com.svg"
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
 
   const { user, logout } = useAuth0();
 
   return (
-    <nav className="w-full border-b border-color-border-light-grey h-20 flex shadow-md fixed top-0">
+    <nav className="w-full border-b border-color-border-very-light-grey h-20 flex shadow-md fixed top-0">
       <h1 className='font-bold ml-4 h-full flex items-center py-2'>
-        <img src={logo} alt="InventoMateLogo" className="h-full" />
-        <p>InventoMate</p>
+        <Link to='/' className="h-full flex items-center">
+          <img src={logo} alt="InventoMateLogo" className="h-full" />
+          <p>InventoMate</p>
+        </Link>
       </h1>
       <ul className="w-full flex h-full items-center">
         <li>
