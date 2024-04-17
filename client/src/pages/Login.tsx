@@ -14,7 +14,7 @@ export const Login = () => {
   return (
     <main className='-text--color-black'>
       <header className='w-full h-20 overflow-x-hidden'>
-        <nav className="w-full border-b -border--color-border-very-light-grey h-20 flex shadow-md fixed top-0">
+        <nav className="w-full border-b -border--color-border-very-light-grey h-20 flex shadow-md fixed top-0 -bg--color-white">
           <h1 className='font-bold ml-4 h-full flex items-center py-2'>
             <img src={logo} alt="InventoMateLogo" className="h-full" />
             <p>InventoMate</p>
