@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import logo from "../assets/icons/InventoMateLogo.png"
+import logo from "../assets/images/InventoMate-logo.png"
 import analysis_icon from "../assets/icons/analytics-outline.svg"
 import trend_icon from "../assets/icons/trending-up-outline.svg"
 import cart_icon from "../assets/icons/cart-outline.svg"
@@ -17,7 +17,7 @@ export const Login = () => {
         <nav className="w-full border-b -border--color-border-very-light-grey h-20 flex shadow-md fixed top-0 -bg--color-white">
           <h1 className='font-bold ml-4 h-full flex items-center py-2'>
             <img src={logo} alt="InventoMateLogo" className="h-full" />
-            <p>InventoMate</p>
+            <p className='mx-2'>InventoMate</p>
           </h1>
         </nav>
       </header>
@@ -43,7 +43,7 @@ export const Login = () => {
           </div>
         </section>
         <section className='place-content-center inline-block m-auto'>
-          <img src={logo} alt='InventoMate' className='m-auto w-8/12' />
+          <img src={logo} alt='InventoMate' className='m-auto w-6/12' />
           <LogoSubtitles />
         </section>
       </section>
