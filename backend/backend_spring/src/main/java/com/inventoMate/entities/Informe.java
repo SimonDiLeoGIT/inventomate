@@ -29,21 +29,14 @@ public class Informe {
 	
 	@ManyToOne
 	@JoinColumn(name="id_categoria")
-	@Column(name="categoria", nullable = false)
 	private Categoria categoria;
 	
 	@ManyToOne
 	@JoinColumn(name="id_sucursal")
-	@Column(name="sucursal", nullable = false)
+	@JoinColumn(name="id_empresa")
 	private Sucursal sucursal;
 	
 	@ManyToOne
-	@JoinColumn(name="id_empresa")
-	@Column(name="empresa", nullable = false)
-	private Sucursal empresa;
-	
-	@ManyToOne
 	@JoinColumn(name="id_tipo_informe")
-	@Column(name="tipo_informe", nullable = false)
 	private TipoInforme tipoInforme;
 }

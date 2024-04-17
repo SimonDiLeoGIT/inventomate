@@ -23,17 +23,15 @@ public class Owner {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_empresa")
+	@Column(name="id_empresas")
 	private Long idEmpresa;
 	
 	@ManyToOne
     @JoinColumn(name = "id_empresa")
-	@Column(name="empresa", nullable = false)
 	private Empresa empresa;
 	
 	@ManyToOne
     @JoinColumn(name = "id_usuario")
-	@Column(name="usuario", nullable = false)
 	private Usuario usuario;
 
 }

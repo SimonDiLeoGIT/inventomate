@@ -26,12 +26,12 @@ public class EmpCat {
 	
 	@ManyToOne
 	@MapsId("idCategoria")
-	@Column(name="categoria")
+	@JoinColumn(name="categoria")
 	private Categoria categoria;
 	
 	@ManyToOne
 	@MapsId("idEmpresa")
-	@Column(name="empresa")
+	@JoinColumn(name="empresa")
 	private Empresa empresa;
 
 }

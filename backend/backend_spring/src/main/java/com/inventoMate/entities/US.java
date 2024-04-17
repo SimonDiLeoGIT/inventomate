@@ -22,21 +22,16 @@ public class US {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_usuario")
+	@Column(name="id_usuarios")
 	private Long idUsuario;
 	
 	@ManyToOne
     @JoinColumn(name = "id_usuario")
-	@Column(name="usuario", nullable = false)
 	private Usuario usuario;
 	
 	@ManyToOne
     @JoinColumn(name = "id_sucursal")
-	@Column(name="sucursal", nullable = false)
+	@JoinColumn(name="id_empresa")
 	private Sucursal sucursal;
 
-	@ManyToOne
-    @JoinColumn(name = "id_empresa")
-	@Column(name="empresa", nullable = false)
-	private Sucursal empresa;
 }

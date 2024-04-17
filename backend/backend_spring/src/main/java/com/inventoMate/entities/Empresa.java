@@ -24,6 +24,10 @@ public class Empresa {
 	@Column(name="id_empresa")
     private Long idEmpresa;
 	
+	@ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+	
 	@Column(name="nombreEmpresa", nullable = true)
     private String nombreEmpresa;
 	
@@ -45,8 +49,6 @@ public class Empresa {
 	@Column(name="password_Bd_Empresa", nullable = false)
     private String passwordBdEmpresa;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+
     
 }

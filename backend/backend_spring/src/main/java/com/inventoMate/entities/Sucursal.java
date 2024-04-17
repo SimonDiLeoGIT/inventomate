@@ -26,12 +26,11 @@ public class Sucursal {
 	
 	@ManyToOne
 	@MapsId("idEmpresa")
-	@Column(name="empresa")
+	@JoinColumn(name="empresa")
 	private Empresa empresa;
 	
 	@ManyToOne
     @JoinColumn(name = "id_pais")
-	@Column(name="pais")
     private Pais pais;
 	
 	@Column(name="nombre", nullable = true)
