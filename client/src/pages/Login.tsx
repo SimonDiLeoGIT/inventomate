@@ -5,6 +5,7 @@ import trend_icon from "../assets/icons/trending-up-outline.svg"
 import cart_icon from "../assets/icons/cart-outline.svg"
 import inventory_icon from "../assets/icons/file-tray-full-outline.svg"
 import { Card } from '../components/Card'
+import { LogoSubtitles } from '../components/LogoSubtitles'
 
 export const Login = () => {
 
@@ -43,12 +44,7 @@ export const Login = () => {
         </section>
         <section className='place-content-center inline-block m-auto'>
           <img src={logo} alt='InventoMate' className='m-auto w-8/12' />
-          <section className='flex items-center justify-center'>
-            <div className='mr-4 -bg--color-light-opaque-pink inline-block rounded-full p-1 border -border--color-semidark-violet shadow-md -shadow--color-semidark-violet'>
-              <img src={analysis_icon} alt='Analysis' className='w-8' />
-            </div>
-            <h2 className='font-bold text-2xl'>Predictive Sales Analysis</h2>
-          </section>
+          <LogoSubtitles />
         </section>
       </section>
       <section className='w-8/12 m-auto mt-16 grid grid-cols-4 gap-4'>
