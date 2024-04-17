@@ -1,7 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { jwtDecode } from 'jwt-decode'
-import { SideNavbar } from "../components/SideNavbar";
 
 export const Home = () => {
 

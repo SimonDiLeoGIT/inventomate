@@ -3,7 +3,6 @@ import { Login } from "../pages/Login"
 import { Home } from "../pages/Home"
 import { Navbar } from "../components/Navbar";
 import { SideNavbar } from "../components/SideNavbar";
-import { CreateUser } from "../pages/CreateUser";
 
 export const Router = () => {
 
@@ -16,7 +15,6 @@ export const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/add-user" element={<CreateUser />} />
       </Routes>
     </BrowserRouter>
   )
