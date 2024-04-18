@@ -8,11 +8,11 @@ export const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth0();
 
   return (
-    <nav className="w-full border-b -border--color-border-very-light-grey grid grid-cols-9 h-20 -bg--color-white ">
-      <h1 className='font-bold ml-4 h-20 inline-block py-2 '>
+    <nav className="w-full border-b -border--color-border-very-light-grey grid grid-cols-9 h-20 -bg--color-white fixed top-0 ">
+      <h1 className='font-semibold ml-4 h-20 inline-block py-2'>
         <Link to='/' className=" h-full flex items-center">
-          <img src={logo} alt="InventoMateLogo" className="h-full p-3" />
-          <p className='font-medium'>InventoMate</p>
+          <img src={logo} alt="InventoMateLogo" className="h-full p-2" />
+          InventoMate
         </Link>
       </h1>
       <ul className="flex items-center px-4 space-x-4 col-span-7">
