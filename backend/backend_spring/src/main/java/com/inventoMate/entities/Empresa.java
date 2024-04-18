@@ -28,7 +28,7 @@ public class Empresa {
 	@Column(name = "id_empresa")
 	private Long idEmpresa;
 
-	@Column(name = "nombreEmpresa", nullable = true)
+	@Column(name = "nombreEmpresa", nullable = false)
 	private String nombreEmpresa;
 
 	@Column(name = "descripcion", nullable = true)
@@ -36,21 +36,6 @@ public class Empresa {
 
 	@Column(name = "logo", nullable = true)
 	private String logo;
-
-	@Column(name = "id_Bd_Empresa", nullable = false)
-	private Long idBdEmpresa;
-
-	@Column(name = "username_Bd_Empresa", nullable = true)
-	private String usernameBdEmpresa;
-
-	@Column(name = "gestor_Bd_Empresa", nullable = true)
-	private String gestorBdEmpresa;
-
-	@Column(name = "password_Bd_Empresa", nullable = false)
-	private String passwordBdEmpresa;
-
-	@Column(name = "url_empresa", nullable = true)
-	private String urlEmpresa;
 	
 	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
 	private List<Sucursal> sucursales;
