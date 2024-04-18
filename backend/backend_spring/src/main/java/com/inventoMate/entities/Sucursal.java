@@ -25,10 +25,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Sucursal {
 
-	/*
-	 * @EmbeddedId private SucursalId id;
-	 */
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_sucursal")
@@ -37,13 +33,6 @@ public class Sucursal {
 	@ManyToOne
 	@JoinColumn(name = "id_empresa")
 	private Empresa empresa;
-
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name = "id_pais") 
-	 * private Pais pais;
-	 */
 
 	@Column(name = "nombre", nullable = true)
 	private String nombre;
