@@ -30,6 +30,9 @@ public class Rol {
 
 	@Column(name = "descripcion", nullable = false)
 	private String descripcion;
+	
+	@Column(name = "id_rol_auth0", nullable = false)
+	private String idRolAuth0;
 
 	@ManyToMany(mappedBy = "roles")
 	private List<Usuario> usuarios;

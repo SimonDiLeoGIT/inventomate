@@ -31,7 +31,7 @@ public class Usuario {
 	private Long idUsuario;
 
 	@Column(name = "id_auth0", nullable = false)
-	private Long idAuth0;
+	private String idAuth0;
 
 	@Column(name = "nickname", nullable = true)
 	private String nickname;
@@ -40,14 +40,14 @@ public class Usuario {
 	private String email;
 
 	@ManyToOne
-	@JoinColumn(name = "id_sucursal")
+	@JoinColumn(name = "id_sucursal", nullable = true)
 	private Sucursal sucursal;
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_rol"))
 	private List<Rol> roles;
 
-	@OneToOne(mappedBy = "idOwner", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
 	private Empresa empresa;
 
 }

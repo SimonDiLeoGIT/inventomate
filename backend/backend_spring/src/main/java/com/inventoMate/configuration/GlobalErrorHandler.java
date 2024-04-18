@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.inventoMate.exceptions.ResourceAlreadyExistsException;
+import com.inventoMate.exceptions.ResourceNotFoundException;
 import com.inventoMate.models.ErrorMessage;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +27,19 @@ public class GlobalErrorHandler {
 	public ErrorMessage handleAccessDenied(final HttpServletRequest request, final Exception error) {
 		return ErrorMessage.from("Permission denied");
 	}
-
+	
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ErrorMessage handleResourceAlreadyExists(final HttpServletRequest request, final Exception error) {
+        return ErrorMessage.from(error.getMessage());
+    }
+    
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ErrorMessage handleResourceNotFound(final HttpServletRequest request, final Exception error) {
+        return ErrorMessage.from(error.getMessage());
+    }
+    
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Throwable.class)
 	public ErrorMessage handleInternalError(final HttpServletRequest request, final Exception error) {
