@@ -1,4 +1,4 @@
-package com.inventoMate.entities;
+/*package com.inventoMate.entities;
 
 
 import jakarta.persistence.Column;
@@ -14,3 +14,4 @@ public class SucursalId{ //Clase incrustada para manejar la clave primaria compu
 	private Long idEmpresa;
 	
 }
+*/

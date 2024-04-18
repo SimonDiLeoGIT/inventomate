@@ -1,4 +1,4 @@
-package com.inventoMate.entities;
+/*package com.inventoMate.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,3 +26,4 @@ public class Pais {
 	private String nombre;
 
 }
+*/

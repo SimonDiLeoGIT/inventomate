@@ -1,4 +1,4 @@
-package com.inventoMate.entities;
+/*package com.inventoMate.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,3 +40,4 @@ public class Informe {
 	@JoinColumn(name="id_tipo_informe")
 	private TipoInforme tipoInforme;
 }
+*/

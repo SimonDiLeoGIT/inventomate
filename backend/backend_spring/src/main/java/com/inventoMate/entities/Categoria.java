@@ -1,4 +1,4 @@
-package com.inventoMate.entities;
+/*package com.inventoMate.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -30,3 +30,4 @@ public class Categoria {
 	private String nombre;
 	
 }
+*/

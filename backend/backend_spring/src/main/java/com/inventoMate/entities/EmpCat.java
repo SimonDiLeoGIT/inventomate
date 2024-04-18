@@ -1,4 +1,4 @@
-package com.inventoMate.entities;
+/*package com.inventoMate.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -35,3 +35,4 @@ public class EmpCat {
 	private Empresa empresa;
 
 }
+*/

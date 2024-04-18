@@ -1,4 +1,4 @@
-package com.inventoMate.entities;
+/*package com.inventoMate.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -12,4 +12,4 @@ public class RolUSId {
 	@Column(name="id_usuario", nullable = false)
 	private Long idUsuario;
 
-}
+}*/
