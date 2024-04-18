@@ -13,14 +13,6 @@ export const Login = () => {
 
   return (
     <main className='-text--color-black'>
-      <header className='w-full h-20 overflow-x-hidden'>
-        <nav className="w-full border-b -border--color-border-very-light-grey h-20 flex shadow-md fixed top-0 -bg--color-white">
-          <h1 className='font-bold ml-4 h-full flex items-center py-2'>
-            <img src={logo} alt="InventoMateLogo" className="h-full" />
-            <p className='mx-2'>InventoMate</p>
-          </h1>
-        </nav>
-      </header>
       <section className='w-8/12 m-auto grid grid-cols-2 mt-14 '>
         <section className='place-content-center w-9/12 m-auto ml-0'>
           <h1 className='font-extrabold font-roboto text-5xl py-4'>

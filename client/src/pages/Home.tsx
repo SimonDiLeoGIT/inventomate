@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { jwtDecode } from 'jwt-decode'
+import { Login } from "./Login";
 
 export const Home = () => {
 
@@ -26,6 +27,12 @@ export const Home = () => {
 
     getToken()
   }, [getAccessTokenSilently])
+
+  const { isAuthenticated } = useAuth0();
+
+  if (!isAuthenticated) {
+    return <Login />
+  }
 
   return (
     <main className="text-center m-auto w-96 mt-20">
