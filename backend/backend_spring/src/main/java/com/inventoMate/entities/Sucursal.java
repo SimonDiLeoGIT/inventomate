@@ -34,10 +34,10 @@ public class Sucursal {
 	@JoinColumn(name = "id_empresa")
 	private Empresa empresa;
 
-	@Column(name = "nombre", nullable = true)
+	@Column(name = "nombre", nullable = false)
 	private String nombre;
 
-	@Column(name = "ubicacion", nullable = true)
+	@Column(name = "ubicacion", nullable = false)
 	private String ubicacion;
 
 	@Column(name = "id_suc_cliente", nullable = true)

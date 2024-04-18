@@ -25,10 +25,10 @@ public class Rol {
 	@Column(name = "id_rol")
 	private Long idRol;
 
-	@Column(name = "nombre_rol", nullable = true)
+	@Column(name = "nombre_rol", nullable = false)
 	private String nombreRol;
 
-	@Column(name = "descripcion", nullable = true)
+	@Column(name = "descripcion", nullable = false)
 	private String descripcion;
 
 	@ManyToMany(mappedBy = "roles")

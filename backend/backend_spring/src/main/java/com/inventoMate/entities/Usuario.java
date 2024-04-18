@@ -30,10 +30,10 @@ public class Usuario {
 	@Column(name = "id_usuario")
 	private Long idUsuario;
 
-	@Column(name = "id_auth0", nullable = true)
+	@Column(name = "id_auth0", nullable = false)
 	private Long idAuth0;
 
-	@Column(name = "nickname", nullable = false)
+	@Column(name = "nickname", nullable = true)
 	private String nickname;
 
 	@Column(name = "email", nullable = false)
