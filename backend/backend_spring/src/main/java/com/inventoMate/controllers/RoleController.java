@@ -16,6 +16,7 @@ import com.auth0.exception.Auth0Exception;
 import com.inventoMate.dtos.roles.RolToUserDTO;
 import com.inventoMate.dtos.roles.RoleDTO;
 import com.inventoMate.dtos.roles.RolePermissionsDTO;
+import com.inventoMate.services.RoleAuth0Service;
 import com.inventoMate.services.impl.RoleAuth0ServiceImpl;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/roles")
 public class RoleController {
 
-	private final RoleAuth0ServiceImpl roleService;
+	private final RoleAuth0Service roleService;
 
 	@GetMapping
 	public ResponseEntity<List<RoleDTO>> getAll() throws Auth0Exception {

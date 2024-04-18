@@ -41,6 +41,6 @@ public class Empresa {
 	private List<Sucursal> sucursales;
 	
 	@OneToOne
-    @JoinColumn(name = "idOwner")
-    private Usuario idOwner;
+    @JoinColumn(name = "owner")
+    private Usuario owner;
 }

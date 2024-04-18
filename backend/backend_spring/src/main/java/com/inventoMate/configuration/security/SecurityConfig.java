@@ -34,9 +34,15 @@ public class SecurityConfig {
 	public SecurityFilterChain httpSecurity(final HttpSecurity http) throws Exception {
 		return http
 				.authorizeHttpRequests(authz -> authz
+						// roles
 						.requestMatchers(HttpMethod.GET, "/api/roles/**").hasAuthority("read:roles")
 						.requestMatchers(HttpMethod.PUT, "/api/roles/**").hasAuthority("assign:roles-to-user")
-						.requestMatchers(HttpMethod.POST, "/api/users/create").hasAuthority("create:user")
+						// users
+						.requestMatchers("/api/users/create").hasAuthority("create:user")
+						.requestMatchers("/api/users/me").authenticated()
+						// empresas
+						.requestMatchers("/api/empresas/me").hasAuthority("read:company-owner")
+						.requestMatchers("/api/empresas/create").authenticated()
 						.anyRequest().permitAll()
 						)
 				.cors(Customizer.withDefaults())
