@@ -36,7 +36,11 @@ export const Login = () => {
             </button>
             <button
               className='-bg--color-white -text--color-semidark-violet border-2 -border--color-semidark-violet w-40 py-3 text-2xl rounded-2xl font-bold hover:-bg--color-light-opaque-pink hover:opacity-80 mx-2'
-              onClick={() => loginWithRedirect()}
+              onClick={() => loginWithRedirect({
+                authorizationParams: {
+                  screen_hint: 'signup'
+                }
+              })}
             >
               Register
             </button>
