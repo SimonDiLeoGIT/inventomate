@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.auth0.exception.Auth0Exception;
 import com.inventoMate.dtos.empresas.EmpresaDTO;
@@ -20,20 +21,22 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("api/empresas")
 @Validated
+@CrossOrigin("*")
 public class EmpresaController {
 
 	private final EmpresaService empresaService;
-	
+
 	@PostMapping("/create")
-	public ResponseEntity<EmpresaDTO> createEmpresa(@AuthenticationPrincipal Jwt jwt, @RequestBody EmpresaDTO empresaDTO) throws Auth0Exception{
+	public ResponseEntity<EmpresaDTO> createEmpresa(@AuthenticationPrincipal Jwt jwt, @RequestBody EmpresaDTO empresaDTO)
+			throws Auth0Exception {
 		var idOwner = jwt.getSubject();
-		return ResponseEntity.ok(empresaService.createEmpresa(idOwner,empresaDTO));
+		return ResponseEntity.ok(empresaService.createEmpresa(idOwner, empresaDTO));
 	}
-	
+
 	@GetMapping("/me")
-	public ResponseEntity<EmpresaDTO> getMethodName(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception{
+	public ResponseEntity<EmpresaDTO> getMethodName(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
 		var idOwner = jwt.getSubject();
 		return ResponseEntity.ok(empresaService.getEmpresaByOwnerAuht0Id(idOwner));
 	}
-	
+
 }
