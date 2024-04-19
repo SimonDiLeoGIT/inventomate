@@ -42,7 +42,7 @@ export const Login = () => {
                 }
               })}
             >
-              Register
+              Sign Up
             </button>
           </div>
         </section>
