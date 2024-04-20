@@ -3,6 +3,7 @@ package com.inventoMate.services.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.mgmt.users.User;
 import com.inventoMate.dtos.users.UsuarioDTO;
@@ -15,7 +16,7 @@ import com.inventoMate.services.UsuarioService;
 
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
