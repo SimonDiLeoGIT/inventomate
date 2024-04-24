@@ -25,7 +25,7 @@ public class AuthenticationErrorHandler implements AuthenticationEntryPoint {
 	@Override
 	public void commence(final HttpServletRequest request, final HttpServletResponse response,
 			final AuthenticationException authException) throws IOException, ServletException {
-		final var errorMessage = ErrorMessage.from("Requires authentication");
+		final var errorMessage = ErrorMessage.from("Requires authentication",HttpStatus.UNAUTHORIZED.value());
 		final var json = mapper.writeValueAsString(errorMessage);
 
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
