@@ -1,7 +1,7 @@
 import json
 
 # Cargar datos desde el archivo JSON
-with open('valores.json', 'r') as file:
+with open('valoresCompletos.json', 'r') as file:
     data = json.load(file)
 
 # Generar el contenido de LaTeX
@@ -49,6 +49,7 @@ for trend in data['trends']:
     category_name = trend['category_name']
     latex_content += r'''
 \section*{''' + category_name + r'''}
+\setcounter{subsection}{0} % Reiniciar el contador de subsección
 '''
 
     # Iterar sobre los productos de la categoría
@@ -63,20 +64,24 @@ for trend in data['trends']:
 
         latex_content += r'''
 \begin{adjustwidth}{2em}{}
-\subsection{\uline{\href{''' + product['additional_info']['permalink'] + r'''}{''' + product_name + r'''}}}
+
+\subsection{\uline{\href{''' + product['additional_info']['permalink']+'''}{''' + product_name + r'''}}}
 \begin{itemize}
     \item \textbf{Precio:} ''' + product_currency + ' ' + product_price + r'''
     \item \textbf{Descripción:} ''' + product_description + r'''
-    \item \textbf{Características:}
-''' + product_attributes + r'''
+    \item \textbf{Características:} 
+    \begin{itemize}
+    '''+product_attributes + r'''
+    \end{itemize}
 \end{itemize}
 
 \vspace{1\baselineskip} % Espacio vertical después de la última sección
 \end{adjustwidth}
+
 '''
 
 latex_content += r'''
-\setcounter{subsection}{0} % Reiniciar el contador de subsección
+
 
 \end{document}
 '''
