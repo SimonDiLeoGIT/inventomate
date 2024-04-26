@@ -22,12 +22,16 @@ export default {
       '--color-light-opaque-pink': 'rgba(171, 127, 182, 0.4)',
       /* Light Pink*/
       '--color-light-pink': '#EEE1F1',
+      /* Full Red */
+      '--color-ful-red': '#920000',
       /* Light Red */
       '--color-light-red': '#FF8D8D',
       /* Light Grey */
       '--color-border-light-grey': '#929292',
       /* Very Light Grey */
       '--color-border-very-light-grey': '#C9C9C9',
+      /* Semi White */
+      '--color-form-background-semi-white': '#F9F9F9',
     },
     fontFamily: {
       'roboto': ['roboto', 'sans-serif'],

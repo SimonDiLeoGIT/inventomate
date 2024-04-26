@@ -1,13 +1,25 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import logo from "../assets/images/InventoMate-logo.png"
 import logout_icon from "../assets/icons/logout-svgrepo-com.svg"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../hook/useUser";
+import { useEffect } from "react";
 
 export const Navbar = () => {
 
-  const { user, logout, isAuthenticated } = useAuth0();
-  const { currentUser } = useUser()
+  const { user, logout, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const navigate = useNavigate()
+  const { currentUser, setUser } = useUser()
+
+  const logOut = () => {
+    navigate('/')
+    logout({
+      openUrl() {
+        window.location.origin;
+      }
+    })
+  }
+
 
   return (
     <nav className="w-full border-b -border--color-border-very-light-grey h-20 -bg--color-white fixed top-0 flex">
@@ -21,10 +33,11 @@ export const Navbar = () => {
           <li className="mx-4 hover:opacity-60">
             <Link to='/'>Home</Link>
           </li>
-          {currentUser?.empresa !== null &&
+          {currentUser?.empresa !== null && (
             <li className="mx-4 hover:opacity-60">
               <Link to='/company'>Company</Link>
             </li>
+          )
           }
         </ul>
       }
@@ -35,11 +48,7 @@ export const Navbar = () => {
           <li className="m-auto mr-4">
             <button
               className='rounded-lg hover:bg-color-light-red hover:bg-opacity-20 flex'
-              onClick={() => logout({
-                openUrl() {
-                  window.location.origin;
-                }
-              })}>
+              onClick={() => logOut()}>
               <img src={logout_icon} alt="logout" className="w-10 p-2" />
             </button>
           </li>

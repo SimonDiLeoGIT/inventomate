@@ -4,6 +4,7 @@ import { Home } from "../pages/Home"
 import { Navbar } from "../components/Navbar";
 // import { SideNavbar } from "../components/SideNavbar";
 import { Company } from "../pages/Company";
+import { RegisterCompany } from "../pages/RegisterCompany";
 
 export const Router = () => {
 
@@ -15,7 +16,7 @@ export const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/register-company" element={<RegisterCompany />} /> */}
+        <Route path="/register-company" element={<RegisterCompany />} />
         <Route path="/company" element={<Company />} />
       </Routes>
     </BrowserRouter>
