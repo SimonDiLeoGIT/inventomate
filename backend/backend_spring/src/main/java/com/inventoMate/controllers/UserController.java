@@ -50,24 +50,25 @@ public class UserController {
 		var id = jwt.getSubject();
 		return ResponseEntity.ok(usuarioService.getProfileCurrentUser(id));
 	}
-	
+
 	@PutMapping("/edit")
-	public ResponseEntity<UsuarioDTO> editUserPrincipal(@AuthenticationPrincipal Jwt jwt, @RequestBody @Valid EditUserRequest usuario) throws Auth0Exception {
+	public ResponseEntity<UsuarioDTO> editUserPrincipal(@AuthenticationPrincipal Jwt jwt,
+			@RequestBody @Valid EditUserRequest usuario) throws Auth0Exception {
 		var id = jwt.getSubject();
-		return ResponseEntity.ok(usuarioService.updateUser(id,usuario));
+		return ResponseEntity.ok(usuarioService.updateUser(id, usuario));
 	}
-	
+
 	@GetMapping("/edit/password")
-	public ResponseEntity<?>  editPasswordUserPrincipal(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
+	public ResponseEntity<?> editPasswordUserPrincipal(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
 		var id = jwt.getSubject();
 		return ResponseEntity.ok(userService.editPasswordRequest(id));
 	}
-	
+
 	@DeleteMapping("/delete")
-	public ResponseEntity<?>  deleteUserPrincipal(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
+	public ResponseEntity<?> deleteUserPrincipal(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
 		var id = jwt.getSubject();
 		usuarioService.deleteUserPrincipal(id);
-		userService.deleteUserByAuth0Id(id,jwt.getTokenValue());
+		userService.deleteUserByAuth0Id(id, jwt.getTokenValue());
 		return ResponseEntity.ok().body(new ApiResponse(true, "User deleted successfully"));
 	}
 

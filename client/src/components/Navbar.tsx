@@ -2,10 +2,12 @@ import { useAuth0 } from "@auth0/auth0-react"
 import logo from "../assets/images/InventoMate-logo.png"
 import logout_icon from "../assets/icons/logout-svgrepo-com.svg"
 import { Link } from "react-router-dom";
+import { useUser } from "../hook/useUser";
 
 export const Navbar = () => {
 
   const { user, logout, isAuthenticated } = useAuth0();
+  const { currentUser } = useUser()
 
   return (
     <nav className="w-full border-b -border--color-border-very-light-grey h-20 -bg--color-white fixed top-0 flex">
@@ -15,13 +17,15 @@ export const Navbar = () => {
         </Link>
       </h1>
       {isAuthenticated &&
-        <ul className="hidden md:flex items-center w-8/12 m-auto font-medium">
+        <ul className="hidden md:flex items-center md:w-8/12 xl:w-10/12 m-auto font-medium">
           <li className="mx-4 hover:opacity-60">
             <Link to='/'>Home</Link>
           </li>
-          <li className="mx-4 hover:opacity-60">
-            <Link to='/company'>Company</Link>
-          </li>
+          {currentUser?.empresa !== null &&
+            <li className="mx-4 hover:opacity-60">
+              <Link to='/company'>Company</Link>
+            </li>
+          }
         </ul>
       }
       {isAuthenticated &&

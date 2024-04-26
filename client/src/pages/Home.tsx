@@ -20,7 +20,6 @@ export const Home = () => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
-      console.log("a")
       setUser(accessToken)
       console.log(currentUser)
     }
@@ -45,9 +44,16 @@ export const Home = () => {
           {!isAuthenticated ?
             <Login />
             :
-            <div className="mt-12 inline-block">
-              <Link to='/company' className="block -bg--color-semidark-violet -text--color-white font-bold text-2xl p-4 rounded-2xl border hover:opacity-80"> View Company </Link>
-            </div>
+            currentUser?.empresa === null ?
+              <div className="mt-4 inline-block">
+                <p className="font-bold text-lg">It seems that you do not  belong to a company. <br />
+                  <span className="-text--color-semidark-violet">Do you want to register your company?</span></p>
+                <Link to='/register-company' className="mt-4 block text-center -bg--color-semidark-violet -text--color-white font-bold text-2xl p-4 rounded-2xl border hover:opacity-80"> Register Company </Link>
+              </div>
+              :
+              <div className="mt-12 inline-block">
+                <Link to='/company' className="block -bg--color-semidark-violet -text--color-white font-bold text-2xl p-4 rounded-2xl border hover:opacity-80"> View Company </Link>
+              </div>
           }
         </section>
         <section className='hidden md:block'>

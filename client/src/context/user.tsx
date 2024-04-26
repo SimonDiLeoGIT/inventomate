@@ -19,26 +19,14 @@ export const UserProvider = ({ children }: Props) => {
 
   const setUser = async (accessToken: string) => {
     try {
-      const user = await getUser(accessToken)
+      const user = await getUser(accessToken);
 
-      // if (user === null) {
-      //   signUpUser(accessToken)
-
-      //   try {
-      //     const response = await getUser(accessToken)
-      //     const user = response
-      //     setCurrentUser(user)
-      //   } catch (error) {
-      //     console.error("Error al obtener el usuario:", error)
-      //     setCurrentUser(null)
-      //   }
-      // }
-
-      setCurrentUser(user)
+      setCurrentUser(user);
     } catch (error) {
-      console.error("Error al obtener el usuario:", error)
-      setCurrentUser(null)
+      console.error("Error al obtener el usuario:", error);
+      setCurrentUser(null);
     }
+
   }
 
   return (

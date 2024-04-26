@@ -12,6 +12,8 @@ export const Company = () => {
             <li>
               <p>creator</p>
               <img />
+              <p>username</p>
+              <p>useremail</p>
             </li>
           </ul>
         </section>
