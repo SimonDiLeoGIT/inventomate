@@ -17,7 +17,6 @@ import com.inventoMate.dtos.roles.RolToUserDTO;
 import com.inventoMate.dtos.roles.RoleDTO;
 import com.inventoMate.dtos.roles.RolePermissionsDTO;
 import com.inventoMate.services.RoleAuth0Service;
-import com.inventoMate.services.impl.RoleAuth0ServiceImpl;
 
 import lombok.AllArgsConstructor;
 

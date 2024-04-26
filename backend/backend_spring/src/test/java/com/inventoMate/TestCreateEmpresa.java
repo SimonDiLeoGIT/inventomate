@@ -1,38 +1,28 @@
 package com.inventoMate;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import com.auth0.exception.Auth0Exception;
-import com.inventoMate.*;
 import com.inventoMate.dtos.empresas.EmpresaDTO;
 import com.inventoMate.dtos.users.OwnerDTO;
-import com.inventoMate.dtos.users.UsuarioDTO;
-import com.inventoMate.entities.Empresa;
-import com.inventoMate.entities.Usuario;
+
 import com.inventoMate.repositories.EmpresaRepository;
 import com.inventoMate.repositories.UsuarioRepository;
 import com.inventoMate.services.EmpresaService;
 import com.inventoMate.services.UsuarioService;
 import com.inventoMate.services.impl.EmpresaServiceImpl;
-import com.inventoMate.services.impl.UsuarioServiceImpl;
-
-import static org.hamcrest.CoreMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 
 @ExtendWith(MockitoExtension.class)
-public class testCreateEmpresa {
+public class TestCreateEmpresa {
 	
   	@Mock
     private EmpresaService empresaServiceMock;
@@ -57,7 +47,6 @@ public class testCreateEmpresa {
         empresaDTO.setDescripcion("Descripción de prueba");
         empresaDTO.setLogo("logo.png");
         OwnerDTO ownerDTO = new OwnerDTO();
-        ownerDTO.setIdAuth0(idAuth0);
         empresaDTO.setOwner(ownerDTO);
 
         // Comportamiento esperado del mock
