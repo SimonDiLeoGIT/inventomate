@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import logo from "../assets/images/InventoMate-logo.png"
-import logout_icon from "../assets/icons/logout-svgrepo-com.svg"
+import logout_icon from "../assets/icons/log-out-outline.svg"
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../hook/useUser";
 import { useEffect } from "react";

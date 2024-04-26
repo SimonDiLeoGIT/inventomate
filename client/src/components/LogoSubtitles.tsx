@@ -1,6 +1,6 @@
-import analysis_icon from "../assets/icons/analytics-outline.svg"
-import trend_icon from "../assets/icons/trending-up-outline.svg"
-import cart_icon from "../assets/icons/cart-outline.svg"
+import analysis_icon from "../assets/icons/forecasting.svg"
+import trend_icon from "../assets/icons/new-trends.svg"
+import report from "../assets/icons/report.svg"
 import inventory_icon from "../assets/icons/file-tray-full-outline.svg"
 
 
