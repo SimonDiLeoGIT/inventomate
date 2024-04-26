@@ -71,7 +71,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		// recupero empresa si es dueño
 		Empresa empresa = null;
 		if(empresaRepository.existsByOwner(usuario))
-			empresaRepository.findByOwner(usuario).orElse(null);
+			empresa = empresaRepository.findByOwner(usuario).orElse(null);
 		// recupero sucursal si es empleado
 		Sucursal sucursal = null;
 		if(sucursalRepository.existsByUsuariosContains(usuario))
