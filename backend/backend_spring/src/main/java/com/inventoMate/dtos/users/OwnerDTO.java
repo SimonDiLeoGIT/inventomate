@@ -11,8 +11,6 @@ public class OwnerDTO {
 	
     private Long idUsuario;
 
-    private String idAuth0;
-
     private String nickname;
 
     private String email;

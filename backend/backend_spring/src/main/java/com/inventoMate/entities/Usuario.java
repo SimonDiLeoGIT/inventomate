@@ -39,6 +39,9 @@ public class Usuario {
 	@Column(name = "email", nullable = false)
 	private String email;
 
+	@Column(nullable = true)
+	private String picture;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_sucursal", nullable = true)
 	private Sucursal sucursal;

@@ -39,7 +39,7 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.PUT, "/api/roles/**").hasAuthority("assign:roles-to-user")
 						// users
 						.requestMatchers("/api/users/create").hasAuthority("create:user")
-						.requestMatchers("/api/users/me").authenticated()
+						.requestMatchers("/api/users/**").authenticated()
 						// empresas
 						.requestMatchers("/api/empresas/me").hasAuthority("read:company-owner")
 						.requestMatchers("/api/empresas/create").authenticated()
