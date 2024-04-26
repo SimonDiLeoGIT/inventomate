@@ -14,15 +14,13 @@ import com.inventoMate.services.impl.UsuarioServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 @ExtendWith(MockitoExtension.class)
-public class testUsuarioService {
+public class TestUsuarioService {
 
     @Mock
     private UsuarioRepository usuarioRepositoryMock;
@@ -55,7 +53,6 @@ public class testUsuarioService {
 
         // Configurar el comportamiento esperado del mock de ModelMapper
         UsuarioDTO usuarioDTOMock = new UsuarioDTO();
-        usuarioDTOMock.setIdAuth0(idAuth0);
         usuarioDTOMock.setEmail("test@example.com");
         usuarioDTOMock.setNickname("test_user");
         when(modelMapperMock.map(any(Usuario.class), eq(UsuarioDTO.class))).thenReturn(usuarioDTOMock);
@@ -65,7 +62,6 @@ public class testUsuarioService {
 
         // Verificación
         Assertions.assertNotNull(usuarioCreado);
-        Assertions.assertEquals(idAuth0, usuarioCreado.getIdAuth0());
         Assertions.assertEquals("test@example.com", usuarioCreado.getEmail());
         Assertions.assertEquals("test_user", usuarioCreado.getNickname());
     }
