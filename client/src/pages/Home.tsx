@@ -21,7 +21,6 @@ export const Home = () => {
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
-      console.log(currentUser)
     }
 
     isAuthenticated && getToken()

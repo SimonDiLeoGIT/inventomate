@@ -4,7 +4,8 @@ import { JwtPayload } from "jwt-decode";
 export const getUser = async (accessToken: string): Promise<User | null> => {
   let response = await getUserCall(accessToken)
   if (response === null) {
-    response = await signUpUser(accessToken)
+    await signUpUser(accessToken)
+    response = await getUserCall(accessToken)
   }
   return response
 }
@@ -16,7 +17,6 @@ export const getUserCall = async (accessToken: string): Promise<User | null> => 
         Authorization: `Bearer ${accessToken}`,
       }
     });
-    console.log("response:", response.data)
     return response.data
   } catch (error: any) {
     if (error.response && error.response.status === 404) {
@@ -54,7 +54,7 @@ export const registerCompany = async (accessToken: string, body: { nombreEmpresa
       },
       data: body
     })
-    return response
+    console.log(response)
   } catch (error) {
     return error
   }

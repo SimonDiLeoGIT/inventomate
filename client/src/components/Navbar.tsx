@@ -27,19 +27,19 @@ export const Navbar = () => {
           <img src={logo} alt="InventoMateLogo" className="h-full py-4" />
         </Link>
       </h1>
-      {isAuthenticated &&
-        <ul className="hidden md:flex items-center md:w-8/12 xl:w-10/12 m-auto font-medium">
-          <li className="mx-4 hover:opacity-60">
-            <Link to='/'>Home</Link>
-          </li>
-          {currentUser?.empresa !== null && (
+      <ul className="hidden md:flex items-center md:w-8/12 xl:w-10/12 m-auto font-medium">
+        <li className="mx-4 hover:opacity-60">
+          <Link to='/'>Home</Link>
+        </li>
+        {isAuthenticated &&
+          currentUser?.empresa !== null && (
             <li className="mx-4 hover:opacity-60">
               <Link to='/company'>Company</Link>
             </li>
           )
-          }
-        </ul>
-      }
+
+        }
+      </ul>
       {isAuthenticated &&
         <ul className="flex h-full items-center m-auto mr-0">
           <li>
