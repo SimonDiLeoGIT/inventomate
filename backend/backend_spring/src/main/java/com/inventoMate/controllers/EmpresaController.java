@@ -20,6 +20,7 @@ import com.inventoMate.payload.EditEmpresaRequest;
 import com.inventoMate.payload.EmpresaProfileResponse;
 import com.inventoMate.services.EmpresaService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -45,7 +46,7 @@ public class EmpresaController {
 	}
 	
 	@PutMapping("/edit")
-	public ResponseEntity<EmpresaProfileResponse> editEmpresa(@AuthenticationPrincipal Jwt jwt, @RequestBody EditEmpresaRequest editEmpresaRequest){
+	public ResponseEntity<EmpresaProfileResponse> editEmpresa(@AuthenticationPrincipal Jwt jwt, @RequestBody @Valid EditEmpresaRequest editEmpresaRequest){
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(empresaService.updateEmpresa(idAuth0, editEmpresaRequest));
 	}
