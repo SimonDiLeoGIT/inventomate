@@ -6,13 +6,18 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.auth0.exception.Auth0Exception;
 import com.inventoMate.dtos.empresas.EmpresaDTO;
+import com.inventoMate.payload.ApiResponse;
+import com.inventoMate.payload.EditEmpresaRequest;
+import com.inventoMate.payload.EmpresaProfileResponse;
 import com.inventoMate.services.EmpresaService;
 
 import lombok.AllArgsConstructor;
@@ -33,10 +38,22 @@ public class EmpresaController {
 		return ResponseEntity.ok(empresaService.createEmpresa(idOwner, empresaDTO));
 	}
 
-	@GetMapping("/me")
-	public ResponseEntity<EmpresaDTO> getMethodName(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
-		var idOwner = jwt.getSubject();
-		return ResponseEntity.ok(empresaService.getEmpresaByOwnerAuht0Id(idOwner));
+	@GetMapping("/profile")
+	public ResponseEntity<EmpresaProfileResponse> getMethodName(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
+		var idAuth0 = jwt.getSubject();
+		return ResponseEntity.ok(empresaService.getEmpresaProfile(idAuth0));
 	}
-
+	
+	@PutMapping("/edit")
+	public ResponseEntity<EmpresaProfileResponse> editEmpresa(@AuthenticationPrincipal Jwt jwt, @RequestBody EditEmpresaRequest editEmpresaRequest){
+		var idAuth0 = jwt.getSubject();
+		return ResponseEntity.ok(empresaService.updateEmpresa(idAuth0, editEmpresaRequest));
+	}
+	
+	@DeleteMapping("/delete")
+	public ResponseEntity<?> deleteEmpresa(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception{
+		var idAuth0 = jwt.getSubject();
+		empresaService.deleteEmpresa(idAuth0);
+		return ResponseEntity.ok().body(new ApiResponse(true, "Empresa deleted successfully"));
+	}
 }
