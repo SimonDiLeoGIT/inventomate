@@ -41,7 +41,7 @@ public class Sucursal {
 	@Column(name = "id_suc_cliente", nullable = true)
 	private String idSucCliente;
 
-	@OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sucursal", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Usuario> usuarios;
 	
 }

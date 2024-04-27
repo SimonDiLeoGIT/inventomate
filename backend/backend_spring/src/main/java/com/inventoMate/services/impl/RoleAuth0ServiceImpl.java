@@ -15,6 +15,7 @@ import com.auth0.json.mgmt.roles.Role;
 import com.inventoMate.dtos.roles.PermissionDTO;
 import com.inventoMate.dtos.roles.RoleDTO;
 import com.inventoMate.dtos.roles.RolePermissionsDTO;
+import com.inventoMate.entities.Rol;
 import com.inventoMate.services.RoleAuth0Service;
 
 import lombok.AllArgsConstructor;
@@ -68,6 +69,14 @@ public class RoleAuth0ServiceImpl implements RoleAuth0Service {
 		return HttpStatus.valueOf(managementAPI.roles()
 				.assignUsers(roleId, users)
 				.execute().getStatusCode());
+	}
+
+	@Override
+	public void unAssignRolesToUser(String idAuth0, List<Rol> roles) throws Auth0Exception {
+		var rolesIdAuth0 = roles.stream()
+				.map(role -> role.getIdRolAuth0())
+				.collect(Collectors.toList());
+		managementAPI.users().removeRoles(idAuth0, rolesIdAuth0).execute();
 	}
 
 }
