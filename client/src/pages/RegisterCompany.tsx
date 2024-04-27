@@ -14,17 +14,20 @@ export const RegisterCompany = () => {
   const [description, setDescription] = useState<string>('')
   const [logo, setLogo] = useState<string>('')
 
-  const register = async () => {
+  const register = () => {
     const body = {
       nombreEmpresa: name,
       descripcion: description,
       logo: logo
     }
-    const accessToken = await getAccessTokenSilently()
-    registerCompany(accessToken, body)
-    setUser(accessToken)
+    const rc = async () => {
+      const accessToken = await getAccessTokenSilently()
+      await registerCompany(accessToken, body)
+      setUser(accessToken)
+      console.log(currentUser)
+    }
+    rc()
     navigate('/company')
-    console.log(currentUser)
   }
 
   return (

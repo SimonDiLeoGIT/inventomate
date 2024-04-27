@@ -1,6 +1,6 @@
-import analysis_icon from "../assets/icons/forecasting.svg"
-import trend_icon from "../assets/icons/new-trends.svg"
-import report from "../assets/icons/report.svg"
+import analysis_icon from "../assets/icons/violet-forecasting.svg"
+import trend_icon from "../assets/icons/violet-new-trends.svg"
+import report from "../assets/icons/violet-report.svg"
 import inventory_icon from "../assets/icons/file-tray-full-outline.svg"
 
 

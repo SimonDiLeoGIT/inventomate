@@ -3,21 +3,20 @@ import logo from "../assets/images/InventoMate-logo.png"
 import logout_icon from "../assets/icons/log-out-outline.svg"
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../hook/useUser";
-import { useEffect } from "react";
 
 export const Navbar = () => {
 
-  const { user, logout, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { user, logout, isAuthenticated } = useAuth0();
   const navigate = useNavigate()
-  const { currentUser, setUser } = useUser()
+  const { currentUser } = useUser()
 
   const logOut = () => {
-    navigate('/')
     logout({
       openUrl() {
         window.location.origin;
       }
     })
+    navigate('/')
   }
 
 

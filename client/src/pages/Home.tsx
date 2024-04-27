@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { LogoSubtitles } from "../components/LogoSubtitles";
 import logo from "../assets/images/InventoMate-logo.png"
-import analysis_icon from "../assets/icons/forecasting.svg"
-import trend_icon from "../assets/icons/new-trends.svg"
-import report from "../assets/icons/report.svg"
+import violet_analysis_icon from "../assets/icons/violet-forecasting.svg"
+import violet_trend_icon from "../assets/icons/violet-new-trends.svg"
+import violet_report from "../assets/icons/violet-report.svg"
 import inventory_icon from "../assets/icons/file-tray-full-outline.svg"
 import { Card } from '../components/Card'
 import { Login } from "./Login";
@@ -60,10 +60,10 @@ export const Home = () => {
         </section>
       </section>
       <section className='w-10/12 m-auto my-4 md:w-11/12 md:grid md:grid-cols-2 xl:grid-cols-4 xl:w-9/12 gap-4 xl:gap-8'>
-        <Card analysis_icon_url={analysis_icon} title='Predictive Sales Analysis' text='Provides a projection analysis for you to know the future of your business.' />
-        <Card analysis_icon_url={trend_icon} title='Trend Analisys' text='Learn about new trends in the marketplace to improve your business' />
-        <Card analysis_icon_url={inventory_icon} title='Suggested Purchases' text="Don't run out of stock. Keep your inventory up to date." />
-        <Card analysis_icon_url={report} title='Suggested Promotions' text='Optimize your inventory. Forget about stagnant products.' />
+        <Card image={violet_analysis_icon} title='Predictive Sales Analysis' text='Provides a projection analysis for you to know the future of your business.' />
+        <Card image={violet_trend_icon} title='Trend Analisys' text='Learn about new trends in the marketplace to improve your business' />
+        <Card image={inventory_icon} title='Suggested Purchases' text="Don't run out of stock. Keep your inventory up to date." />
+        <Card image={violet_report} title='Suggested Promotions' text='Optimize your inventory. Forget about stagnant products.' />
       </section>
     </main>
   );
