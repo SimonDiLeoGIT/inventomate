@@ -1,4 +1,4 @@
-package com.inventoMate.payload;
+package com.inventoMate.dtos.empresas;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

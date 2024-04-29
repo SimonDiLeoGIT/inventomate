@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.auth0.exception.Auth0Exception;
+import com.inventoMate.dtos.empresas.EditEmpresaRequest;
 import com.inventoMate.dtos.empresas.EmpresaDTO;
+import com.inventoMate.dtos.empresas.EmpresaProfileResponse;
 import com.inventoMate.dtos.sucursales.SucursalDTO;
 import com.inventoMate.entities.Empresa;
 import com.inventoMate.entities.Rol;
@@ -17,8 +19,6 @@ import com.inventoMate.entities.Sucursal;
 import com.inventoMate.entities.Usuario;
 import com.inventoMate.exceptions.ResourceAlreadyExistsException;
 import com.inventoMate.exceptions.ResourceNotFoundException;
-import com.inventoMate.payload.EditEmpresaRequest;
-import com.inventoMate.payload.EmpresaProfileResponse;
 import com.inventoMate.repositories.EmpresaRepository;
 import com.inventoMate.repositories.RolRepository;
 import com.inventoMate.repositories.SucursalRepository;

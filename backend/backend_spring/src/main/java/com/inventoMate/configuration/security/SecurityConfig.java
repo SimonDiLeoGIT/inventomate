@@ -45,6 +45,9 @@ public class SecurityConfig {
 						.requestMatchers("api/empresas/edit").hasAuthority("edit:company")
 						.requestMatchers("api/empresas/delete").hasAnyAuthority("delete:company")
 						.requestMatchers("/api/empresas/create").authenticated()
+						// bd empresa
+						.requestMatchers("api/bd-empresa/**").authenticated()
+						// otros
 						.anyRequest().permitAll()
 						)
 				.cors(Customizer.withDefaults())

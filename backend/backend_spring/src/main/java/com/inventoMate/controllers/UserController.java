@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.auth0.exception.Auth0Exception;
 import com.inventoMate.dtos.users.CreateUserWithRolDTO;
+import com.inventoMate.dtos.users.EditUserRequest;
 import com.inventoMate.dtos.users.UsuarioDTO;
 import com.inventoMate.payload.ApiResponse;
-import com.inventoMate.payload.EditUserRequest;
 import com.inventoMate.services.UserAuth0Service;
 import com.inventoMate.services.UsuarioService;
 
@@ -52,7 +52,8 @@ public class UserController {
 	}
 	
 	@PutMapping("/edit")
-	public ResponseEntity<UsuarioDTO> editUserPrincipal(@AuthenticationPrincipal Jwt jwt, @RequestBody @Valid EditUserRequest usuario) throws Auth0Exception {
+	public ResponseEntity<UsuarioDTO> editUserPrincipal(@AuthenticationPrincipal Jwt jwt, 
+			@RequestBody @Valid EditUserRequest usuario) throws Auth0Exception {
 		var id = jwt.getSubject();
 		return ResponseEntity.ok(usuarioService.updateUser(id,usuario));
 	}

@@ -1,9 +1,9 @@
 package com.inventoMate.services;
 
 import com.auth0.exception.Auth0Exception;
+import com.inventoMate.dtos.empresas.EditEmpresaRequest;
 import com.inventoMate.dtos.empresas.EmpresaDTO;
-import com.inventoMate.payload.EditEmpresaRequest;
-import com.inventoMate.payload.EmpresaProfileResponse;
+import com.inventoMate.dtos.empresas.EmpresaProfileResponse;
 
 public interface EmpresaService {
 
