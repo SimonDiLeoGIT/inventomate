@@ -18,6 +18,8 @@ export default {
       '--color-semidark-violet': '#410052',
       /* Mate Dark Violet */
       '--color-mate-dark-violet': '#5F5063',
+      /* Violet user email */
+      '--color-violet-user-email': '#726376',
       /* Light Opaque Pink*/
       '--color-light-opaque-pink': 'rgba(171, 127, 182, 0.4)',
       /* Light Pink*/

@@ -63,8 +63,8 @@ export const RegisterCompany = () => {
             className="border -border--color-border-light-grey rounded-lg p-2"
           />
           <label className="mt-2 font-semibold -text--color-mate-dark-violet">Company Logo</label>
-          <div className="w-40 h-40 border -border--color-border-light-grey rounded-xl overflow-hidden p-2">
-            <img src={logo} className="w-full h-full" />
+          <div className="w-40 h-40 border -border--color-border-light-grey rounded-xl overflow-hidden">
+            <img src={logo} className="h-full w-full object-cover" />
           </div>
           <input
             type="text"
