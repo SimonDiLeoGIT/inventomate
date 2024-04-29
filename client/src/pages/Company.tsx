@@ -57,7 +57,7 @@ export const Company = () => {
           </li>
         </ul>
         <Link to='/company-settings'
-          className="flex items-center p-4 font-bold -bg--color-semidark-violet -text--color-white justify-center rounded-lg"
+          className="flex items-center p-4 mt-4 font-bold -bg--color-semidark-violet -text--color-white justify-center rounded-lg max-w-md m-auto"
         >
           <img
             src={company_settings}
@@ -84,7 +84,7 @@ export const Company = () => {
             <p>Name_Branch</p>
             <p>Location_Branch</p>
           </li>
-          <li className="w-full m-auto text-center rounded-xl p-4 border-4 -border--color-light-opaque-pink">
+          <li className="w-full m-auto text-center rounded-xl p-4 border-4 -border--color-light-opaque-pink -z-10">
             <img
               src={add}
               className="opacity-40 w-20 m-auto"

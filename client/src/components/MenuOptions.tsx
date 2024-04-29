@@ -12,7 +12,7 @@ import report from '../assets/icons/report.svg'
 export const MenuOptions = () => {
   return (
     <section className="p-4 text-lg">
-      <h3 className="flex items-center font-medium">
+      <h3 className="flex items-center font-medium -te">
         <img src={report} className="w-5 mr-2" />
         Reports
       </h3>
@@ -27,7 +27,10 @@ export const MenuOptions = () => {
           </Link>
         </li>
         <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
-          <Link to='/reports/anti-obsolescense' className="flex p-2">
+          <Link
+            to='/reports/anti-obsolescense'
+            className="flex p-2"
+          >
             <img src={obsolesecnce} alt="Open Branches" className="w-5 mr-2" />
             Anti-Obsolescence
           </Link>
