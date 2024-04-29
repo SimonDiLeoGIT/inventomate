@@ -9,5 +9,7 @@ public interface BdEmpresaService {
 	BdEmpresaDTO editBdEmpresa(String idAuth0, BdEmpresaDTO bdEmpresaDTO);
 
 	void deleteEmpresa(String idAuth0);
+
+	BdEmpresaDTO getBdEmpresaCurrentUser(String idAuth0);
 	
 }

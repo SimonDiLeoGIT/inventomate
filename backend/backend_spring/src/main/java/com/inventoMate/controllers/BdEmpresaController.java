@@ -52,4 +52,10 @@ public class BdEmpresaController {
 		bdEmpresaService.deleteEmpresa(idAuth0);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Bd-empresa deleted successfully"));
 	}
+	
+	@GetMapping()
+	public ResponseEntity<BdEmpresaDTO> getBdEmpresaCurrentUser(@AuthenticationPrincipal Jwt jwt){
+		var idAuth0 = jwt.getSubject();
+		return ResponseEntity.ok(bdEmpresaService.getBdEmpresaCurrentUser(idAuth0));
+	}
 }

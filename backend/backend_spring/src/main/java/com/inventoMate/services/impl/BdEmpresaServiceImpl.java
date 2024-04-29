@@ -86,4 +86,19 @@ public class BdEmpresaServiceImpl implements BdEmpresaService {
 		bdEmpresaRepository.delete(bdEmpresa);	
 	}
 
+	@Override
+	public BdEmpresaDTO getBdEmpresaCurrentUser(String idAuth0) {
+		
+		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
+
+		Empresa empresa = empresaRepository.findByOwner(usuario).orElseThrow(
+				() -> new ResourceNotFoundException("Empresa", "owner", usuario.getIdUsuario().toString()));
+		
+		BdEmpresa bdEmpresa = bdEmpresaRepository.findByEmpresa(empresa).orElseThrow(
+				() -> new ResourceNotFoundException("Bd-empresa", "empresa", empresa.getIdEmpresa().toString()));
+		
+		return mapper.map(bdEmpresa, BdEmpresaDTO.class);
+	}
+
 }
