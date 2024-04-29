@@ -52,7 +52,8 @@ public class UserController {
 	}
 	
 	@PutMapping("/edit")
-	public ResponseEntity<UsuarioDTO> editUserPrincipal(@AuthenticationPrincipal Jwt jwt, @RequestBody @Valid EditUserRequest usuario) throws Auth0Exception {
+	public ResponseEntity<UsuarioDTO> editUserPrincipal(@AuthenticationPrincipal Jwt jwt, 
+			@RequestBody @Valid EditUserRequest usuario) throws Auth0Exception {
 		var id = jwt.getSubject();
 		return ResponseEntity.ok(usuarioService.updateUser(id,usuario));
 	}

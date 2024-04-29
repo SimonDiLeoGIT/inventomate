@@ -43,4 +43,8 @@ public class Empresa {
 	@OneToOne
     @JoinColumn(name = "owner")
     private Usuario owner;
+	
+	@OneToOne
+    @JoinColumn(name = "id_bd_empresa")
+    private BdEmpresa bdEmpresa;
 }
