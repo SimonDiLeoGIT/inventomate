@@ -2,8 +2,8 @@ package com.inventoMate.services;
 
 
 import com.auth0.exception.Auth0Exception;
+import com.inventoMate.dtos.users.EditUserRequest;
 import com.inventoMate.dtos.users.UsuarioDTO;
-import com.inventoMate.payload.EditUserRequest;
 
 import jakarta.validation.Valid;
 

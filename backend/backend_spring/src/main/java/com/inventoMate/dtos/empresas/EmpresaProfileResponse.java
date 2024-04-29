@@ -1,8 +1,7 @@
-package com.inventoMate.payload;
+package com.inventoMate.dtos.empresas;
 
 import java.util.List;
 
-import com.inventoMate.dtos.empresas.EmpresaDTO;
 import com.inventoMate.dtos.sucursales.SucursalDTO;
 
 import lombok.AllArgsConstructor;

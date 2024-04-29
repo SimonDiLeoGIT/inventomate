@@ -8,7 +8,7 @@ import com.auth0.exception.Auth0Exception;
 import com.auth0.json.mgmt.tickets.PasswordChangeTicket;
 import com.auth0.json.mgmt.users.User;
 import com.inventoMate.configuration.ApplicationProperties;
-import com.inventoMate.payload.EditUserRequest;
+import com.inventoMate.dtos.users.EditUserRequest;
 import com.inventoMate.services.RoleAuth0Service;
 import com.inventoMate.services.UserAuth0Service;
 

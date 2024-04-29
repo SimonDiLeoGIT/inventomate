@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.auth0.exception.Auth0Exception;
+import com.inventoMate.dtos.empresas.EditEmpresaRequest;
 import com.inventoMate.dtos.empresas.EmpresaDTO;
+import com.inventoMate.dtos.empresas.EmpresaProfileResponse;
 import com.inventoMate.payload.ApiResponse;
-import com.inventoMate.payload.EditEmpresaRequest;
-import com.inventoMate.payload.EmpresaProfileResponse;
 import com.inventoMate.services.EmpresaService;
 
 import jakarta.validation.Valid;
