@@ -17,7 +17,7 @@ export const MenuOptions = () => {
         Reports
       </h3>
       <ul className="mx-2">
-        <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
+        <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
             to='/reports/members-decisions'
             className="flex px-1 py-2"
@@ -26,7 +26,7 @@ export const MenuOptions = () => {
             Members Decisions
           </Link>
         </li>
-        <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
+        <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
             to='/reports/anti-obsolescense'
             className="flex px-1 py-2"
@@ -35,7 +35,7 @@ export const MenuOptions = () => {
             Anti-Obsolescence
           </Link>
         </li>
-        <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
+        <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
             to='/reports/new-trends'
             className="flex px-1 py-2"
@@ -44,7 +44,7 @@ export const MenuOptions = () => {
             New Trends
           </Link>
         </li>
-        <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
+        <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
             to='/reports/next-orders'
             className="flex px-1 py-2"
@@ -53,7 +53,7 @@ export const MenuOptions = () => {
             Next Orders
           </Link>
         </li>
-        <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
+        <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
             to='/reports/sales-forecasting'
             className="flex px-1 py-2"
@@ -62,7 +62,7 @@ export const MenuOptions = () => {
             Sales Forecasting
           </Link>
         </li>
-        <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
+        <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
             to='/reports/sales-history'
             className="flex px-1 py-2"
@@ -77,7 +77,7 @@ export const MenuOptions = () => {
         Settings
       </h3>
       <ul className="mx-2">
-        <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
+        <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
             to='/company-settings'
             className="flex px-1 py-2"
