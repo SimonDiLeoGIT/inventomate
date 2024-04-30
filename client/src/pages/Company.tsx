@@ -31,7 +31,7 @@ export const Company = () => {
       <section className="hidden relative lg:block w-64">
         <SideNavbar />
       </section>
-      <section className="m-auto mt-4 w-full md:w-11/12 lg:w-7/12 xl:w-7/12">
+      <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
         <section className="m-auto col-span-3">
           <div className="flex items-center">
             <div className="w-20 h-20 overflow-hidden mr-4">
@@ -61,13 +61,13 @@ export const Company = () => {
               </li>
             </ul>
             <Link to='/company-settings'
-              className="flex items-center p-4 font-bold text-sm -bg--color-semidark-violet -text--color-white justify-center rounded-xl max-w-md m-auto mr-0 mb-0"
+              className="flex items-center p-2 font-bold text-sm -bg--color-semidark-violet -text--color-white justify-center rounded-xl max-w-md m-auto mr-0 mb-0"
             >
               <img
                 src={company_settings}
                 className="w-4 mr-2"
               />
-              Company Settings
+              <p className="overflow-hidden whitespace-nowrap text-ellipsis">Company Settings</p>
             </Link>
           </div>
         </section>
