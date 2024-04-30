@@ -41,8 +41,13 @@ public class SecurityConfig {
 						.requestMatchers("/api/users/create").hasAuthority("create:user")
 						.requestMatchers("/api/users/**").authenticated()
 						// empresas
-						.requestMatchers("/api/empresas/me").hasAuthority("read:company-owner")
+						.requestMatchers("/api/empresas/profile").hasAuthority("read:company-owner")
+						.requestMatchers("api/empresas/edit").hasAuthority("edit:company")
+						.requestMatchers("api/empresas/delete").hasAnyAuthority("delete:company")
 						.requestMatchers("/api/empresas/create").authenticated()
+						// bd empresa
+						.requestMatchers("api/bd-empresa/**").authenticated()
+						// otros
 						.anyRequest().permitAll()
 						)
 				.cors(Customizer.withDefaults())

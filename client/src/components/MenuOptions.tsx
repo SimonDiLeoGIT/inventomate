@@ -11,8 +11,8 @@ import report from '../assets/icons/report.svg'
 
 export const MenuOptions = () => {
   return (
-    <section className="p-4 text-lg">
-      <h3 className="flex items-center font-medium -te">
+    <section className="p-4 text-lg lg:text-base">
+      <h3 className="flex items-center font-medium">
         <img src={report} className="w-5 mr-2" />
         Reports
       </h3>

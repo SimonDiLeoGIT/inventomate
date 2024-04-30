@@ -32,7 +32,7 @@ export const MobileMenu = () => {
 
       <aside className={`fixed w-screen h-screen overflow-hidden top-20 left-0 ${!isOpen && 'hidden'} opacity-animation`}>
         <section
-          className={`fixed w-screen h-screen top-20 left-0 -bg--color-white z-10 ${open ? ' open-mobile-menu' : ' close-mobile-menu'} overflow-hidden`}
+          className={`fixed w-screen h-screen top-20 left-0 -bg--color-white z-10 ${open ? ' open-mobile-menu' : ' close-mobile-menu'} overflow-hidden md:w-96 md:left-auto md:right-0`}
           onClick={() => handleMenuOpen()}
         >
           <MenuOptions />

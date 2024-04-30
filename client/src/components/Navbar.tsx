@@ -53,9 +53,11 @@ export const Navbar = () => {
           <li className="m-auto mx-4">
             <img className='rounded-full w-7' src={user?.picture} alt={user?.name} />
           </li>
-          <li className="mt-2">
-            <MobileMenu />
-          </li>
+          {currentUser?.empresa !== null &&
+            <li className="mt-2 lg:hidden">
+              <MobileMenu />
+            </li>
+          }
         </ul>
       }
     </nav>

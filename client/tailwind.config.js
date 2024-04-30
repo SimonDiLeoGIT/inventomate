@@ -32,6 +32,8 @@ export default {
       '--color-border-light-grey': '#929292',
       /* Very Light Grey */
       '--color-border-very-light-grey': '#C9C9C9',
+      /* Very Lightest Grey */
+      '--color-border-very-lightest-grey': '#E1E1E1',
       /* Semi White */
       '--color-form-background-semi-white': '#F9F9F9',
     },
