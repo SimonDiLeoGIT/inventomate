@@ -37,7 +37,8 @@ public class UserController {
 
 	@PostMapping("/create")
 	public ResponseEntity<?> createUserWithRole(@RequestBody CreateUserWithRolDTO user) throws Auth0Exception {
-		return ResponseEntity.ok(userAuth0Service.createUserWithRole(user.getEmail(), user.getRoleId(), user.getPassword()));
+		return ResponseEntity
+				.ok(userAuth0Service.createUserWithRole(user.getEmail(), user.getRoleId(), user.getPassword()));
 	}
 
 	@PostMapping("/sign-up")
@@ -51,25 +52,25 @@ public class UserController {
 		var id = jwt.getSubject();
 		return ResponseEntity.ok(usuarioService.getProfileCurrentUser(id));
 	}
-	
+
 	@PutMapping("/edit")
-	public ResponseEntity<UsuarioProfileResponse> editUserPrincipal(@AuthenticationPrincipal Jwt jwt, 
+	public ResponseEntity<UsuarioProfileResponse> editUserPrincipal(@AuthenticationPrincipal Jwt jwt,
 			@RequestBody @Valid EditUserRequest usuario) throws Auth0Exception {
 		var id = jwt.getSubject();
-		return ResponseEntity.ok(usuarioService.updateUser(id,usuario));
+		return ResponseEntity.ok(usuarioService.updateUser(id, usuario));
 	}
-	
+
 	@GetMapping("/edit/password")
-	public ResponseEntity<?>  editPasswordUserPrincipal(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
+	public ResponseEntity<?> editPasswordUserPrincipal(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
 		var id = jwt.getSubject();
 		return ResponseEntity.ok(userAuth0Service.editPasswordRequest(id));
 	}
-	
+
 	@DeleteMapping("/delete")
-	public ResponseEntity<?>  deleteUserPrincipal(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
+	public ResponseEntity<?> deleteUserPrincipal(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
 		var id = jwt.getSubject();
 		usuarioService.deleteUserPrincipal(id);
-		userAuth0Service.deleteUserByAuth0Id(id,jwt.getTokenValue());
+		userAuth0Service.deleteUserByAuth0Id(id, jwt.getTokenValue());
 		return ResponseEntity.ok().body(new ApiResponse(true, "User deleted successfully"));
 	}
 
