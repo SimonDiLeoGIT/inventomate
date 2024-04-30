@@ -16,6 +16,7 @@ import com.auth0.exception.Auth0Exception;
 import com.inventoMate.dtos.users.CreateUserWithRolDTO;
 import com.inventoMate.dtos.users.EditUserRequest;
 import com.inventoMate.dtos.users.UsuarioDTO;
+import com.inventoMate.dtos.users.UsuarioProfileResponse;
 import com.inventoMate.payload.ApiResponse;
 import com.inventoMate.services.UserAuth0Service;
 import com.inventoMate.services.UsuarioService;
@@ -46,13 +47,13 @@ public class UserController {
 	}
 
 	@GetMapping("/me")
-	public ResponseEntity<UsuarioDTO> getProfile(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
+	public ResponseEntity<UsuarioProfileResponse> getProfile(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
 		var id = jwt.getSubject();
 		return ResponseEntity.ok(usuarioService.getProfileCurrentUser(id));
 	}
 	
 	@PutMapping("/edit")
-	public ResponseEntity<UsuarioDTO> editUserPrincipal(@AuthenticationPrincipal Jwt jwt, 
+	public ResponseEntity<UsuarioProfileResponse> editUserPrincipal(@AuthenticationPrincipal Jwt jwt, 
 			@RequestBody @Valid EditUserRequest usuario) throws Auth0Exception {
 		var id = jwt.getSubject();
 		return ResponseEntity.ok(usuarioService.updateUser(id,usuario));

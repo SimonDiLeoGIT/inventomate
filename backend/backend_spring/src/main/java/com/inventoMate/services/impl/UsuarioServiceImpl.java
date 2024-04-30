@@ -13,6 +13,7 @@ import com.inventoMate.dtos.roles.RolDTO;
 import com.inventoMate.dtos.sucursales.SucursalDTO;
 import com.inventoMate.dtos.users.EditUserRequest;
 import com.inventoMate.dtos.users.UsuarioDTO;
+import com.inventoMate.dtos.users.UsuarioProfileResponse;
 import com.inventoMate.entities.Empresa;
 import com.inventoMate.entities.Sucursal;
 import com.inventoMate.entities.Usuario;
@@ -64,7 +65,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public UsuarioDTO getProfileCurrentUser(String idAuth0) throws Auth0Exception {
+	public UsuarioProfileResponse getProfileCurrentUser(String idAuth0) throws Auth0Exception {
 		
 		// recupero usuario principal
 		Usuario usuario  = userByAuth0Id(idAuth0);
@@ -82,23 +83,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 		// mapeo entidades a dtos
 		EmpresaDTO empresaResponse= empresa != null? modelMapper.map(empresa, EmpresaDTO.class) : null;
 		SucursalDTO sucursalResponse= sucursal != null? modelMapper.map(sucursal, SucursalDTO.class) : null;
-		UsuarioDTO usuarioProfile = UsuarioDTO.builder().email(usuario.getEmail())
+		UsuarioDTO usuarioProfile = modelMapper.map(usuario, UsuarioDTO.class);
+		return UsuarioProfileResponse.builder()
 				.empresa(empresaResponse)
 				.sucursal(sucursalResponse)
-				.idUsuario(usuario.getIdUsuario())
-				.nickname(usuario.getNickname())
-				.picture(usuario.getPicture())
+				.usuario(usuarioProfile)
 				.roles(usuario.getRoles().stream()
 						.map(rol -> modelMapper
 								.map(rol, RolDTO.class))
 						.collect(Collectors.toList()))
 				.build();
-		
-		return usuarioProfile;
 	}
 
 	@Override
-	public UsuarioDTO updateUser(String id, @Valid EditUserRequest usuarioEditRequest) throws Auth0Exception{
+	public UsuarioProfileResponse updateUser(String id, @Valid EditUserRequest usuarioEditRequest) throws Auth0Exception{
 		
 		// obtengo usuario por auth0 id
 		Usuario usuario = userByAuth0Id(id);
