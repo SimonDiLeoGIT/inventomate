@@ -16,11 +16,11 @@ export const MenuOptions = () => {
         <img src={report} className="w-5 mr-2" />
         Reports
       </h3>
-      <ul className="mx-4">
+      <ul className="mx-2">
         <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
           <Link
             to='/reports/members-decisions'
-            className="flex p-2"
+            className="flex px-1 py-2"
           >
             <img src={decisions} alt="Company Settings" className="w-5 mr-2" />
             Members Decisions
@@ -29,7 +29,7 @@ export const MenuOptions = () => {
         <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
           <Link
             to='/reports/anti-obsolescense'
-            className="flex p-2"
+            className="flex px-1 py-2"
           >
             <img src={obsolesecnce} alt="Open Branches" className="w-5 mr-2" />
             Anti-Obsolescence
@@ -38,7 +38,7 @@ export const MenuOptions = () => {
         <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
           <Link
             to='/reports/new-trends'
-            className="flex p-2"
+            className="flex px-1 py-2"
           >
             <img src={trends} alt="Members" className="w-5 mr-2" />
             New Trends
@@ -47,7 +47,7 @@ export const MenuOptions = () => {
         <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
           <Link
             to='/reports/next-orders'
-            className="flex p-2"
+            className="flex px-1 py-2"
           >
             <img src={orders} alt="Members" className="w-5 mr-2" />
             Next Orders
@@ -56,7 +56,7 @@ export const MenuOptions = () => {
         <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
           <Link
             to='/reports/sales-forecasting'
-            className="flex p-2"
+            className="flex px-1 py-2"
           >
             <img src={forecasting} alt="Reports" className="w-5 mr-2" />
             Sales Forecasting
@@ -65,7 +65,7 @@ export const MenuOptions = () => {
         <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
           <Link
             to='/reports/sales-history'
-            className="flex p-2"
+            className="flex px-1 py-2"
           >
             <img src={history} alt="Reports" className="w-5 mr-2" />
             Sales History
@@ -76,11 +76,11 @@ export const MenuOptions = () => {
         <img src={settings_section} className="w-5 mr-2" />
         Settings
       </h3>
-      <ul className="mx-4">
+      <ul className="mx-2">
         <li className="mb-1 hover:cursor-pointer hover:-bg--color-light-pink hover:bg-opacity-50 rounded-lg">
           <Link
             to='/company-settings'
-            className="flex p-2"
+            className="flex px-1 py-2"
           >
             <img src={settings} alt="Connection Settings" className="w-5 mr-2" />
             Company Settings
