@@ -107,3 +107,52 @@ export const getBranch = async (accessToken: string, idBranch: string): Promise<
     return error?.response
   }
 }
+
+export const connectDataBase = async (accessToken: string, body: { gestorBd: string, url: string, username: string, password: string }) => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/bd-empresa/create',
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
+export const getDatabaseConnection = async (accessToken: string): Promise<DatabaseConnection | null> => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/bd-empresa',
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
+export const getTrends = async (accessToken: string, idBranch: string): Promise<Trends | null> => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/informes/tendencias/' + idBranch,
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}

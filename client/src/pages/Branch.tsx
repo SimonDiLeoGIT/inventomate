@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import add from '../assets/icons/plus-circle-.svg'
 import search from '../assets/icons/search-.svg'
 import { SideNavbar } from "../components/SideNavbar";
@@ -21,8 +21,10 @@ export const Branch = () => {
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
-      const userBranch = await getBranch(accessToken, idBranch)
-      setBranch(userBranch)
+      if (idBranch !== undefined) {
+        const userBranch = await getBranch(accessToken, idBranch)
+        setBranch(userBranch)
+      }
     }
 
     isAuthenticated && getToken()
@@ -48,7 +50,7 @@ export const Branch = () => {
                 <h2 className="font-bold -text--color-semidark-violet">Owner</h2>
                 <div className="flex items-center space-x-2">
                   <img
-                    src={currentUser?.empresa?.owner.picture}
+                    src={currentUser?.usuario.picture}
                     alt={currentUser?.empresa?.owner.nickname}
                     className="w-8 h-8 rounded-full"
                   />
@@ -75,7 +77,7 @@ export const Branch = () => {
         </section>
         <section className="my-4">
           <h2 className="font-bold -text--color-semidark-violet py-2 text-lg border-b ">Members</h2>
-          <form className="-bg--color-border-very-lightest-grey p-2 rounded-lg  w-48 flex max-w-sm my-2">
+          <form className="-bg--color-border-very-lightest-grey p-2 rounded-lg  w-full max-w-72 flex my-2">
             <input type="text" placeholder="Search" className="-bg--color-border-very-lightest-grey w-full " />
             <img src={search} className="w-4" />
           </form>

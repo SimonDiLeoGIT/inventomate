@@ -7,6 +7,8 @@ import { RegisterCompany } from "../pages/RegisterCompany";
 import { Loading } from "../pages/Loading";
 import { RegisterBranch } from "../pages/RegisterBranch";
 import { Branch } from "../pages/Branch";
+import { Trends } from "../pages/Trends";
+import { CompanySettings } from "../pages/CompanySettings";
 
 export const Router = () => {
 
@@ -21,8 +23,10 @@ export const Router = () => {
         <Route path="/loading" element={<Loading />} />
         <Route path="/register-company" element={<RegisterCompany />} />
         <Route path="/company" element={<Company />} />
+        <Route path="/company/company-settings" element={<CompanySettings />} />
         <Route path="/company/register-branch" element={<RegisterBranch />} />
         <Route path="/company/branch/:idBranch" element={<Branch />} />
+        <Route path="/company/branch/:idBranch/reports/new-trends" element={<Trends />} />
       </Routes>
     </BrowserRouter>
   )

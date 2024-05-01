@@ -10,8 +10,9 @@ import settings_section from '../assets/icons/settings-section.svg'
 import report from '../assets/icons/report.svg'
 
 export const MenuOptions = () => {
+
   return (
-    <section className="p-4">
+    <section className="p-4 lg:p-2">
       <h3 className="flex items-center font-medium">
         <img src={report} className="w-5 mr-2" />
         Reports
@@ -37,7 +38,7 @@ export const MenuOptions = () => {
         </li>
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to='/reports/new-trends'
+            to={`./reports/new-trends/`}
             className="flex px-1 py-2"
           >
             <img src={trends} alt="Members" className="w-5 mr-2" />

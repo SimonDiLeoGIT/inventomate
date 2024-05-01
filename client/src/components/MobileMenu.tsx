@@ -32,7 +32,7 @@ export const MobileMenu = () => {
   return (
     <>
       <button
-        className="h-full mx-4"
+        className="h-full mx-4 lg:hidden"
         onClick={() => handleMenuOpen()}
       >
         <img src={isOpen ? close : menu} className="w-6" />
