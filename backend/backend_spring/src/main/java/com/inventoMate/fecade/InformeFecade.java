@@ -1,9 +1,9 @@
 package com.inventoMate.fecade;
 
-import java.util.List;
+import com.inventoMate.dtos.meli.TrendsDTO;
 
 public interface InformeFecade {
 
-	List<String> informeDeTendencia(String idAuth0, Long idSucursal);
+	TrendsDTO informeDeTendencia(String idAuth0, Long idSucursal);
 	
 }
