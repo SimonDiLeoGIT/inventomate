@@ -10,6 +10,7 @@ Luego se debe ejecutar la API con el siguiente comando:
 
 ### Para pegarle al endpoint de informeTendencias hay que utilizar el comando:
 
-```curl -X POST -H "Content-Type: application/json" -d "@valoresCompletos.json" http://127.0.0.1:5000/informeTendencias```
+```curl -X POST -H "Content-Type: application/json" -d "@valoresCompletos.json" http://127.0.0.1:5000/informeTendencias -o resultado.pdf```
 
 *los .json dentro de esta carpeta fueron utilizados para pruebas*
+
