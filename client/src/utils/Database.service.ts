@@ -90,3 +90,19 @@ export const registerBranch = async (accessToken: string, body: { nombre: string
     return error
   }
 }
+
+export const getBranch = async (accessToken: string, idBranch: string): Promise<Branch | null> => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/sucursales/' + idBranch,
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}

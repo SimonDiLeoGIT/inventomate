@@ -1,21 +1,22 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import company_settings from '../assets/icons/white-settings.svg'
 import add from '../assets/icons/plus-circle-.svg'
 import search from '../assets/icons/search-.svg'
 import { MobileMenu } from "../components/MobileMenu";
 import { SideNavbar } from "../components/SideNavbar";
-import { getCompany } from "../utils/Database.service";
+import { getBranch } from "../utils/Database.service";
 
-export const Company = () => {
+export const Branch = () => {
+
+  const { idBranch } = useParams()
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const { currentUser, setUser } = useUser()
 
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-
-  const [company, setCompany] = useState<Company | null>(null)
+  const [branch, setBranch] = useState<Branch | null>(null)
 
   useEffect(() => {
 
@@ -23,8 +24,8 @@ export const Company = () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
 
-      const userCompany = await getCompany(accessToken)
-      setCompany(userCompany)
+      const userBranch = await getBranch(accessToken, idBranch)
+      setBranch(userBranch)
     }
 
     isAuthenticated && getToken()
@@ -61,37 +62,39 @@ export const Company = () => {
                 </div>
               </li>
               <li className="w-full flex space-x-2">
+                <h2 className="font-bold -text--color-semidark-violet">ID</h2>
+                <p>{branch?.sucursal.idSucursal}</p>
+              </li>
+              <li className="w-full flex space-x-2">
+                <h2 className="font-bold -text--color-semidark-violet">Name</h2>
+                <p>{branch?.sucursal.nombre}</p>
+              </li>
+              <li className="w-full flex space-x-2">
                 <h2 className="font-bold -text--color-semidark-violet">Location</h2>
-                <p>Location</p>
+                <p>{branch?.sucursal.ubicacion}</p>
               </li>
             </ul>
-            <Link to='/company-settings'
-              className="flex items-center p-2 font-bold text-sm -bg--color-semidark-violet -text--color-white justify-center rounded-xl max-w-md m-auto mr-0 mb-0"
-            >
-              <img
-                src={company_settings}
-                className="w-4 mr-2"
-              />
-              <p className="overflow-hidden whitespace-nowrap text-ellipsis">Company Settings</p>
-            </Link>
           </div>
         </section>
         <section className="my-4">
-          <h2 className="font-bold -text--color-semidark-violet py-2 text-lg">Branches</h2>
-          <div className="grid grid-cols-2">
-            <Link to='/company/register-branch' className="-bg--color-border-very-lightest-grey p-2 rounded-lg font-semibold -text--color-mate-dark-violet w-32 text-center">+ Add Branch</Link>
-            <form className="-bg--color-border-very-lightest-grey p-2 rounded-lg  w-full flex max-w-sm m-auto mr-0">
-              <input type="text" placeholder="Search" className="-bg--color-border-very-lightest-grey w-full " />
-              <img src={search} className="w-4" />
-            </form>
-          </div>
-          <ul className="my-4 grid w-full m-auto">
-            <li className="grid grid-cols-5 border-b p-2 -bg--color-mate-dark-violet -text--color-white font-bold rounded-t-lg">
-              <p className="">ID</p>
-              <p className="col-span-2">Name</p>
-              <p className="col-span-2">Location</p>
+          <h2 className="font-bold -text--color-semidark-violet py-2 text-lg border-b ">Members</h2>
+          <form className="-bg--color-border-very-lightest-grey p-2 rounded-lg  w-48 flex max-w-sm my-2">
+            <input type="text" placeholder="Search" className="-bg--color-border-very-lightest-grey w-full " />
+            <img src={search} className="w-4" />
+          </form>
+          <ul className="my-4 grid w-full m-auto grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+            <li className="-bg--color-border-very-lightest-grey rounded-xl text-center h-28 md:h-32 grid place-content-center">
+              <img src={user?.picture} className="w-12 rounded-full m-auto" />
+              <p className="">{user?.name}</p>
             </li>
-            {company?.sucursales.length === 0 ?
+            <li className="-bg--color-border-very-lightest-grey rounded-xl text-center h-28 md:h-32 grid place-content-center">
+              <img src={user?.picture} className="w-12 rounded-full m-auto" />
+              <p className="">{user?.name}</p>
+            </li>
+            <button className="border-4 -border--color-border-very-lightest-grey rounded-xl text-center h-28 md:h-32 grid place-content-center">
+              <img src={add} className="w-12 rounded-full m-auto" />
+            </button>
+            {/* {company?.sucursales.length === 0 ?
               <li className="-bg--color-border-very-lightest-grey h-48 grid place-content-center">
                 <p className="font-medium text-lg text-center p-4">
                   It looks like there are no branches in your company yet. :(
@@ -103,13 +106,13 @@ export const Company = () => {
                   return (
                     <li className="grid grid-cols-5 hover:opacity-60">
                       <p><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.idSucursal}</Link></p>
-                      <p className="col-span-2"><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.nombre}</Link></p>
-                      <p className="col-span-2"><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.ubicacion}</Link></p>
+                      <p className="col-span-2"><Link to='/' className="block p-2">{branch.nombre}</Link></p>
+                      <p className="col-span-2"><Link to='/' className="block p-2">{branch.ubicacion}</Link></p>
                     </li>
                   )
                 })
               )
-            }
+            } */}
           </ul>
         </section>
       </section>

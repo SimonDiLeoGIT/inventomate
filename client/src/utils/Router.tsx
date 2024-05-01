@@ -6,6 +6,7 @@ import { Company } from "../pages/Company";
 import { RegisterCompany } from "../pages/RegisterCompany";
 import { Loading } from "../pages/Loading";
 import { RegisterBranch } from "../pages/RegisterBranch";
+import { Branch } from "../pages/Branch";
 
 export const Router = () => {
 
@@ -21,6 +22,7 @@ export const Router = () => {
         <Route path="/register-company" element={<RegisterCompany />} />
         <Route path="/company" element={<Company />} />
         <Route path="/company/register-branch" element={<RegisterBranch />} />
+        <Route path="/company/branch/:idBranch" element={<Branch />} />
       </Routes>
     </BrowserRouter>
   )
