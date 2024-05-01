@@ -99,12 +99,12 @@ export const Company = () => {
                 <Link to='/company/register-branch' className="-bg--color-semidark-violet p-2 rounded-lg font-semibold -text--color-white w-32 text-center m-auto hover:opacity-80">Add Branch</Link>
               </li>
               : (
-                company?.sucursales.map(() => {
+                company?.sucursales.map((branch) => {
                   return (
                     <li className="grid grid-cols-5 hover:opacity-60">
-                      <p><Link to='/' className="block p-2">1</Link></p>
-                      <p className="col-span-2"><Link to='/' className="block p-2">Branch</Link></p>
-                      <p className="col-span-2"><Link to='/' className="block p-2">Lujan</Link></p>
+                      <p><Link to='/' className="block p-2">{branch.idSucursal}</Link></p>
+                      <p className="col-span-2"><Link to='/' className="block p-2">{branch.nombre}</Link></p>
+                      <p className="col-span-2"><Link to='/' className="block p-2">{branch.ubicacion}</Link></p>
                     </li>
                   )
                 })
