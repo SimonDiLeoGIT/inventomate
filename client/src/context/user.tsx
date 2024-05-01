@@ -7,7 +7,7 @@ interface Props {
 }
 
 type UserContext = {
-  currentUser: User | null,
+  currentUser: UserCompany | null,
   setUser: (accessToken: string) => void,
 }
 
@@ -15,7 +15,7 @@ export const UserContext = createContext({} as UserContext)
 
 export const UserProvider = ({ children }: Props) => {
 
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
+  const [currentUser, setCurrentUser] = useState<UserCompany | null>(null)
 
   const setUser = async (accessToken: string) => {
     try {

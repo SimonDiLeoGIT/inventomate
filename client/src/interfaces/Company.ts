@@ -3,6 +3,6 @@ interface Company {
   nombreEmpresa: string
   descripcion: string
   logo: string
-  sucursales: Branch[]
   owner: User
+  sucursales: Branch[]
 }
