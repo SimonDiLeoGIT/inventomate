@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { registerCompany } from "../utils/Database.service"
+import { registerBranch, registerCompany } from "../utils/Database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 
@@ -10,19 +10,19 @@ export const RegisterBranch = () => {
   const { getAccessTokenSilently } = useAuth0()
   const { setUser, currentUser } = useUser()
 
-  const [id, setID] = useState<string>('')
+  const [id, setID] = useState<number>(0)
   const [name, setName] = useState<string>('')
   const [location, setLocation] = useState<string>('')
 
   const register = () => {
     const body = {
-      id: id,
-      name: name,
-      location: location
+      nombre: name,
+      ubicacion: location,
+      idSucCliente: id
     }
     const rc = async () => {
       const accessToken = await getAccessTokenSilently()
-      await registerCompany(accessToken, body)
+      await registerBranch(accessToken, body)
       setUser(accessToken)
       console.log(currentUser)
     }
@@ -44,23 +44,24 @@ export const RegisterBranch = () => {
         <div className="grid gap-2 my-4">
           <label className="font-semibold -text--color-mate-dark-violet">ID</label>
           <input
-            type="text"
+            type="number"
             required
             className="border -border--color-border-light-grey rounded-lg p-2"
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setID(parseInt(e.target.value))}
           />
           <label className="mt-2 font-semibold -text--color-mate-dark-violet">Name</label>
           <input
             type="text"
             required
             className="border -border--color-border-light-grey rounded-lg p-2"
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
           <label className="mt-2 font-semibold -text--color-mate-dark-violet">Location</label>
           <input
             type="text"
             required
             className="border -border--color-border-light-grey rounded-lg p-2"
+            onChange={(e) => setLocation(e.target.value)}
           />
         </div>
         <div className="text-center space-x-4 mt-4">

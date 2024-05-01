@@ -74,3 +74,19 @@ export const getCompany = async (accessToken: string): Promise<Company | null> =
     return error?.response
   }
 }
+
+export const registerBranch = async (accessToken: string, body: { nombre: string, ubicacion: string, idSucCliente: number }) => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/sucursales/create',
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body
+    })
+    console.log(response)
+  } catch (error) {
+    return error
+  }
+}
