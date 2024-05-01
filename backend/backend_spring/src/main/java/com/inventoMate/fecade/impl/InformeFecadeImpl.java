@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
 import com.inventoMate.dtos.meli.TrendsDTO;
 import com.inventoMate.fecade.InformeFecade;
 import com.inventoMate.services.FlaskService;
@@ -25,7 +26,7 @@ public class InformeFecadeImpl implements InformeFecade {
 	private final FlaskService flaskService;
 	
 	@Override
-	public void informeDeTendencia(String idAuth0, Long idSucursal) {
+	public TrendsDTO informeDeTendencia(String idAuth0, Long idSucursal) {
 		// hago la conexion la bd del cliente
 		JdbcTemplate template = connectionDatabaseService.getJdbcTemplateForUser(idAuth0);
 		// obtengo el id de la sucursal del cliente
@@ -33,11 +34,11 @@ public class InformeFecadeImpl implements InformeFecade {
 		// obtengo la lista de productos del la bd del cliente en la sucursal con id (idSucursal)
 		List<String> products = informeTendenciaService.execute(template, idSucursalCliente);
 		// obtengo el json del procesado en la api de meli
-		var informeJson = mlService.getTendencias(products);
+		var responseMeli = mlService.getTendencias(products);
 		// lo paso a la api de flask para el procesado en python
-		var response = flaskService.postDatosInformeTendencias(informeJson);
-		// guardo el informe en la bd de mongo
-		
+		//var response = flaskService.postDatosInformeTendencias(responseMeli);
+		// guardo el informe en la bd de mongo o mando notificaciones
+		return responseMeli;
 	}
 	
 }
