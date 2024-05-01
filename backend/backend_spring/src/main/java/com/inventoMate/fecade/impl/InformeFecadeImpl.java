@@ -2,13 +2,14 @@ package com.inventoMate.fecade.impl;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.Async;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.inventoMate.dtos.meli.TrendsDTO;
 import com.inventoMate.fecade.InformeFecade;
+import com.inventoMate.services.ClientDataBaseDAO;
 import com.inventoMate.services.FlaskService;
-import com.inventoMate.services.InformeTendenciaService;
 import com.inventoMate.services.MlService;
 import com.inventoMate.services.SucursalService;
 import com.inventoMate.services.UsuarioConnectionDatabaseService;
@@ -20,7 +21,7 @@ import lombok.AllArgsConstructor;
 public class InformeFecadeImpl implements InformeFecade {
 
 	private final UsuarioConnectionDatabaseService connectionDatabaseService;
-	private final InformeTendenciaService informeTendenciaService;
+	private final ClientDataBaseDAO clientDataBaseDAO;
 	private final SucursalService sucursalService;
 	private final MlService mlService;
 	private final FlaskService flaskService;
@@ -32,12 +33,11 @@ public class InformeFecadeImpl implements InformeFecade {
 		// obtengo el id de la sucursal del cliente
 		var idSucursalCliente = sucursalService.getSucursalProfile(idAuth0, idSucursal).getSucursal().getIdSucCliente();
 		// obtengo la lista de productos del la bd del cliente en la sucursal con id (idSucursal)
-		List<String> products = informeTendenciaService.execute(template, idSucursalCliente);
+		List<String> products = clientDataBaseDAO.listProductsByIdSucursal(template, idSucursalCliente);
 		// obtengo el json del procesado en la api de meli
 		var responseMeli = mlService.getTendencias(products);
-		// lo paso a la api de flask para el procesado en python
-		//var response = flaskService.postDatosInformeTendencias(responseMeli);
-		// guardo el informe en la bd de mongo o mando notificaciones
+		// guardo el informe en la bd de mongo y mando notificaciones
+		
 		return responseMeli;
 	}
 	
