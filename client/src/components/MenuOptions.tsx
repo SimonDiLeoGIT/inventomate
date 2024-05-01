@@ -16,7 +16,7 @@ export const MenuOptions = () => {
         <img src={report} className="w-5 mr-2" />
         Reports
       </h3>
-      <ul className="mx-2">
+      <ul className="p-2 border-b -border--color-border-light-grey">
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
             to='/reports/members-decisions'
@@ -72,11 +72,11 @@ export const MenuOptions = () => {
           </Link>
         </li>
       </ul>
-      <h3 className="flex items-center font-medium">
+      <h3 className="flex items-center font-medium mt-4">
         <img src={settings_section} className="w-5 mr-2" />
         Settings
       </h3>
-      <ul className="mx-2">
+      <ul className="p-2 border-b -border--color-border-light-grey">
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
             to='/company-settings'

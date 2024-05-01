@@ -1,17 +1,18 @@
 import { useState } from 'react'
-import menu from '../assets/icons/menu.svg'
-import close from '../assets/icons/close.svg'
 import { MenuOptions } from './MenuOptions'
 import '../styles/mobile-menu.css'
 import { useUser } from '../hook/useUser'
 import { useAuth0 } from '@auth0/auth0-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import home_icon from '../assets/icons/home.svg'
-import company_icon from '../assets/icons/company.svg'
+import logout_icon from '../assets/icons/log-out-outline.svg'
+import settings_icon from '../assets/icons/settings-section.svg'
+import profile_icon from '../assets/icons/profile.svg'
 
-export const MobileMenu = () => {
+export const UserSettings = () => {
 
-  const { isAuthenticated } = useAuth0();
+  const { logout } = useAuth0();
+  const navigate = useNavigate()
   const { currentUser } = useUser()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -29,13 +30,22 @@ export const MobileMenu = () => {
       : setIsOpen(!isOpen);
   }
 
+  const logOut = () => {
+    logout({
+      openUrl() {
+        window.location.origin;
+      }
+    })
+    navigate('/')
+  }
+
   return (
     <>
       <button
         className="h-full mx-4"
         onClick={() => handleMenuOpen()}
       >
-        <img src={isOpen ? close : menu} className="w-6" />
+        <img className='rounded-full w-7' src={currentUser?.usuario.picture} alt={currentUser?.usuario.nickname} />
       </button>
 
       <aside className={`fixed w-screen h-screen overflow-hidden top-20 left-0 ${!isOpen && 'hidden'} opacity-animation`}>
@@ -45,18 +55,15 @@ export const MobileMenu = () => {
         >
           <ul className="font-medium border-b -border--color-border-light-grey w-11/12 m-auto">
             <li className="hover:opacity-60">
-              <Link to='/' className='p-2 flex'><img src={home_icon} className='w-5 mr-2' />Home</Link>
+              <Link to='/profile' className='p-2 flex'><img src={profile_icon} className='w-5 mr-2' />Profile</Link>
             </li>
-            {isAuthenticated &&
-              currentUser?.empresa !== null && (
-                <li className="hover:opacity-60">
-                  <Link to='/company' className='p-2 flex'><img src={company_icon} className='w-5 mr-2' />Company</Link>
-                </li>
-              )
-
-            }
+            <li className="hover:opacity-60">
+              <Link to='/profile' className='p-2 flex'><img src={settings_icon} className='w-5 mr-2' />Settings</Link>
+            </li>
+            <li className="hover:opacity-60">
+              <button onClick={() => logOut()} className='p-2 flex'><img src={logout_icon} className='w-5 mr-2' />Logout</button>
+            </li>
           </ul>
-          <MenuOptions />
         </section>
       </aside >
     </>

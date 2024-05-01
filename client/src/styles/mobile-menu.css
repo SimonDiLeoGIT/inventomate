@@ -5,7 +5,7 @@
 
 @keyframes open-menu {
   from {
-    transform: translateX(100vh);
+    transform: translateX(-100vh);
   }
 
   to {
@@ -19,7 +19,7 @@
   }
 
   to {
-    transform: translateX(100vh);
+    transform: translateX(-100vh);
   }
 }
 
