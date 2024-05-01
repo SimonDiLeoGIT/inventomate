@@ -3,9 +3,7 @@ import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import company_settings from '../assets/icons/white-settings.svg'
-import add from '../assets/icons/plus-circle-.svg'
 import search from '../assets/icons/search-.svg'
-import { MobileMenu } from "../components/MobileMenu";
 import { SideNavbar } from "../components/SideNavbar";
 import { getCompany } from "../utils/Database.service";
 

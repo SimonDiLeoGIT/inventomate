@@ -2,28 +2,25 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import company_settings from '../assets/icons/white-settings.svg'
 import add from '../assets/icons/plus-circle-.svg'
 import search from '../assets/icons/search-.svg'
-import { MobileMenu } from "../components/MobileMenu";
 import { SideNavbar } from "../components/SideNavbar";
 import { getBranch } from "../utils/Database.service";
 
 export const Branch = () => {
 
   const { idBranch } = useParams()
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const { currentUser, setUser } = useUser()
 
-  const [branch, setBranch] = useState<Branch | null>(null)
+  const [branch, setBranch] = useState<BranchCompany | null>(null)
 
   useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
-
       const userBranch = await getBranch(accessToken, idBranch)
       setBranch(userBranch)
     }
@@ -84,35 +81,16 @@ export const Branch = () => {
           </form>
           <ul className="my-4 grid w-full m-auto grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
             <li className="-bg--color-border-very-lightest-grey rounded-xl text-center h-28 md:h-32 grid place-content-center">
-              <img src={user?.picture} className="w-12 rounded-full m-auto" />
-              <p className="">{user?.name}</p>
+              <img src={currentUser?.usuario.picture} className="w-12 rounded-full m-auto" />
+              <p className="">{currentUser?.usuario.nickname}</p>
             </li>
             <li className="-bg--color-border-very-lightest-grey rounded-xl text-center h-28 md:h-32 grid place-content-center">
-              <img src={user?.picture} className="w-12 rounded-full m-auto" />
-              <p className="">{user?.name}</p>
+              <img src={currentUser?.usuario.picture} className="w-12 rounded-full m-auto" />
+              <p className="">{currentUser?.usuario.nickname}</p>
             </li>
             <button className="border-4 -border--color-border-very-lightest-grey rounded-xl text-center h-28 md:h-32 grid place-content-center">
               <img src={add} className="w-12 rounded-full m-auto" />
             </button>
-            {/* {company?.sucursales.length === 0 ?
-              <li className="-bg--color-border-very-lightest-grey h-48 grid place-content-center">
-                <p className="font-medium text-lg text-center p-4">
-                  It looks like there are no branches in your company yet. :(
-                </p>
-                <Link to='/company/register-branch' className="-bg--color-semidark-violet p-2 rounded-lg font-semibold -text--color-white w-32 text-center m-auto hover:opacity-80">Add Branch</Link>
-              </li>
-              : (
-                company?.sucursales.map((branch) => {
-                  return (
-                    <li className="grid grid-cols-5 hover:opacity-60">
-                      <p><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.idSucursal}</Link></p>
-                      <p className="col-span-2"><Link to='/' className="block p-2">{branch.nombre}</Link></p>
-                      <p className="col-span-2"><Link to='/' className="block p-2">{branch.ubicacion}</Link></p>
-                    </li>
-                  )
-                })
-              )
-            } */}
           </ul>
         </section>
       </section>
