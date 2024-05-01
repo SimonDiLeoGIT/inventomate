@@ -1,7 +1,14 @@
-### Como usar la api
+## Como usar la api
+Antes para probar la api debemos configurar un entorno virtual python, y instalar con pip flask
 
-## Para pegarle al endpoint de informeTendencias 
+```pip install flask```
 
-curl -X POST -H "Content-Type: application/json" -d "@valoresCompletos.json" http://127.0.0.1:5000/informeTendencias
+Luego ejecutamos la api con el siguiente comando
 
-los json dentro de esta carpeta fueron utilizados para pruebas
+```python apiInformes.py```
+
+### Para pegarle al endpoint de informeTendencias 
+
+```curl -X POST -H "Content-Type: application/json" -d "@valoresCompletos.json" http://127.0.0.1:5000/informeTendencias```
+
+*los json dentro de esta carpeta fueron utilizados para pruebas*
