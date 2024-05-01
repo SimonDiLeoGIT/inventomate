@@ -5,6 +5,7 @@ import { Navbar } from "../components/Navbar";
 import { Company } from "../pages/Company";
 import { RegisterCompany } from "../pages/RegisterCompany";
 import { Loading } from "../pages/Loading";
+import { RegisterBranch } from "../pages/RegisterBranch";
 
 export const Router = () => {
 
@@ -19,6 +20,7 @@ export const Router = () => {
         <Route path="/loading" element={<Loading />} />
         <Route path="/register-company" element={<RegisterCompany />} />
         <Route path="/company" element={<Company />} />
+        <Route path="/company/register-branch" element={<RegisterBranch />} />
       </Routes>
     </BrowserRouter>
   )

@@ -60,18 +60,17 @@ export const registerCompany = async (accessToken: string, body: { nombreEmpresa
   }
 }
 
-export const getCompany = async (accessToken: JwtPayload) => {
+export const getCompany = async (accessToken: string): Promise<Company | null> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/empresas/me',
+      url: 'http://localhost:8080/api/empresas/profile',
       method: 'GET',
       headers: {
-        "content-type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       }
     })
-    return response
-  } catch (error) {
-    return error
+    return response.data
+  } catch (error: any) {
+    return error?.response
   }
 }

@@ -1,12 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../hook/useUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import company_settings from '../assets/icons/white-settings.svg'
 import add from '../assets/icons/plus-circle-.svg'
 import search from '../assets/icons/search-.svg'
 import { MobileMenu } from "../components/MobileMenu";
 import { SideNavbar } from "../components/SideNavbar";
+import { getCompany } from "../utils/Database.service";
 
 export const Company = () => {
 
@@ -14,12 +15,16 @@ export const Company = () => {
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
+  const [company, setCompany] = useState<Company | null>(null)
+
   useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
-      console.log(currentUser)
+
+      const userCompany = await getCompany(accessToken)
+      setCompany(userCompany)
     }
 
     isAuthenticated && getToken()
@@ -79,7 +84,6 @@ export const Company = () => {
               <input type="text" placeholder="Search" className="-bg--color-border-very-lightest-grey w-full " />
               <img src={search} className="w-4" />
             </form>
-
           </div>
           <ul className="my-4 grid w-full m-auto">
             <li className="grid grid-cols-5 border-b p-2 -bg--color-mate-dark-violet -text--color-white font-bold rounded-t-lg">
@@ -87,26 +91,25 @@ export const Company = () => {
               <p className="col-span-2">Name</p>
               <p className="col-span-2">Location</p>
             </li>
-            <li className="grid grid-cols-5 hover:opacity-60">
-              <p><Link to='/' className="block p-2">1</Link></p>
-              <p className="col-span-2"><Link to='/' className="block p-2">Branch</Link></p>
-              <p className="col-span-2"><Link to='/' className="block p-2">Lujan</Link></p>
-            </li>
-            <li className="grid grid-cols-5 -bg--color-border-very-light-grey hover:opacity-60">
-              <p><Link to='/' className="block p-2">2</Link></p>
-              <p className="col-span-2"><Link to='/' className="block p-2">Branch</Link></p>
-              <p className="col-span-2"><Link to='/' className="block p-2">Lujan</Link></p>
-            </li>
-            <li className="grid grid-cols-5 hover:opacity-60">
-              <p><Link to='/' className="block p-2">3</Link></p>
-              <p className="col-span-2"><Link to='/' className="block p-2">Branch</Link></p>
-              <p className="col-span-2"><Link to='/' className="block p-2">Lujan</Link></p>
-            </li>
-            <li className="grid grid-cols-5 -bg--color-border-very-light-grey hover:opacity-60">
-              <p><Link to='/' className="block p-2">4</Link></p>
-              <p className="col-span-2"><Link to='/' className="block p-2">Branch</Link></p>
-              <p className="col-span-2"><Link to='/' className="block p-2">Lujan</Link></p>
-            </li>
+            {company?.sucursales.length === 0 ?
+              <li className="-bg--color-border-very-lightest-grey h-48 grid place-content-center">
+                <p className="font-medium text-lg text-center p-4">
+                  It looks like there are no branches in your company yet. :(
+                </p>
+                <Link to='/company/register-branch' className="-bg--color-semidark-violet p-2 rounded-lg font-semibold -text--color-white w-32 text-center m-auto hover:opacity-80">Add Branch</Link>
+              </li>
+              : (
+                company?.sucursales.map(() => {
+                  return (
+                    <li className="grid grid-cols-5 hover:opacity-60">
+                      <p><Link to='/' className="block p-2">1</Link></p>
+                      <p className="col-span-2"><Link to='/' className="block p-2">Branch</Link></p>
+                      <p className="col-span-2"><Link to='/' className="block p-2">Lujan</Link></p>
+                    </li>
+                  )
+                })
+              )
+            }
           </ul>
         </section>
       </section>
