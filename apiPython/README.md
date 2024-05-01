@@ -4,7 +4,7 @@ Para probar API debemos configurar un entorno virtual python e instalar con flas
 
 ```pip install flask```
 
-Luego ejecutamos la api con el siguiente comando
+Luego se debe ejecutar la API con el siguiente comando:
 
 ```python apiInformes.py```
 
