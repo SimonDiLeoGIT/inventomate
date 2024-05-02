@@ -1,9 +1,6 @@
 import os
-from flask import Flask, request, send_file
 import json
 import subprocess
-
-app = Flask(__name__)
 
 def json_to_latex(json_file):
     # Cargar datos desde el archivo JSON
@@ -38,7 +35,7 @@ def json_to_latex(json_file):
 
     % Encabezado con el logo de la empresa, el título y la fecha
     \begin{picture}(0,0)
-        \put(-20,-35){\includegraphics[width=0.15\textwidth]{logo.png}} 
+        \put(-20,-35){\includegraphics[width=0.15\textwidth]{app/informes/static/logo.png}} 
     \end{picture}
     \begin{center}
         {\fontsize{22pt}{24pt}\selectfont\textbf{Informe de Tendencia}}
@@ -93,31 +90,3 @@ def latex_to_pdf(tex_file):
     # Ejecutar pdflatex para compilar el archivo LaTeX
     process = subprocess.Popen(['pdflatex', tex_file])
     process.communicate()  # Esperar a que termine la compilación Ruta al archivo LaTeX
-
-#creamos el endpoint para obtener el informe de tendencias
-@app.route('/informeTendencias', methods=['POST'])
-def convertir_a_pdf():
-    # Verificar que se reciba un JSON
-    if 'application/json' in request.headers.get('Content-Type'):
-        # Obtener los datos del JSON enviado
-        json_data = request.json
-        # Convertir JSON a archivo LaTeX
-        json_to_latex(json_data)
-        # Convertir archivo LaTeX a PDF
-        latex_to_pdf("resultado.tex")
-        # Devolver el archivo PDF en la respuesta
-        response = send_file("resultado.pdf", as_attachment=True)
-        # Borrar los archivos resultantes después de enviar el pdf
-        os.remove("resultado.pdf")
-        os.remove("resultado.aux")
-        os.remove("resultado.log")
-        os.remove("resultado.out")
-        os.remove("resultado.tex")
-        return response
-    else:
-        return "Error: El contenido no es un JSON", 400
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-    
