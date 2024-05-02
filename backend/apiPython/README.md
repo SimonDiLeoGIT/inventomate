@@ -24,7 +24,7 @@ Dentro del entorno virtual instalamos los requerimientos del proyecto con el com
 
 Luego se debe ejecutar la API con el siguiente comando:
 
-```python apiInformes.py```
+```python run.py```
 
 ### Para pegarle al endpoint de informeTendencias hay que utilizar el comando:
 
