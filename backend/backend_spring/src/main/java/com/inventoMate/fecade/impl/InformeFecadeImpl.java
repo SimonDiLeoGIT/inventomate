@@ -2,7 +2,6 @@ package com.inventoMate.fecade.impl;
 
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.Async;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +36,6 @@ public class InformeFecadeImpl implements InformeFecade {
 		// obtengo el json del procesado en la api de meli
 		var responseMeli = mlService.getTendencias(products);
 		// guardo el informe en la bd de mongo y mando notificaciones
-		
 		return responseMeli;
 	}
 	

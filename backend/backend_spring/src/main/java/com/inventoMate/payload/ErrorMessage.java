@@ -1,4 +1,4 @@
-package com.inventoMate.models;
+package com.inventoMate.payload;
 
 import lombok.Value;
 
