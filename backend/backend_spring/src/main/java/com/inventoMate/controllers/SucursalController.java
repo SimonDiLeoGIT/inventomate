@@ -56,4 +56,13 @@ public class SucursalController {
 		sucursalService.deleteSucursal(idAuth0,idSucursal);
 		return ResponseEntity.ok().body(new ApiResponse(true,"Sucursal deleted successfully"));
 	}
+	
+	@PostMapping("/{idSucursal}/invite/{idUsuario}/role/{idRol}")
+	public ResponseEntity<ApiResponse> inviteUsuarioToSucursalWithRol(
+			@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal, @PathVariable Long idUsuario,
+			@PathVariable Long idRol){
+		var idAuth0 = jwt.getSubject();
+		sucursalService.inviteUserWithRol(idAuth0,idSucursal,idUsuario,idRol);
+		return ResponseEntity.ok().body(new ApiResponse(true, "Email con invitacion enviado"));
+	}
 }

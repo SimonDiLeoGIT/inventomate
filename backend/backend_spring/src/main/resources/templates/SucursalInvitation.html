@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Invitación a unirse a nuestra sucursal</title>
+    <style type="text/css">
+        /* Estilos CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .card {
+            width: 60%;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
+            text-align: center; /* Centrar contenido horizontalmente */
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .invitation-text {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .invitation-text strong {
+            color: #6f42c1;
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6f42c1;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+
+        .button:hover {
+            background-color: #5a3ec9;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="logo">
+        <img th:src="${empresaLogo}" alt="Logo de la empresa">
+    </div>
+    <div class="invitation-text">
+        <p>Hola <span th:text="${usuarioNombre}"></span>,</p>
+        <p>¡Te invitamos a unirte a <strong th:text="${empresaNombre}"></strong>, en la sucursal <strong th:text="${sucursalNombre}"></strong>!</p>
+        <p>Esperamos que te unas a nuestro equipo como <strong th:text="${rolNombre}"></strong> en este rol <strong th:text="${rolDescripcion}"></strong>.</p>
+    </div>
+    <div class="button-container">
+        <a th:href="${urlAceptar}" class="button">Aceptar invitación</a>
+        <a th:href="${urlRechazar}" class="button" style="background-color: #dc3545;">Rechazar invitación</a>
+    </div>
+</div>
+</body>
+</html>

@@ -5,8 +5,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.DefaultTemplateResolver;
 
+import com.inventoMate.entities.Empresa;
+import com.inventoMate.entities.Rol;
+import com.inventoMate.entities.Sucursal;
+import com.inventoMate.entities.Usuario;
 import com.inventoMate.services.EmailSenderService;
 
 import jakarta.mail.internet.MimeMessage;
@@ -28,7 +31,6 @@ public class EmailSenderServiceImpl implements EmailSenderService {
             helper.setTo(destinatario);
             helper.setSubject("Prueba");
 
-            // Procesar la plantilla Thymeleaf
             Context context = new Context();
             context.setVariable("mensaje", "esta es una prueba");
             String contenidoHtml = templateEngine.process("email", context);
@@ -38,4 +40,28 @@ public class EmailSenderServiceImpl implements EmailSenderService {
             throw new RuntimeException("Error al enviar el correo: " + e.getMessage(), e);
         }
     }
+
+	@Override
+	public void sendSucursalInvitation(Empresa empresa, Sucursal sucursal, Usuario usuario, Rol rol) {
+		try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(usuario.getEmail());
+            helper.setSubject("Invitacion a " + sucursal.getNombre());
+
+            Context context = new Context();
+            context.setVariable("empresaNombre", empresa.getNombreEmpresa());
+            context.setVariable("empresaLogo", empresa.getLogo());
+            context.setVariable("usuarioNombre", usuario.getNickname());
+            context.setVariable("sucursalNombre", sucursal.getNombre());
+            context.setVariable("rolNombre", rol.getNombreRol());
+            context.setVariable("rolDescripcion", rol.getDescripcion());
+            String contenidoHtml = templateEngine.process("SucursalInvitation", context);
+            helper.setText(contenidoHtml, true);
+            javaMailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al enviar el correo: " + e.getMessage(), e);
+        }
+	}
 }

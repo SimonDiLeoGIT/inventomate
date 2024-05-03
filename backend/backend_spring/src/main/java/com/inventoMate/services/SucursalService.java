@@ -13,4 +13,6 @@ public interface SucursalService {
 
 	void deleteSucursal(String idAuth0, Long idSucursal);
 
+	void inviteUserWithRol(String idAuth0, Long idSucursal, Long idUsuario, Long idRol);
+
 }

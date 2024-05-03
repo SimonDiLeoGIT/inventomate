@@ -11,12 +11,15 @@ import com.inventoMate.dtos.sucursales.SucursalDTO;
 import com.inventoMate.dtos.sucursales.SucursalProfileResponse;
 import com.inventoMate.dtos.users.UsuarioDTO;
 import com.inventoMate.entities.Empresa;
+import com.inventoMate.entities.Rol;
 import com.inventoMate.entities.Sucursal;
 import com.inventoMate.entities.Usuario;
 import com.inventoMate.exceptions.ResourceNotFoundException;
 import com.inventoMate.repositories.EmpresaRepository;
+import com.inventoMate.repositories.RolRepository;
 import com.inventoMate.repositories.SucursalRepository;
 import com.inventoMate.repositories.UsuarioRepository;
+import com.inventoMate.services.EmailSenderService;
 import com.inventoMate.services.SucursalService;
 
 import lombok.AllArgsConstructor;
@@ -28,7 +31,9 @@ public class SucursalServiceImpl implements SucursalService{
 	private final SucursalRepository sucursalRepository;
 	private final UsuarioRepository usuarioRepository;
 	private final EmpresaRepository empresaRepository;
+	private final RolRepository rolRepository;
 	private final ModelMapper mapper;
+	private final EmailSenderService emailSender;
 
 	@Override
 	public SucursalProfileResponse createSucursal(String idAuth0, SucursalDTO sucursalDTO) {
@@ -109,6 +114,24 @@ public class SucursalServiceImpl implements SucursalService{
 		sucursalRepository.delete(sucursal);
 		
 		empresaRepository.save(empresa);
+		
+	}
+
+	@Override
+	public void inviteUserWithRol(String idAuth0, Long idSucursal, Long idUsuario, Long idRol) {
+		
+		Empresa empresa = findEmpresaByIdAuth0(idAuth0);
+		
+		Sucursal sucursal = empresa.getSucursales().stream().filter(s -> s.getIdSucursal().equals(idSucursal)).findFirst()
+				.orElseThrow(
+						() -> new ResourceNotFoundException("sucursal-empresa", "id_sucursal (empresa)", idSucursal.toString()));
+		
+		Usuario usuario = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_usuario", idUsuario.toString()));
+		
+		Rol rol = rolRepository.findById(idRol).orElseThrow(() -> new ResourceNotFoundException("Rol", "id_rol", idRol.toString()));
+		
+		emailSender.sendSucursalInvitation(empresa,sucursal,usuario,rol);
 		
 	}
 }
