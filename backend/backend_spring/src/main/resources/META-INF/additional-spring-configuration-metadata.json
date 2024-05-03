@@ -103,5 +103,15 @@
     "name": "meli.url.product-additional-info",
     "type": "java.lang.String",
     "description": "A description for 'meli.url.product-additional-info'"
+  },
+  {
+    "name": "email.username",
+    "type": "java.lang.String",
+    "description": "A description for 'email.username'"
+  },
+  {
+    "name": "email.password",
+    "type": "java.lang.String",
+    "description": "A description for 'email.password'"
   }
 ]}
