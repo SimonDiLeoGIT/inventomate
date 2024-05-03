@@ -11,7 +11,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.inventoMate.exceptions.ResourceAlreadyExistsException;
 import com.inventoMate.exceptions.ResourceNotFoundException;
-import com.inventoMate.models.ErrorMessage;
+import com.inventoMate.payload.ErrorMessage;
 
 import jakarta.servlet.http.HttpServletRequest;
 
