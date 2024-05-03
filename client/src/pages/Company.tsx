@@ -100,7 +100,7 @@ export const Company = () => {
                 company?.sucursales.map((branch) => {
                   return (
                     <li className="grid grid-cols-5 hover:opacity-60">
-                      <p><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.idSucursal}</Link></p>
+                      <p><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.idSucCliente}</Link></p>
                       <p className="col-span-2"><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.nombre}</Link></p>
                       <p className="col-span-2"><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.ubicacion}</Link></p>
                     </li>

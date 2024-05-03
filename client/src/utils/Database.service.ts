@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { JwtPayload } from "jwt-decode";
 
 export const getUser = async (accessToken: string): Promise<UserCompany | null> => {
   let response = await getUserCall(accessToken)
@@ -27,7 +26,7 @@ export const getUserCall = async (accessToken: string): Promise<UserCompany | nu
   }
 }
 
-export const signUpUser = async (accessToken: string): Promise<User | null> => {
+export const signUpUser = async (accessToken: string): Promise<UserCompany | null> => {
   try {
     const response = await axios({
       url: 'http://localhost:8080/api/users/sign-up',

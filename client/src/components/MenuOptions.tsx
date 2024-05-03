@@ -31,7 +31,7 @@ export const MenuOptions = () => {
         </li>
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to={`/company/branch/${idBranch}/reports/anti-obsolescense`}
+            to={`/company/branch/${1}/reports/anti-obsolescense`}
             className="flex px-1 py-2"
           >
             <img src={obsolesecnce} alt="Open Branches" className="w-5 mr-2" />

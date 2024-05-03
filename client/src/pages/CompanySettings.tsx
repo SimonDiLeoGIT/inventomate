@@ -66,7 +66,7 @@ export const CompanySettings = () => {
     <main className="w-full p-2 md:w-9/12 m-auto lg:w-7/12 xl:w-6/12">
       <header className="p-2">
         <h1 className="font-bold -text--color-semidark-violet text-2xl">
-          Register your Company
+          Company Settings
         </h1>
       </header>
       <form className="p-4 -bg--color-form-background-semi-white shadow-lg -shadow--color-black-shadow -text--color-black">
