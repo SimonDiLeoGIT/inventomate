@@ -62,7 +62,7 @@ export const Branch = () => {
               </li>
               <li className="w-full flex space-x-2">
                 <h2 className="font-bold -text--color-semidark-violet">ID</h2>
-                <p>{branch?.sucursal.idSucursal}</p>
+                <p>{branch?.sucursal.idSucCliente}</p>
               </li>
               <li className="w-full flex space-x-2">
                 <h2 className="font-bold -text--color-semidark-violet">Name</h2>

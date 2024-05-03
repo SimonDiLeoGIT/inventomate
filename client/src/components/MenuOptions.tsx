@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import decisions from '../assets/icons/decisions.svg'
 import obsolesecnce from '../assets/icons/anti-obsolescence.svg'
 import trends from '../assets/icons/new-trends.svg'
@@ -10,6 +10,8 @@ import settings_section from '../assets/icons/settings-section.svg'
 import report from '../assets/icons/report.svg'
 
 export const MenuOptions = () => {
+
+  const { idBranch } = useParams()
 
   return (
     <section className="p-4 lg:p-2">
@@ -29,7 +31,7 @@ export const MenuOptions = () => {
         </li>
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to='/reports/anti-obsolescense'
+            to={`/company/branch/${idBranch}/reports/anti-obsolescense`}
             className="flex px-1 py-2"
           >
             <img src={obsolesecnce} alt="Open Branches" className="w-5 mr-2" />
@@ -38,7 +40,7 @@ export const MenuOptions = () => {
         </li>
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to={`./reports/new-trends/`}
+            to={`/company/branch/${idBranch}/reports/new-trends/`}
             className="flex px-1 py-2"
           >
             <img src={trends} alt="Members" className="w-5 mr-2" />

@@ -125,6 +125,22 @@ export const connectDataBase = async (accessToken: string, body: { gestorBd: str
   }
 }
 
+export const deleteDatabaseConnection = async (accessToken: string) => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/bd-empresa/delete',
+      method: 'DEL',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
 export const getDatabaseConnection = async (accessToken: string): Promise<DatabaseConnection | null> => {
   try {
     const response = await axios({

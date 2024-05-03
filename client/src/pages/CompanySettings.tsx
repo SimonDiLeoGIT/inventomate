@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { connectDataBase, getDatabaseConnection } from "../utils/Database.service"
+import { connectDataBase, deleteDatabaseConnection, getDatabaseConnection } from "../utils/Database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import delete_icon from '../assets/icons/delete.svg'
@@ -50,6 +50,16 @@ export const CompanySettings = () => {
       console.log(currentUser)
     }
     cdb()
+  }
+
+  const deleteConnection = () => {
+    const deleteDb = async () => {
+      const accessToken = await getAccessTokenSilently()
+      await deleteDatabaseConnection(accessToken)
+      setUser(accessToken)
+      console.log(currentUser)
+    }
+    deleteDb()
   }
 
   return (
@@ -127,7 +137,10 @@ export const CompanySettings = () => {
         <ul className="border-4 -border--color-ful-red rounded-xl">
           <li className="p-2 flex items-center">
             <p className="font-medium">Delete Database Connection</p>
-            <button className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80">
+            <button
+              onClick={() => deleteConnection()}
+              className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80"
+            >
               <img src={delete_icon} className="w-6" />
             </button>
           </li>
