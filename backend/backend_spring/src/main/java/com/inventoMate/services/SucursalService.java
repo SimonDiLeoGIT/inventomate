@@ -1,7 +1,10 @@
 package com.inventoMate.services;
 
+import java.util.List;
+
 import com.inventoMate.dtos.sucursales.SucursalDTO;
 import com.inventoMate.dtos.sucursales.SucursalProfileResponse;
+import com.inventoMate.entities.InvitacionSucursal;
 
 public interface SucursalService {
 
@@ -13,6 +16,8 @@ public interface SucursalService {
 
 	void deleteSucursal(String idAuth0, Long idSucursal);
 
-	void inviteUserWithRol(String idAuth0, Long idSucursal, Long idUsuario, Long idRol);
+	void inviteUserWithRoles(String idAuth0, Long idSucursal, Long idUsuario, List<Long> idRol);
+
+	void addUserWithRoles(InvitacionSucursal invitacionSucursal);
 
 }

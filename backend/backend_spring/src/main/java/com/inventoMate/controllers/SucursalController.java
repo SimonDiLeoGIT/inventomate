@@ -1,5 +1,7 @@
 package com.inventoMate.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -60,9 +62,9 @@ public class SucursalController {
 	@PostMapping("/{idSucursal}/invite/{idUsuario}/role/{idRol}")
 	public ResponseEntity<ApiResponse> inviteUsuarioToSucursalWithRol(
 			@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal, @PathVariable Long idUsuario,
-			@PathVariable Long idRol){
+			@PathVariable List<Long> idRol){
 		var idAuth0 = jwt.getSubject();
-		sucursalService.inviteUserWithRol(idAuth0,idSucursal,idUsuario,idRol);
+		sucursalService.inviteUserWithRoles(idAuth0,idSucursal,idUsuario,idRol);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Email con invitacion enviado"));
 	}
 }

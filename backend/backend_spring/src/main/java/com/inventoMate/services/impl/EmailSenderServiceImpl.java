@@ -1,5 +1,7 @@
 package com.inventoMate.services.impl;
 
+import java.util.List;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -42,21 +44,20 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     }
 
 	@Override
-	public void sendSucursalInvitation(Empresa empresa, Sucursal sucursal, Usuario usuario, Rol rol) {
+	public void sendSucursalInvitation(Empresa empresa, Sucursal sucursal, Usuario usuario, List<Rol> roles, String token) {
 		try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setTo(usuario.getEmail());
             helper.setSubject("Invitacion a " + sucursal.getNombre());
-
+           
             Context context = new Context();
-            context.setVariable("empresaNombre", empresa.getNombreEmpresa());
-            context.setVariable("empresaLogo", empresa.getLogo());
-            context.setVariable("usuarioNombre", usuario.getNickname());
-            context.setVariable("sucursalNombre", sucursal.getNombre());
-            context.setVariable("rolNombre", rol.getNombreRol());
-            context.setVariable("rolDescripcion", rol.getDescripcion());
+            context.setVariable("empresa", empresa);
+            context.setVariable("usuario", usuario);
+            context.setVariable("sucursal", sucursal);
+            context.setVariable("roles", roles);
+            context.setVariable("token", token);
             String contenidoHtml = templateEngine.process("SucursalInvitation", context);
             helper.setText(contenidoHtml, true);
             javaMailSender.send(message);
