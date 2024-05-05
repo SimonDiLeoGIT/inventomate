@@ -1,7 +1,10 @@
 package com.inventoMate.services;
 
 
+import java.util.List;
+
 import com.auth0.exception.Auth0Exception;
+import com.inventoMate.dtos.roles.RolDTO;
 import com.inventoMate.dtos.users.EditUserRequest;
 import com.inventoMate.dtos.users.UsuarioDTO;
 import com.inventoMate.dtos.users.UsuarioProfileResponse;
@@ -17,4 +20,6 @@ public interface UsuarioService {
 	UsuarioProfileResponse updateUser(String idAuth0,  @Valid EditUserRequest usuario) throws Auth0Exception;
 
 	void deleteUserPrincipal(String idAuth0);
+
+	List<RolDTO> getUserRoles(String idAuth0, Long idSucursal, Long idUser);
 }

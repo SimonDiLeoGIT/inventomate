@@ -113,5 +113,10 @@
     "name": "email.password",
     "type": "java.lang.String",
     "description": "A description for 'email.password'"
+  },
+  {
+    "name": "meli.url.get-categories",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.get-categories'"
   }
 ]}

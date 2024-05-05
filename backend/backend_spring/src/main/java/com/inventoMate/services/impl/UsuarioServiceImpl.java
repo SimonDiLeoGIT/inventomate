@@ -1,5 +1,6 @@
 package com.inventoMate.services.impl;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -122,5 +123,27 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Transactional
 	public void deleteUserPrincipal(String idAuth0){
 		usuarioRepository.deleteByIdAuth0(idAuth0);
+	}
+
+	@Override
+	public List<RolDTO> getUserRoles(String idAuth0, Long idSucursal, Long idUser) {
+		// obtengo el owner
+		Usuario owner = userByAuth0Id(idAuth0);
+		// obtengo su empresa
+		Empresa empresa = owner.getEmpresa();
+		// verifico que la sucursal pertenezca a su empresa
+		Sucursal sucursal = empresa.getSucursales().stream().filter(suc -> suc.getIdSucursal().equals(idSucursal))
+				.findFirst().orElseThrow(() -> new ResourceNotFoundException("Sucursal", "id_empresa", idSucursal.toString()));
+		// verifico que el empleado exista
+		Usuario empleado = usuarioRepository.findById(idUser).orElseThrow((
+				) -> new ResourceNotFoundException("Usuario", "id_usuario", idUser.toString()));
+		// verifico que el empleado trabaje en la sucursal
+		if(!sucursal.getUsuarios().contains(empleado)) {
+			throw new ResourceNotFoundException("Usuario", "id_sucursal", idSucursal.toString());
+		}
+		// devuelvo los roles del usuario en la sucursal
+		return empleado.getRoles().stream()
+				.map(rol -> modelMapper.map(rol, RolDTO.class))
+				.collect(Collectors.toList());
 	}
 }

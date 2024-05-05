@@ -20,4 +20,8 @@ public interface SucursalService {
 
 	void addUserWithRoles(InvitacionSucursal invitacionSucursal);
 
+	void editUserRoles(String idAuth0, Long idSucursal, Long idUsuario, List<Long> idRol);
+
+	SucursalProfileResponse deleteUserFromSucursal(String idAuth0, Long idSucursal, Long idUsuario);
+
 }
