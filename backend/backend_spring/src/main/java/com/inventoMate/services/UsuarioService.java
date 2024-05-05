@@ -22,4 +22,6 @@ public interface UsuarioService {
 	void deleteUserPrincipal(String idAuth0);
 
 	List<RolDTO> getUserRoles(String idAuth0, Long idSucursal, Long idUser);
+
+	List<UsuarioDTO> findByEmail(String email);
 }

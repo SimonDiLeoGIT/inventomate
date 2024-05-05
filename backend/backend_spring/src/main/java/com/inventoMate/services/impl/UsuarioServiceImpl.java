@@ -1,5 +1,6 @@
 package com.inventoMate.services.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -144,6 +145,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 		// devuelvo los roles del usuario en la sucursal
 		return empleado.getRoles().stream()
 				.map(rol -> modelMapper.map(rol, RolDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<UsuarioDTO> findByEmail(String email) {
+		List<UsuarioDTO> usuariosDTO = Collections.emptyList();
+		List<Usuario> usuarios = usuarioRepository.findByEmailStartingWith(email);
+		return usuarios.isEmpty()? usuariosDTO : usuarios.stream()
+				.map(usuario -> modelMapper.map(usuario,UsuarioDTO.class))
 				.collect(Collectors.toList());
 	}
 }
