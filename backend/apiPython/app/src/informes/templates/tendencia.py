@@ -1,14 +1,8 @@
-import os
 import json
+import os
 import subprocess
 
-def json_to_latex(json_file):
-    # Cargar datos desde el archivo JSON
-    with open(json_file, 'r', encoding='utf-8') as file:
-        data = json.load(file)
-
-    #data=json_file
-
+def json_to_latex(data):
     # Generar el contenido de LaTeX
     latex_content = r'''
     \documentclass{article}
@@ -34,7 +28,7 @@ def json_to_latex(json_file):
 
     % Encabezado con el logo de la empresa, el titulo y la fecha
     \begin{picture}(0,0)
-        \put(-20,-35){\includegraphics[width=0.15\textwidth]{app/informes/static/logo.png}} 
+        \put(-20,-35){\includegraphics[width=0.15\textwidth]{../static/logo.png}} 
     \end{picture}
     \begin{center}
         {\fontsize{22pt}{24pt}\selectfont\textbf{Informe de Tendencia}}
@@ -82,10 +76,12 @@ def json_to_latex(json_file):
     \end{document}
     '''
     # Guardar el contenido LaTeX en un archivo .tex
-    with open('resultado.tex', 'w', encoding='utf-8') as file:
+    with open('app/src/resultado.tex', 'w', encoding='utf-8') as file:
         file.write(latex_content)
 
 def latex_to_pdf(tex_file):
     # Ejecutar pdflatex para compilar el archivo LaTeX
+    os.chdir("app/src")
     process = subprocess.Popen(['pdflatex', tex_file])
     process.communicate()  # Esperar a que termine la compilación Ruta al archivo LaTeX
+    return 
