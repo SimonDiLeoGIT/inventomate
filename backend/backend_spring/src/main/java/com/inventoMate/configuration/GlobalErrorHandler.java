@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.inventoMate.exceptions.InvitationExpiredException;
 import com.inventoMate.exceptions.ResourceAlreadyExistsException;
 import com.inventoMate.exceptions.ResourceNotFoundException;
 import com.inventoMate.payload.ErrorMessage;
@@ -59,4 +60,10 @@ public class GlobalErrorHandler {
         });
         return ErrorMessage.from(errorMessage.toString(), HttpStatus.BAD_REQUEST.value());
     }
+	
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ExceptionHandler(InvitationExpiredException.class)
+	public ErrorMessage handleInvitacionExpired(final HttpServletRequest request, final Exception error) {
+		return ErrorMessage.from(error.getMessage(),HttpStatus.FORBIDDEN.value());
+	}
 }
