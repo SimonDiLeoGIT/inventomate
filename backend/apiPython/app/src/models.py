@@ -1,3 +1,4 @@
+from bson import ObjectId
 from app.src import DB
 
 def insertTendencia(data):
@@ -6,3 +7,9 @@ def insertTendencia(data):
     if (resultado.acknowledged):
         return resultado.inserted_id
     return -1
+
+def getTendencia(id):
+    coleccion = DB["historico-tendencias"]
+    documento = coleccion.find_one({'_id': ObjectId(id)})   
+    documento['_id'] = str(documento['_id'])
+    return documento

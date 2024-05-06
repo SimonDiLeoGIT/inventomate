@@ -2,7 +2,6 @@ from flask import jsonify, request, send_file
 from .informes.templates.tendencia import json_to_latex, latex_to_pdf
 from flask import current_app as app
 import os
-import json
 from .models import *
 
 #creamos el endpoint para obtener el informe de tendencias
@@ -31,12 +30,25 @@ def informeTendencias():
     
 @app.route("/api/informe/tendencias/add", methods=["POST"])
 def insertarTendencia():
-    if 'application/json' in request.headers.get('Content-Type'):
+    try:
         json_data = request.json
         id = insertTendencia(json_data)
         if (id != -1):
             return jsonify({'ID-Mongo': str(id)}), 200
         else:
             return jsonify({'mensaje': 'Error de la BD'}), 500
-    else:
-        return jsonify({'error': 'La solicitud no contiene datos JSON'}), 400
+    except Exception as e:
+        return ({'error': str(e)}), 500
+
+
+@app.route("/api/informe/tendencias", methods=["GET"])
+def verTendencia():
+    try:
+        id = request.args.get('idMongo')
+        documento = getTendencia(id)
+        if documento:
+            return jsonify(documento), 200
+        else:
+            return jsonify({'mensaje': 'Documento no encontrado'}), 404
+    except Exception as e:
+            return jsonify({'error': str(e)}), 500
