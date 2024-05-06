@@ -53,4 +53,12 @@ public class Usuario {
 	@OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
 	private Empresa empresa;
 
+	public boolean esDueñoDeEmpresa() {
+		return this.getEmpresa() != null;
+	}
+
+	public boolean trabajaEnSucursal() {
+		return this.getSucursal() != null;
+	}
+
 }

@@ -46,4 +46,14 @@ public class Sucursal {
 	@OneToMany(mappedBy = "sucursal", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Usuario> usuarios;
 	
+	public boolean trabajaEmpleado(Usuario empleado) {
+		return this.getUsuarios().contains(empleado);
+	}
+
+	public Usuario obtenerEmpleado(Long idEmpleado) {
+		return this.getUsuarios().stream()
+				.filter(empleado -> empleado.getIdUsuario().equals(idEmpleado))
+				.findFirst().orElse(null);
+	}
+	
 }

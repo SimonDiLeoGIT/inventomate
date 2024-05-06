@@ -47,4 +47,11 @@ public class Empresa {
 	@OneToOne
     @JoinColumn(name = "id_bd_empresa")
     private BdEmpresa bdEmpresa;
+	
+	public Sucursal obtenerSucursal(Long idSucursal) {
+		return this.getSucursales().stream()
+				.filter(sucursal -> sucursal.getIdSucursal().equals(idSucursal))
+				.findFirst().orElse(null);
+	}
+	
 }
