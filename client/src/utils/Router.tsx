@@ -1,10 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { Login } from "../pages/Login"
 import { Home } from "../pages/Home"
 import { Navbar } from "../components/Navbar";
 import { Company } from "../pages/Company";
 import { RegisterCompany } from "../pages/RegisterCompany";
-import { Loading } from "../pages/Loading";
 import { RegisterBranch } from "../pages/RegisterBranch";
 import { Branch } from "../pages/Branch";
 import { Trends } from "../pages/Trends";
@@ -20,8 +18,6 @@ export const Router = () => {
       </header>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/loading" element={<Loading />} />
         <Route path="/register-company" element={<RegisterCompany />} />
         <Route path="/company" element={<Company />} />
         <Route path="/company/company-settings" element={<CompanySettings />} />

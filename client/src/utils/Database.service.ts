@@ -1,18 +1,24 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 export const getUser = async (accessToken: string): Promise<UserCompany | null> => {
-  let response = await getUserCall(accessToken)
-  if (response === null) {
-    await signUpUser(accessToken)
-    response = await getUserCall(accessToken)
+  try {
+    let response = await getUserCall(accessToken)
+    if (response === null) {
+      await signUpUser(accessToken)
+      response = await getUserCall(accessToken)
+    }
+    console.log('user: ', response)
+    return response
+  } catch (error: any) {
+    return error.response
   }
-  console.log('user: ', response)
-  return response
 }
 
 export const getUserCall = async (accessToken: string): Promise<UserCompany | null> => {
   try {
-    const response: AxiosResponse<UserCompany> = await axios.get<UserCompany>('http://localhost:8080/api/users/me', {
+    const response = await axios({
+      url: 'http://localhost:8080/api/users/me',
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       }
@@ -36,7 +42,6 @@ export const signUpUser = async (accessToken: string): Promise<UserCompany | nul
         Authorization: `Bearer ${accessToken}`,
       }
     })
-
     return response.data
   } catch (error: any) {
     return error?.response
