@@ -23,8 +23,8 @@ export const Router = () => {
         <Route path="/company/company-settings" element={<CompanySettings />} />
         <Route path="/company/register-branch" element={<RegisterBranch />} />
         <Route path="/company/branch/:idBranch" element={<Branch />} />
-        <Route path="/company/branch/:idBranch/reports/new-trends" element={<Trends />} />
-        <Route path="/company/branch/:idBranch/reports/new-trends/:category/:position" element={<Product />} />
+        <Route path="/company/reports/new-trends" element={<Trends />} />
+        <Route path="/company/reports/new-trends/:category/:position" element={<Product />} />
       </Routes>
     </BrowserRouter>
   )

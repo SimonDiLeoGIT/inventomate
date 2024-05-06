@@ -22,7 +22,7 @@ export const MenuOptions = () => {
       <ul className="p-2 border-b -border--color-border-light-grey">
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to='/reports/members-decisions'
+            to='/company/reports/members-decisions'
             className="flex px-1 py-2"
           >
             <img src={decisions} alt="Company Settings" className="w-5 mr-2" />
@@ -31,7 +31,7 @@ export const MenuOptions = () => {
         </li>
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to={`/company/branch/${1}/reports/anti-obsolescense`}
+            to={`/company/reports/anti-obsolescense`}
             className="flex px-1 py-2"
           >
             <img src={obsolesecnce} alt="Open Branches" className="w-5 mr-2" />
@@ -40,7 +40,7 @@ export const MenuOptions = () => {
         </li>
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to={`/company/branch/${idBranch}/reports/new-trends/`}
+            to={`/company/reports/new-trends/`}
             className="flex px-1 py-2"
           >
             <img src={trends} alt="Members" className="w-5 mr-2" />
@@ -49,7 +49,7 @@ export const MenuOptions = () => {
         </li>
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to='/reports/next-orders'
+            to='/company/reports/next-orders'
             className="flex px-1 py-2"
           >
             <img src={orders} alt="Members" className="w-5 mr-2" />
@@ -58,7 +58,7 @@ export const MenuOptions = () => {
         </li>
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to='/reports/sales-forecasting'
+            to='/company/reports/sales-forecasting'
             className="flex px-1 py-2"
           >
             <img src={forecasting} alt="Reports" className="w-5 mr-2" />
@@ -67,7 +67,7 @@ export const MenuOptions = () => {
         </li>
         <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
           <Link
-            to='/reports/sales-history'
+            to='/company/reports/sales-history'
             className="flex px-1 py-2"
           >
             <img src={history} alt="Reports" className="w-5 mr-2" />

@@ -12,8 +12,7 @@ import warning_icon from '../assets/icons/warning.svg'
 
 export const Trends = () => {
 
-  const { idBranch } = useParams()
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
 
   const { currentUser, setUser } = useUser()
@@ -36,9 +35,6 @@ export const Trends = () => {
 
     isAuthenticated && getToken()
 
-    if (idBranch !== undefined) {
-      setBranch(idBranch)
-    }
 
   }, [isAuthenticated])
 
