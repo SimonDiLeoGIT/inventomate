@@ -38,7 +38,7 @@ export const MobileMenu = () => {
         <img src={isOpen ? close : menu} className="w-6" />
       </button>
 
-      <aside className={`fixed w-screen h-screen overflow-hidden top-20 left-0 ${!isOpen && 'hidden'} opacity-animation`}>
+      <aside className={`fixed w-screen h-screen overflow-hidden top-20 left-0 ${!isOpen && 'hidden'} opacity-animation lg:hidden`}>
         <section
           className={`fixed w-screen h-screen top-20 left-0 -bg--color-white z-10 ${open ? ' open-mobile-menu' : ' close-mobile-menu'} overflow-hidden max-w-96 md:left-auto`}
           onClick={() => handleMenuOpen()}

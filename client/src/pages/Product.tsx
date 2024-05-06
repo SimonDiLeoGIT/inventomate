@@ -31,7 +31,7 @@ export const Product = () => {
   return (
     <main className="-text--color-black flex ">
       <section className="md:grid md:grid-cols-2 md:w-11/12 md:m-auto max-w-7xl md:my-10">
-        <div className="relative shadow-md z-0">
+        <div className="relative z-0">
           <section className="">
             <img
               className="h-96 object-cover m-auto"
