@@ -176,3 +176,37 @@ export const getTrends = async (accessToken: string, idBranch: string): Promise<
     return error?.response
   }
 }
+
+export const searchUser = async (accessToken: string, email: string): Promise<User[] | null> => {
+  try {
+    const url = `http://localhost:8080/api/users?email=${email}`
+    const response = await axios({
+      url: url,
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
+export const inviteUser = async (accessToken: string, idBranch: string, idUser: string, idRol: string) => {
+  try {
+    const url = `http://localhost:8080/api/sucursales/${idBranch}/invite/${idUser}/role/${idRol}`
+    const response = await axios({
+      url: url,
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}

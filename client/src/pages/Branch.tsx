@@ -6,6 +6,7 @@ import add from '../assets/icons/plus-circle-.svg'
 import search from '../assets/icons/search-.svg'
 import { SideNavbar } from "../components/SideNavbar";
 import { getBranch } from "../utils/Database.service";
+import { InviteUser } from "../components/InviteUser";
 
 export const Branch = () => {
 
@@ -77,10 +78,13 @@ export const Branch = () => {
         </section>
         <section className="my-4">
           <h2 className="font-bold -text--color-semidark-violet py-2 text-lg border-b ">Members</h2>
-          <form className="-bg--color-border-very-lightest-grey p-2 rounded-lg  w-full max-w-72 flex my-2">
-            <input type="text" placeholder="Search" className="-bg--color-border-very-lightest-grey w-full " />
-            <img src={search} className="w-4" />
-          </form>
+          <div className="grid grid-cols-2">
+            <InviteUser />
+            <form className="-bg--color-border-very-lightest-grey p-2 rounded-lg  w-full max-w-72 flex my-2 m-auto mr-0">
+              <input type="text" placeholder="Search" className="-bg--color-border-very-lightest-grey w-full " />
+              <img src={search} className="w-4" />
+            </form>
+          </div>
           <ul className="my-4 grid w-full m-auto grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
             <li className="-bg--color-border-very-lightest-grey rounded-xl text-center h-28 md:h-32 grid place-content-center">
               <img src={currentUser?.usuario.picture} className="w-12 rounded-full m-auto" />
@@ -90,9 +94,6 @@ export const Branch = () => {
               <img src={currentUser?.usuario.picture} className="w-12 rounded-full m-auto" />
               <p className="">{currentUser?.usuario.nickname}</p>
             </li>
-            <button className="border-4 -border--color-border-very-lightest-grey rounded-xl text-center h-28 md:h-32 grid place-content-center">
-              <img src={add} className="w-12 rounded-full m-auto" />
-            </button>
           </ul>
         </section>
       </section>
