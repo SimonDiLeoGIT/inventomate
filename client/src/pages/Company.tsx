@@ -48,7 +48,7 @@ export const Company = () => {
                 <h2 className="font-bold -text--color-semidark-violet">Owner</h2>
                 <div className="flex items-center space-x-2">
                   <img
-                    src={currentUser?.empresa?.owner.picture}
+                    src={currentUser?.usuario.picture}
                     alt={currentUser?.empresa?.owner.nickname}
                     className="w-8 h-8 rounded-full"
                   />
@@ -63,7 +63,7 @@ export const Company = () => {
                 <p>Location</p>
               </li>
             </ul>
-            <Link to='/company-settings'
+            <Link to='./company-settings'
               className="flex items-center p-2 font-bold text-sm -bg--color-semidark-violet -text--color-white justify-center rounded-xl max-w-md m-auto mr-0 mb-0"
             >
               <img
@@ -100,7 +100,7 @@ export const Company = () => {
                 company?.sucursales.map((branch) => {
                   return (
                     <li className="grid grid-cols-5 hover:opacity-60">
-                      <p><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.idSucursal}</Link></p>
+                      <p><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.idSucCliente}</Link></p>
                       <p className="col-span-2"><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.nombre}</Link></p>
                       <p className="col-span-2"><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.ubicacion}</Link></p>
                     </li>

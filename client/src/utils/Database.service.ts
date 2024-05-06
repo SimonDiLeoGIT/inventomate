@@ -1,19 +1,24 @@
-import axios, { AxiosResponse } from "axios";
-import { JwtPayload } from "jwt-decode";
+import axios from "axios";
 
 export const getUser = async (accessToken: string): Promise<UserCompany | null> => {
-  let response = await getUserCall(accessToken)
-  if (response === null) {
-    await signUpUser(accessToken)
-    response = await getUserCall(accessToken)
+  try {
+    let response = await getUserCall(accessToken)
+    if (response === null) {
+      await signUpUser(accessToken)
+      response = await getUserCall(accessToken)
+    }
+    console.log('user: ', response)
+    return response
+  } catch (error: any) {
+    return error.response
   }
-  console.log('user: ', response)
-  return response
 }
 
 export const getUserCall = async (accessToken: string): Promise<UserCompany | null> => {
   try {
-    const response: AxiosResponse<UserCompany> = await axios.get<UserCompany>('http://localhost:8080/api/users/me', {
+    const response = await axios({
+      url: 'http://localhost:8080/api/users/me',
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       }
@@ -27,7 +32,7 @@ export const getUserCall = async (accessToken: string): Promise<UserCompany | nu
   }
 }
 
-export const signUpUser = async (accessToken: string): Promise<User | null> => {
+export const signUpUser = async (accessToken: string): Promise<UserCompany | null> => {
   try {
     const response = await axios({
       url: 'http://localhost:8080/api/users/sign-up',
@@ -37,7 +42,6 @@ export const signUpUser = async (accessToken: string): Promise<User | null> => {
         Authorization: `Bearer ${accessToken}`,
       }
     })
-
     return response.data
   } catch (error: any) {
     return error?.response
@@ -96,6 +100,71 @@ export const getBranch = async (accessToken: string, idBranch: string): Promise<
   try {
     const response = await axios({
       url: 'http://localhost:8080/api/sucursales/' + idBranch,
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
+export const connectDataBase = async (accessToken: string, body: { gestorBd: string, url: string, username: string, password: string }) => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/bd-empresa/create',
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
+export const deleteDatabaseConnection = async (accessToken: string) => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/bd-empresa/delete',
+      method: 'DEL',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
+export const getDatabaseConnection = async (accessToken: string): Promise<DatabaseConnection | null> => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/bd-empresa',
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
+export const getTrends = async (accessToken: string, idBranch: string): Promise<Trends | null> => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/informes/tendencias/' + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

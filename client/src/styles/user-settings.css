@@ -3,9 +3,9 @@
 }
 
 
-@keyframes open-menu {
+@keyframes open-user-menu {
   from {
-    transform: translateX(-100vh);
+    transform: translateX(100vh);
   }
 
   to {
@@ -13,24 +13,24 @@
   }
 }
 
-@keyframes close-menu {
+@keyframes close-user-menu {
   from {
     transform: translateX(0vh);
   }
 
   to {
-    transform: translateX(-100vh);
+    transform: translateX(100vh);
   }
 }
 
-.open-mobile-menu {
-  animation: open-menu forwards;
+.open-user-menu {
+  animation: open-user-menu forwards;
   animation-duration: 400ms;
   animation-delay: 0ms;
 }
 
-.close-mobile-menu {
-  animation: close-menu forwards;
+.close-user-menu {
+  animation: close-user-menu forwards;
   animation-duration: 400ms;
   animation-delay: 0ms;
 }

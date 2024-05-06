@@ -13,11 +13,11 @@ import { useUser } from "../hook/useUser";
 
 export const Home = () => {
 
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, logout } = useAuth0();
   const { setUser, currentUser } = useUser()
 
   useEffect(() => {
-
+    console.log('a')
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
@@ -29,6 +29,12 @@ export const Home = () => {
 
   return (
     <main className="w-full">
+      {/* <button onClick={() => logout({
+        openUrl() {
+          window.location.href = window.location.origin
+        }
+      })} className='p-2 flex w-full'><img src={logout_icon} className='w-5 mr-2' />Logout</button> */}
+
       <section className=' m-auto md:grid grid-cols-2 md:w-11/12 mt-4 md:mt-14 xl:w-9/12'>
         <section className='w-screen m-auto md:hidden'>
           <img src={logo} alt='InventoMate' className='m-auto w-6/12' />
