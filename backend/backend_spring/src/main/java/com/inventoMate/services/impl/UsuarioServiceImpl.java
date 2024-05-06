@@ -56,14 +56,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Recupero usuario principal
         Usuario usuario = userByAuth0Id(idAuth0);
 
-        // Recupero empresa si es dueño
-        Empresa empresa = usuario.esDueñoDeEmpresa() ? usuario.getEmpresa() : null;
+        // Recupero empresa (null si no es dueño)
+        Empresa empresa = usuario.getEmpresa();
 
-        // Recupero sucursal si es empleado
-        Sucursal sucursal = usuario.trabajaEnSucursal() ? usuario.getSucursal() : null;
+        // Recupero sucursal si es empleado (null si es dueño)
+        Sucursal sucursal = usuario.getSucursal();
 
-        // Recupero empresa para la que trabaja si es empleado
-        if (sucursal != null && empresa == null) {
+        // Recupero empresa para la que trabaja si es empleado de alguna sucursal
+        if (usuario.trabajaEnSucursal()) {
             empresa = sucursal.getEmpresa();
         }
 
