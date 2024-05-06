@@ -1,7 +1,6 @@
 package com.inventoMate.dtos.users;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,6 @@ public class EditUserRequest {
     private String picture;
     
     @Email(message = "Debe ser una dirección de correo electrónico válida")
-    @NotNull
     private String email;
     
 }

@@ -66,7 +66,7 @@ public class UsuarioMapperImpl implements UsuarioMapper {
 
 	@Override
 	public void mapEditRequestToUsuario(Usuario usuario, @Valid EditUserRequest usuarioEditRequest) {
-		usuario.setEmail(usuarioEditRequest.getEmail());
+		if(usuarioEditRequest.getEmail() != null) usuario.setEmail(usuarioEditRequest.getEmail());
 		usuario.setNickname(usuarioEditRequest.getNickname());
 		usuario.setPicture(usuarioEditRequest.getPicture());
 	}

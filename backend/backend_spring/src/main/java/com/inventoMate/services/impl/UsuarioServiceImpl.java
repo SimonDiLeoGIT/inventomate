@@ -27,7 +27,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
-
+	
     private final UsuarioRepository usuarioRepository;
     private final UserAuth0Service userAuthService;
     private final UsuarioMapper usuarioMapper;
