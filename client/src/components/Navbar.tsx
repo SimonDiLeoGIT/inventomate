@@ -1,15 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import logo from "../assets/images/InventoMate-logo.png"
-import logout_icon from "../assets/icons/log-out-outline.svg"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUser } from "../hook/useUser";
 import { MobileMenu } from "./MobileMenu";
 import { UserSettings } from "./UserSettings";
 
 export const Navbar = () => {
 
-  const { user, logout, isAuthenticated } = useAuth0();
-  const navigate = useNavigate()
+  const { isAuthenticated } = useAuth0();
   const { currentUser } = useUser()
 
 

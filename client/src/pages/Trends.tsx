@@ -8,6 +8,7 @@ import { SideNavbar } from "../components/SideNavbar";
 import { Loading } from "./Loading";
 import empty_icon from '../assets/icons/empty.svg'
 import { useTrends } from "../hook/useTrends";
+import { EXReports } from "../components/EXReports";
 
 export const Trends = () => {
 
@@ -17,16 +18,6 @@ export const Trends = () => {
   const { currentUser, setUser } = useUser()
   const { newTrends, setTrends } = useTrends()
   const [requesting, setRequesting] = useState<boolean>(false)
-
-  useEffect(() => {
-
-    const getToken = async () => {
-
-    }
-
-    isAuthenticated && getToken()
-
-  }, [isAuthenticated])
 
   const getNewTrends = async () => {
     setRequesting(true)
@@ -54,12 +45,15 @@ export const Trends = () => {
             </div>
             <h1 className="font-bold -text--color-semidark-violet text-2xl">New Trends</h1>
           </div>
-          <button
-            className="-bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg mt-4"
-            onClick={() => getNewTrends()}
-          >
-            Discover New Trends
-          </button>
+          <div className="mt-4 grid gap-2">
+            <EXReports />
+            <button
+              className="-bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg max-w-sm"
+              onClick={() => getNewTrends()}
+            >
+              Discover New Trends
+            </button>
+          </div>
         </header>
         {requesting ?
           <div className="fixed bottom-0 top-20 right-0 left-0 -z-50 lg:left-64">
