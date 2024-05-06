@@ -16,7 +16,7 @@ export const Navbar = () => {
 
 
   return (
-    <nav className="w-full border-b -border--color-border-very-light-grey h-20 -bg--color-white fixed top-0 flex items-center">
+    <nav className="w-full border-b -border--color-border-very-light-grey h-20 -bg--color-white fixed top-0 flex items-center z-50">
       <MobileMenu />
       <h1 className='h-full m-auto lg:ml-4'>
         <Link to='/' className=" h-full block">

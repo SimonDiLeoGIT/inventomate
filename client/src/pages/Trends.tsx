@@ -7,6 +7,7 @@ import treds_icon from '../assets/icons/new-trends.svg'
 import { SideNavbar } from "../components/SideNavbar";
 import { Loading } from "./Loading";
 import empty_icon from '../assets/icons/empty.svg'
+import { useTrends } from "../hook/useTrends";
 
 export const Trends = () => {
 
@@ -14,8 +15,7 @@ export const Trends = () => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const { currentUser, setUser } = useUser()
-  // const { newTrends, setTrends } = useTrends()
-  const [newTrends, setNewTrends] = useState<Trends | null>(null)
+  const { newTrends, setTrends } = useTrends()
   const [requesting, setRequesting] = useState<boolean>(false)
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const Trends = () => {
     if (idBranch !== undefined) {
       const trends = await getTrends(accessToken, idBranch)
       if (trends !== null) {
-        setNewTrends(trends)
+        setTrends(trends)
         setRequesting(false)
       }
     }
