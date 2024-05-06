@@ -38,15 +38,23 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/api/roles/**").hasAuthority("read:roles")
 						.requestMatchers(HttpMethod.PUT, "/api/roles/**").hasAuthority("assign:roles-to-user")
 						// users
-						.requestMatchers("/api/users/create").hasAuthority("create:user")
-						.requestMatchers("/api/users/**").authenticated()
+						.requestMatchers("api/users/create").hasAuthority("create:user")
+						.requestMatchers("api/users/**").authenticated()
 						// empresas
-						.requestMatchers("/api/empresas/profile").hasAuthority("read:company-owner")
+						.requestMatchers("api/empresas/profile").hasAuthority("read:company-owner")
 						.requestMatchers("api/empresas/edit").hasAuthority("edit:company")
 						.requestMatchers("api/empresas/delete").hasAnyAuthority("delete:company")
-						.requestMatchers("/api/empresas/create").authenticated()
-						// bd empresa
-						.requestMatchers("api/bd-empresa/**").authenticated()
+						.requestMatchers("api/empresas/create").authenticated()
+						// sucursales
+						.requestMatchers("api/sucursales/create").hasAnyAuthority("edit:company")
+						.requestMatchers("api/sucursales/{idSucursal}/edit").hasAuthority("edit:company")
+						.requestMatchers(HttpMethod.GET, "api/sucursales/{idSucursal}").hasAuthority("read:company-owner")
+						.requestMatchers(HttpMethod.PUT, "api/sucursales/{idSucursal}").hasAuthority("edit:company")
+						.requestMatchers(HttpMethod.DELETE, "api/sucursales/{idSucursal}").hasAnyAuthority("edit:company")
+						.requestMatchers("api/sucursales/{idSucursal}/invite/**").hasAuthority("assign:roles-to-user")
+						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/roles/{idsRol}/edit").hasAuthority("assign:roles-to-user")
+						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/roles").hasAuthority("read:roles")
+						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/delete").hasAuthority("edit:company")
 						// otros
 						.anyRequest().permitAll()
 						)
