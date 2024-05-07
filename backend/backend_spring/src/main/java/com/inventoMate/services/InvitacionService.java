@@ -6,7 +6,7 @@ import com.inventoMate.entities.InvitacionSucursal;
 
 public interface InvitacionService {
 
-	String generarTokenInvitacion(Long idUsuario, Long idSucursal, List<Long> idsRoles);
+	String saveInvitacion(Long idUsuario, Long idSucursal, List<Long> idsRoles);
 
 	InvitacionSucursal getInvitacionByToken(String token);
 

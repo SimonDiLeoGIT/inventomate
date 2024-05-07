@@ -1,14 +1,10 @@
-package com.inventoMate.services.impl;
+package com.inventoMate.models;
 
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
 
-import com.inventoMate.services.ClientDataBaseDAO;
-
-@Service
-public class ClientDataBaseDAOImpl implements ClientDataBaseDAO{
+public class ConsultasSQL implements Consultas {
 
 	@Override
     public List<String> listProductsByIdSucursal(JdbcTemplate jdbcTemplate, Long idSucursal) {
@@ -18,5 +14,4 @@ public class ClientDataBaseDAOImpl implements ClientDataBaseDAO{
                      "WHERE sp.sucursal_id = ?";
         return jdbcTemplate.queryForList(sql, String.class, idSucursal);
     }
-	
 }

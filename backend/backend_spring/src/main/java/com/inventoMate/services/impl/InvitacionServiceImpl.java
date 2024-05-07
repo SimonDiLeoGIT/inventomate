@@ -22,7 +22,7 @@ public class InvitacionServiceImpl implements InvitacionService {
     private final int EXPIRATION_TIME = 24;
     
     @Override
-	public String generarTokenInvitacion(Long idUsuario, Long idSucursal, List<Long> idsRoles) {
+	public String saveInvitacion(Long idUsuario, Long idSucursal, List<Long> idsRoles) {
         String token = UUID.randomUUID().toString();
         InvitacionSucursal invitacion = new InvitacionSucursal();
         invitacion.setToken(token);

@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.exception.Auth0Exception;
+import com.inventoMate.dtos.roles.RolDTO;
 import com.inventoMate.dtos.roles.RolToUserDTO;
 import com.inventoMate.dtos.roles.RoleDTO;
 import com.inventoMate.dtos.roles.RolePermissionsDTO;
+import com.inventoMate.services.RolService;
 import com.inventoMate.services.RoleAuth0Service;
 
 import lombok.AllArgsConstructor;
@@ -27,10 +29,11 @@ import lombok.AllArgsConstructor;
 public class RoleController {
 
 	private final RoleAuth0Service roleService;
+	private final RolService rolService;
 
 	@GetMapping
-	public ResponseEntity<List<RoleDTO>> getAll() throws Auth0Exception {
-		return ResponseEntity.ok(roleService.getAllRoles());
+	public ResponseEntity<List<RolDTO>> getAll() throws Auth0Exception {
+		return ResponseEntity.ok(rolService.getAll());
 	}
 
 	@GetMapping("/{roleId}")
