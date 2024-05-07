@@ -83,5 +83,10 @@ public class Empresa {
 		sucursales.remove(sucursal);
 		sucursal.eliminarEmpleados();
 	}
+
+	public List<String> obtenerProductosDeSucursal(Sucursal sucursal) {
+		bdEmpresa.connect();
+		return bdEmpresa.obtenerProductosDeSucursal(sucursal.getIdSucCliente());
+	}
 	
 }

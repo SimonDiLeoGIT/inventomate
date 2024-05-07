@@ -55,6 +55,10 @@ public class SecurityConfig {
 						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/roles/{idsRol}/edit").hasAuthority("assign:roles-to-user")
 						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/roles").hasAuthority("read:roles")
 						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/delete").hasAuthority("edit:company")
+						// bd empresa
+						.requestMatchers("api/bd-empresa/**").hasAuthority("edit:company")
+						// informes
+						.requestMatchers("api/informes/tendencia").hasAuthority("read:trend-information")
 						// otros
 						.anyRequest().permitAll()
 						)

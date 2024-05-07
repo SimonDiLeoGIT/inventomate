@@ -53,4 +53,11 @@ public class SucursalMapperImpl implements SucursalMapper {
 				.build();
 	}
 
+	@Override
+	public void mapToSucursal(SucursalDTO sucursalDTO, Sucursal sucursal) {
+		sucursal.setIdSucCliente(sucursalDTO.getIdSucCliente());
+		sucursal.setNombre(sucursalDTO.getNombre());
+		sucursal.setUbicacion(sucursalDTO.getUbicacion());
+	}
+
 }

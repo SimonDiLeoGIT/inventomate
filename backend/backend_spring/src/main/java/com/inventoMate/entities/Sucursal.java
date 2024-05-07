@@ -72,7 +72,7 @@ public class Sucursal {
 	}
 	
 	public List<Usuario> obtenerEmpleados(){
-		return getUsuarios();
+		return this.getUsuarios();
 	}
 
 	public void inicializarSucursal(Empresa empresa) {
@@ -93,4 +93,6 @@ public class Sucursal {
 		this.getUsuarios().remove(empleado);
 		empleado.eliminarSucursal();
 	}
+	
+	
 }

@@ -63,8 +63,8 @@ public class SucursalServiceImpl implements SucursalService{
 		if(sucursal == null)
 			throw new ResourceNotFoundException("sucursal-empresa", "id_sucursal (empresa)", idSucursal.toString());
 		
-		mapper.mapToSucursal(sucursalDTO);
-		
+		mapper.mapToSucursal(sucursalDTO,sucursal);
+
 		sucursalRepository.save(sucursal);
 		
 		return mapper.mapToSucursalProfileResponse(sucursal, empresa);

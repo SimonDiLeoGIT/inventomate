@@ -16,4 +16,6 @@ public interface SucursalMapper {
 	Sucursal mapToSucursal(SucursalDTO sucursalDTO);
 	
 	SucursalProfileResponse mapToSucursalProfileResponse(Sucursal sucursal, Empresa empresa);
+
+	void mapToSucursal(SucursalDTO sucursalDTO, Sucursal sucursal);
 }
