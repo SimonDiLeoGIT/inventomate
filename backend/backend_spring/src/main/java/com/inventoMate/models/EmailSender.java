@@ -1,7 +1,8 @@
-package com.inventoMate.services.impl;
+package com.inventoMate.models;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -12,19 +13,17 @@ import com.inventoMate.entities.Empresa;
 import com.inventoMate.entities.Rol;
 import com.inventoMate.entities.Sucursal;
 import com.inventoMate.entities.Usuario;
-import com.inventoMate.services.EmailSenderService;
 
 import jakarta.mail.internet.MimeMessage;
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
-public class EmailSenderServiceImpl implements EmailSenderService {
+public class EmailSender {
+	
+	@Autowired
+    private JavaMailSender javaMailSender;
+	@Autowired
+    private TemplateEngine templateEngine;
 
-    private final JavaMailSender javaMailSender;
-    private final TemplateEngine templateEngine;
-
-	@Override
 	public void sendSucursalInvitation(Empresa empresa, Sucursal sucursal, Usuario usuario, List<Rol> roles, String token) {
 		try {
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -46,4 +45,5 @@ public class EmailSenderServiceImpl implements EmailSenderService {
             throw new RuntimeException("Error al enviar el correo: " + e.getMessage(), e);
         }
 	}
+	
 }

@@ -9,8 +9,6 @@ import com.inventoMate.entities.Usuario;
 
 public interface EmailSenderService {
 
-	void enviarCorreo(String destinatario);
-
 	void sendSucursalInvitation(Empresa empresa, Sucursal sucursal, Usuario usuario, List<Rol> rol, String token);
 	
 }

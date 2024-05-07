@@ -94,4 +94,17 @@ public class Usuario {
 		}
 		roles.add(rol);
 	}
+
+	public void agregarRoles(List<Rol> roles) {
+		roles.forEach(this::agregarRol);
+	}
+
+	public void asignarSucursal(Sucursal sucursal, List<Rol> roles) {
+		this.sucursal = sucursal;
+		agregarRoles(roles);
+	}
+
+	public void actualizarRoles(List<Rol> roles) {
+		this.setRoles(roles);
+	}
 }

@@ -104,7 +104,7 @@ public class EmpresaServiceImpl implements EmpresaService {
 		empleados.add(owner);
 		
 		// elimino roles de auth0 de empleados
-		revokeUsersAuth0Roles(empleados);
+		roleAuth0Service.revokeUsersAuth0Roles(empleados);
 		
 		// elimino empresa
 		owner.eliminarEmpresa();
@@ -112,19 +112,6 @@ public class EmpresaServiceImpl implements EmpresaService {
 		// guardo los cambios
 		usuarioRepository.saveAll(empleados);
 		empresaRepository.delete(empresa);
-	}
-	
-	private void revokeUsersAuth0Roles(List<Usuario> usuarios) throws Auth0Exception {
-		usuarios.forEach(usuario -> {
-			var roles = usuario.getRoles();
-			if (roles != null) {
-				try {
-					roleAuth0Service.unAssignRolesToUser(usuario.getIdAuth0(), usuario.getRoles());
-				} catch (Auth0Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 
 }

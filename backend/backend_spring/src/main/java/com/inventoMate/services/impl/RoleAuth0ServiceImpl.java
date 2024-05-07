@@ -16,6 +16,7 @@ import com.inventoMate.dtos.roles.PermissionDTO;
 import com.inventoMate.dtos.roles.RoleDTO;
 import com.inventoMate.dtos.roles.RolePermissionsDTO;
 import com.inventoMate.entities.Rol;
+import com.inventoMate.entities.Usuario;
 import com.inventoMate.services.RoleAuth0Service;
 
 import lombok.AllArgsConstructor;
@@ -72,11 +73,35 @@ public class RoleAuth0ServiceImpl implements RoleAuth0Service {
 	}
 
 	@Override
-	public void unAssignRolesToUser(String idAuth0, List<Rol> roles) throws Auth0Exception {
+	public void unAssignRolesToUser(String idAuth0, List<Rol> roles) {
 		var rolesIdAuth0 = roles.stream()
 				.map(role -> role.getIdRolAuth0())
 				.collect(Collectors.toList());
-		managementAPI.users().removeRoles(idAuth0, rolesIdAuth0).execute();
+		try {
+			managementAPI.users().removeRoles(idAuth0, rolesIdAuth0).execute();
+		} catch (Auth0Exception e) {
+			e.printStackTrace();
+		}
 	}
 
+	@Override
+	public void revokeUsersAuth0Roles(List<Usuario> empleados) {
+		empleados.forEach(empleado -> {
+			var roles = empleado.getRoles();
+			if (roles != null) {
+				unAssignRolesToUser(empleado.getIdAuth0(), empleado.getRoles());
+			}
+		});
+	}
+
+	@Override
+	public void assignRolesToUser(String idAuth0, List<Rol> rolesNuevos) {
+		rolesNuevos.forEach(rol -> {
+			try {
+				assignRolToUser(rol.getIdRolAuth0(),idAuth0);
+			} catch (Auth0Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
 }

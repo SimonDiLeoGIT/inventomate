@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.mgmt.users.User;
 import com.inventoMate.dtos.roles.RolDTO;
@@ -24,8 +23,8 @@ import com.inventoMate.services.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
+@AllArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 	
     private final UsuarioRepository usuarioRepository;

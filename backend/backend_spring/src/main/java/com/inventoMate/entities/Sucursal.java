@@ -1,6 +1,9 @@
 package com.inventoMate.entities;
 
+import java.util.Collections;
 import java.util.List;
+
+import com.inventoMate.models.EmailSender;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,6 +50,9 @@ public class Sucursal {
 	@OneToMany(mappedBy = "sucursal", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Usuario> usuarios;
 	
+	@Transient
+    private EmailSender emailSender;
+	
 	public boolean trabajaEmpleado(Usuario empleado) {
 		return this.getUsuarios().contains(empleado);
 	}
@@ -66,5 +73,24 @@ public class Sucursal {
 	
 	public List<Usuario> obtenerEmpleados(){
 		return getUsuarios();
+	}
+
+	public void inicializarSucursal(Empresa empresa) {
+		this.setEmpresa(empresa);
+		this.usuarios = Collections.emptyList();
+	}
+	
+	public void enviarInvitacion(Usuario usuario, List<Rol> roles, String token) {
+		emailSender.sendSucursalInvitation(this.getEmpresa(), this, usuario, roles, token);
+	}
+
+	public void agregarEmpleado(Usuario empleado, List<Rol> roles) {
+		this.getUsuarios().add(empleado);
+		empleado.asignarSucursal(this,roles);
+	}
+
+	public void eliminarEmpleado(Usuario empleado) {
+		this.getUsuarios().remove(empleado);
+		empleado.eliminarSucursal();
 	}
 }

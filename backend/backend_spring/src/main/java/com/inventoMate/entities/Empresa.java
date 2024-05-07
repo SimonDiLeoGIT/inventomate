@@ -73,5 +73,15 @@ public class Empresa {
 	              .forEach(empleados::addAll);
 	    return empleados;
 	}
+
+	public void agregarSucursal(Sucursal sucursal) {
+		sucursales.add(sucursal);
+		sucursal.inicializarSucursal(this);
+	}
+
+	public void eliminarSucursal(Sucursal sucursal) {
+		sucursales.remove(sucursal);
+		sucursal.eliminarEmpleados();
+	}
 	
 }
