@@ -1,5 +1,8 @@
 package com.inventoMate.mapper.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +21,12 @@ public class SucursalMapperImpl implements SucursalMapper {
 	@Override
 	public SucursalDTO mapToSucursalDTO(Sucursal sucursal) {
 		return sucursal != null ? mapper.map(sucursal, SucursalDTO.class) : null;
+	}
+
+	@Override
+	public List<SucursalDTO> mapToSucursalDTO(List<Sucursal> sucursales) {
+		return sucursales.stream().map(sucu -> mapToSucursalDTO(sucu))
+			.collect(Collectors.toList());
 	}
 
 }

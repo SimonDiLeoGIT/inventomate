@@ -1,5 +1,7 @@
 package com.inventoMate.entities;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -52,6 +54,24 @@ public class Empresa {
 		return this.getSucursales().stream()
 				.filter(sucursal -> sucursal.getIdSucursal().equals(idSucursal))
 				.findFirst().orElse(null);
+	}
+
+	public void inicializarEmpresa(Usuario usuario) {
+		this.setOwner(usuario);
+		this.setSucursales(Collections.emptyList());
+	}
+
+	public void eliminarSucursales() {
+		sucursales.forEach(sucursal -> sucursal.eliminarEmpleados());
+	}
+	
+	public List<Usuario> obtenerEmpleados() {
+	    List<Usuario> empleados = new ArrayList<>();
+	    sucursales.stream()
+	              .filter(Sucursal::contieneEmpleados)
+	              .map(Sucursal::obtenerEmpleados)
+	              .forEach(empleados::addAll);
+	    return empleados;
 	}
 	
 }

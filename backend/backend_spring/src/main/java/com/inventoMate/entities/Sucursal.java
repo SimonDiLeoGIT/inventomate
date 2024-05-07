@@ -55,5 +55,16 @@ public class Sucursal {
 				.filter(empleado -> empleado.getIdUsuario().equals(idEmpleado))
 				.findFirst().orElse(null);
 	}
+
+	public void eliminarEmpleados() {
+		usuarios.forEach(empleado -> empleado.eliminarSucursal());
+	}
+
+	public boolean contieneEmpleados() {
+		return getUsuarios() != null;
+	}
 	
+	public List<Usuario> obtenerEmpleados(){
+		return getUsuarios();
+	}
 }

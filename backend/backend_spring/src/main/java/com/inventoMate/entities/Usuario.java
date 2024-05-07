@@ -1,5 +1,6 @@
 package com.inventoMate.entities;
 
+import java.util.Collections;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -61,4 +62,36 @@ public class Usuario {
 		return this.getSucursal() != null;
 	}
 
+	public void crearEmpresa(Empresa empresa, Rol rol) {
+		this.setEmpresa(empresa);
+		this.agregarRol(rol);
+		empresa.inicializarEmpresa(this);
+	}
+	
+	public Empresa obtenerEmpresa() {
+		return esDueñoDeEmpresa()? getEmpresa() :
+			sucursal.getEmpresa();
+	}
+
+	public void eliminarEmpresa() {
+		empresa.eliminarSucursales();
+		this.setEmpresa(null);
+		revocarRoles();
+	}
+	
+	public void eliminarSucursal() {
+		revocarRoles();
+		this.setSucursal(null);
+	}
+
+	public void revocarRoles() {
+		setRoles(Collections.emptyList());
+	}
+	
+	public void agregarRol(Rol rol) {
+		if(getRoles() == null) {
+			roles = Collections.emptyList();
+		}
+		roles.add(rol);
+	}
 }
