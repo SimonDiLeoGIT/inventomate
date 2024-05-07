@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventoMate.dtos.meli.TrendsDTO;
-import com.inventoMate.fecade.InformeFecade;
+import com.inventoMate.services.InformeService;
 
 import lombok.AllArgsConstructor;
 
@@ -20,11 +20,11 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("*")
 public class InformeController {
 
-	private final InformeFecade informeFecade;
+	private final InformeService informeService;
 	
 	@GetMapping("/tendencias/{idSucursal}")
 	public ResponseEntity<TrendsDTO> getInformeTendencias(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal){
-		return ResponseEntity.ok(informeFecade.informeDeTendencia(jwt.getSubject(), idSucursal));
+		return ResponseEntity.ok(informeService.informeDeTendencia(jwt.getSubject(), idSucursal));
 	}
 	
 }

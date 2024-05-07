@@ -8,6 +8,7 @@ import com.auth0.exception.Auth0Exception;
 import com.inventoMate.dtos.roles.RoleDTO;
 import com.inventoMate.dtos.roles.RolePermissionsDTO;
 import com.inventoMate.entities.Rol;
+import com.inventoMate.entities.Usuario;
 
 public interface RoleAuth0Service {
 
@@ -19,6 +20,10 @@ public interface RoleAuth0Service {
 
 	HttpStatus assignRolToUser(String roleId, String userId) throws Auth0Exception;
 
-	void unAssignRolesToUser(String idAuth0, List<Rol> roles) throws Auth0Exception;
+	void unAssignRolesToUser(String idAuth0, List<Rol> roles);
+
+	void revokeUsersAuth0Roles(List<Usuario> empleados);
+
+	void assignRolesToUser(String idAuth0, List<Rol> rolesNuevos);
 
 }
