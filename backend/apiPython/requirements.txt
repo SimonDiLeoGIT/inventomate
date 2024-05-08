@@ -1,0 +1,7 @@
+flask
+pandas
+scikit-learn
+pymongo
+pdflatex
+numpy
+

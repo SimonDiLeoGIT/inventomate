@@ -1,0 +1,106 @@
+{
+    "listado_ventas": [
+        {
+            "fecha_hora": "2024-05-07 20:28:20.488659",
+            "id_venta": 777,
+            "detalle": [
+                {
+                    "precio_unitario": 1350.75,
+                    "total": 9455.25,
+                    "%promo": 10,
+                    "cantidad": 7,
+                    "producto": {
+                        "categoria": "iPhones",
+                        "id_producto": 14,
+                        "nombre": "iPhone 13 Pro Max"
+                    }
+                }
+            ]
+        },
+        {
+            "fecha_hora": "2024-05-08 14:45:00.000000",
+            "id_venta": 778,
+            "detalle": [
+                {
+                    "precio_unitario": 1300.50,
+                    "total": 9103.50,
+                    "%promo": 5,
+                    "cantidad": 7,
+                    "producto": {
+                        "categoria": "iPhones",
+                        "id_producto": 14,
+                        "nombre": "iPhone 13 Pro Max"
+                    }
+                }
+            ]
+        },
+        {
+            "fecha_hora": "2024-05-09 12:15:00.000000",
+            "id_venta": 779,
+            "detalle": [
+                {
+                    "precio_unitario": 1400.00,
+                    "total": 11200.00,
+                    "%promo": 0,
+                    "cantidad": 8,
+                    "producto": {
+                        "categoria": "iPhones",
+                        "id_producto": 14,
+                        "nombre": "iPhone 13 Pro Max"
+                    }
+                }
+            ]
+        },
+        {
+            "fecha_hora": "2024-05-10 09:30:00.000000",
+            "id_venta": 780,
+            "detalle": [
+                {
+                    "precio_unitario": 1200.25,
+                    "total": 8401.75,
+                    "%promo": 0,
+                    "cantidad": 7,
+                    "producto": {
+                        "categoria": "iPhones",
+                        "id_producto": 14,
+                        "nombre": "iPhone 13 Pro Max"
+                    }
+                }
+            ]
+        },
+        {
+            "fecha_hora": "2024-05-11 17:45:00.000000",
+            "id_venta": 781,
+            "detalle": [
+                {
+                    "precio_unitario": 1250.00,
+                    "total": 8750.00,
+                    "%promo": 0,
+                    "cantidad": 7,
+                    "producto": {
+                        "categoria": "iPhones",
+                        "id_producto": 14,
+                        "nombre": "iPhone 13 Pro Max"
+                    }
+                }
+            ]
+        },
+        {
+            "fecha_hora": "2024-05-12 13:00:00.000000",
+            "id_venta": 782,
+            "detalle": [
+                {
+                    "precio_unitario": 1150.50,
+                    "total": 8053.50,
+                    "%promo": 0,
+                    "cantidad": 7,
+                    "producto": {
+                        "categoria": "iPhones",
+                        "id_producto": 14,
+                        "nombre": "iPhone 13 Pro Max"
+                    }
+                }
+            ]
+        }
+    ]
+}
