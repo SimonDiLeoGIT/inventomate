@@ -12,5 +12,5 @@ interface BranchCompany {
     ubicacion: string
     idSucCliente: number
   },
-  usuarios: []
+  usuarios: User[]
 }

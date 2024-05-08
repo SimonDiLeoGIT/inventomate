@@ -14,8 +14,8 @@ import lombok.AllArgsConstructor;
 @Configuration
 @AllArgsConstructor
 public class EmailConfig {
-	
-	private final EmailProperties emailProperties;
+
+    private final EmailProperties emailProperties;
 
     private Properties getMailProperties() {
         Properties properties = new Properties();
@@ -29,6 +29,7 @@ public class EmailConfig {
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        System.out.println(emailProperties.getUsername().toString() + " contra " + emailProperties.getPassword());
         mailSender.setJavaMailProperties(getMailProperties());
         mailSender.setUsername(emailProperties.getUsername());
         mailSender.setPassword(emailProperties.getPassword());

@@ -157,7 +157,7 @@ export const getDatabaseConnection = async (accessToken: string): Promise<Databa
     console.log(response)
     return response.data
   } catch (error: any) {
-    return error?.response
+    return null
   }
 }
 
@@ -194,12 +194,34 @@ export const searchUser = async (accessToken: string, email: string): Promise<Us
   }
 }
 
-export const inviteUser = async (accessToken: string, idBranch: string, idUser: string, idRol: string) => {
+export const inviteUser = async (accessToken: string, idBranch: string, idUser: number, idRol: number[]) => {
   try {
     const url = `http://localhost:8080/api/sucursales/${idBranch}/invite/${idUser}/role/${idRol}`
+    const body = {
+      idSucursal: idBranch,
+      idUsuario: idUser,
+      idRol: idRol
+    }
     const response = await axios({
       url: url,
       method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
+export const getRoles = async (accessToken: string): Promise<Rol[] | null> => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/roles',
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       }
