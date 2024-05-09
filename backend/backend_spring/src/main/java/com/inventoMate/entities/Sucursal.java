@@ -100,20 +100,20 @@ public class Sucursal {
 	}
 
 	public void generarNotificacionDeInforme(Informe informe) {
-	    List<Usuario> empleados = obtenerSalesAnalyst();
-	    empleados.add(empresa.getOwner());
-	    
+	    List<Usuario> empleados = obtenerEmpleadosConRol(informe.getTipoInforme().getRolePermission());
 	    empleados.forEach(empleado -> {
-	    	emailSender.sendProyeccionDeVentasNotification(this.empresa, this, informe, empleado);
+	    	emailSender.sendInformeNotification(this.empresa, this, informe, empleado);
 	    });
 	}
 	
-	private List<Usuario> obtenerSalesAnalyst() {
-		return getUsuarios().stream()
-	            .filter(empleado -> empleado.tieneRol("Sales Analyst"))
-	            .collect(Collectors.toList());
+	private List<Usuario> obtenerEmpleadosConRol(String roleName) {
+		List<Usuario> empleadosConRol = getUsuarios().stream()
+				.filter(empleado -> empleado.tieneRol(roleName))
+				.collect(Collectors.toList());
+		empleadosConRol.add(empresa.getOwner());
+		return empleadosConRol;
 	}
-
+	
 	public void agregarInforme(Informe informe) {
 		if(getInformes() == null) informes = new LinkedList<>();
 		informes.add(informe);

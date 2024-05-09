@@ -48,7 +48,7 @@ public class EmailSender {
         }
 	}
 
-	public void sendProyeccionDeVentasNotification(Empresa empresa, Sucursal sucursal, Informe informe,
+	public void sendInformeNotification(Empresa empresa, Sucursal sucursal, Informe informe,
 			Usuario empleado) {
 		try {
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -56,7 +56,7 @@ public class EmailSender {
 
             helper.setFrom("grupo3SIP2024@gmail.com");
             helper.setTo(empleado.getEmail());
-            helper.setSubject("Culminacion de " + informe.getTipoInforme());
+            helper.setSubject("Culminacion de " + informe.getTipoInforme().getName());
            
             Context context = new Context();
             context.setVariable("empresa", empresa);

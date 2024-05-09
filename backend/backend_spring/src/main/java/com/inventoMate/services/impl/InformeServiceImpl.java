@@ -81,7 +81,7 @@ public class InformeServiceImpl implements InformeService {
 
 	@Override
 	public List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
-			TipoInforme proyeccionDeVentas) {
+			TipoInforme tipoInformes) {
 		
 		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
@@ -93,7 +93,7 @@ public class InformeServiceImpl implements InformeService {
 		if(sucursal == null)
 			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
 
-		List<Informe> informes = sucursal.obtenerInformes(TipoInforme.PROYECCION_DE_VENTAS);
+		List<Informe> informes = sucursal.obtenerInformes(tipoInformes);
 		
 		return mapper.mapToInformeDTO(informes);
 	}
@@ -118,7 +118,4 @@ public class InformeServiceImpl implements InformeService {
 		
 		return flaskService.getDatosInformeDeProyeccionDeVentas(informe.getIdMongo());
 	}
-
-	
-	
 }
