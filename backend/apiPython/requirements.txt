@@ -4,4 +4,3 @@ scikit-learn
 pymongo
 pdflatex
 numpy
-

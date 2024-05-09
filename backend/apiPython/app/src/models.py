@@ -13,3 +13,16 @@ def getTendencia(id):
     documento = coleccion.find_one({'_id': ObjectId(id)})   
     documento['_id'] = str(documento['_id'])
     return documento
+
+def insertProyeccion(data):
+    coleccion = DB["proyecciones-de-ventas"]
+    resultado = coleccion.insert_one(data)
+    if (resultado.acknowledged):
+        return resultado.inserted_id
+    return -1
+
+def getProyeccion(id):
+    coleccion = DB["proyecciones-de-ventas"]
+    documento = coleccion.find_one({'_id': ObjectId(id)})   
+    documento['_id'] = str(documento['_id'])
+    return documento

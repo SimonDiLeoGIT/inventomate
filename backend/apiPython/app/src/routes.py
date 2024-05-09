@@ -40,12 +40,38 @@ def insertarTendencia():
     except Exception as e:
         return ({'error': str(e)}), 500
 
-
 @app.route("/api/informe/tendencias", methods=["GET"])
 def verTendencia():
     try:
         id = request.args.get('idMongo')
         documento = getTendencia(id)
+        if documento:
+            return jsonify(documento), 200
+        else:
+            return jsonify({'mensaje': 'Documento no encontrado'}), 404
+    except Exception as e:
+            return jsonify({'error': str(e)}), 500
+        
+
+@app.route("/api/informe/proyeccion-de-ventas/add", methods=["POST"])
+def insertarProyeccion():
+    try:
+        json_data = request.json
+        #TODO Procesar el JSON
+        
+        id = insertProyeccion() 
+        if (id != -1):
+            return jsonify({'ID-Mongo': str(id)}), 200
+        else:
+            return jsonify({'mensaje': 'Error de la BD'}), 500
+    except Exception as e:
+        return ({'error': str(e)}), 500
+    
+@app.route("/api/informe/proyeccion-de-ventas", methods=["GET"])
+def verProyeccion():
+    try:
+        id = request.args.get('idMongo')
+        documento = getProyeccion(id)
         if documento:
             return jsonify(documento), 200
         else:
