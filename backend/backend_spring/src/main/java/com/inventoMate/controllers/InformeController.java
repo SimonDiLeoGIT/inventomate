@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventoMate.dtos.informes.InformeDTO;
-import com.inventoMate.dtos.meli.TrendsDTO;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.payload.ApiResponse;
 import com.inventoMate.services.InformeService;
@@ -30,11 +29,24 @@ public class InformeController {
 
 	private final InformeService informeService;
 	
+	// TENDENCIAS DEL MERCADO
 	@GetMapping("/tendencias/{idSucursal}")
-	public ResponseEntity<TrendsDTO> getInformeTendencias(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal){
-		return ResponseEntity.ok(informeService.informeDeTendencia(jwt.getSubject(), idSucursal));
+	public ResponseEntity<ApiResponse> getInformeTendencias(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal){
+		informeService.informeDeTendencia(jwt.getSubject(),idSucursal);
+		return ResponseEntity.ok().body(new ApiResponse(true, "Informe culminado"));
 	}
 	
+	@GetMapping("/tendencias/{idSucursal}")
+	public ResponseEntity<List<InformeDTO>> getInformesTendencias(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal){
+		return ResponseEntity.ok(informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal, TipoInforme.ANALISIS_DE_TENDENCIA));
+	}
+	
+	@GetMapping("/tendencias/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<?> getInformeTendencias(@AuthenticationPrincipal Jwt jwt,@PathVariable Long idInforme, @PathVariable Long idSucursal){
+		return ResponseEntity.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme));
+	}
+	
+	// PROYECCION DE VENTAS
 	@PostMapping("/proyeccion-de-ventas/{idSucursal}")
 	public ResponseEntity<ApiResponse> getInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal,
 			@RequestParam LocalDate fechaProyeccion){

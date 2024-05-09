@@ -142,9 +142,9 @@ public class InformeMapperImpl implements InformeMapper {
 	}
 
 	@Override
-	public Informe mapToInformeDeProyeccion(String idMongo) {
+	public Informe mapToInforme(String idMongo, TipoInforme tipo) {
 		Informe informe = new Informe();
-		informe.setTipoInforme(TipoInforme.PROYECCION_DE_VENTAS);
+		informe.setTipoInforme(tipo);
 		informe.setFecha(LocalDate.now());
 		informe.setIdMongo(idMongo);
 		informe.setVisto(false);
