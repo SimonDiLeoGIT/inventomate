@@ -1,5 +1,6 @@
 package com.inventoMate.entities;
 
+import java.util.Collections;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -53,4 +54,62 @@ public class Usuario {
 	@OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
 	private Empresa empresa;
 
+	public boolean esDueñoDeEmpresa() {
+		return this.getEmpresa() != null;
+	}
+
+	public boolean trabajaEnSucursal() {
+		return this.getSucursal() != null;
+	}
+
+	public void crearEmpresa(Empresa empresa, Rol rol) {
+		this.setEmpresa(empresa);
+		this.agregarRol(rol);
+		empresa.inicializarEmpresa(this);
+	}
+	
+	public Empresa obtenerEmpresa() {
+		return esDueñoDeEmpresa()? getEmpresa() :
+			sucursal.getEmpresa();
+	}
+
+	public void eliminarEmpresa() {
+		empresa.eliminarSucursales();
+		this.setEmpresa(null);
+		revocarRoles();
+	}
+	
+	public void eliminarSucursal() {
+		revocarRoles();
+		this.setSucursal(null);
+	}
+
+	public void revocarRoles() {
+		setRoles(Collections.emptyList());
+	}
+	
+	public void agregarRol(Rol rol) {
+		if(getRoles() == null) {
+			roles = Collections.emptyList();
+		}
+		roles.add(rol);
+	}
+
+	public void agregarRoles(List<Rol> roles) {
+		roles.forEach(this::agregarRol);
+	}
+
+	public void asignarSucursal(Sucursal sucursal, List<Rol> roles) {
+		this.sucursal = sucursal;
+		agregarRoles(roles);
+	}
+	
+	public boolean tieneRol(String rol) {
+		return getRoles().stream()
+                .anyMatch(role -> role.getNombreRol().equals(rol));
+	}
+
+	public void actualizarRoles(List<Rol> roles) {
+		this.setRoles(roles);
+	}
 }

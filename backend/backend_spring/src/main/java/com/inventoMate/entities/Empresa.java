@@ -1,6 +1,11 @@
 package com.inventoMate.entities;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
+import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -43,4 +48,57 @@ public class Empresa {
 	@OneToOne
     @JoinColumn(name = "owner")
     private Usuario owner;
+	
+	@OneToOne
+    @JoinColumn(name = "id_bd_empresa")
+    private BdEmpresa bdEmpresa;
+	
+	public Sucursal obtenerSucursal(Long idSucursal) {
+		return this.getSucursales().stream()
+				.filter(sucursal -> sucursal.getIdSucursal().equals(idSucursal))
+				.findFirst().orElse(null);
+	}
+
+	public void inicializarEmpresa(Usuario usuario) {
+		this.setOwner(usuario);
+		this.setSucursales(Collections.emptyList());
+	}
+
+	public void eliminarSucursales() {
+		sucursales.forEach(sucursal -> sucursal.eliminarEmpleados());
+	}
+	
+	public List<Usuario> obtenerEmpleados() {
+	    List<Usuario> empleados = new ArrayList<>();
+	    sucursales.stream()
+	              .filter(Sucursal::contieneEmpleados)
+	              .map(Sucursal::obtenerEmpleados)
+	              .forEach(empleados::addAll);
+	    return empleados;
+	}
+
+	public void agregarSucursal(Sucursal sucursal) {
+		sucursales.add(sucursal);
+		sucursal.inicializarSucursal(this);
+	}
+
+	public void eliminarSucursal(Sucursal sucursal) {
+		sucursales.remove(sucursal);
+		sucursal.eliminarEmpleados();
+	}
+
+	public List<String> obtenerProductosDeSucursal(Sucursal sucursal) {
+		bdEmpresa.connect();
+		return bdEmpresa.obtenerProductosDeSucursal(sucursal.getIdSucCliente());
+	}
+
+	public List<VentaDetalle> obtenerHistoricoDeVentas(Sucursal sucursal) {
+		bdEmpresa.connect();
+		return bdEmpresa.obtenerHistoricoDeVentas(sucursal.getIdSucCliente());
+	}
+
+	public List<CompraDetalle> obtenerHistoricoDeCompras(Sucursal sucursal) {
+		bdEmpresa.connect();
+		return bdEmpresa.obtenerHistoricoDeCompras(sucursal.getIdSucCliente());
+	}
 }

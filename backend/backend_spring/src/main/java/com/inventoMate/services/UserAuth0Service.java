@@ -2,7 +2,7 @@ package com.inventoMate.services;
 
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.mgmt.users.User;
-import com.inventoMate.payload.EditUserRequest;
+import com.inventoMate.dtos.users.EditUserRequest;
 
 import jakarta.validation.Valid;
 

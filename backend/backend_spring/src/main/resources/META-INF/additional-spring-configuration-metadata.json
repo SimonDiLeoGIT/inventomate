@@ -33,5 +33,100 @@
     "name": "application.database-connection",
     "type": "java.lang.String",
     "description": "A description for 'application.database-connection'"
+  },
+  {
+    "name": "meli.app-id",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.app-id'"
+  },
+  {
+    "name": "meli.client-secret",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.client-secret'"
+  },
+  {
+    "name": "meli.access-token",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.access-token'"
+  },
+  {
+    "name": "meli.refresh-token",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.refresh-token'"
+  },
+  {
+    "name": "meli.code-login",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.code-login'"
+  },
+  {
+    "name": "meli.redirect-uri",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.redirect-uri'"
+  },
+  {
+    "name": "meli.url.predict-category",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.predict-category'"
+  },
+  {
+    "name": "meli.url.refresh-token",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.refresh-token'"
+  },
+  {
+    "name": "meli.url.get-categories",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.get-categories'"
+  },
+  {
+    "name": "meli.url.get-category",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.get-category'"
+  },
+  {
+    "name": "meli.url.trends",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.trends'"
+  },
+  {
+    "name": "meli.url.highlight-top",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.highlight-top'"
+  },
+  {
+    "name": "meli.url.product",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.product'"
+  },
+  {
+    "name": "meli.url.product-additional-info",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.product-additional-info'"
+  },
+  {
+    "name": "email.username",
+    "type": "java.lang.String",
+    "description": "A description for 'email.username'"
+  },
+  {
+    "name": "email.password",
+    "type": "java.lang.String",
+    "description": "A description for 'email.password'"
+  },
+  {
+    "name": "meli.url.get-categories",
+    "type": "java.lang.String",
+    "description": "A description for 'meli.url.get-categories'"
+  },
+  {
+    "name": "report.sales-forecasting",
+    "type": "java.lang.String",
+    "description": "A description for 'report.sales-forecasting'"
+  },
+  {
+    "name": "report.new-trends-analysis",
+    "type": "java.lang.String",
+    "description": "A description for 'report.new-trends-analysis'"
   }
 ]}
