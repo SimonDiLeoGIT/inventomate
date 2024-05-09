@@ -1,7 +1,9 @@
 package com.inventoMate.entities;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.inventoMate.models.EmailSender;
 
@@ -50,6 +52,9 @@ public class Sucursal {
 	@OneToMany(mappedBy = "sucursal", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Usuario> usuarios;
 	
+	@OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
+	private List<Informe> informes;
+	
 	@Transient
     private EmailSender emailSender;
 	
@@ -93,6 +98,37 @@ public class Sucursal {
 		this.getUsuarios().remove(empleado);
 		empleado.eliminarSucursal();
 	}
+
+	public void generarNotificacionDeInforme(Informe informe) {
+	    List<Usuario> empleados = obtenerSalesAnalyst();
+	    empleados.add(empresa.getOwner());
+	    
+	    empleados.forEach(empleado -> {
+	    	emailSender.sendProyeccionDeVentasNotification(this.empresa, this, informe, empleado);
+	    });
+	}
 	
-	
+	private List<Usuario> obtenerSalesAnalyst() {
+		return getUsuarios().stream()
+	            .filter(empleado -> empleado.tieneRol("Sales Analyst"))
+	            .collect(Collectors.toList());
+	}
+
+	public void agregarInforme(Informe informe) {
+		if(getInformes() == null) informes = new LinkedList<>();
+		informes.add(informe);
+		informe.setSucursal(this);
+	}
+
+	public List<Informe> obtenerInformes(TipoInforme tipo) {
+		return getInformes().stream()
+				.filter(informe -> informe.getTipoInforme().equals(tipo))
+				.collect(Collectors.toList());
+	}
+
+	public Informe obtenerInforme(Long idInforme) {
+		return getInformes().stream()
+				.filter(informe -> informe.getId().equals(idInforme))
+				.findFirst().orElse(null);
+	}
 }
