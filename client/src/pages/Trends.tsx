@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
-import { getCompany, getDatabaseConnection, getTrends } from "../utils/Database.service";
+import { getCompany, getDatabaseConnection, getNewTrends, getTrends } from "../utils/Database.service";
 import { SideNavbar } from "../components/SideNavbar";
 import { useTrends } from "../hook/useTrends";
 import treds_icon from '../assets/icons/violet-new-trends.svg'
@@ -17,11 +17,12 @@ export const Trends = () => {
 
 
   const { currentUser, setUser } = useUser()
-  const { newTrends, setTrends } = useTrends()
+  const { newTrends, setNewTrends } = useTrends()
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [company, setCompany] = useState<Company | null>(null)
   const [database, setDatabase] = useState<boolean>(true)
+  const [trends, setTrends] = useState<Trends[] | null>(null)
 
   const [branch, setBranch] = useState<string>('')
 
@@ -30,12 +31,19 @@ export const Trends = () => {
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
+
       const userCompany = await getCompany(accessToken)
       setCompany(userCompany)
+
+      if (currentUser?.sucursal?.idSucCliente !== undefined) {
+        const response = await getTrends(accessToken, currentUser?.sucursal?.idSucCliente.toString())
+        setTrends(response)
+      }
 
     }
 
     isAuthenticated && getToken()
+
     if (currentUser?.sucursal?.idSucCliente !== undefined)
       setBranch(currentUser?.sucursal?.idSucCliente.toString())
 
@@ -50,14 +58,14 @@ export const Trends = () => {
       return true
   }
 
-  const getNewTrends = async () => {
+  const handleGetNewTrends = async () => {
     setRequesting(true)
     const accessToken = await getAccessTokenSilently()
 
     if (await getDatabase(accessToken)) {
-      const trends = await getTrends(accessToken, branch)
-      if (trends !== null) {
-        setTrends(trends)
+      const response = await getNewTrends(accessToken, branch)
+      if (response !== null) {
+        setNewTrends(response)
       }
     } else {
       setDatabase(false)
@@ -92,6 +100,7 @@ export const Trends = () => {
                 value={branch}
                 onChange={(e) => handleChangeOption(e)}
               >
+                <option value="" className="-bg--color-white hover:cursor-pointer">Seleccione una sucursal</option>
                 {
                   company?.sucursales.map(sucursal => {
                     return (
@@ -103,7 +112,7 @@ export const Trends = () => {
             }
             <button
               className="-bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg max-w-sm"
-              onClick={() => getNewTrends()}
+              onClick={() => handleGetNewTrends()}
             >
               Discover New Trends
             </button>
@@ -113,8 +122,8 @@ export const Trends = () => {
           <Requesting />
           :
           database ? (
-            ((newTrends !== null) ?
-              newTrends.trends.length === 0 ?
+            ((trends !== null) ?
+              trends.length === 0 ?
                 <NoTrends />
                 :
                 <TrendsSection newTrends={newTrends} />

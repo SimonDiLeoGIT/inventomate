@@ -6,7 +6,7 @@ interface Props {
 
 type TrendsContext = {
   newTrends: Trends | null,
-  setTrends: (trends: Trends) => void,
+  setNewTrends: (trends: Trends) => void,
 }
 
 export const TrendsContext = createContext({} as TrendsContext)
@@ -15,14 +15,10 @@ export const TrendsProvider = ({ children }: Props) => {
 
   const [newTrends, setNewTrends] = useState<Trends | null>(null)
 
-  const setTrends = async (trends: Trends) => {
-    setNewTrends(trends)
-  }
-
   return (
     <TrendsContext.Provider value={{
       newTrends,
-      setTrends
+      setNewTrends
     }}
     >
       {children}

@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inventoMate.dtos.meli.TrendsDTO;
+import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.services.FlaskService;
 
 import lombok.AllArgsConstructor;
+import net.minidev.json.JSONObject;
 
 @Service
 @AllArgsConstructor
@@ -26,25 +29,62 @@ public class FlaskServiceImpl implements FlaskService {
 	
 	@Override
 	public String postDatosInformeTendencias(TrendsDTO trendsDTO) {
-		   HttpHeaders headers = new HttpHeaders();
-		    headers.setContentType(MediaType.APPLICATION_JSON);
-		    // Convertir el objeto TrendsDTO a JSON
-		    ObjectMapper objectMapper = new ObjectMapper();
-		    String requestBody;
-		    try {
-		        requestBody = objectMapper.writeValueAsString(trendsDTO);
-		    } catch (JsonProcessingException e) {
-		        e.printStackTrace();
-		        return null;
-		    }
-		    HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
-		    // Construir la URL
-		    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
-		            .path("tendencias");
-		    URI uri = builder.build(true).toUri();
-		    // Realizar la solicitud HTTP POST
-		    ResponseEntity<String> responseEntity = restTemplate.postForEntity(uri, request, String.class);
-		    return responseEntity.getBody();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		ObjectMapper objectMapper = new ObjectMapper();
+		String requestBody;
+		try {
+			requestBody = objectMapper.writeValueAsString(trendsDTO);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		}
+		HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).path("api")
+				.path("/informe").path("/tendencia").path("/add");
+		URI uri = builder.build(true).toUri();
+		return restTemplate.postForEntity(uri, request, JSONObject.class).getBody().get("ID-Mongo").toString();
 	}
 
+	@Override
+	public String postDatosInformeProyeccionDeVentas(JSONObject jsonObject) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> request = new HttpEntity<>(jsonObject.toJSONString(), headers);
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).path("api").path("/informe")
+				.path("/proyeccion-de-ventas").path("/add");
+		URI uri = builder.build(true).toUri();
+		return restTemplate.postForEntity(uri, request, JSONObject.class).getBody().get("ID-Mongo").toString();
+	}
+
+	@Override
+	public Object getDatosInformeByTipoInforme(String idMongo, TipoInforme tipoInforme) {
+		Object response = null;
+		switch(tipoInforme) {
+		case ANALISIS_DE_TENDENCIA :
+			response = getDatosInformeTendencias(idMongo);
+			break;
+		case PROYECCION_DE_VENTAS :
+			response = getDatosInformeDeProyeccionDeVentas(idMongo);
+		}
+		return response;
+	}
+	
+	private Object getDatosInformeDeProyeccionDeVentas(String idMongo) {
+	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
+	            .path("api").path("/informe").path("/proyeccion-de-ventas")
+	            .queryParam("idMongo", idMongo);
+	    URI uri = builder.build().toUri();
+	    ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, Object.class);
+	    return responseEntity.getBody();
+	}
+
+	private Object getDatosInformeTendencias(String idMongo) {
+	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
+	            .path("api").path("/informe").path("/tendencias")
+	            .queryParam("idMongo", idMongo);
+	    URI uri = builder.build().toUri();
+	    ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, Object.class);
+	    return responseEntity.getBody();
+	}
 }

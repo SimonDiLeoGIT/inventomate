@@ -244,11 +244,27 @@ export const getDatabaseConnection = async (accessToken: string): Promise<Databa
   }
 }
 
-export const getTrends = async (accessToken: string, idBranch: string): Promise<Trends | null> => {
+export const getTrends = async (accessToken: string, idBranch: string): Promise<Trends[] | null> => {
   try {
     const response = await axios({
       url: 'http://localhost:8080/api/informes/tendencias/' + idBranch,
       method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return null
+  }
+}
+
+export const getNewTrends = async (accessToken: string, idBranch: string) => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/informes/tendencias/' + idBranch,
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       }
