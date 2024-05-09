@@ -41,7 +41,7 @@ public class FlaskServiceImpl implements FlaskService {
 		}
 		HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).path("api")
-				.path("/informe").path("/tendencia").path("/add");
+				.path("/informe").path("/tendencias").path("/add");
 		URI uri = builder.build(true).toUri();
 		return restTemplate.postForEntity(uri, request, JSONObject.class).getBody().get("ID-Mongo").toString();
 	}

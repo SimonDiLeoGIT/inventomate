@@ -122,6 +122,8 @@ public class InformeServiceImpl implements InformeService {
 		if(informe == null)
 			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
 		
+		informe.setVisto(true);
+		informeRepository.save(informe);
 		return flaskService.getDatosInformeByTipoInforme(informe.getIdMongo(), informe.getTipoInforme());
 	}
 }

@@ -15,6 +15,7 @@ public class InformeDTO {
 
 	private Long id;
 	private LocalDate fecha;
+	private String idMongo;
 	private TipoInforme tipoInforme;
 	private boolean visto;
 
