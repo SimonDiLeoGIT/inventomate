@@ -1,33 +1,37 @@
 import React, { useEffect, useState } from "react"
-import { getRoles, inviteUser, searchUser } from "../utils/Database.service"
+import { editMemberRoles, getMembertRoles, getRoles } from "../utils/Database.service"
 import { useAuth0 } from "@auth0/auth0-react"
-import add_icon from '../assets/icons/plus-circle-.svg'
 import close_icon from '../assets/icons/close.svg'
 import { WaitingResponse } from "./Loading/WaitingResponse"
 
 interface props {
   idBranch: string
+  user: User
 }
 
-export const InviteUser: React.FC<props> = ({ idBranch }) => {
+export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
 
 
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [results, setResults] = useState<User[] | null>(null)
   const [roles, setRoles] = useState<Rol[] | null>(null)
-  const [rolesSelected, setRolesSelected] = useState<number[]>([])
-  const [userSelected, setUserSelected] = useState<User | null>(null)
-  const [username, setusername] = useState<string>('')
+  const [memberRoles, setMemberRoles] = useState<Rol[] | null>(null)
+  const [rolesSelected, setRolesSelected] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
-
 
   useEffect(() => {
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       const response = await getRoles(accessToken)
+      const memberPermissions = await getMembertRoles(accessToken, idBranch, user.idUsuario)
       setRoles(response)
+      setMemberRoles(memberPermissions)
+      console.log(memberPermissions)
+      memberPermissions?.forEach(rol => {
+        setRolesSelected([...rolesSelected, rol.idRol.toString()])
+        console.log(rol)
+      })
     }
 
     isAuthenticated && getToken()
@@ -43,17 +47,7 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
     setIsOpen(!isOpen)
   }
 
-  const searchUsers = async (email: string) => {
-    setUserSelected(null)
-    setusername(email)
-    if (email === '') {
-      setResults([])
-    } else {
-      const accessToken = await getAccessTokenSilently()
-      const response = await searchUser(accessToken, email)
-      setResults(response)
-    }
-  }
+
 
   const handleRoleSelect = (e: any) => {
     const { value, checked } = e.target;
@@ -72,33 +66,29 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
     if (rolesSelected.length === 0) {
       alert("You must select at least one role for the user.");
     } else {
+      console.log(rolesSelected)
       const accessToken = await getAccessTokenSilently()
-      if (userSelected?.idUsuario !== undefined)
-        await inviteUser(accessToken, idBranch, userSelected?.idUsuario, rolesSelected)
+      await editMemberRoles(accessToken, idBranch, user.idUsuario, rolesSelected)
       setIsOpen(false)
       setLoading(false)
     }
   }
 
-  const handleUserSelect = (user: User) => {
-    searchUsers(user.nickname)
-    setUserSelected(user)
-  }
 
   return (
     <>
       <button
-        className="m-auto ml-0 -bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg flex items-center max-w-32 max-h-10"
-        onClick={() => handleMenuOpen()}
+        className="h-full w-full hover:cursor-pointer"
+        onClick={handleMenuOpen}
       >
-        <img src={add_icon} className="w-5 mr-2" />
-        Invite user
+        <img src={user?.picture} className="w-12 rounded-full m-auto" />
+        {user?.nickname}
       </button>
 
       <aside className={`fixed w-screen h-screen overflow-hidden top-0 left-0 ${!isOpen && 'hidden'} opacity-animation grid place-content-center`}>
-        <section className='-bg--color-white p-4 relative w-80 md:w-96'>
+        <section className='-bg--color-white p-4 relative w-80 md:w-96 '>
           <header>
-            <h1 className="text-lg font-semibold">Invite User</h1>
+            <h1 className="text-lg font-semibold">{user.nickname}</h1>
             <button
               className="absolute right-4 top-4"
               onClick={() => setIsOpen(false)}
@@ -107,35 +97,6 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
             </button>
           </header>
           <form className="relative" onSubmit={handleSubmit}>
-            <div>
-              <label className="text-sm">User email</label>
-              <input
-                type="name"
-                className="-bg--color-border-very-lightest-grey p-2 rounded-lg w-full"
-                onChange={(e) => searchUsers(e.target.value)}
-                value={username}
-                required
-                disabled={loading}
-              />
-              {(results !== null && results?.length > 0) && userSelected === null &&
-                <div className="absolute overflow-auto w-full -bg--color-white max-h-52 mt-2 border -border--color-border-very-light-grey rounded-lg">
-                  {
-                    results?.map((user) => {
-                      return (
-                        <button
-                          type="button"
-                          className="p-2 w-full flex items-center hover:cursor-pointer hover:-bg--color-border-very-lightest-grey"
-                          onClick={() => handleUserSelect(user)}
-                        >
-                          <img src={user.picture} className="w-6 rounded-full mr-4" />
-                          {user.nickname}
-                        </button>
-                      )
-                    })
-                  }
-                </div>
-              }
-            </div>
             <div className="mt-2">
               <label className="text-sm">Roles</label>
               <ul className="grid gap-2">
@@ -149,7 +110,7 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
                           value={role.idRol}
                           className="m-auto mr-0 hover:cursor-pointer"
                           onChange={handleRoleSelect}
-                          disabled={loading}
+                          checked={rolesSelected?.some(rol => rol === role.idRol.toString())}
                         />
                       </li>
                     )

@@ -76,9 +76,9 @@ public class UserController {
 		userAuth0Service.deleteUserByAuth0Id(id, jwt.getTokenValue());
 		return ResponseEntity.ok().body(new ApiResponse(true, "User deleted successfully"));
 	}
-	
+
 	@GetMapping()
-	public ResponseEntity<List<UsuarioDTO>> findByEmail(@RequestParam String email){
+	public ResponseEntity<List<UsuarioDTO>> findByEmail(@RequestParam String email) {
 		return ResponseEntity.ok(usuarioService.findByEmail(email));
 	}
 

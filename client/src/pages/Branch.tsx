@@ -6,6 +6,7 @@ import search from '../assets/icons/search-.svg'
 import { SideNavbar } from "../components/SideNavbar";
 import { getBranch } from "../utils/Database.service";
 import { InviteUser } from "../components/InviteUser";
+import { EditMemberRoles } from "../components/EditMemberRoles";
 
 export const Branch = () => {
 
@@ -49,11 +50,11 @@ export const Branch = () => {
               <li>
                 <h2 className="font-bold -text--color-semidark-violet">Owner</h2>
                 <div className="flex items-center space-x-2">
-                  <img
+                  {/* <img
                     src={currentUser?.empresa?.owner.picture}
                     alt={currentUser?.empresa?.owner.nickname}
                     className="w-8 h-8 rounded-full"
-                  />
+                  /> */}
                   <section className="text-sm">
                     <p className="-text--color-violet-user-email font-bold">{currentUser?.empresa?.owner.nickname}</p>
                     <p className="-text--color-violet-user-email">{currentUser?.empresa?.owner.email}</p>
@@ -92,9 +93,19 @@ export const Branch = () => {
             {
               branch?.usuarios.map(user => {
                 return (
-                  <li className="-bg--color-border-very-lightest-grey rounded-xl text-center h-28 md:h-32 grid place-content-center">
-                    <img src={user?.picture} className="w-12 rounded-full m-auto" />
-                    <p className="">{user?.nickname}</p>
+                  <li className="-bg--color-border-very-lightest-grey rounded-xl h-28 md:h-32">
+                    {
+                      currentUser?.roles.some(rol => rol.idRol === 1)
+                        ?
+                        <EditMemberRoles idBranch={idBranch} user={user} />
+                        :
+                        <div
+                          className="h-full w-full grid place-content-center"
+                        >
+                          <img src={user?.picture} className="w-12 rounded-full m-auto" />
+                          {user?.nickname}
+                        </div>
+                    }
                   </li>
                 )
               })
