@@ -57,8 +57,6 @@ public class SecurityConfig {
 						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/delete").hasAuthority("edit:company")
 						// bd empresa
 						.requestMatchers("api/bd-empresa/**").hasAuthority("edit:company")
-						// informes
-						.requestMatchers("api/informes/tendencia").hasAuthority("read:trend-information")
 						// proyeccion de ventas
 						.requestMatchers(HttpMethod.POST, "api/informes/proyeccion-de-ventas/{idSucursal}").hasAuthority("decide:sales-reports")
 						.requestMatchers(HttpMethod.GET, "api/informes/proyeccion-de-ventas/{idSucursal}").hasAuthority("read:sales-reports")
