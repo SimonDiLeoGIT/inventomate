@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.inventoMate.dtos.informes.InformeDTO;
-import com.inventoMate.dtos.meli.TrendsDTO;
 import com.inventoMate.entities.Empresa;
 import com.inventoMate.entities.Informe;
 import com.inventoMate.entities.Sucursal;
@@ -35,7 +34,7 @@ public class InformeServiceImpl implements InformeService {
 	private final EmailSender emailSender;
 	
 	@Override
-	public TrendsDTO informeDeTendencia(String idAuth0, Long idSucursal) {
+	public void informeDeTendencia(String idAuth0, Long idSucursal) {
 		
 		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
@@ -51,7 +50,14 @@ public class InformeServiceImpl implements InformeService {
 		
 		var responseMeli = mlService.getTendencias(productos);
 
-		return responseMeli;
+		String idMongo = flaskService.postDatosInformeTendencias(responseMeli);
+		
+		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.ANALISIS_DE_TENDENCIA);
+		
+		sucursal.agregarInforme(informe);
+		sucursal.setEmailSender(emailSender);
+		sucursal.generarNotificacionDeInforme(informe);
+		informeRepository.save(informe);
 	}
 
 	@Override
@@ -72,7 +78,7 @@ public class InformeServiceImpl implements InformeService {
 		
 		String idMongo = flaskService.postDatosInformeProyeccionDeVentas(mapper.mapToHistoricoMovimientos(historiaDeVentas, historiaDeCompras, fechaProyeccion, idSucursal));
 		
-		Informe informe = mapper.mapToInformeDeProyeccion(idMongo);
+		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.PROYECCION_DE_VENTAS);
 		sucursal.agregarInforme(informe);
 		sucursal.setEmailSender(emailSender);
 		sucursal.generarNotificacionDeInforme(informe);
@@ -116,6 +122,6 @@ public class InformeServiceImpl implements InformeService {
 		if(informe == null)
 			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
 		
-		return flaskService.getDatosInformeDeProyeccionDeVentas(informe.getIdMongo());
+		return flaskService.getDatosInformeByTipoInforme(informe.getIdMongo(), informe.getTipoInforme());
 	}
 }

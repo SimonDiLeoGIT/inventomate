@@ -4,12 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.inventoMate.dtos.informes.InformeDTO;
-import com.inventoMate.dtos.meli.TrendsDTO;
 import com.inventoMate.entities.TipoInforme;
 
 public interface InformeService {
 
-	TrendsDTO informeDeTendencia(String idAuth0, Long idSucursal);
+	void informeDeTendencia(String idAuth0, Long idSucursal);
 
 	void informeDeProyeccion(String subject, Long idSucursal, LocalDate fechaProyeccion);
 
