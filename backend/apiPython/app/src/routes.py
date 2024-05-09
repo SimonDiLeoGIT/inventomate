@@ -3,6 +3,7 @@ from .informes.templates.tendencia import json_to_latex, latex_to_pdf
 from flask import current_app as app
 import os
 from .models import *
+from procesadorJson import procesar_json  
 
 #creamos el endpoint para obtener el informe de tendencias
 @app.route('/api/informe/tendencias/download', methods=['POST'])
@@ -57,7 +58,8 @@ def verTendencia():
 def insertarProyeccion():
     try:
         json_data = request.json
-        #TODO Procesar el JSON
+
+        json_procesado = procesar_json(json_data)
         
         id = insertProyeccion() 
         if (id != -1):

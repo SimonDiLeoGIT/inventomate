@@ -5,11 +5,7 @@ from dateutil.relativedelta import relativedelta
 import calendar
 from datetime import datetime
 
-def regresionLinealMultiple(id_producto):
-    # Cargar el JSON
-    with open('EstructuraDatos.json', 'r') as file:
-        data = json.load(file)
-
+def regresionLinealMultiple(id_producto, data):
     # Crear DataFrame para ventas
     df_ventas = pd.DataFrame(data['listado_ventas'])
 
@@ -55,7 +51,6 @@ def regresionLinealMultiple(id_producto):
     modelo.fit(X, y)
     print(X)
     print(y)
-
     # Obtener el último mes registrado para el producto
     ultimo_mes = resumen_ventas['mes'].max()  
     
@@ -71,9 +66,11 @@ def regresionLinealMultiple(id_producto):
     # Obtener los valores de x1, x2 y x3 del último mes registrado para ese producto
     valores_ultimo_mes = resumen_ventas[resumen_ventas['mes'] == ultimo_mes].iloc[0][['%promo', 'precio_unitario', 'estacion']]
     x1, x2, x3 = valores_ultimo_mes['%promo'], valores_ultimo_mes['precio_unitario'], estacion_proximo_mes
+
     print(x1)
     print(x2)
     print(x3)
+
     # Preparar datos para la predicción utilizando los valores del último mes y la estación del próximo mes
     X_prediccion = [[x1, x2, x3]]
     
@@ -81,3 +78,8 @@ def regresionLinealMultiple(id_producto):
     prediccion = modelo.predict(X_prediccion)
 
     return prediccion[0]
+
+# Ejemplo de uso:
+#id_producto = 15  # ID del producto para el que se quiere hacer la predicción
+#prediccion = regresionLinealMultiple(id_producto)
+#print(f"Predicción de cantidad vendida para el próximo mes para el producto con ID {id_producto}: {prediccion}")
