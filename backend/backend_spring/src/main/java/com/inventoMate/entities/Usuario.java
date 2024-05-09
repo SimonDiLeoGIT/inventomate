@@ -103,6 +103,11 @@ public class Usuario {
 		this.sucursal = sucursal;
 		agregarRoles(roles);
 	}
+	
+	public boolean tieneRol(String rol) {
+		return getRoles().stream()
+                .anyMatch(role -> role.getNombreRol().equals(rol));
+	}
 
 	public void actualizarRoles(List<Rol> roles) {
 		this.setRoles(roles);

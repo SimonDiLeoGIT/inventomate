@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
+import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
 import com.inventoMate.models.ConsultasSQL;
 
 import jakarta.persistence.CascadeType;
@@ -73,7 +75,14 @@ public class BdEmpresa {
 	public List<String> obtenerProductosDeSucursal(Long idSucursal){
 		return consultasSQL.listProductsByIdSucursal(new JdbcTemplate(this.datasource), idSucursal);
 	}
-	
+
+	public List<VentaDetalle> obtenerHistoricoDeVentas(Long idSucCliente) {
+		return consultasSQL.gethistoricoDeVentasByIdSucursal(new JdbcTemplate(this.datasource), idSucCliente);
+	}
+
+	public List<CompraDetalle> obtenerHistoricoDeCompras(Long idSucCliente) {
+		return consultasSQL.getHistoricoDeComprasByIdSucursal(new JdbcTemplate(this.datasource), idSucCliente);
+	}
 	
     private String getDriverClassName(TipoBd tipoBd) {
         switch (tipoBd) {
