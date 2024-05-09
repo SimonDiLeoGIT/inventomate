@@ -1,6 +1,9 @@
 import json
 import pandas as pd
 from sklearn.linear_model import LinearRegression
+from dateutil.relativedelta import relativedelta
+import calendar
+from datetime import datetime
 
 # Cargar el JSON
 with open('datos.json', 'r') as file:
@@ -25,8 +28,6 @@ def obtener_estacion(fecha):
     else:
         return 2  # Primavera
 
-
-
 ventas['estacion'] = ventas['fecha_hora'].apply(obtener_estacion)
 
 # Obtener el mes de cada venta
@@ -38,14 +39,25 @@ datos = ventas[['%promo', 'precio_unitario', 'cantidad', 'mes', 'estacion', 'pro
 # Extraer el nombre del producto
 datos['nombre_producto'] = datos['producto'].apply(lambda x: x['nombre'])
 
-# Agrupar por producto, mes y estación y calcular la suma de las cantidades vendidas
-resumen_ventas = datos.groupby(['nombre_producto', 'mes', 'estacion']).agg({'%promo':'sum', 'precio_unitario':'sum', 'cantidad':'sum'}).reset_index()
+# Calcular el total ponderado del precio unitario y %promo utilizando las cantidades vendidas
+datos['precio_ponderado'] = datos['precio_unitario'] * datos['cantidad']
+datos['promo_ponderado'] = datos['%promo'] * datos['cantidad']
+
+# Agrupar por producto, mes y estación y calcular la suma de las cantidades vendidas y los totales ponderados
+resumen_ventas = datos.groupby(['nombre_producto', 'mes', 'estacion']).agg({'cantidad':'sum', 'precio_ponderado':'sum', 'promo_ponderado':'sum'}).reset_index()
+
+# Calcular los promedios ponderados de precio unitario y %promo
+resumen_ventas['precio_unitario_promedio'] = resumen_ventas['precio_ponderado'] / resumen_ventas['cantidad']
+resumen_ventas['promo_promedio'] = resumen_ventas['promo_ponderado'] / resumen_ventas['cantidad']
+
+# Eliminar columnas intermedias
+resumen_ventas.drop(['precio_ponderado', 'promo_ponderado'], axis=1, inplace=True)
 
 # Crear un diccionario para almacenar las predicciones por producto
 predicciones_por_producto = {}
 
 for producto, grupo in resumen_ventas.groupby('nombre_producto'):
-    X = grupo[['%promo', 'precio_unitario', 'estacion']]
+    X = grupo[['promo_promedio', 'precio_unitario_promedio', 'estacion']]
     y = grupo['cantidad']
     print(X)
     print(y)
@@ -53,12 +65,25 @@ for producto, grupo in resumen_ventas.groupby('nombre_producto'):
     modelo = LinearRegression()
     modelo.fit(X, y)
     
-    # Obtener los valores de x1, x2 y x3 del último mes registrado para ese producto
-    ultimo_mes = grupo['mes'].max()  # Obtener el último mes registrado para el producto
-    valores_ultimo_mes = grupo[grupo['mes'] == ultimo_mes].iloc[0][['%promo', 'precio_unitario', 'estacion']]
-    x1, x2, x3 = valores_ultimo_mes['%promo'], valores_ultimo_mes['precio_unitario'], valores_ultimo_mes['estacion']
+    # Obtener el último mes registrado para el producto
+    ultimo_mes = grupo['mes'].max()  
     
-    # Preparar datos para la predicción utilizando los valores del último mes
+    # Calcular la fecha del próximo mes
+    primer_dia_proximo_mes = datetime(ultimo_mes.year, ultimo_mes.month, 1) + relativedelta(months=1)
+    ultimo_dia_mes_siguiente = min(calendar.monthrange(primer_dia_proximo_mes.year, primer_dia_proximo_mes.month)[1], ultimo_mes.day)
+    proximo_mes = primer_dia_proximo_mes.replace(day=ultimo_dia_mes_siguiente)
+    proximo_mes_periodo = pd.to_datetime(proximo_mes).to_period('M')
+
+    # Calcular la estación para el próximo mes
+    estacion_proximo_mes = obtener_estacion(proximo_mes)
+
+    # Obtener los valores de x1, x2 y x3 del último mes registrado para ese producto
+    valores_ultimo_mes = grupo[grupo['mes'] == ultimo_mes].iloc[0][['promo_promedio', 'precio_unitario_promedio', 'estacion']]
+    x1, x2, x3 = valores_ultimo_mes['promo_promedio'], valores_ultimo_mes['precio_unitario_promedio'], estacion_proximo_mes
+    print(x1)
+    print(x2)
+    print(x3)
+    # Preparar datos para la predicción utilizando los valores del último mes y la estación del próximo mes
     X_prediccion = [[x1, x2, x3]]
     
     # Realizar la predicción

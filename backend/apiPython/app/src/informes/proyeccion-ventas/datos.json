@@ -128,7 +128,7 @@
                     }
                 },
                 {
-                    "precio_unitario": 1750.00,
+                    "precio_unitario": 1650.50,
                     "total": 12250.00,
                     "%promo": 0,
                     "cantidad": 7,
@@ -141,11 +141,11 @@
             ]
         },
         {
-            "fecha_hora": "2024-06-30 13:00:00.000000",
+            "fecha_hora": "2024-05-31 13:00:00.000000",
             "id_venta": 782,
             "detalle": [
                 {
-                    "precio_unitario": 1150.50,
+                    "precio_unitario": 1250.00,
                     "total": 8053.50,
                     "%promo": 0,
                     "cantidad": 7,
