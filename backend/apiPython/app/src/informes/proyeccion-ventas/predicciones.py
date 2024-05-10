@@ -85,9 +85,6 @@ def prediccionPorProducto(id_producto, data):
 #prediccion = regresionLinealMultiple(id_producto)
 #print(f"Predicción de cantidad vendida para el próximo mes para el producto con ID {id_producto}: {prediccion}")
 
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-
 def calcular_perdida_estimada(json_data):
     listado_compras = json_data.get('listado_compras', [])
     
