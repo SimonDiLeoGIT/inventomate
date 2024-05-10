@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
-from prediccionPorProducto import regresionLinealMultiple
+from predicciones import prediccionPorProducto
+from predicciones import calcular_perdida_estimada
+from predicciones import calcular_ganancia_estimada
 
 def procesar_json(json_data):
     # Obtener la fecha estimada para el próximo mes
@@ -56,7 +58,7 @@ def procesar_json(json_data):
                 'id_producto': id_producto,
                 'nombre_producto': nombre_producto,
                 'cantidad_ventas': cantidad_ventas,
-                'cantidad_ventas_estimadas': regresionLinealMultiple(id_producto, json_data),  # Llamada a la función externa
+                'cantidad_ventas_estimadas': prediccionPorProducto(id_producto, json_data),  # Llamada a la función externa
                 'inversion': inversion,
                 'ganancia': ganancia,
                 'diferencia': diferencia,
@@ -67,15 +69,15 @@ def procesar_json(json_data):
     # Construir el JSON resultante
     json_procesado = {
         'fecha_estimada': fecha_estimada.strftime('%Y-%m-%d'),
-        'perdida_estimada': perdida_estimada,
-        'ganancia_estimada': ganancia_estimada,
+        'perdida_estimada': calcular_perdida_estimada(json_data),
+        'ganancia_estimada': calcular_ganancia_estimada(json_data),
         'grafico_beneficio': beneficio_dia_a_dia,
         'estimaciones_por_producto': estimaciones_por_producto
     }
 
     return json_procesado
 
-
+#esto solo esta para hacer pruebas locales
 with open('EstructuraDatos.json', 'r') as file:
     json_data = json.load(file)
 
