@@ -1,9 +1,10 @@
+import json
 from flask import jsonify, request, send_file
 from .informes.templates.tendencia import json_to_latex, latex_to_pdf
 from flask import current_app as app
 import os
 from .models import *
-from procesadorJson import procesar_json  
+from .informes.proyeccion_ventas.procesadorJson import procesar_json 
 
 #creamos el endpoint para obtener el informe de tendencias
 @app.route('/api/informe/tendencias/download', methods=['POST'])
@@ -34,6 +35,7 @@ def insertarTendencia():
     try:
         json_data = request.json
         id = insertTendencia(json_data)
+                
         if (id != -1):
             return jsonify({'ID-Mongo': str(id)}), 200
         else:
@@ -55,13 +57,13 @@ def verTendencia():
         
 
 @app.route("/api/informe/proyeccion-de-ventas/add", methods=["POST"])
-def insertarProyeccion():
+async def insertarProyeccion():
     try:
+        # TODO Funciona la primera request, ya despues no. Puede ser un tema de concurrencia de la app
         json_data = request.json
-
-        json_procesado = procesar_json(json_data)
-        
-        id = insertProyeccion() 
+        json_procesado = await procesar_json(json_data)
+        id = insertProyeccion(json_procesado) 
+    
         if (id != -1):
             return jsonify({'ID-Mongo': str(id)}), 200
         else:

@@ -1,17 +1,19 @@
-import json
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from dateutil.relativedelta import relativedelta
 import calendar
-from datetime import datetime,timedelta
-from collections import defaultdict
+from datetime import datetime
+from .graficos import grafico_frecuencias
 
 def prediccionPorProducto(id_producto, data):
     # Crear DataFrame para ventas
     df_ventas = pd.DataFrame(data['listado_ventas'])
 
     # Crear una lista de registros de ventas
-    ventas = df_ventas['detalle'].apply(lambda x: [registro for registro in x]).explode().apply(pd.Series)
+    ventas = df_ventas['detalle'].apply(list)
+    ventas = ventas.explode()
+    ventas = ventas.apply(pd.Series)
+
 
     # Convertir la fecha de la venta a formato datetime
     ventas['fecha_hora'] = pd.to_datetime(df_ventas['fecha_hora'])
@@ -30,7 +32,7 @@ def prediccionPorProducto(id_producto, data):
 
     # Obtener el mes de cada venta
     ventas['mes'] = ventas['fecha_hora'].dt.to_period('M')
-
+    
     # Seleccionar características relevantes (%promo, precio_unitario, cantidad, estacion) y el nombre del producto
     datos = ventas[['%promo', 'precio_unitario', 'cantidad', 'mes', 'estacion', 'producto']]
 
@@ -50,8 +52,8 @@ def prediccionPorProducto(id_producto, data):
     # Inicializar y entrenar el modelo de regresión lineal múltiple
     modelo = LinearRegression()
     modelo.fit(X, y)
-    #print(X)
-    #print(y)
+    # print("Xi:\n" + str(X))
+    # print("Y:\n" + str(y))
     # Obtener el último mes registrado para el producto
     ultimo_mes = resumen_ventas['mes'].max()  
     
@@ -77,7 +79,18 @@ def prediccionPorProducto(id_producto, data):
     
     # Realizar la predicción
     prediccion = modelo.predict(X_prediccion)
-
+    
+    # Preparar el grafico
+    grafico_y = y.tolist()
+    grafico_y.append(round(prediccion[0], 2))
+    grafico_x = ventas['mes'].dt.strftime('%Y-%m').tolist()
+    grafico_x = list(set(grafico_x))
+    grafico_x.sort()
+    nuevo_mes = sumar_un_mes(grafico_x[-1])
+    grafico_x.append(nuevo_mes)
+    
+    grafico_frecuencias(grafico_x,grafico_y,id_producto)
+    print("GRAFICO GENERADO")
     return prediccion[0]
 
 # Ejemplo de uso:
@@ -120,8 +133,8 @@ def calcular_perdida_estimada(json_data):
     # Inicializar y ajustar el modelo de regresión lineal
     modelo = LinearRegression()
     modelo.fit(X, y)
-    print("X"+str(X))
-    print("y"+str(y))
+    print("X\n"+str(X))
+    print("y\n"+str(y))
 
 
     # Calcular la cantidad de compras para el próximo mes
@@ -129,6 +142,7 @@ def calcular_perdida_estimada(json_data):
 
     # Calcular la pérdida estimada para el próximo mes
     perdida_estimada = modelo.predict([[cantidad_compras_proximo_mes, sumas_precios_unitarios[-1]]])[0]
+    
 
     return perdida_estimada
 
@@ -177,3 +191,20 @@ def calcular_ganancia_estimada(json_data):
     ganancia_estimada = modelo.predict([[suma_cantidades_proximo_mes, suma_precio_unitario_proximo_mes]])
 
     return ganancia_estimada[0]
+
+def sumar_un_mes(fecha):
+    fecha_dt = datetime.strptime(fecha, '%Y-%m')
+
+    # Obtener el año y el mes por separado
+    nuevo_anio = fecha_dt.year
+    nuevo_mes = fecha_dt.month + 1
+
+    # Si el mes es diciembre, incrementar el año y establecer el mes a enero (1)
+    if nuevo_mes > 12:
+        nuevo_anio += 1
+        nuevo_mes = 1
+
+    # Formatear la nueva fecha como 'YYYY-MM'
+    nueva_fecha = f"{nuevo_anio:04d}-{nuevo_mes:02d}"
+
+    return str(nueva_fecha)
