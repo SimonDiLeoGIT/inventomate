@@ -14,21 +14,32 @@ export const RegisterCompany = () => {
   const [description, setDescription] = useState<string>('')
   const [logo, setLogo] = useState<string>('')
 
-  const register = () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+
+    await register()
+
+    window.location.href = '/company'
+  }
+
+  const register = async () => {
     const body = {
       nombreEmpresa: name,
       descripcion: description,
       logo: logo
+    };
+
+    try {
+      const accessToken = await getAccessTokenSilently();
+      await registerCompany(accessToken, body);
+      setUser(accessToken);
+      console.log(currentUser);
+      window.location.href = '/company'; // Redirigir después de completar las operaciones
+    } catch (error) {
+      console.error('Error al registrar la empresa:', error);
+      // Manejar el error, si es necesario
     }
-    const rc = async () => {
-      const accessToken = await getAccessTokenSilently()
-      await registerCompany(accessToken, body)
-      setUser(accessToken)
-      console.log(currentUser)
-    }
-    rc()
-    navigate('/company')
-  }
+  };
 
   return (
     <main className="w-screen p-2 md:w-9/12 m-auto lg:w-7/12 xl:w-6/12">
@@ -37,7 +48,7 @@ export const RegisterCompany = () => {
           Register your Company
         </h1>
       </header>
-      <form onSubmit={() => register()} className="p-4 -bg--color-form-background-semi-white shadow-lg -shadow--color-black-shadow -text--color-black">
+      <form onSubmit={handleSubmit} className="p-4 -bg--color-form-background-semi-white shadow-lg -shadow--color-black-shadow -text--color-black">
         <h2 className="font-semibold text-lg">
           About your Company
         </h2>

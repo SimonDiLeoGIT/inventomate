@@ -31,7 +31,7 @@ public class InformeController {
 
 	// TENDENCIAS DEL MERCADO
 	@PostMapping("/tendencias/{idSucursal}")
-	public ResponseEntity<ApiResponse> getInformeTendencias(@AuthenticationPrincipal Jwt jwt,
+	public ResponseEntity<ApiResponse> postInformeTendencia(@AuthenticationPrincipal Jwt jwt,
 			@PathVariable Long idSucursal) {
 		informeService.informeDeTendencia(jwt.getSubject(), idSucursal);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Informe culminado"));
@@ -53,7 +53,7 @@ public class InformeController {
 
 	// PROYECCION DE VENTAS
 	@PostMapping("/proyeccion-de-ventas/{idSucursal}")
-	public ResponseEntity<ApiResponse> getInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
+	public ResponseEntity<ApiResponse> postInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
 			@PathVariable Long idSucursal,
 			@RequestParam LocalDate fechaProyeccion) {
 		informeService.informeDeProyeccion(jwt.getSubject(), idSucursal, fechaProyeccion);

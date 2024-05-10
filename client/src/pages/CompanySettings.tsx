@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { connectDataBase, deleteDatabaseConnection, editDatabasConnection, getDatabaseConnection, getGestors } from "../utils/Database.service"
+import { connectDataBase, deleteCompany, deleteDatabaseConnection, editDatabasConnection, getDatabaseConnection, getGestors } from "../utils/Database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import delete_icon from '../assets/icons/delete.svg'
@@ -71,6 +71,14 @@ export const CompanySettings = () => {
     deleteDb()
   }
 
+  const handleDeleteCompany = async () => {
+    const accessToken = await getAccessTokenSilently()
+    const response = await deleteCompany(accessToken)
+    if (response.success) {
+      window.location.href = '/'
+    }
+  }
+
   return (
     <main className="w-full p-2 md:w-9/12 m-auto lg:w-7/12 xl:w-6/12">
       <header className="p-2">
@@ -103,6 +111,7 @@ export const CompanySettings = () => {
               disabled={!editing}
               required
             >
+              <option value='' className="-bg--color-white hover:cursor-pointer">Select SGBD</option>
               {
                 gestors.map(gestor => {
                   return (
@@ -166,7 +175,10 @@ export const CompanySettings = () => {
           }
           <li className="p-2 flex items-center">
             <p className="font-medium">Delete Company</p>
-            <button className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80">
+            <button
+              className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80"
+              onClick={() => handleDeleteCompany()}
+            >
               <img src={delete_icon} className="w-6" />
             </button>
           </li>

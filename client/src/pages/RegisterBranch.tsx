@@ -14,20 +14,30 @@ export const RegisterBranch = () => {
   const [name, setName] = useState<string>('')
   const [location, setLocation] = useState<string>('')
 
-  const register = () => {
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+
+    await register()
+
+    window.location.href = '/company'
+  }
+
+  const register = async () => {
     const body = {
       nombre: name,
       ubicacion: location,
       idSucCliente: id
     }
-    const rc = async () => {
+    try {
       const accessToken = await getAccessTokenSilently()
       await registerBranch(accessToken, body)
       setUser(accessToken)
       console.log(currentUser)
+    } catch (error) {
+      console.error('Error al registrar la empresa:', error)
+      // Manejar el error, si es necesario
     }
-    rc()
-    navigate('/company')
   }
 
   return (
@@ -37,7 +47,7 @@ export const RegisterBranch = () => {
           Register Branch
         </h1>
       </header>
-      <form onSubmit={() => register()} className="p-4 -bg--color-form-background-semi-white shadow-lg -shadow--color-black-shadow -text--color-black">
+      <form onSubmit={handleSubmit} className="p-4 -bg--color-form-background-semi-white shadow-lg -shadow--color-black-shadow -text--color-black">
         <h2 className="font-semibold text-lg">
           About your Branch
         </h2>

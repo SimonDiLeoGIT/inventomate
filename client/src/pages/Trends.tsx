@@ -35,8 +35,8 @@ export const Trends = () => {
       const userCompany = await getCompany(accessToken)
       setCompany(userCompany)
 
-      if (currentUser?.sucursal?.idSucCliente !== undefined) {
-        const response = await getTrends(accessToken, currentUser?.sucursal?.idSucCliente.toString())
+      if (currentUser?.sucursal?.idSucursal !== undefined) {
+        const response = await getTrends(accessToken, currentUser?.sucursal?.idSucursal.toString())
         setTrends(response)
       }
 
@@ -44,8 +44,8 @@ export const Trends = () => {
 
     isAuthenticated && getToken()
 
-    if (currentUser?.sucursal?.idSucCliente !== undefined)
-      setBranch(currentUser?.sucursal?.idSucCliente.toString())
+    if (currentUser?.sucursal?.idSucursal !== undefined)
+      setBranch(currentUser?.sucursal?.idSucursal.toString())
 
   }, [isAuthenticated])
 
@@ -104,7 +104,7 @@ export const Trends = () => {
                 {
                   company?.sucursales.map(sucursal => {
                     return (
-                      <option value={sucursal.idSucCliente} className="-bg--color-white hover:cursor-pointer">{sucursal.nombre}</option>
+                      <option value={sucursal.idSucursal} className="-bg--color-white hover:cursor-pointer">{sucursal.nombre}</option>
                     )
                   })
                 }

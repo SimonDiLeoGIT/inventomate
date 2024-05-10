@@ -130,6 +130,21 @@ export const getCompany = async (accessToken: string): Promise<Company | null> =
   }
 }
 
+export const deleteCompany = async (accessToken: string) => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/empresas/delete',
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    return response.data
+  } catch (error: any) {
+    return error?.response
+  }
+}
+
 export const registerBranch = async (accessToken: string, body: { nombre: string, ubicacion: string, idSucCliente: number }) => {
   try {
     const response = await axios({

@@ -58,7 +58,7 @@ export const EditUser: React.FC<props> = ({ user }) => {
       </button>
 
       <aside className={`fixed w-screen h-screen overflow-hidden top-0 left-0 ${!isOpen && 'hidden'} opacity-animation grid place-content-center`}>
-        <section className='-bg--color-white p-4 relative w-screen max-w-xl rounded-xl'>
+        <section className='-bg--color-white p-4 relative w-screen max-w-xl shadow-lg -shadow--color-black-shadow'>
           <header>
             <h1 className="text-lg font-semibold">Edit User</h1>
             <button
