@@ -3,7 +3,6 @@ from sklearn.linear_model import LinearRegression
 from dateutil.relativedelta import relativedelta
 import calendar
 from datetime import datetime
-from .graficos import grafico_frecuencias
 
 def prediccionPorProducto(id_producto, data):
     # Crear DataFrame para ventas
@@ -89,9 +88,12 @@ def prediccionPorProducto(id_producto, data):
     nuevo_mes = sumar_un_mes(grafico_x[-1])
     grafico_x.append(nuevo_mes)
     
-    grafico_frecuencias(grafico_x,grafico_y,id_producto)
-    print("GRAFICO GENERADO")
-    return prediccion[0]
+    coordenadas = {"X": grafico_x,
+                   "Y": grafico_y}
+    print("COORDENADAS")
+    print(coordenadas)
+
+    return prediccion[0], coordenadas
 
 # Ejemplo de uso:
 #id_producto = 15  # ID del producto para el que se quiere hacer la predicción

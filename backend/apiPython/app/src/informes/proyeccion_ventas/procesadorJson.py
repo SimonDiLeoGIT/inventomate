@@ -1,15 +1,5 @@
-import base64
-import json
 from datetime import datetime
-import os
 from .predicciones import prediccionPorProducto, calcular_perdida_estimada, calcular_ganancia_estimada
-
-def imagen_a_base64(ruta_imagen):
-    with open(ruta_imagen, 'rb') as file:
-        imagen_bytes = file.read()
-        base64_encoded = base64.b64encode(imagen_bytes).decode('utf-8')
-        
-    return base64_encoded
 
 async def procesar_json(json_data):
     # Obtener la fecha estimada para el próximo mes
@@ -29,8 +19,6 @@ async def procesar_json(json_data):
     for venta in json_data['listado_ventas']:
         fechas.append(datetime.strptime(venta['fecha_hora'], '%Y-%m-%d %H:%M:%S.%f'))
     fechas = sorted(set(fechas))
-    print("FECHAS")
-    print(fechas)
     beneficio_dia_a_dia = [0] * len(fechas)
 
     # Conjunto para rastrear los IDs de los productos procesados
@@ -62,7 +50,7 @@ async def procesar_json(json_data):
             for compra in json_data['listado_compras']:
                 for det in compra['detalle']:
                     if det['producto']['id_producto'] == id_producto:
-                        inversion += compra['total']
+                        inversion += det['total']
             
             # Calcular la ganancia sumando los 'total' de cada detalle de venta para el producto actual
             ganancia = 0
@@ -74,18 +62,18 @@ async def procesar_json(json_data):
             # Actualizar las variables de pérdida y ganancia estimadas
             perdida_total += inversion
             ganancia_total += ganancia
+    
+            prediccion, coordenadasGrafico = prediccionPorProducto(id_producto, json_data)
             
-            grafico_producto = "grafico_ventas_" + str(id_producto) + ".png"
-
             estimacion = {
                 'id_producto': id_producto,
                 'nombre_producto': nombre_producto,
                 'cantidad_ventas': cantidad_ventas,
-                'cantidad_ventas_estimadas': prediccionPorProducto(id_producto, json_data),  # Llamada a la función externa
+                'cantidad_ventas_estimadas': prediccion,  # Llamada a la función externa
                 'inversion': inversion,
                 'ganancia': ganancia,
                 'diferencia': ganancia - inversion,
-                'graficoCantidadVendidaXFecha': imagen_a_base64(grafico_producto)
+                'graficoCantidadVendidaXFecha': coordenadasGrafico
             }
             estimaciones_por_producto.append(estimacion)
 
@@ -113,4 +101,3 @@ async def procesar_json(json_data):
 #         print("RESULTADO")
 #         print(json.dumps(json_procesado, indent=4))
 #     return json_procesado
-

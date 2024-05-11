@@ -3,6 +3,5 @@ flask[async]
 pandas
 scikit-learn
 pymongo
-pdflatex
 numpy
 matplotlib
