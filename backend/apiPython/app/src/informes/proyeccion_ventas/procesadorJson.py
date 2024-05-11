@@ -25,7 +25,7 @@ async def procesar_json(json_data):
     # Calcular el gráfico de beneficio
     fechas = []
     for compra in json_data['listado_compras']:
-        fechas.append(datetime.strptime(compra['fecha_hora'], '%Y-%m-%d'))
+        fechas.append(datetime.strptime(compra['fecha_hora'], '%Y-%m-%d %H:%M:%S.%f'))
     for venta in json_data['listado_ventas']:
         fechas.append(datetime.strptime(venta['fecha_hora'], '%Y-%m-%d %H:%M:%S.%f'))
     fechas = sorted(set(fechas))
