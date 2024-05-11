@@ -26,7 +26,7 @@ public class FlaskServiceImpl implements FlaskService {
 
 	private final String url = "http://127.0.0.1:5000/";
 	private final RestTemplate restTemplate;
-	
+
 	@Override
 	public String postDatosInformeTendencias(TrendsDTO trendsDTO) {
 		HttpHeaders headers = new HttpHeaders();
@@ -60,31 +60,31 @@ public class FlaskServiceImpl implements FlaskService {
 	@Override
 	public Object getDatosInformeByTipoInforme(String idMongo, TipoInforme tipoInforme) {
 		Object response = null;
-		switch(tipoInforme) {
-		case ANALISIS_DE_TENDENCIA :
-			response = getDatosInformeTendencias(idMongo);
-			break;
-		case PROYECCION_DE_VENTAS :
-			response = getDatosInformeDeProyeccionDeVentas(idMongo);
+		switch (tipoInforme) {
+			case ANALISIS_DE_TENDENCIA:
+				response = getDatosInformeTendencias(idMongo);
+				break;
+			case PROYECCION_DE_VENTAS:
+				response = getDatosInformeDeProyeccionDeVentas(idMongo);
 		}
 		return response;
 	}
-	
+
 	private Object getDatosInformeDeProyeccionDeVentas(String idMongo) {
-	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
-	            .path("api").path("/informe").path("/proyeccion-de-ventas")
-	            .queryParam("idMongo", idMongo);
-	    URI uri = builder.build().toUri();
-	    ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, Object.class);
-	    return responseEntity.getBody();
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
+				.path("api").path("/informe").path("/proyeccion-de-ventas")
+				.queryParam("idMongo", idMongo);
+		URI uri = builder.build().toUri();
+		ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, Object.class);
+		return responseEntity.getBody();
 	}
 
 	private Object getDatosInformeTendencias(String idMongo) {
-	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
-	            .path("api").path("/informe").path("/tendencias")
-	            .queryParam("idMongo", idMongo);
-	    URI uri = builder.build().toUri();
-	    ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, Object.class);
-	    return responseEntity.getBody();
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
+				.path("api").path("/informe").path("/tendencias")
+				.queryParam("idMongo", idMongo);
+		URI uri = builder.build().toUri();
+		ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, Object.class);
+		return responseEntity.getBody();
 	}
 }
