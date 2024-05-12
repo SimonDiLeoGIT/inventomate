@@ -6,5 +6,13 @@ interface Trend {
 }
 
 interface Trends {
+  id: string
   trends: Trend[]
+}
+
+interface TrendReport {
+  id: number,
+  fecha: string,
+  tipoInforme: string,
+  visto: boolean
 }

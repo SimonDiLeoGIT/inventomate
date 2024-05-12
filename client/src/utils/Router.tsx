@@ -8,6 +8,8 @@ import { Branch } from "../pages/Branch";
 import { Trends } from "../pages/Trends";
 import { CompanySettings } from "../pages/CompanySettings";
 import { Product } from "../pages/Product";
+import { Profile } from "../pages/Profile";
+import { Trend } from "../pages/Trend";
 
 export const Router = () => {
 
@@ -20,11 +22,13 @@ export const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/register-company" element={<RegisterCompany />} />
         <Route path="/company" element={<Company />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/company/company-settings" element={<CompanySettings />} />
         <Route path="/company/register-branch" element={<RegisterBranch />} />
         <Route path="/company/branch/:idBranch" element={<Branch />} />
         <Route path="/company/reports/new-trends" element={<Trends />} />
-        <Route path="/company/reports/new-trends/:category/:position" element={<Product />} />
+        <Route path="/company/reports/new-trends/:idBranch/:idInforme" element={<Trend />} />
+        <Route path="/company/reports/new-trends/:idBranch/:idInforme/:category/:position" element={<Product />} />
       </Routes>
     </BrowserRouter>
   )

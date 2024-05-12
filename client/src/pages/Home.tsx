@@ -10,6 +10,7 @@ import { Login } from "./Login";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useUser } from "../hook/useUser";
+import logout_icon from '../assets/icons/logout.svg'
 
 export const Home = () => {
 

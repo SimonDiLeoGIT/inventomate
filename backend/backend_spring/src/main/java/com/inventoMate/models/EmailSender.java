@@ -19,21 +19,22 @@ import jakarta.mail.internet.MimeMessage;
 
 @Component
 public class EmailSender {
-	
-	@Autowired
+
+    @Autowired
     private JavaMailSender javaMailSender;
-	@Autowired
+    @Autowired
     private TemplateEngine templateEngine;
 
-	public void sendSucursalInvitation(Empresa empresa, Sucursal sucursal, Usuario usuario, List<Rol> roles, String token) {
-		try {
+    public void sendSucursalInvitation(Empresa empresa, Sucursal sucursal, Usuario usuario, List<Rol> roles,
+            String token) {
+        try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setFrom("grupo3SIP2024@gmail.com");
             helper.setTo(usuario.getEmail());
             helper.setSubject("Invitacion a " + sucursal.getNombre());
-           
+
             Context context = new Context();
             context.setVariable("empresa", empresa);
             context.setVariable("usuario", usuario);
@@ -46,18 +47,18 @@ public class EmailSender {
         } catch (Exception e) {
             throw new RuntimeException("Error al enviar el correo: " + e.getMessage(), e);
         }
-	}
+    }
 
-	public void sendInformeNotification(Empresa empresa, Sucursal sucursal, Informe informe,
-			Usuario empleado) {
-		try {
+    public void sendInformeNotification(Empresa empresa, Sucursal sucursal, Informe informe,
+            Usuario empleado) {
+        try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setFrom("grupo3SIP2024@gmail.com");
             helper.setTo(empleado.getEmail());
             helper.setSubject("Culminacion de " + informe.getTipoInforme().getName());
-           
+
             Context context = new Context();
             context.setVariable("empresa", empresa);
             context.setVariable("usuario", empleado);
@@ -70,5 +71,5 @@ public class EmailSender {
         } catch (Exception e) {
             throw new RuntimeException("Error al enviar el correo: " + e.getMessage(), e);
         }
-	}	
+    }
 }

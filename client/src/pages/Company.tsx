@@ -47,11 +47,11 @@ export const Company = () => {
               <li>
                 <h2 className="font-bold -text--color-semidark-violet">Owner</h2>
                 <div className="flex items-center space-x-2">
-                  <img
+                  {/* <img
                     src={currentUser?.usuario.picture}
                     alt={currentUser?.empresa?.owner.nickname}
                     className="w-8 h-8 rounded-full"
-                  />
+                  /> */}
                   <section className="text-sm">
                     <p className="-text--color-violet-user-email font-bold">{currentUser?.empresa?.owner.nickname}</p>
                     <p className="-text--color-violet-user-email">{currentUser?.empresa?.owner.email}</p>
@@ -63,15 +63,19 @@ export const Company = () => {
                 <p>Location</p>
               </li>
             </ul>
-            <Link to='./company-settings'
-              className="flex items-center p-2 font-bold text-sm -bg--color-semidark-violet -text--color-white justify-center rounded-xl max-w-md m-auto mr-0 mb-0"
-            >
-              <img
-                src={company_settings}
-                className="w-4 mr-2"
-              />
-              <p className="overflow-hidden whitespace-nowrap text-ellipsis">Company Settings</p>
-            </Link>
+            {
+              currentUser?.roles.some(rol => rol.idRol === 1)
+              &&
+              <Link to='./company-settings'
+                className="flex items-center p-2 font-bold text-sm -bg--color-semidark-violet -text--color-white justify-center rounded-xl max-w-md m-auto mr-0 mb-0"
+              >
+                <img
+                  src={company_settings}
+                  className="w-4 mr-2"
+                />
+                <p className="overflow-hidden whitespace-nowrap text-ellipsis">Company Settings</p>
+              </Link>
+            }
           </div>
         </section>
         <section className="my-4">
