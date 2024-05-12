@@ -259,7 +259,7 @@ export const getDatabaseConnection = async (accessToken: string): Promise<Databa
   }
 }
 
-export const getTrends = async (accessToken: string, idBranch: string): Promise<Trends[] | null> => {
+export const getTrends = async (accessToken: string, idBranch: string): Promise<TrendReport[] | null> => {
   try {
     const response = await axios({
       url: 'http://localhost:8080/api/informes/tendencias/' + idBranch,
@@ -269,6 +269,22 @@ export const getTrends = async (accessToken: string, idBranch: string): Promise<
       }
     })
     console.log(response)
+    return response.data
+  } catch (error: any) {
+    return null
+  }
+}
+
+export const getTrendById = async (accessToken: string, idBranch: string, idInforme: string): Promise<Trends | null> => {
+  try {
+    const response = await axios({
+      url: 'http://localhost:8080/api/informes/tendencias/' + idInforme + '/sucursales/' + idBranch,
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    console.log(response.data)
     return response.data
   } catch (error: any) {
     return null

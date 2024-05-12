@@ -6,10 +6,10 @@ import { SideNavbar } from "../components/SideNavbar";
 import { useTrends } from "../hook/useTrends";
 import treds_icon from '../assets/icons/violet-new-trends.svg'
 import { Requesting } from "../components/Requesting";
-import { TrendsSection } from "../components/TrendsSection";
 import { NoTrends } from "../components/Errors/NoTrends";
 import { EmptyHistory } from "../components/Errors/EmptyHistory";
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection";
+import { TrendReports } from "../components/TrendReports";
 
 export const Trends = () => {
 
@@ -17,12 +17,12 @@ export const Trends = () => {
 
 
   const { currentUser, setUser } = useUser()
-  const { newTrends, setNewTrends } = useTrends()
+  // const { setNewTrends } = useTrends()
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [company, setCompany] = useState<Company | null>(null)
   const [database, setDatabase] = useState<boolean>(true)
-  const [trends, setTrends] = useState<Trends[] | null>(null)
+  const [trendReports, setTrendReports] = useState<TrendReport[] | null>(null)
 
   const [branch, setBranch] = useState<string>('')
 
@@ -34,11 +34,6 @@ export const Trends = () => {
 
       const userCompany = await getCompany(accessToken)
       setCompany(userCompany)
-
-      if (currentUser?.sucursal?.idSucursal !== undefined) {
-        const response = await getTrends(accessToken, currentUser?.sucursal?.idSucursal.toString())
-        setTrends(response)
-      }
 
     }
 
@@ -64,19 +59,25 @@ export const Trends = () => {
 
     if (await getDatabase(accessToken)) {
       const response = await getNewTrends(accessToken, branch)
-      if (response !== null) {
-        setNewTrends(response)
-      }
+      // if (response !== null) {
+      //   setNewTrends(response)
+      // }
     } else {
       setDatabase(false)
       setRequesting(false)
     }
   }
 
-  const handleChangeOption = (e: any) => {
+  const handleChangeOption = async (e: any) => {
     console.log('e: ', e.target.value)
     setBranch(e.target.value)
     console.log('branch: ', branch)
+    // if (currentUser?.sucursal?.idSucursal !== undefined) {
+    const accessToken = await getAccessTokenSilently()
+    const response = await getTrends(accessToken, e.target.value)
+    setTrendReports(response)
+    console.log('trends: ', response)
+    // }
   }
 
   return (
@@ -122,11 +123,11 @@ export const Trends = () => {
           <Requesting />
           :
           database ? (
-            ((trends !== null) ?
-              trends.length === 0 ?
+            ((trendReports !== null) ?
+              trendReports.length === 0 ?
                 <NoTrends />
                 :
-                <TrendsSection newTrends={newTrends} />
+                <TrendReports trendReports={trendReports} idBranch={branch} />
               :
               <EmptyHistory />
             ))
