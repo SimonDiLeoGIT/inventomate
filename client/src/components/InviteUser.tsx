@@ -88,7 +88,7 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
   return (
     <>
       <button
-        className="m-auto ml-0 -bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg flex items-center w-full max-w-32 max-h-10"
+        className="m-auto -bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg flex items-center w-full max-w-32 max-h-10 mr-0"
         onClick={() => handleMenuOpen()}
       >
         <img src={add_icon} className="w-5 mr-2" />

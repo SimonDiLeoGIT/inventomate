@@ -43,12 +43,12 @@ export const Branch = () => {
         <section className="my-4">
           <h2 className="font-bold -text--color-semidark-violet py-2 text-lg border-b mb-2">Members</h2>
           <div className="grid grid-cols-2">
+            <Searcher />
             {
               idBranch !== undefined && currentUser?.roles.some(rol => rol.idRol === 1)
               &&
               <InviteUser idBranch={idBranch} />
             }
-            <Searcher />
           </div>
           <ul className="my-4 grid w-full m-auto grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
             {

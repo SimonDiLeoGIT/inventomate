@@ -6,7 +6,7 @@ interface Props {
 
 type TrendsContext = {
   trends: Trends | null,
-  setTrends: (trends: Trends) => void,
+  setTrends: (trends: Trends | null) => void,
 }
 
 export const TrendsContext = createContext({} as TrendsContext)

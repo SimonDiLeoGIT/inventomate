@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useUser } from "../hook/useUser";
 import { useAuth0 } from "@auth0/auth0-react";
-import { deleteUser, editUser, editUserPass } from "../utils/Database.service";
+import { deleteUser, editUserPass } from "../utils/Database.service";
 import delete_icon from '../assets/icons/delete.svg'
 import logout_icon from '../assets/icons/logout-white.svg'
 import password_icon from '../assets/icons/password.svg'
-import edit_grey_icon from '../assets/icons/edit-grey.svg'
 import { EditUser } from "../components/EditUser";
 
 export const Profile = () => {
@@ -50,7 +49,11 @@ export const Profile = () => {
       <header className="p-2 flex items-center">
         <img src={currentUser?.usuario.picture} className="rounded-full w-16 shadow-md -shadow--color-black-shadow mr-4" />
         <h1 className="font-semibold text-2xl">{currentUser?.usuario.nickname}</h1>
-        <EditUser user={currentUser?.usuario} />
+        {
+          currentUser
+          &&
+          <EditUser user={currentUser?.usuario} />
+        }
       </header>
       <section className="p-2">
         <h1 className="font-semibold text-lg">About you</h1>
@@ -90,16 +93,16 @@ export const Profile = () => {
               <p className="-text--color-violet-user-email font-bold">{currentUser?.empresa?.owner.nickname}</p>
               <p className="-text--color-violet-user-email">{currentUser?.empresa?.owner.email}</p>
             </section>
-            <section className="text-sm row-start-1 col-start-2 row-span-2">
+            <section className="text-sm row-start-1 col-start-2 row-span-2 relative">
               <h2 className="font-bold -text--color-semidark-violet mb-2">Roles</h2>
-              <ul className="shadow -shadow--color-border-light-grey">
+              <ul className="shadow -shadow--color-border-light-grey absolute w-full z-10 -bg--color-white">
                 {
                   currentUser?.roles.map(rol => {
                     return (
                       <li className="">
                         <details className="">
                           <summary className=" p-2 list-none -bg--color-border-very-lightest-grey border-b -text--color-violet-user-email font-semibold hover:opacity-80 hover:cursor-pointer">{rol.nombreRol}</summary>
-                          <p className="p-2 text-sm">{rol.descripcion}</p>
+                          <p className="p-2 text-sm -bg--color-white">{rol.descripcion}</p>
                         </details>
                       </li>
                     )
@@ -110,43 +113,41 @@ export const Profile = () => {
           </section>
         </section>
       }
-      <section>
-        <section className="my-8 -text--color-black">
-          <h2 className="font-semibold text-lg my-4">
-            Danger Zone
-          </h2>
-          <ul className="border-4 -border--color-ful-red rounded-xl">
+      <section className="my-12 -text--color-black">
+        <h2 className="font-semibold text-lg my-4">
+          Danger Zone
+        </h2>
+        <ul className="border-4 -border--color-ful-red rounded-xl">
+          <li className="p-2 flex items-center">
+            <p className="font-medium">Change Password</p>
+            <button
+              onClick={handleChangePass}
+              className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80"
+              disabled
+            >
+              <img src={password_icon} className="w-6" />
+            </button>
+          </li>
+          {
+            currentUser?.empresa !== null
+            &&
             <li className="p-2 flex items-center">
-              <p className="font-medium">Change Password</p>
-              <button
-                onClick={handleChangePass}
-                className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80"
-                disabled
-              >
-                <img src={password_icon} className="w-6" />
+              <p className="font-medium">Leaving the Company</p>
+              <button className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80">
+                <img src={logout_icon} className="w-6" />
               </button>
             </li>
-            {
-              currentUser?.empresa !== null
-              &&
-              <li className="p-2 flex items-center">
-                <p className="font-medium">Leaving the Company</p>
-                <button className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80">
-                  <img src={logout_icon} className="w-6" />
-                </button>
-              </li>
-            }
-            <li className="p-2 flex items-center">
-              <p className="font-medium">Delete Account</p>
-              <button
-                className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80"
-                onClick={handleDelete}
-              >
-                <img src={delete_icon} className="w-6" />
-              </button>
-            </li>
-          </ul>
-        </section>
+          }
+          <li className="p-2 flex items-center">
+            <p className="font-medium">Delete Account</p>
+            <button
+              className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80"
+              onClick={handleDelete}
+            >
+              <img src={delete_icon} className="w-6" />
+            </button>
+          </li>
+        </ul>
       </section>
     </main>
   )
