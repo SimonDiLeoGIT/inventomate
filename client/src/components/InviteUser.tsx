@@ -3,7 +3,7 @@ import { getRoles, inviteUser, searchUser } from "../utils/Database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import add_icon from '../assets/icons/plus-circle-.svg'
 import close_icon from '../assets/icons/close.svg'
-import { WaitingResponse } from "./Loading/WaitingResponse"
+import { WaitingResponse } from "./WaitingResponse"
 
 interface props {
   idBranch: string
@@ -88,7 +88,7 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
   return (
     <>
       <button
-        className="m-auto ml-0 -bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg flex items-center max-w-32 max-h-10"
+        className="m-auto ml-0 -bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg flex items-center w-full max-w-32 max-h-10"
         onClick={() => handleMenuOpen()}
       >
         <img src={add_icon} className="w-5 mr-2" />

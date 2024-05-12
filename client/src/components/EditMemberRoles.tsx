@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react"
 import { editMemberRoles, getMembertRoles, getRoles } from "../utils/Database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import close_icon from '../assets/icons/close.svg'
-import { WaitingResponse } from "./Loading/WaitingResponse"
+import { WaitingResponse } from "./WaitingResponse"
+import { i } from "vitest/dist/reporters-LqC_WI4d.js"
 
 interface props {
-  idBranch: string
+  idBranch: string | undefined
   user: User
 }
 
@@ -23,15 +24,19 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
   useEffect(() => {
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
+
       const response = await getRoles(accessToken)
-      const memberPermissions = await getMembertRoles(accessToken, idBranch, user.idUsuario)
       setRoles(response)
-      setMemberRoles(memberPermissions)
-      console.log(memberPermissions)
-      memberPermissions?.forEach(rol => {
-        setRolesSelected([...rolesSelected, rol.idRol.toString()])
-        console.log(rol)
-      })
+
+      if (idBranch !== undefined) {
+        const memberPermissions = await getMembertRoles(accessToken, idBranch, user.idUsuario)
+        setMemberRoles(memberPermissions)
+        console.log(memberPermissions)
+        memberPermissions?.forEach(rol => {
+          setRolesSelected([...rolesSelected, rol.idRol.toString()])
+          console.log(rol)
+        })
+      }
     }
 
     isAuthenticated && getToken()
@@ -65,7 +70,7 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
     setLoading(true)
     if (rolesSelected.length === 0) {
       alert("You must select at least one role for the user.");
-    } else {
+    } else if (idBranch !== undefined) {
       console.log(rolesSelected)
       const accessToken = await getAccessTokenSilently()
       await editMemberRoles(accessToken, idBranch, user.idUsuario, rolesSelected)
