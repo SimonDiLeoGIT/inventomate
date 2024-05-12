@@ -5,33 +5,26 @@ import right_arrow from '../assets/icons/right-arrow.svg'
 interface Props {
   currentImage: number
   changeCurrentImage: (image: number) => void
-  setTranslateValue: (image: number) => void
   carousel: boolean
   cant: number
 }
 
-export const ArrowButtons: React.FC<Props> = ({ currentImage, changeCurrentImage, setTranslateValue, carousel, cant }) => {
+export const ArrowButtons: React.FC<Props> = ({ currentImage, changeCurrentImage, carousel, cant }) => {
 
   function nextImage() {
-    let newIndex = (currentImage + 1);
     if (currentImage < cant - 1) {
       changeCurrentImage(currentImage + 1);
     } else {
       changeCurrentImage(0);
-      newIndex = 0;
     }
-    setTranslateValue(-100 * newIndex);
   }
 
   function prevImage() {
-    let newIndex = (currentImage - 1);
     if (currentImage > 0) {
       changeCurrentImage(currentImage - 1);
     } else {
       changeCurrentImage(cant - 1);
-      newIndex = cant - 1;
     }
-    setTranslateValue(-100 * newIndex);
   }
 
   return (

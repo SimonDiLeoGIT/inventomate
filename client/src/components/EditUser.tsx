@@ -57,7 +57,7 @@ export const EditUser: React.FC<props> = ({ user }) => {
         <img src={edit_icon} className={`w-8 opacity-70 hover:opacity-50`} />
       </button>
 
-      <aside className={`fixed w-screen h-screen overflow-hidden top-0 left-0 ${!isOpen && 'hidden'} opacity-animation grid place-content-center`}>
+      <aside className={`fixed w-screen h-screen overflow-hidden top-0 left-0 ${!isOpen && 'hidden'} opacity-animation grid place-content-center z-20`}>
         <section className='-bg--color-white p-4 relative w-screen max-w-xl shadow-lg -shadow--color-black-shadow'>
           <header>
             <h1 className="text-lg font-semibold">Edit User</h1>

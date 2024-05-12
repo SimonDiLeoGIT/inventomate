@@ -94,21 +94,27 @@ export const MenuOptions = () => {
           </li>
         }
       </ul>
-      <h3 className="flex items-center font-medium mt-4">
-        <img src={settings_section} className="w-5 mr-2" />
-        Settings
-      </h3>
-      <ul className="p-2 border-b -border--color-border-light-grey">
-        <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
-          <Link
-            to='/company-settings'
-            className="flex px-1 py-2"
-          >
-            <img src={settings} alt="Connection Settings" className="w-5 mr-2" />
-            Company Settings
-          </Link>
-        </li>
-      </ul>
+      {
+        currentUser?.roles.some(rol => rol.idRol === 1)
+        &&
+        <>
+          <h3 className="flex items-center font-medium mt-4">
+            <img src={settings_section} className="w-5 mr-2" />
+            Settings
+          </h3>
+          <ul className="p-2 border-b -border--color-border-light-grey">
+            <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
+              <Link
+                to='/company-settings'
+                className="flex px-1 py-2"
+              >
+                <img src={settings} alt="Connection Settings" className="w-5 mr-2" />
+                Company Settings
+              </Link>
+            </li>
+          </ul>
+        </>
+      }
     </section>
   )
 }

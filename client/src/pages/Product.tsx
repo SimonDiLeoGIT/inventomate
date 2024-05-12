@@ -11,7 +11,6 @@ export const Product = () => {
   const { trends } = useTrends()
 
   const [currentImage, changeCurrentImage] = useState(0);
-  const [translateValue, setTranslateValue] = useState(0);
 
 
   const [product, setProduct] = useState<Product | null>(null)
@@ -38,7 +37,11 @@ export const Product = () => {
               src={product?.pictures[currentImage].url}
             />
           </section>
-          <ArrowButtons currentImage={currentImage} changeCurrentImage={changeCurrentImage} setTranslateValue={setTranslateValue} carousel={false} cant={product?.pictures.length} />
+          {
+            product
+            &&
+            <ArrowButtons currentImage={currentImage} changeCurrentImage={changeCurrentImage} carousel={false} cant={product?.pictures.length} />
+          }
         </div>
         <section className="md:grid">
           <div className="p-4 -text--color-black md:grid place-content-center">
