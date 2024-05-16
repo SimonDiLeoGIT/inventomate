@@ -11,5 +11,5 @@ public interface BdEmpresaService {
 	void deleteEmpresa(String idAuth0);
 
 	BdEmpresaDTO getBdEmpresaCurrentUser(String idAuth0);
-	
+
 }

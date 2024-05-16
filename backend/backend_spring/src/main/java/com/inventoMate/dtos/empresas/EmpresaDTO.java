@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 public class EmpresaDTO {
 
 	private Long idEmpresa;
-	
+
 	private String nombreEmpresa;
 
 	private String descripcion;
 
 	private String logo;
-	
-    private OwnerDTO owner;
-	
+
+	private OwnerDTO owner;
+
 }

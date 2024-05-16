@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResultProductDTO {
 
-    @JsonProperty("results")
+	@JsonProperty("results")
 	private List<ProductDTO> products;
 
 }

@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OwnerDTO {
-	
-    private Long idUsuario;
 
-    private String nickname;
+	private Long idUsuario;
 
-    private String email;
-	
+	private String nickname;
+
+	private String email;
+
 }

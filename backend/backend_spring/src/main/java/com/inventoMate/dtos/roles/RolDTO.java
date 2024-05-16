@@ -14,7 +14,7 @@ public class RolDTO {
 	private String nombreRol;
 
 	private String descripcion;
-	
+
 	private String idRolAuth0;
-	
+
 }

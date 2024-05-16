@@ -41,22 +41,21 @@ public class Empresa {
 
 	@Column(name = "logo", nullable = true)
 	private String logo;
-	
+
 	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
 	private List<Sucursal> sucursales;
-	
+
 	@OneToOne
-    @JoinColumn(name = "owner")
-    private Usuario owner;
-	
+	@JoinColumn(name = "owner")
+	private Usuario owner;
+
 	@OneToOne
-    @JoinColumn(name = "id_bd_empresa")
-    private BdEmpresa bdEmpresa;
-	
+	@JoinColumn(name = "id_bd_empresa")
+	private BdEmpresa bdEmpresa;
+
 	public Sucursal obtenerSucursal(Long idSucursal) {
-		return this.getSucursales().stream()
-				.filter(sucursal -> sucursal.getIdSucursal().equals(idSucursal))
-				.findFirst().orElse(null);
+		return this.getSucursales().stream().filter(sucursal -> sucursal.getIdSucursal().equals(idSucursal)).findFirst()
+				.orElse(null);
 	}
 
 	public void inicializarEmpresa(Usuario usuario) {
@@ -67,14 +66,12 @@ public class Empresa {
 	public void eliminarSucursales() {
 		sucursales.forEach(sucursal -> sucursal.eliminarEmpleados());
 	}
-	
+
 	public List<Usuario> obtenerEmpleados() {
-	    List<Usuario> empleados = new ArrayList<>();
-	    sucursales.stream()
-	              .filter(Sucursal::contieneEmpleados)
-	              .map(Sucursal::obtenerEmpleados)
-	              .forEach(empleados::addAll);
-	    return empleados;
+		List<Usuario> empleados = new ArrayList<>();
+		sucursales.stream().filter(Sucursal::contieneEmpleados).map(Sucursal::obtenerEmpleados)
+				.forEach(empleados::addAll);
+		return empleados;
 	}
 
 	public void agregarSucursal(Sucursal sucursal) {

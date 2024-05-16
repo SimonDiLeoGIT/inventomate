@@ -14,11 +14,16 @@ import net.minidev.json.JSONObject;
 public interface InformeMapper {
 
 	JSONObject mapToHistoricoVentas(List<VentaDetalle> historicoVentas);
+
 	JSONObject mapToHistoricoCompras(List<CompraDetalle> historicoCompras);
+
 	JSONObject mapToHistoricoMovimientos(List<VentaDetalle> historicoVentas, List<CompraDetalle> historicoCompras,
 			LocalDate fecha, Long idSucursal);
+
 	List<InformeDTO> mapToInformeDTO(List<Informe> informes);
+
 	InformeDTO mapToInformeDTO(Informe informe);
+
 	Informe mapToInforme(String idMongo, TipoInforme tipo);
 
 }

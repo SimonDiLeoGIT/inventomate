@@ -29,13 +29,13 @@ public class BdEmpresaServiceImpl implements BdEmpresaService {
 
 		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
-		
-		if(!usuario.esDueñoDeEmpresa())
+
+		if (!usuario.esDueñoDeEmpresa())
 			throw new ResourceNotFoundException("Empresa", "owner", usuario.getIdUsuario().toString());
-		
+
 		Empresa empresa = usuario.obtenerEmpresa();
 
-		BdEmpresa bdEmpresa = mapper.mapToBdEmpresa(bdEmpresaDTO,empresa);
+		BdEmpresa bdEmpresa = mapper.mapToBdEmpresa(bdEmpresaDTO, empresa);
 
 		empresa.setBdEmpresa(bdEmpresa);
 
@@ -51,59 +51,59 @@ public class BdEmpresaServiceImpl implements BdEmpresaService {
 		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
 
-		if(!usuario.esDueñoDeEmpresa())
+		if (!usuario.esDueñoDeEmpresa())
 			throw new ResourceNotFoundException("Empresa", "owner", usuario.getIdUsuario().toString());
-		
+
 		Empresa empresa = usuario.obtenerEmpresa();
-		
+
 		BdEmpresa bdEmpresa = empresa.getBdEmpresa();
-		
-		if(bdEmpresa == null) {
+
+		if (bdEmpresa == null) {
 			throw new ResourceNotFoundException("Bd-empresa", "empresa", empresa.getIdEmpresa().toString());
 		}
-		
+
 		mapper.mapToBdEmpresa(bdEmpresaDTO, bdEmpresa);
-		
+
 		bdEmpresaRepository.save(bdEmpresa);
 		return mapper.mapToBdEmpresaDTO(bdEmpresa);
 	}
 
 	@Override
 	public void deleteEmpresa(String idAuth0) {
-		
+
 		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
 
-		if(!usuario.esDueñoDeEmpresa())
+		if (!usuario.esDueñoDeEmpresa())
 			throw new ResourceNotFoundException("Empresa", "owner", usuario.getIdUsuario().toString());
-		
+
 		Empresa empresa = usuario.obtenerEmpresa();
-		
+
 		BdEmpresa bdEmpresa = empresa.getBdEmpresa();
-		
-		if(bdEmpresa == null) {
+
+		if (bdEmpresa == null) {
 			throw new ResourceNotFoundException("Bd-empresa", "empresa", empresa.getIdEmpresa().toString());
 		}
-		
+
 		empresa.setBdEmpresa(null);
-		
+
 		empresaRepository.save(empresa);
-		
-		bdEmpresaRepository.delete(bdEmpresa);	
+
+		bdEmpresaRepository.delete(bdEmpresa);
 	}
 
 	@Override
 	public BdEmpresaDTO getBdEmpresaCurrentUser(String idAuth0) {
-		
+
 		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
 
 		Empresa empresa = empresaRepository.findByOwner(usuario).orElseThrow(
 				() -> new ResourceNotFoundException("Empresa", "owner", usuario.getIdUsuario().toString()));
-		
+
 		BdEmpresa bdEmpresa = bdEmpresaRepository.findByEmpresa(empresa).orElseThrow(
 				() -> new ResourceNotFoundException("Bd-empresa", "empresa", empresa.getIdEmpresa().toString()));
-		
+
 		return mapper.mapToBdEmpresaDTO(bdEmpresa);
 	}
 

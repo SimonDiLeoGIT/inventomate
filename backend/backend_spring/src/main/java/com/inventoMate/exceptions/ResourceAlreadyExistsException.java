@@ -10,16 +10,16 @@ import lombok.Setter;
 @Setter
 @ResponseStatus(HttpStatus.CONFLICT)
 public class ResourceAlreadyExistsException extends RuntimeException {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private final String resourceName;
-    private final String fieldName;
-    private final String fieldValue;
+	private final String resourceName;
+	private final String fieldName;
+	private final String fieldValue;
 
-    public ResourceAlreadyExistsException(String resourceName, String fieldName, String fieldValue) {
-        super(String.format("%s with %s: '%s' already exists", resourceName, fieldName, fieldValue));
-        this.resourceName = resourceName;
-        this.fieldName = fieldName;
-        this.fieldValue = fieldValue;
-    }
+	public ResourceAlreadyExistsException(String resourceName, String fieldName, String fieldValue) {
+		super(String.format("%s with %s: '%s' already exists", resourceName, fieldName, fieldValue));
+		this.resourceName = resourceName;
+		this.fieldName = fieldName;
+		this.fieldValue = fieldValue;
+	}
 }

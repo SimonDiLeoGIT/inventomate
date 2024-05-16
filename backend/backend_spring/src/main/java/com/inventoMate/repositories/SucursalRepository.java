@@ -16,5 +16,5 @@ public interface SucursalRepository extends JpaRepository<Sucursal, Long> {
 	Optional<Sucursal> findByUsuariosContains(Usuario usuario);
 
 	Optional<List<Sucursal>> findAllByEmpresa(Empresa empresa);;
-	
+
 }

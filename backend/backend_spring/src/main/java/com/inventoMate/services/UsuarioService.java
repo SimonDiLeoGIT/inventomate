@@ -1,6 +1,5 @@
 package com.inventoMate.services;
 
-
 import java.util.List;
 
 import com.auth0.exception.Auth0Exception;
@@ -17,7 +16,7 @@ public interface UsuarioService {
 
 	UsuarioProfileResponse getProfileCurrentUser(String idAuth0) throws Auth0Exception;
 
-	UsuarioProfileResponse updateUser(String idAuth0,  @Valid EditUserRequest usuario) throws Auth0Exception;
+	UsuarioProfileResponse updateUser(String idAuth0, @Valid EditUserRequest usuario) throws Auth0Exception;
 
 	void deleteUserPrincipal(String idAuth0);
 

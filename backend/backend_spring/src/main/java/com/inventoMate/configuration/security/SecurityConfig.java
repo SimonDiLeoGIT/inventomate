@@ -32,43 +32,48 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain httpSecurity(final HttpSecurity http) throws Exception {
-		return http
-				.authorizeHttpRequests(authz -> authz
-						// roles
-						.requestMatchers(HttpMethod.GET, "/api/roles/**").hasAuthority("read:roles")
-						.requestMatchers(HttpMethod.PUT, "/api/roles/**").hasAuthority("assign:roles-to-user")
-						// users
-						.requestMatchers("api/users/create").hasAuthority("create:user")
-						.requestMatchers("api/users/**").authenticated()
-						// empresas
-						.requestMatchers("api/empresas/profile").hasAuthority("read:company-owner")
-						.requestMatchers("api/empresas/edit").hasAuthority("edit:company")
-						.requestMatchers("api/empresas/delete").hasAnyAuthority("delete:company")
-						.requestMatchers("api/empresas/create").authenticated()
-						// sucursales
-						.requestMatchers("api/sucursales/create").hasAnyAuthority("edit:company")
-						.requestMatchers("api/sucursales/{idSucursal}/edit").hasAuthority("edit:company")
-						.requestMatchers(HttpMethod.GET, "api/sucursales/{idSucursal}").hasAuthority("read:company-owner")
-						.requestMatchers(HttpMethod.PUT, "api/sucursales/{idSucursal}").hasAuthority("edit:company")
-						.requestMatchers(HttpMethod.DELETE, "api/sucursales/{idSucursal}").hasAnyAuthority("edit:company")
-						.requestMatchers("api/sucursales/{idSucursal}/invite/**").hasAuthority("assign:roles-to-user")
-						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/roles/{idsRol}/edit").hasAuthority("assign:roles-to-user")
-						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/roles").hasAuthority("read:roles")
-						.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/delete").hasAuthority("edit:company")
-						// bd empresa
-						.requestMatchers("api/bd-empresa/**").hasAuthority("edit:company")
-						// proyeccion de ventas
-						.requestMatchers(HttpMethod.POST, "api/informes/proyeccion-de-ventas/{idSucursal}").hasAuthority("decide:sales-reports")
-						.requestMatchers(HttpMethod.GET, "api/informes/proyeccion-de-ventas/{idSucursal}").hasAuthority("read:sales-reports")
-						.requestMatchers(HttpMethod.GET, "api/informes/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}").hasAuthority("read:sales-reports")
-						// tendencias
-						.requestMatchers(HttpMethod.POST, "api/informes/tendencias/{idSucursal}").hasAuthority("decide:trend-information")
-						.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idSucursal}").hasAuthority("read:trend-information")
-						.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idInforme}/sucursales/{idSucursal}").hasAuthority("read:trend-information")
-						// otros
-						.anyRequest().permitAll()
-						)
-				.cors(Customizer.withDefaults())
+		return http.authorizeHttpRequests(authz -> authz
+				// roles
+				.requestMatchers(HttpMethod.GET, "/api/roles/**").hasAuthority("read:roles")
+				.requestMatchers(HttpMethod.PUT, "/api/roles/**").hasAuthority("assign:roles-to-user")
+				// users
+				.requestMatchers("api/users/create").hasAuthority("create:user").requestMatchers("api/users/**")
+				.authenticated()
+				// empresas
+				.requestMatchers("api/empresas/profile").hasAuthority("read:company-owner")
+				.requestMatchers("api/empresas/edit").hasAuthority("edit:company")
+				.requestMatchers("api/empresas/delete").hasAnyAuthority("delete:company")
+				.requestMatchers("api/empresas/create").authenticated()
+				// sucursales
+				.requestMatchers("api/sucursales/create").hasAnyAuthority("edit:company")
+				.requestMatchers("api/sucursales/{idSucursal}/edit").hasAuthority("edit:company")
+				.requestMatchers(HttpMethod.GET, "api/sucursales/{idSucursal}").hasAuthority("read:company-owner")
+				.requestMatchers(HttpMethod.PUT, "api/sucursales/{idSucursal}").hasAuthority("edit:company")
+				.requestMatchers(HttpMethod.DELETE, "api/sucursales/{idSucursal}").hasAnyAuthority("edit:company")
+				.requestMatchers("api/sucursales/{idSucursal}/invite/**").hasAuthority("assign:roles-to-user")
+				.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/roles/{idsRol}/edit")
+				.hasAuthority("assign:roles-to-user")
+				.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/roles").hasAuthority("read:roles")
+				.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/delete").hasAuthority("edit:company")
+				// bd empresa
+				.requestMatchers("api/bd-empresa/**").hasAuthority("edit:company")
+				// proyeccion de ventas
+				.requestMatchers(HttpMethod.POST, "api/informes/proyeccion-de-ventas/{idSucursal}")
+				.hasAuthority("decide:sales-reports")
+				.requestMatchers(HttpMethod.GET, "api/informes/proyeccion-de-ventas/{idSucursal}")
+				.hasAuthority("read:sales-reports")
+				.requestMatchers(HttpMethod.GET,
+						"api/informes/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("read:sales-reports")
+				// tendencias
+				.requestMatchers(HttpMethod.POST, "api/informes/tendencias/{idSucursal}")
+				.hasAuthority("decide:trend-information")
+				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idSucursal}")
+				.hasAuthority("read:trend-information")
+				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("read:trend-information")
+				// otros
+				.anyRequest().permitAll()).cors(Customizer.withDefaults())
 				.oauth2ResourceServer(
 						oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(makePermissionsConverter()))
 								.authenticationEntryPoint(authenticationErrorHandler))

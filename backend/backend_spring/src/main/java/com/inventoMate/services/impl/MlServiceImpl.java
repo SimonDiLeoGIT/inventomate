@@ -64,7 +64,7 @@ public class MlServiceImpl implements MlService {
 		categoryProducts.entrySet().forEach(entry -> {
 			var categoryTrend = new CategoryTrendDTO();
 			String categoryId = entry.getKey();
-			// busco los mas vendidos 
+			// busco los mas vendidos
 			var bestSellerDTO = highlightsTop20(categoryId);
 			// seteo las palabras mas buscadas
 			categoryTrend.setKeywords(getTrends(categoryId));
@@ -145,8 +145,7 @@ public class MlServiceImpl implements MlService {
 		HttpHeaders headers = setAccesToken();
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(meliUrlsProperties.getPredictCategory())
-				.queryParam("limit", limit)
-				.queryParam("q", encodedProductName);
+				.queryParam("limit", limit).queryParam("q", encodedProductName);
 
 		URI uri = builder.build(true).toUri();
 
@@ -167,8 +166,9 @@ public class MlServiceImpl implements MlService {
 
 		HttpHeaders headers = setAccesToken();
 
-		ResponseEntity<List<TrendKeyWordDTO>> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers),
-				new ParameterizedTypeReference<List<TrendKeyWordDTO>>() {});
+		ResponseEntity<List<TrendKeyWordDTO>> responseEntity = restTemplate.exchange(uri, HttpMethod.GET,
+				new HttpEntity<>(headers), new ParameterizedTypeReference<List<TrendKeyWordDTO>>() {
+				});
 
 		List<String> response = new ArrayList<String>();
 
@@ -186,18 +186,16 @@ public class MlServiceImpl implements MlService {
 
 		HttpHeaders headers = setAccesToken();
 
-		ResponseEntity<ProductAdditionalInfoDTO> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers),
-				ProductAdditionalInfoDTO.class);
+		ResponseEntity<ProductAdditionalInfoDTO> responseEntity = restTemplate.exchange(uri, HttpMethod.GET,
+				new HttpEntity<>(headers), ProductAdditionalInfoDTO.class);
 
 		return responseEntity.getBody();
 	}
-
 
 	private HttpHeaders setAccesToken() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "Bearer " + meliProperties.getAccessToken());
 		return headers;
 	}
-
 
 }

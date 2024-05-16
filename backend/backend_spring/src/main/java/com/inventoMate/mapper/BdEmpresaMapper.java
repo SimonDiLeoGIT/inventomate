@@ -11,5 +11,5 @@ public interface BdEmpresaMapper {
 	BdEmpresa mapToBdEmpresa(BdEmpresaDTO bdEmpresaDTO, Empresa empresa);
 
 	void mapToBdEmpresa(BdEmpresaDTO bdEmpresaDTO, BdEmpresa bdEmpresa);
-	
+
 }

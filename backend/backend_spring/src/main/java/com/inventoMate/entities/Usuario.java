@@ -42,7 +42,7 @@ public class Usuario {
 
 	@Column(nullable = true)
 	private String picture;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_sucursal", nullable = true)
 	private Sucursal sucursal;
@@ -67,10 +67,9 @@ public class Usuario {
 		this.agregarRol(rol);
 		empresa.inicializarEmpresa(this);
 	}
-	
+
 	public Empresa obtenerEmpresa() {
-		return esDueñoDeEmpresa()? getEmpresa() :
-			sucursal.getEmpresa();
+		return esDueñoDeEmpresa() ? getEmpresa() : sucursal.getEmpresa();
 	}
 
 	public void eliminarEmpresa() {
@@ -78,7 +77,7 @@ public class Usuario {
 		this.setEmpresa(null);
 		revocarRoles();
 	}
-	
+
 	public void eliminarSucursal() {
 		revocarRoles();
 		this.setSucursal(null);
@@ -87,9 +86,9 @@ public class Usuario {
 	public void revocarRoles() {
 		setRoles(Collections.emptyList());
 	}
-	
+
 	public void agregarRol(Rol rol) {
-		if(getRoles() == null) {
+		if (getRoles() == null) {
 			roles = Collections.emptyList();
 		}
 		roles.add(rol);
@@ -103,10 +102,9 @@ public class Usuario {
 		this.sucursal = sucursal;
 		agregarRoles(roles);
 	}
-	
+
 	public boolean tieneRol(String rol) {
-		return getRoles().stream()
-                .anyMatch(role -> role.getNombreRol().equals(rol));
+		return getRoles().stream().anyMatch(role -> role.getNombreRol().equals(rol));
 	}
 
 	public void actualizarRoles(List<Rol> roles) {

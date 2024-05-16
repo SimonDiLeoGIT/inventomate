@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class InvitacionController {
 
-    private final InvitacionService invitacionService;
-    private final SucursalService sucursalService;
+	private final InvitacionService invitacionService;
+	private final SucursalService sucursalService;
 
-    @GetMapping("/aceptar/{token}")
-    public ModelAndView aceptarInvitacion(@PathVariable String token) {
-        InvitacionSucursal invitacionSucursal = invitacionService.getInvitacionByToken(token);
-        sucursalService.addUserWithRoles(invitacionSucursal);
-        return new ModelAndView(new RedirectView("http://localhost:5173/"));
-    }
+	@GetMapping("/aceptar/{token}")
+	public ModelAndView aceptarInvitacion(@PathVariable String token) {
+		InvitacionSucursal invitacionSucursal = invitacionService.getInvitacionByToken(token);
+		sucursalService.addUserWithRoles(invitacionSucursal);
+		return new ModelAndView(new RedirectView("http://localhost:5173/"));
+	}
 
-    @GetMapping("/rechazar/{token}")
-    public ResponseEntity<ApiResponse> rechazarInvitacion(@PathVariable String token) {
-        invitacionService.getInvitacionByToken(token);
-        return ResponseEntity.ok().body(new ApiResponse(true, "invitacion rechazada"));
-    }
+	@GetMapping("/rechazar/{token}")
+	public ResponseEntity<ApiResponse> rechazarInvitacion(@PathVariable String token) {
+		invitacionService.getInvitacionByToken(token);
+		return ResponseEntity.ok().body(new ApiResponse(true, "invitacion rechazada"));
+	}
 }

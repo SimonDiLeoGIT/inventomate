@@ -33,26 +33,28 @@ public class EmpresaController {
 	private final EmpresaService empresaService;
 
 	@PostMapping("/create")
-	public ResponseEntity<EmpresaDTO> createEmpresa(@AuthenticationPrincipal Jwt jwt, @RequestBody EmpresaDTO empresaDTO)
-			throws Auth0Exception {
+	public ResponseEntity<EmpresaDTO> createEmpresa(@AuthenticationPrincipal Jwt jwt,
+			@RequestBody EmpresaDTO empresaDTO) throws Auth0Exception {
 		var idOwner = jwt.getSubject();
 		return ResponseEntity.ok(empresaService.createEmpresa(idOwner, empresaDTO));
 	}
 
 	@GetMapping("/profile")
-	public ResponseEntity<EmpresaProfileResponse> getMethodName(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
+	public ResponseEntity<EmpresaProfileResponse> getMethodName(@AuthenticationPrincipal Jwt jwt)
+			throws Auth0Exception {
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(empresaService.getEmpresaProfile(idAuth0));
 	}
-	
+
 	@PutMapping("/edit")
-	public ResponseEntity<EmpresaProfileResponse> editEmpresa(@AuthenticationPrincipal Jwt jwt, @RequestBody @Valid EditEmpresaRequest editEmpresaRequest){
+	public ResponseEntity<EmpresaProfileResponse> editEmpresa(@AuthenticationPrincipal Jwt jwt,
+			@RequestBody @Valid EditEmpresaRequest editEmpresaRequest) {
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(empresaService.updateEmpresa(idAuth0, editEmpresaRequest));
 	}
-	
+
 	@DeleteMapping("/delete")
-	public ResponseEntity<?> deleteEmpresa(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception{
+	public ResponseEntity<?> deleteEmpresa(@AuthenticationPrincipal Jwt jwt) throws Auth0Exception {
 		var idAuth0 = jwt.getSubject();
 		empresaService.deleteEmpresa(idAuth0);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Empresa deleted successfully"));

@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class ContentDTO {
 
 	@JsonProperty("id")
-	 private String id;
+	private String id;
 	@JsonProperty("position")
-	 private int position;
+	private int position;
 
 }

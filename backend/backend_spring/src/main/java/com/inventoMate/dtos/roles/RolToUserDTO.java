@@ -1,6 +1,5 @@
 package com.inventoMate.dtos.roles;
 
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,5 +14,5 @@ public class RolToUserDTO {
 	String rolId;
 	@NotBlank(message = "You must specify the user id")
 	String userId;
-	
+
 }

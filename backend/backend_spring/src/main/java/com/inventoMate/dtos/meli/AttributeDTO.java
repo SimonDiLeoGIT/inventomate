@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AttributeDTO {
 
-    @JsonProperty("name")
+	@JsonProperty("name")
 	private String name;
-    @JsonProperty("value_name")
+	@JsonProperty("value_name")
 	private String value;
 
 }

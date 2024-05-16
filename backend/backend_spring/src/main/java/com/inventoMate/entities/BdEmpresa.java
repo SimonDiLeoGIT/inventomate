@@ -39,40 +39,40 @@ public class BdEmpresa {
 	@Column(name = "id_bd_empresa")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idBdEmpresa;
-	
+
 	@Column(name = "gestor_bd", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TipoBd gestorBd;
 
 	@Column(nullable = false)
 	private String url;
-	
+
 	@Column(nullable = false)
 	private String username;
-	
+
 	@Column(nullable = false)
 	private String password;
-	
+
 	@OneToOne(mappedBy = "bdEmpresa", cascade = CascadeType.ALL)
 	private Empresa empresa;
-	
+
 	@Transient
 	private DataSource datasource;
-	
+
 	@Transient
 	private ConsultasSQL consultasSQL;
-	
+
 	public void connect() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(getDriverClassName(getGestorBd()));
-        dataSource.setUrl(getUrl());
-        dataSource.setUsername(getUsername());
-        dataSource.setPassword(getPassword());
-        this.consultasSQL = new ConsultasSQL();
-        this.setDatasource(dataSource);
+		dataSource.setDriverClassName(getDriverClassName(getGestorBd()));
+		dataSource.setUrl(getUrl());
+		dataSource.setUsername(getUsername());
+		dataSource.setPassword(getPassword());
+		this.consultasSQL = new ConsultasSQL();
+		this.setDatasource(dataSource);
 	}
 
-	public List<String> obtenerProductosDeSucursal(Long idSucursal){
+	public List<String> obtenerProductosDeSucursal(Long idSucursal) {
 		return consultasSQL.listProductsByIdSucursal(new JdbcTemplate(this.datasource), idSucursal);
 	}
 
@@ -83,21 +83,21 @@ public class BdEmpresa {
 	public List<CompraDetalle> obtenerHistoricoDeCompras(Long idSucCliente) {
 		return consultasSQL.getHistoricoDeComprasByIdSucursal(new JdbcTemplate(this.datasource), idSucCliente);
 	}
-	
-    private String getDriverClassName(TipoBd tipoBd) {
-        switch (tipoBd) {
-            case MYSQL:
-                return "com.mysql.cj.jdbc.Driver";
-            case POSTGRESQL:
-                return "org.postgresql.Driver";
-            case MICROSOFTSQL:
-                return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-            case ORACLEBD:
-                return "oracle.jdbc.driver.OracleDriver";
-            case SQLLITE:
-                return "org.sqlite.JDBC";
-            default:
-                throw new IllegalArgumentException("Tipo de base de datos no soportado: " + tipoBd);
-        }
-    }
+
+	private String getDriverClassName(TipoBd tipoBd) {
+		switch (tipoBd) {
+		case MYSQL:
+			return "com.mysql.cj.jdbc.Driver";
+		case POSTGRESQL:
+			return "org.postgresql.Driver";
+		case MICROSOFTSQL:
+			return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+		case ORACLEBD:
+			return "oracle.jdbc.driver.OracleDriver";
+		case SQLLITE:
+			return "org.sqlite.JDBC";
+		default:
+			throw new IllegalArgumentException("Tipo de base de datos no soportado: " + tipoBd);
+		}
+	}
 }

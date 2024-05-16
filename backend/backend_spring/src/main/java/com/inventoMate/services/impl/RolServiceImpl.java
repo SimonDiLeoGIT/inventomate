@@ -18,12 +18,10 @@ public class RolServiceImpl implements RolService {
 
 	private final RolRepository rolRepository;
 	private final ModelMapper mapper;
-	
+
 	@Override
 	public List<RolDTO> getAll() {
-		return rolRepository.findAll()
-				.stream().map(rol -> mapper.map(rol, RolDTO.class))
-				.collect(Collectors.toList());
+		return rolRepository.findAll().stream().map(rol -> mapper.map(rol, RolDTO.class)).collect(Collectors.toList());
 	}
 
 }

@@ -29,13 +29,13 @@ public class Informe {
 	private String idMongo;
 	@Column(name = "fecha_creacion")
 	private LocalDate fecha;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TipoInforme tipoInforme;
 
 	@ManyToOne
 	@JoinColumn(name = "id_sucursal", nullable = true)
 	private Sucursal sucursal;
-	
+
 	private boolean visto;
 }

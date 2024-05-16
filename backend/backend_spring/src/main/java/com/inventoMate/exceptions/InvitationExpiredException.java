@@ -15,10 +15,10 @@ public class InvitationExpiredException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	private LocalDateTime expirationDateTime;
-	
-    public InvitationExpiredException(LocalDateTime expirationDateTime) {
-        super(String.format("La invitación ha expirado : fecha expiracion: %s", expirationDateTime.toString()));
-        this.expirationDateTime = expirationDateTime;
-    }
+
+	public InvitationExpiredException(LocalDateTime expirationDateTime) {
+		super(String.format("La invitación ha expirado : fecha expiracion: %s", expirationDateTime.toString()));
+		this.expirationDateTime = expirationDateTime;
+	}
 
 }

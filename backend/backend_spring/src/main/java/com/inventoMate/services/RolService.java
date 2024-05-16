@@ -7,5 +7,5 @@ import com.inventoMate.dtos.roles.RolDTO;
 public interface RolService {
 
 	List<RolDTO> getAll();
-	
+
 }

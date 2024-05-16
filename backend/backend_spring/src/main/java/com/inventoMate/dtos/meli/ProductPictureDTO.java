@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductPictureDTO {
 
-    @JsonProperty("url")
+	@JsonProperty("url")
 	private String urlPicture;
 
 }

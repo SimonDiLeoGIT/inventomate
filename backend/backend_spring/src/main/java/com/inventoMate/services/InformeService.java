@@ -12,8 +12,9 @@ public interface InformeService {
 
 	void informeDeProyeccion(String subject, Long idSucursal, LocalDate fechaProyeccion);
 
-	List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal, TipoInforme proyeccionDeVentas);
+	List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
+			TipoInforme proyeccionDeVentas);
 
 	Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme);
-	
+
 }
