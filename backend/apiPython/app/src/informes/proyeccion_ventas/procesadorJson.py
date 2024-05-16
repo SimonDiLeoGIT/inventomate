@@ -27,7 +27,7 @@ def sumar_un_mes(fecha):
 
 def prediccionPorProducto(id_producto, datos_producto):
     # Agrupar por mes y estación y calcular la suma de las cantidades vendidas y los totales ponderados
-    resumen_ventas = datos_producto.groupby(["mes", "estacion"]).agg({"cantidad":"sum", "precio_unitario":"mean", "%promo":"mean"}).reset_index()
+    resumen_ventas = datos_producto.groupby(["mes"]).agg({"cantidad":"sum", "precio_unitario":"mean", "%promo":"mean", "estacion":"mean"}).reset_index()
     X = resumen_ventas[["%promo", "precio_unitario", "estacion"]]
     y = resumen_ventas["cantidad"]
     # print("--------------------------------------------------------------")
@@ -35,6 +35,8 @@ def prediccionPorProducto(id_producto, datos_producto):
     # print(X)
     modelo = LinearRegression()
     modelo.fit(X, y)
+    print("Xi:\n" + str(X))
+    print("Y:\n" + str(y))
     ultimo_mes = resumen_ventas["mes"].max()
     primer_dia_proximo_mes = datetime(ultimo_mes.year, ultimo_mes.month, 1) + relativedelta(months=1)
     ultimo_dia_mes_siguiente = min(calendar.monthrange(primer_dia_proximo_mes.year, primer_dia_proximo_mes.month)[1], ultimo_mes.day)
@@ -84,10 +86,10 @@ def procesar_json(json_data):
             suma_cantidad += detalle["cantidad"]
             suma_precio_unitario += detalle["precio_unitario"]
             suma_total += detalle["total"]
-        sumas_cantidades_compras.append(suma_cantidad)
+        sumas_cantidades_compras.append(suma_cantidad)    
         sumas_precios_unitarios_compras.append(suma_precio_unitario)
         sumas_totales_compras.append(suma_total)
-
+    
     for venta in json_data["listado_ventas"]:
         fecha_venta = datetime.strptime(venta["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f")
         fechas.append(fecha_venta)
@@ -107,6 +109,7 @@ def procesar_json(json_data):
         sumas_precios_unitarios_ventas.append(suma_precio_unitario)
         sumas_totales_ventas.append(suma_total)
 
+    
     fechas = sorted(set(fechas))
 
     df_compras = pd.DataFrame({
@@ -115,12 +118,12 @@ def procesar_json(json_data):
         "Suma_Total": sumas_totales_compras
     })
 
-    X_compras = df_compras[["Suma_Cantidades", "Suma_Precio_Unitario"]]
-    y_compras = df_compras["Suma_Total"]
-    modelo_compras = LinearRegression()
-    modelo_compras.fit(X_compras, y_compras)
+    #X_compras = df_compras[["Suma_Cantidades", "Suma_Precio_Unitario"]]
+    #y_compras = df_compras["Suma_Total"]
+    #modelo_compras = LinearRegression()
+    #modelo_compras.fit(X_compras, y_compras)
     cantidad_compras_proximo_mes = sum(detalle["cantidad"] for compra in json_data["listado_compras"] for detalle in compra["detalle"])
-    perdida_estimada = modelo_compras.predict([[cantidad_compras_proximo_mes, sumas_precios_unitarios_compras[-1]]])[0]
+    #perdida_estimada = modelo_compras.predict([[cantidad_compras_proximo_mes, sumas_precios_unitarios_compras[-1]]])[0]
 
     df_ventas = pd.DataFrame({
         "Suma_Cantidades": sumas_cantidades_ventas,
@@ -128,16 +131,17 @@ def procesar_json(json_data):
         "Suma_Total": sumas_totales_ventas
     })
     
-    X_ventas = df_ventas[["Suma_Cantidades", "Suma_Precio_Unitario"]]
-    y_ventas = df_ventas["Suma_Total"]
-    modelo_ventas = LinearRegression()
-    modelo_ventas.fit(X_ventas, y_ventas)
+    #X_ventas = df_ventas[["Suma_Cantidades", "Suma_Precio_Unitario"]]
+    #y_ventas = df_ventas["Suma_Total"]
+    #modelo_ventas = LinearRegression()
+    #modelo_ventas.fit(X_ventas, y_ventas)
     suma_cantidades_proximo_mes = sum(detalle["cantidad"] for detalle in json_data["listado_ventas"][-1]["detalle"])
     suma_precio_unitario_proximo_mes = sum(detalle["precio_unitario"] for detalle in json_data["listado_ventas"][-1]["detalle"])
-    ganancia_estimada = modelo_ventas.predict([[suma_cantidades_proximo_mes, suma_precio_unitario_proximo_mes]])[0]
+    #ganancia_estimada = modelo_ventas.predict([[suma_cantidades_proximo_mes, suma_precio_unitario_proximo_mes]])[0]
 
     estimaciones_por_producto = []
-    for id_producto in set(list(ventas_por_producto.keys()) + list(compras_por_producto.keys())):
+    #for id_producto in set(list(ventas_por_producto.keys()) + list(compras_por_producto.keys())):
+    for id_producto in set(list(ventas_por_producto.keys())):
         nombre_producto = next((detalle["producto"]["nombre"] for compra in json_data["listado_compras"] for detalle in compra["detalle"] if detalle["producto"]["id_producto"] == id_producto), None)
         cantidad_ventas = ventas_por_producto[id_producto]["cantidad_vendida"] if id_producto in ventas_por_producto else 0
         inversion = compras_por_producto[id_producto]["inversion"] if id_producto in compras_por_producto else 0
@@ -176,15 +180,15 @@ def procesar_json(json_data):
 
     json_procesado = {
         "fecha_estimada": fecha_prediccion,
-        "perdida_estimada": perdida_estimada,
-        "ganancia_estimada": ganancia_estimada,
+        #"perdida_estimada": perdida_estimada,
+        #"ganancia_estimada": ganancia_estimada,
         "estimaciones_por_producto": estimaciones_por_producto
     }
     
     return json_procesado
 
-# if (__name__) == "__main__":
-#     with open("ejemplo.json", "r") as archivo:
+#if (__name__) == "__main__":
+#     with open("EstructuraDatos.json", "r") as archivo:
 #         datos = json.load(archivo)
 #     res = procesar_json(datos)
 #     with open("res.json", 'w') as file:
