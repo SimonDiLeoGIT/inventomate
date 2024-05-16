@@ -73,14 +73,10 @@ public class InformeServiceImpl implements InformeService {
 		if (sucursal == null)
 			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
 
-		System.out.println("aca1");
 		var historiaDeCompras = empresa.obtenerHistoricoDeCompras(sucursal);
-		System.out.println("aca2");
 		var historiaDeVentas = empresa.obtenerHistoricoDeVentas(sucursal);
-		System.out.println("aca3");
 		String idMongo = flaskService.postDatosInformeProyeccionDeVentas(
 				mapper.mapToHistoricoMovimientos(historiaDeVentas, historiaDeCompras, fechaProyeccion, idSucursal));
-		System.out.println("aca4");
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.PROYECCION_DE_VENTAS);
 		sucursal.agregarInforme(informe);
 		sucursal.setEmailSender(emailSender);

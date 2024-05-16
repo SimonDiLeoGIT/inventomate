@@ -34,7 +34,7 @@ public class InformeController {
 	public ResponseEntity<ApiResponse> postInformeTendencia(@AuthenticationPrincipal Jwt jwt,
 			@PathVariable Long idSucursal) {
 		informeService.informeDeTendencia(jwt.getSubject(), idSucursal);
-		return ResponseEntity.ok().body(new ApiResponse(true, "Informe culminado"));
+		return ResponseEntity.ok().body(new ApiResponse(true, "Informe pedido con exito"));
 	}
 
 	@GetMapping("/tendencias/{idSucursal}")
