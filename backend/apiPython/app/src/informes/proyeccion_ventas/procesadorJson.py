@@ -140,7 +140,8 @@ def procesar_json(json_data):
     #ganancia_estimada = modelo_ventas.predict([[suma_cantidades_proximo_mes, suma_precio_unitario_proximo_mes]])[0]
 
     estimaciones_por_producto = []
-    for id_producto in set(list(ventas_por_producto.keys()) + list(compras_por_producto.keys())):
+    #for id_producto in set(list(ventas_por_producto.keys()) + list(compras_por_producto.keys())):
+    for id_producto in set(list(ventas_por_producto.keys())):
         nombre_producto = next((detalle["producto"]["nombre"] for compra in json_data["listado_compras"] for detalle in compra["detalle"] if detalle["producto"]["id_producto"] == id_producto), None)
         cantidad_ventas = ventas_por_producto[id_producto]["cantidad_vendida"] if id_producto in ventas_por_producto else 0
         inversion = compras_por_producto[id_producto]["inversion"] if id_producto in compras_por_producto else 0
@@ -186,9 +187,9 @@ def procesar_json(json_data):
     
     return json_procesado
 
-if (__name__) == "__main__":
-     with open("jsonPaprobar.json", "r") as archivo:
-         datos = json.load(archivo)
-     res = procesar_json(datos)
-     with open("res.json", 'w') as file:
-         json.dump(res, file, indent=4)
+#if (__name__) == "__main__":
+#     with open("EstructuraDatos.json", "r") as archivo:
+#         datos = json.load(archivo)
+#     res = procesar_json(datos)
+#     with open("res.json", 'w') as file:
+#         json.dump(res, file, indent=4)
