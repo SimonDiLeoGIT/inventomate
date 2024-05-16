@@ -134,7 +134,7 @@ public class InformeMapperImpl implements InformeMapper {
 		JSONObject listadoCompras = mapToHistoricoCompras(historicoCompras);
 		JSONObject listadoVentas = mapToHistoricoVentas(historicoVentas);
 	    JSONObject result = new JSONObject();
-        result.put("fecha_prediccion", fecha);
+        result.put("fecha_prediccion", fecha.toString());
         result.put("id_sucursal", idSucursal);
         result.merge(listadoCompras);
         result.merge(listadoVentas);

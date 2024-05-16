@@ -45,7 +45,7 @@ public class ConsultasSQL implements Consultas {
 	                detalleVenta.setCantidad((Integer) row.get("cantidad"));
 	                detalleVenta.setPrecioUnitario((Double) row.get("precio_venta"));
 	                detalleVenta.setSubtotal((Double) row.get("subtotal"));
-	                detalleVenta.setPromo((Double) row.get("promo") != null? (Double) row.get("promo") : 0);
+	                detalleVenta.setPromo((Integer) row.get("promo") != null? (Integer) row.get("promo") : 0);
 
 	                Producto producto = new Producto();
 	                producto.setIdProducto((Integer) row.get("producto_id"));
