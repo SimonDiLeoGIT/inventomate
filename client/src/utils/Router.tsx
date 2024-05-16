@@ -10,26 +10,36 @@ import { CompanySettings } from "../pages/CompanySettings";
 import { Product } from "../pages/Product";
 import { Profile } from "../pages/Profile";
 import { Trend } from "../pages/Trend";
+import { SalesForecastingReports } from "../pages/SalesForecastingReports";
+import { SalesForecasting } from "../pages/SalesForecast"
+import { TermsAndCondition } from "../pages/TermsAndConditions"
+import { Footer } from "../components/Footer"
 
 export const Router = () => {
 
   return (
     <BrowserRouter>
-      <header className="w-full h-20 shadow-md overflow-hidden">
-        <Navbar />
-      </header>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register-company" element={<RegisterCompany />} />
-        <Route path="/company" element={<Company />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/company/company-settings" element={<CompanySettings />} />
-        <Route path="/company/register-branch" element={<RegisterBranch />} />
-        <Route path="/company/branch/:idBranch" element={<Branch />} />
-        <Route path="/company/reports/new-trends" element={<Trends />} />
-        <Route path="/company/reports/new-trends/:idBranch/:idInforme" element={<Trend />} />
-        <Route path="/company/reports/new-trends/:idBranch/:idInforme/:category/:position" element={<Product />} />
-      </Routes>
+      <section className="min-h-screen">
+        <header className="w-full h-20 shadow-md overflow-hidden">
+          <Navbar />
+        </header>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/terms&conditions" element={<TermsAndCondition />} />
+          <Route path="/register-company" element={<RegisterCompany />} />
+          <Route path="/company" element={<Company />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/company/company-settings" element={<CompanySettings />} />
+          <Route path="/company/register-branch" element={<RegisterBranch />} />
+          <Route path="/company/branch/:idBranch" element={<Branch />} />
+          <Route path="/company/reports/new-trends" element={<Trends />} />
+          <Route path="/company/reports/new-trends/:idBranch/:idInforme" element={<Trend />} />
+          <Route path="/company/reports/new-trends/:idBranch/:idInforme/:category/:position" element={<Product />} />
+          <Route path="/company/reports/sales-forecasting" element={<SalesForecastingReports />} />
+          <Route path="/company/reports/sales-forecasting/:idBranch/:idInforme" element={<SalesForecasting />} />
+        </Routes>
+      </section>
+      <Footer />
     </BrowserRouter>
   )
 }
