@@ -9,7 +9,6 @@ import com.inventoMate.entities.InvitacionSucursal;
 
 @Repository
 public interface InvitacionRepository extends JpaRepository<InvitacionSucursal, Long> {
-	
-    Optional<InvitacionSucursal> findByToken(String token);
-}
 
+	Optional<InvitacionSucursal> findByToken(String token);
+}

@@ -31,8 +31,7 @@ public class RoleAuth0ServiceImpl implements RoleAuth0Service {
 	@Override
 	public List<RoleDTO> getAllRoles() throws Auth0Exception {
 		List<Role> roles = managementAPI.roles().list(null).execute().getBody().getItems();
-		List<RoleDTO> rolesDTO = roles.stream()
-				.map(role -> modelMapper.map(role, RoleDTO.class))
+		List<RoleDTO> rolesDTO = roles.stream().map(role -> modelMapper.map(role, RoleDTO.class))
 				.collect(Collectors.toList());
 
 		return rolesDTO;
@@ -40,9 +39,7 @@ public class RoleAuth0ServiceImpl implements RoleAuth0Service {
 
 	@Override
 	public RoleDTO getRolById(String roleId) throws Auth0Exception {
-		Role role = managementAPI.roles()
-				.get(roleId)
-				.execute().getBody();
+		Role role = managementAPI.roles().get(roleId).execute().getBody();
 
 		return modelMapper.map(role, RoleDTO.class);
 	}
@@ -50,16 +47,10 @@ public class RoleAuth0ServiceImpl implements RoleAuth0Service {
 	@Override
 	public RolePermissionsDTO getPermissionsRole(String roleId) throws Auth0Exception {
 		Role role = managementAPI.roles().get(roleId).execute().getBody();
-		List<Permission> permissions = managementAPI.roles()
-				.listPermissions(roleId, null)
-				.execute().getBody()
+		List<Permission> permissions = managementAPI.roles().listPermissions(roleId, null).execute().getBody()
 				.getItems();
-		return RolePermissionsDTO.builder()
-				.rol(modelMapper.map(role, RoleDTO.class))
-				.permissions(permissions
-						.stream()
-						.map(permission -> modelMapper.map(permission, PermissionDTO.class))
-						.collect(Collectors.toList()))
+		return RolePermissionsDTO.builder().rol(modelMapper.map(role, RoleDTO.class)).permissions(permissions.stream()
+				.map(permission -> modelMapper.map(permission, PermissionDTO.class)).collect(Collectors.toList()))
 				.build();
 	}
 
@@ -67,16 +58,12 @@ public class RoleAuth0ServiceImpl implements RoleAuth0Service {
 	public HttpStatus assignRolToUser(String roleId, String userId) throws Auth0Exception {
 		List<String> users = new LinkedList<String>();
 		users.add(userId);
-		return HttpStatus.valueOf(managementAPI.roles()
-				.assignUsers(roleId, users)
-				.execute().getStatusCode());
+		return HttpStatus.valueOf(managementAPI.roles().assignUsers(roleId, users).execute().getStatusCode());
 	}
 
 	@Override
 	public void unAssignRolesToUser(String idAuth0, List<Rol> roles) {
-		var rolesIdAuth0 = roles.stream()
-				.map(role -> role.getIdRolAuth0())
-				.collect(Collectors.toList());
+		var rolesIdAuth0 = roles.stream().map(role -> role.getIdRolAuth0()).collect(Collectors.toList());
 		try {
 			managementAPI.users().removeRoles(idAuth0, rolesIdAuth0).execute();
 		} catch (Auth0Exception e) {
@@ -98,7 +85,7 @@ public class RoleAuth0ServiceImpl implements RoleAuth0Service {
 	public void assignRolesToUser(String idAuth0, List<Rol> rolesNuevos) {
 		rolesNuevos.forEach(rol -> {
 			try {
-				assignRolToUser(rol.getIdRolAuth0(),idAuth0);
+				assignRolToUser(rol.getIdRolAuth0(), idAuth0);
 			} catch (Auth0Exception e) {
 				e.printStackTrace();
 			}

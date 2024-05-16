@@ -17,5 +17,5 @@ public interface UserAuth0Service {
 	Object editPasswordRequest(String id) throws Auth0Exception;
 
 	void deleteUserByAuth0Id(String id, String token) throws Auth0Exception;
-	
+
 }

@@ -32,28 +32,28 @@ public class InformeServiceImpl implements InformeService {
 	private final FlaskService flaskService;
 	private final InformeRepository informeRepository;
 	private final EmailSender emailSender;
-	
+
 	@Override
 	public void informeDeTendencia(String idAuth0, Long idSucursal) {
-		
+
 		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
-		
+
 		Empresa empresa = usuario.obtenerEmpresa();
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
-		
+
 		List<String> productos = empresa.obtenerProductosDeSucursal(sucursal);
-		
+
 		var responseMeli = mlService.getTendencias(productos);
 
 		String idMongo = flaskService.postDatosInformeTendencias(responseMeli);
-		
+
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.ANALISIS_DE_TENDENCIA);
-		
+
 		sucursal.agregarInforme(informe);
 		sucursal.setEmailSender(emailSender);
 		sucursal.generarNotificacionDeInforme(informe);
@@ -62,22 +62,21 @@ public class InformeServiceImpl implements InformeService {
 
 	@Override
 	public void informeDeProyeccion(String subject, Long idSucursal, LocalDate fechaProyeccion) {
-		
+
 		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
-		
+
 		Empresa empresa = usuario.obtenerEmpresa();
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
-		
+
 		var historiaDeCompras = empresa.obtenerHistoricoDeCompras(sucursal);
 		var historiaDeVentas = empresa.obtenerHistoricoDeVentas(sucursal);
-		
-		String idMongo = flaskService.postDatosInformeProyeccionDeVentas(mapper.mapToHistoricoMovimientos(historiaDeVentas, historiaDeCompras, fechaProyeccion, idSucursal));
-		
+		String idMongo = flaskService.postDatosInformeProyeccionDeVentas(
+				mapper.mapToHistoricoMovimientos(historiaDeVentas, historiaDeCompras, fechaProyeccion, idSucursal));
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.PROYECCION_DE_VENTAS);
 		sucursal.agregarInforme(informe);
 		sucursal.setEmailSender(emailSender);
@@ -88,40 +87,40 @@ public class InformeServiceImpl implements InformeService {
 	@Override
 	public List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
 			TipoInforme tipoInformes) {
-		
+
 		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
-		
+
 		Empresa empresa = usuario.obtenerEmpresa();
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
 
 		List<Informe> informes = sucursal.obtenerInformes(tipoInformes);
-		
+
 		return mapper.mapToInformeDTO(informes);
 	}
 
 	@Override
 	public Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme) {
-		
+
 		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
-		
+
 		Empresa empresa = usuario.obtenerEmpresa();
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
-		
+
 		Informe informe = sucursal.obtenerInforme(idInforme);
-		
-		if(informe == null)
+
+		if (informe == null)
 			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
-		
+
 		informe.setVisto(true);
 		informeRepository.save(informe);
 		return flaskService.getDatosInformeByTipoInforme(informe.getIdMongo(), informe.getTipoInforme());

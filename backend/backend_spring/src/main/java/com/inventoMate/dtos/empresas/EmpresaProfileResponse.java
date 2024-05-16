@@ -18,5 +18,5 @@ public class EmpresaProfileResponse {
 	private boolean isOwner;
 	private EmpresaDTO empresa;
 	private List<SucursalDTO> sucursales;
-	
+
 }

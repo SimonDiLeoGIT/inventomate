@@ -35,13 +35,10 @@ public class EmpresaMapperImpl implements EmpresaMapper {
 	@Override
 	public EmpresaProfileResponse mapToEmpresaProfileResponse(Empresa empresa, List<Sucursal> sucursales,
 			boolean isOwner) {
-		return EmpresaProfileResponse.builder()
-				.empresa(mapToEmpresaDTO(empresa))
-				.sucursales(sucursales.stream().map(
-						sucursal -> mapper.map(sucursal, SucursalDTO.class))
-						.collect(Collectors.toList()))
-				.isOwner(isOwner)
-				.build();
+		return EmpresaProfileResponse
+				.builder().empresa(mapToEmpresaDTO(empresa)).sucursales(sucursales.stream()
+						.map(sucursal -> mapper.map(sucursal, SucursalDTO.class)).collect(Collectors.toList()))
+				.isOwner(isOwner).build();
 	}
 
 	@Override

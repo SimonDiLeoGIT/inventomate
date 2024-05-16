@@ -63,12 +63,9 @@ public class AccessTokenManager {
 
 	// el access token de meli es valido por 6 horas
 	/*
-	@Scheduled(fixedRate = 6 * 60 * 60 * 1000)
-	public void renewAccessTokenTask() {
-		System.out.println("renovando acces token...");
-		renewAccessToken();
-		System.out.println("access token: " + meliProperties.getAccessToken());
-		System.out.println("refresh token: " + meliProperties.getRefreshToken());
-	}
-	*/
+	 * @Scheduled(fixedRate = 6 * 60 * 60 * 1000) public void renewAccessTokenTask()
+	 * { System.out.println("renovando acces token..."); renewAccessToken();
+	 * System.out.println("access token: " + meliProperties.getAccessToken());
+	 * System.out.println("refresh token: " + meliProperties.getRefreshToken()); }
+	 */
 }

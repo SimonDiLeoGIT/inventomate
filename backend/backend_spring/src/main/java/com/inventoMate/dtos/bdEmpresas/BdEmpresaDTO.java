@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 public class BdEmpresaDTO {
 
 	private Long id;
-	
+
 	private TipoBd gestorBd;
 
 	private String url;
-	
+
 	private String username;
-	
+
 	private String password;
-	
+
 }

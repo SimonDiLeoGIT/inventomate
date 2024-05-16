@@ -10,16 +10,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ResourceNotFoundException extends RuntimeException {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private final String resourceName;
-    private final String fieldName;
-    private final String fieldValue;
+	private final String resourceName;
+	private final String fieldName;
+	private final String fieldValue;
 
-    public ResourceNotFoundException(String resourceName, String fieldName, String fieldValue) {
-        super(String.format("%s with %s: '%s' not found", resourceName, fieldName, fieldValue));
-        this.resourceName = resourceName;
-        this.fieldName = fieldName;
-        this.fieldValue = fieldValue;
-    }
+	public ResourceNotFoundException(String resourceName, String fieldName, String fieldValue) {
+		super(String.format("%s with %s: '%s' not found", resourceName, fieldName, fieldValue));
+		this.resourceName = resourceName;
+		this.fieldName = fieldName;
+		this.fieldValue = fieldValue;
+	}
 }

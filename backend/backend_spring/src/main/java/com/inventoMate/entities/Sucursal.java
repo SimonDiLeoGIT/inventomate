@@ -49,23 +49,22 @@ public class Sucursal {
 	@Column(name = "id_suc_cliente", nullable = true)
 	private Long idSucCliente;
 
-	@OneToMany(mappedBy = "sucursal", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(mappedBy = "sucursal", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Usuario> usuarios;
-	
+
 	@OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
 	private List<Informe> informes;
-	
+
 	@Transient
-    private EmailSender emailSender;
-	
+	private EmailSender emailSender;
+
 	public boolean trabajaEmpleado(Usuario empleado) {
 		return this.getUsuarios().contains(empleado);
 	}
 
 	public Usuario obtenerEmpleado(Long idEmpleado) {
-		return this.getUsuarios().stream()
-				.filter(empleado -> empleado.getIdUsuario().equals(idEmpleado))
-				.findFirst().orElse(null);
+		return this.getUsuarios().stream().filter(empleado -> empleado.getIdUsuario().equals(idEmpleado)).findFirst()
+				.orElse(null);
 	}
 
 	public void eliminarEmpleados() {
@@ -75,8 +74,8 @@ public class Sucursal {
 	public boolean contieneEmpleados() {
 		return getUsuarios() != null;
 	}
-	
-	public List<Usuario> obtenerEmpleados(){
+
+	public List<Usuario> obtenerEmpleados() {
 		return this.getUsuarios();
 	}
 
@@ -84,14 +83,14 @@ public class Sucursal {
 		this.setEmpresa(empresa);
 		this.usuarios = Collections.emptyList();
 	}
-	
+
 	public void enviarInvitacion(Usuario usuario, List<Rol> roles, String token) {
 		emailSender.sendSucursalInvitation(this.getEmpresa(), this, usuario, roles, token);
 	}
 
 	public void agregarEmpleado(Usuario empleado, List<Rol> roles) {
 		this.getUsuarios().add(empleado);
-		empleado.asignarSucursal(this,roles);
+		empleado.asignarSucursal(this, roles);
 	}
 
 	public void eliminarEmpleado(Usuario empleado) {
@@ -100,35 +99,32 @@ public class Sucursal {
 	}
 
 	public void generarNotificacionDeInforme(Informe informe) {
-	    List<Usuario> empleados = obtenerEmpleadosConRol(informe.getTipoInforme().getRolePermission());
-	    empleados.forEach(empleado -> {
-	    	emailSender.sendInformeNotification(this.empresa, this, informe, empleado);
-	    });
+		List<Usuario> empleados = obtenerEmpleadosConRol(informe.getTipoInforme().getRolePermission());
+		empleados.forEach(empleado -> {
+			emailSender.sendInformeNotification(this.empresa, this, informe, empleado);
+		});
 	}
-	
+
 	private List<Usuario> obtenerEmpleadosConRol(String roleName) {
-		List<Usuario> empleadosConRol = getUsuarios().stream()
-				.filter(empleado -> empleado.tieneRol(roleName))
+		List<Usuario> empleadosConRol = getUsuarios().stream().filter(empleado -> empleado.tieneRol(roleName))
 				.collect(Collectors.toList());
 		empleadosConRol.add(empresa.getOwner());
 		return empleadosConRol;
 	}
-	
+
 	public void agregarInforme(Informe informe) {
-		if(getInformes() == null) informes = new LinkedList<>();
+		if (getInformes() == null)
+			informes = new LinkedList<>();
 		informes.add(informe);
 		informe.setSucursal(this);
 	}
 
 	public List<Informe> obtenerInformes(TipoInforme tipo) {
-		return getInformes().stream()
-				.filter(informe -> informe.getTipoInforme().equals(tipo))
+		return getInformes().stream().filter(informe -> informe.getTipoInforme().equals(tipo))
 				.collect(Collectors.toList());
 	}
 
 	public Informe obtenerInforme(Long idInforme) {
-		return getInformes().stream()
-				.filter(informe -> informe.getId().equals(idInforme))
-				.findFirst().orElse(null);
+		return getInformes().stream().filter(informe -> informe.getId().equals(idInforme)).findFirst().orElse(null);
 	}
 }

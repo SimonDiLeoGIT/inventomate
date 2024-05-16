@@ -13,5 +13,5 @@ public class PermissionDTO {
 
 	private String permissionName;
 	private String permissionDescription;
-	
+
 }

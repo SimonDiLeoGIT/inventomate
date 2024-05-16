@@ -17,5 +17,5 @@ public interface EmpresaMapper {
 	EmpresaProfileResponse mapToEmpresaProfileResponse(Empresa empresa, List<Sucursal> sucursales, boolean isOwner);
 
 	void mapEditRequestToEmpresa(Empresa empresa, EditEmpresaRequest editEmpresaRequest);
-	
+
 }

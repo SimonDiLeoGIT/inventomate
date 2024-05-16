@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 public class BdEmpresaMapperImpl implements BdEmpresaMapper {
 
 	private final ModelMapper mapper;
-	
+
 	@Override
 	public BdEmpresaDTO mapToBdEmpresaDTO(BdEmpresa bdEmpresa) {
 		return mapper.map(bdEmpresa, BdEmpresaDTO.class);
@@ -23,13 +23,8 @@ public class BdEmpresaMapperImpl implements BdEmpresaMapper {
 
 	@Override
 	public BdEmpresa mapToBdEmpresa(BdEmpresaDTO bdEmpresaDTO, Empresa empresa) {
-		return BdEmpresa.builder()
-				.empresa(empresa)
-				.gestorBd(bdEmpresaDTO.getGestorBd())
-				.url(bdEmpresaDTO.getUrl())
-				.password(bdEmpresaDTO.getPassword())
-				.username(bdEmpresaDTO.getUsername())
-				.build();
+		return BdEmpresa.builder().empresa(empresa).gestorBd(bdEmpresaDTO.getGestorBd()).url(bdEmpresaDTO.getUrl())
+				.password(bdEmpresaDTO.getPassword()).username(bdEmpresaDTO.getUsername()).build();
 	}
 
 	@Override

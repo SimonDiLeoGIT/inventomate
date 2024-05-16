@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UsuarioDTO {
 
-    private Long idUsuario;
+	private Long idUsuario;
 
-    private String nickname;
+	private String nickname;
 
-    private String picture;
-    
-    private String email;
+	private String picture;
+
+	private String email;
 
 }

@@ -14,30 +14,29 @@ import lombok.AllArgsConstructor;
 @Configuration
 @AllArgsConstructor
 public class EmailConfig {
+  
+	private final EmailProperties emailProperties;
 
-    private final EmailProperties emailProperties;
+	private Properties getMailProperties() {
+		Properties properties = new Properties();
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.host", "smtp.gmail.com");
+		properties.put("mail.smtp.port", "587");
+		return properties;
+	}
 
-    private Properties getMailProperties() {
-        Properties properties = new Properties();
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");
-        return properties;
-    }
+	@Bean
+	public JavaMailSender javaMailSender() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setJavaMailProperties(getMailProperties());
+		mailSender.setUsername(emailProperties.getUsername());
+		mailSender.setPassword(emailProperties.getPassword());
+		return mailSender;
+	}
 
-    @Bean
-    public JavaMailSender javaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        System.out.println(emailProperties.getUsername().toString() + " contra " + emailProperties.getPassword());
-        mailSender.setJavaMailProperties(getMailProperties());
-        mailSender.setUsername(emailProperties.getUsername());
-        mailSender.setPassword(emailProperties.getPassword());
-        return mailSender;
-    }
-
-    @Bean
-    public ResourceLoader resourceLoader() {
-        return new DefaultResourceLoader();
-    }
+	@Bean
+	public ResourceLoader resourceLoader() {
+		return new DefaultResourceLoader();
+	}
 }

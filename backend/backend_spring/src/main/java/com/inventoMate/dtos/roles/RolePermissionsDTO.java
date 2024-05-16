@@ -15,5 +15,5 @@ public class RolePermissionsDTO {
 
 	private RoleDTO rol;
 	private List<PermissionDTO> permissions;
-	
+
 }

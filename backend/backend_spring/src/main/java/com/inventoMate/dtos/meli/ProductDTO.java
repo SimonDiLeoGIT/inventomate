@@ -19,15 +19,15 @@ public class ProductDTO {
 
 	@JsonProperty("trend_position")
 	private int trendPosition;
-    @JsonProperty("name")
+	@JsonProperty("name")
 	private String nameProduct;
-    @JsonProperty("additional_info")
-    private ProductAdditionalInfoDTO productAditionalAdditionalnfo;
+	@JsonProperty("additional_info")
+	private ProductAdditionalInfoDTO productAditionalAdditionalnfo;
 	// lista de atributos del producto (marca, modelo, etc)
-    @JsonProperty("attributes")
+	@JsonProperty("attributes")
 	private List<AttributeDTO> attributes;
 	// fotos del producto
-    @JsonProperty("pictures")
+	@JsonProperty("pictures")
 	private List<ProductPictureDTO> pictures;
 
 }

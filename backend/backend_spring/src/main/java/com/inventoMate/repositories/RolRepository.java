@@ -13,7 +13,7 @@ import com.inventoMate.entities.Usuario;
 public interface RolRepository extends JpaRepository<Rol, Long> {
 
 	Optional<Rol> findByNombreRol(String nombreRol);
-	
+
 	Optional<List<Rol>> findAllByUsuariosContains(Usuario usuario);
 
 }

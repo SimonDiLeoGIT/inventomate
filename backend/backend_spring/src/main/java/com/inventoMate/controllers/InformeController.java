@@ -34,7 +34,7 @@ public class InformeController {
 	public ResponseEntity<ApiResponse> postInformeTendencia(@AuthenticationPrincipal Jwt jwt,
 			@PathVariable Long idSucursal) {
 		informeService.informeDeTendencia(jwt.getSubject(), idSucursal);
-		return ResponseEntity.ok().body(new ApiResponse(true, "Informe culminado"));
+		return ResponseEntity.ok().body(new ApiResponse(true, "Informe pedido con exito"));
 	}
 
 	@GetMapping("/tendencias/{idSucursal}")
@@ -53,9 +53,8 @@ public class InformeController {
 
 	// PROYECCION DE VENTAS
 	@PostMapping("/proyeccion-de-ventas/{idSucursal}")
-	public ResponseEntity<ApiResponse> postInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
-			@PathVariable Long idSucursal,
-			@RequestParam LocalDate fechaProyeccion) {
+	public ResponseEntity<ApiResponse> postInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt
+			@PathVariable Long idSucursal, @RequestParam LocalDate fechaProyeccion) {
 		informeService.informeDeProyeccion(jwt.getSubject(), idSucursal, fechaProyeccion);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Informe culminado"));
 	}
@@ -67,9 +66,9 @@ public class InformeController {
 				TipoInforme.PROYECCION_DE_VENTAS));
 	}
 
-	@GetMapping("/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
-	public ResponseEntity<?> getInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idInforme,
-			@PathVariable Long idSucursal) {
+	@GetMapping("/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}"
+	public ResponseEntity<?> getInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idInforme, @PathVariable Long idSucursal) {
 		return ResponseEntity
 				.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme));
 	}

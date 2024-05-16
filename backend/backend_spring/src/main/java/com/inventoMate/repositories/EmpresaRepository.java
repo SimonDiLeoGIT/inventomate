@@ -15,7 +15,7 @@ public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
 	boolean existsByOwner(Usuario owner);
 
 	Optional<Empresa> findByOwner(Usuario owner);
-	
+
 	Optional<Empresa> findBySucursalesContains(Sucursal sucursal);
-	
+
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SucursalDTO {
-	
+
 	private Long idSucursal;
 
 	private String nombre;

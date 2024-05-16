@@ -29,27 +29,20 @@ public class SucursalMapperImpl implements SucursalMapper {
 
 	@Override
 	public List<SucursalDTO> mapToSucursalDTO(List<Sucursal> sucursales) {
-		return sucursales.stream().map(sucu -> mapToSucursalDTO(sucu))
-			.collect(Collectors.toList());
+		return sucursales.stream().map(sucu -> mapToSucursalDTO(sucu)).collect(Collectors.toList());
 	}
 
 	@Override
 	public Sucursal mapToSucursal(SucursalDTO sucursalDTO) {
-		return Sucursal.builder()
-				.idSucCliente(sucursalDTO.getIdSucCliente())
-				.nombre(sucursalDTO.getNombre())
-				.ubicacion(sucursalDTO.getUbicacion())
-				.build();
+		return Sucursal.builder().idSucCliente(sucursalDTO.getIdSucCliente()).nombre(sucursalDTO.getNombre())
+				.ubicacion(sucursalDTO.getUbicacion()).build();
 	}
 
 	@Override
 	public SucursalProfileResponse mapToSucursalProfileResponse(Sucursal sucursal, Empresa empresa) {
-		return SucursalProfileResponse.builder()
-				.empresa(mapper.map(empresa,EmpresaDTO.class))
-				.sucursal(mapToSucursalDTO(sucursal))
-				.usuarios(sucursal.obtenerEmpleados().stream().map(
-						empleado -> mapper.map(empleado, UsuarioDTO.class))
-						.collect(Collectors.toList()))
+		return SucursalProfileResponse.builder().empresa(mapper.map(empresa, EmpresaDTO.class))
+				.sucursal(mapToSucursalDTO(sucursal)).usuarios(sucursal.obtenerEmpleados().stream()
+						.map(empleado -> mapper.map(empleado, UsuarioDTO.class)).collect(Collectors.toList()))
 				.build();
 	}
 

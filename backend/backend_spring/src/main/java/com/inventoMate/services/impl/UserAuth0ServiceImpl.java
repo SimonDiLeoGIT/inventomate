@@ -30,11 +30,7 @@ public class UserAuth0ServiceImpl implements UserAuth0Service {
 		user.setEmail(email);
 		user.setPassword(password.toCharArray());
 		user.setConnection(appProperties.getDatabaseConnection());
-		user = managementAPI.users()
-				.create(user)
-				.addHeader("Content-Type", "application/json")
-				.execute()
-				.getBody();
+		user = managementAPI.users().create(user).addHeader("Content-Type", "application/json").execute().getBody();
 		roleAuth0ServiceImpl.assignRolToUser(roleId, user.getId());
 		return user;
 	}
@@ -45,22 +41,19 @@ public class UserAuth0ServiceImpl implements UserAuth0Service {
 	}
 
 	@Override
-	public void updateUser(String id,  @Valid EditUserRequest usuarioEditRequest) throws Auth0Exception {
+	public void updateUser(String id, @Valid EditUserRequest usuarioEditRequest) throws Auth0Exception {
 		User user = new User();
-		if(usuarioEditRequest.getEmail() != null) user.setEmail(usuarioEditRequest.getEmail());
+		if (usuarioEditRequest.getEmail() != null)
+			user.setEmail(usuarioEditRequest.getEmail());
 		user.setNickname(usuarioEditRequest.getNickname());
 		user.setPicture(usuarioEditRequest.getPicture());
-		managementAPI.users().update(id, user)
-		.addHeader("Content-Type", "application/json")
-		.addHeader("Accept", "application/json")
-		.execute();
+		managementAPI.users().update(id, user).addHeader("Content-Type", "application/json")
+				.addHeader("Accept", "application/json").execute();
 	}
 
 	@Override
 	public Object editPasswordRequest(String id) throws Auth0Exception {
-		return managementAPI.tickets()
-				.requestPasswordChange(new PasswordChangeTicket(id))
-				.execute().getBody();
+		return managementAPI.tickets().requestPasswordChange(new PasswordChangeTicket(id)).execute().getBody();
 	}
 
 	@Override
@@ -69,6 +62,5 @@ public class UserAuth0ServiceImpl implements UserAuth0Service {
 		authApi.revokeToken(token).execute();
 		managementAPI.users().delete(id).execute();
 	}
-
 
 }

@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class SucursalServiceImpl implements SucursalService{
+public class SucursalServiceImpl implements SucursalService {
 
 	private final SucursalRepository sucursalRepository;
 	private final SucursalMapper mapper;
@@ -38,67 +38,67 @@ public class SucursalServiceImpl implements SucursalService{
 	private final InvitacionService invitacionService;
 	private final EmailSender emailSender;
 	private final RoleAuth0Service roleAuth0Service;
-	
+
 	@Override
 	public SucursalProfileResponse createSucursal(String idAuth0, SucursalDTO sucursalDTO) {
-		
+
 		Empresa empresa = findEmpresaByIdAuth0(idAuth0);
-		
+
 		Sucursal sucursal = mapper.mapToSucursal(sucursalDTO);
-		
+
 		empresa.agregarSucursal(sucursal);
-		
+
 		sucursalRepository.save(sucursal);
-		
+
 		return mapper.mapToSucursalProfileResponse(sucursal, empresa);
 	}
 
 	@Override
 	public SucursalProfileResponse editSucursal(String idAuth0, Long idSucursal, SucursalDTO sucursalDTO) {
-		
+
 		Empresa empresa = findEmpresaByIdAuth0(idAuth0);
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("sucursal-empresa", "id_sucursal (empresa)", idSucursal.toString());
-		
-		mapper.mapToSucursal(sucursalDTO,sucursal);
+
+		mapper.mapToSucursal(sucursalDTO, sucursal);
 
 		sucursalRepository.save(sucursal);
-		
+
 		return mapper.mapToSucursalProfileResponse(sucursal, empresa);
 	}
 
 	@Override
 	public SucursalProfileResponse getSucursalProfile(String idAuth0, Long idSucursal) {
-		
+
 		Empresa empresa = findEmpresaByIdAuth0(idAuth0);
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
-		
+
 		return mapper.mapToSucursalProfileResponse(sucursal, empresa);
 	}
 
 	@Override
 	public void deleteSucursal(String idAuth0, Long idSucursal) {
-		
+
 		Empresa empresa = findEmpresaByIdAuth0(idAuth0);
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("sucursal-empresa", "id_sucursal (empresa)", idSucursal.toString());
-		
+
 		List<Usuario> empleados = sucursal.obtenerEmpleados();
-		
+
 		roleAuth0Service.revokeUsersAuth0Roles(empleados);
-		
+
 		empresa.eliminarSucursal(sucursal);
-		
+
 		sucursalRepository.delete(sucursal);
 		usuarioRepository.saveAll(empleados);
 		empresaRepository.save(empresa);
@@ -110,15 +110,15 @@ public class SucursalServiceImpl implements SucursalService{
 		Empresa empresa = findEmpresaByIdAuth0(idAuth0);
 
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("sucursal-empresa", "id_sucursal (empresa)", idSucursal.toString());
 
 		List<Rol> roles = idsRol.stream()
 				.map(idRol -> rolRepository.findById(idRol)
 						.orElseThrow(() -> new ResourceNotFoundException("Rol", "id_rol", idRol.toString())))
 				.collect(Collectors.toList());
-		
+
 		// recupero el usuario a invitar
 		Usuario usuario = usuarioRepository.findById(idUsuario)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_usuario", idUsuario.toString()));
@@ -126,31 +126,34 @@ public class SucursalServiceImpl implements SucursalService{
 		String token = invitacionService.saveInvitacion(idUsuario, idSucursal, idsRol);
 		// envio el mail al usuario con la invitacion
 		sucursal.setEmailSender(emailSender);
-		sucursal.enviarInvitacion(usuario,roles,token);
+		sucursal.enviarInvitacion(usuario, roles, token);
 	}
 
 	@Override
 	public void addUserWithRoles(InvitacionSucursal invitacionSucursal) {
-		
+
 		Sucursal sucursal = sucursalRepository.findById(invitacionSucursal.getIdSucursal())
-				.orElseThrow(() -> new ResourceNotFoundException("Sucursal", "id_sucursal", invitacionSucursal.getIdSucursal().toString()));
-		
+				.orElseThrow(() -> new ResourceNotFoundException("Sucursal", "id_sucursal",
+						invitacionSucursal.getIdSucursal().toString()));
+
 		Usuario usuario = usuarioRepository.findById(invitacionSucursal.getIdUsuarioInvitado())
-				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_usuario", invitacionSucursal.getIdUsuarioInvitado().toString()));
-		
-		if(usuario.trabajaEnSucursal()) {
-			throw new ResourceAlreadyExistsException("Usuario", "id_sucursal", usuario.getSucursal().getIdSucursal().toString());
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_usuario",
+						invitacionSucursal.getIdUsuarioInvitado().toString()));
+
+		if (usuario.trabajaEnSucursal()) {
+			throw new ResourceAlreadyExistsException("Usuario", "id_sucursal",
+					usuario.getSucursal().getIdSucursal().toString());
 		}
 		// asigno roles al empleado (mysql) modificar <----
 		List<Rol> roles = invitacionSucursal.getRoles().stream()
 				.map(idRol -> rolRepository.findById(idRol)
 						.orElseThrow(() -> new ResourceNotFoundException("Rol", "id_rol", idRol.toString())))
 				.collect(Collectors.toList());
-		
+
 		// asigno roles al empleado (auth0 bd)
 		roleAuth0Service.assignRolesToUser(usuario.getIdAuth0(), roles);
-		
-		sucursal.agregarEmpleado(usuario,roles);
+
+		sucursal.agregarEmpleado(usuario, roles);
 		usuarioRepository.save(usuario);
 		sucursalRepository.save(sucursal);
 	}
@@ -158,27 +161,27 @@ public class SucursalServiceImpl implements SucursalService{
 	@Override
 	public void editUserRoles(String idAuth0, Long idSucursal, Long idUsuario, List<Long> idsRol) {
 		Empresa empresa = findEmpresaByIdAuth0(idAuth0);
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("sucursal-empresa", "id_sucursal (empresa)", idSucursal.toString());
-		
+
 		Usuario empleado = sucursal.obtenerEmpleado(idUsuario);
-		
-		if(empleado == null)
+
+		if (empleado == null)
 			throw new ResourceNotFoundException("Usuario", "id_sucursal", idSucursal.toString());
-		
+
 		// valido los roles
 		List<Rol> roles = idsRol.stream()
-				.map( idRol -> rolRepository.findById(idRol)
+				.map(idRol -> rolRepository.findById(idRol)
 						.orElseThrow(() -> new ResourceNotFoundException("Rol", "id_rol", idRol.toString())))
 				.collect(Collectors.toList());
-		
+
 		// asigno roles al empleado (auth0 bd)
 		roleAuth0Service.unAssignRolesToUser(empleado.getIdAuth0(), empleado.getRoles());
 		roleAuth0Service.assignRolesToUser(empleado.getIdAuth0(), roles);
-		
+
 		// guardo los cambios
 		empleado.actualizarRoles(roles);
 		usuarioRepository.save(empleado);
@@ -187,27 +190,27 @@ public class SucursalServiceImpl implements SucursalService{
 	@Override
 	public SucursalProfileResponse deleteUserFromSucursal(String idAuth0, Long idSucursal, Long idUsuario) {
 		Empresa empresa = findEmpresaByIdAuth0(idAuth0);
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null)
+
+		if (sucursal == null)
 			throw new ResourceNotFoundException("sucursal-empresa", "id_sucursal (empresa)", idSucursal.toString());
-		
+
 		Usuario empleado = sucursal.obtenerEmpleado(idUsuario);
-		
-		if(empleado == null)
+
+		if (empleado == null)
 			throw new ResourceNotFoundException("Usuario", "id_sucursal", idSucursal.toString());
 
 		sucursal.eliminarEmpleado(empleado);
-		
+
 		roleAuth0Service.unAssignRolesToUser(empleado.getIdAuth0(), empleado.getRoles());
-		
+
 		sucursalRepository.save(sucursal);
 		usuarioRepository.save(empleado);
 		return mapper.mapToSucursalProfileResponse(sucursal, empresa);
 	}
-	
-	private Empresa findEmpresaByIdAuth0(String idAuth0){
+
+	private Empresa findEmpresaByIdAuth0(String idAuth0) {
 		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
 		return usuario.obtenerEmpresa();

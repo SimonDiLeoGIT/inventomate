@@ -18,11 +18,11 @@ import lombok.NoArgsConstructor;
 public class UsuarioProfileResponse {
 
 	private UsuarioDTO usuario;
-	
-    private EmpresaDTO empresa; 
-    
-    private SucursalDTO sucursal;
-    
-    private List<RolDTO> roles;
-	
+
+	private EmpresaDTO empresa;
+
+	private SucursalDTO sucursal;
+
+	private List<RolDTO> roles;
+
 }

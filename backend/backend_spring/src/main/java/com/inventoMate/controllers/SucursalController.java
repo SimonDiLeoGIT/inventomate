@@ -43,8 +43,7 @@ public class SucursalController {
 
 	@PutMapping("/{idSucursal}/edit")
 	public ResponseEntity<SucursalProfileResponse> editSucursal(@AuthenticationPrincipal Jwt jwt,
-			@PathVariable Long idSucursal, @RequestBody SucursalDTO sucursalDTO)
-			throws Auth0Exception {
+			@PathVariable Long idSucursal, @RequestBody SucursalDTO sucursalDTO) throws Auth0Exception {
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(sucursalService.editSucursal(idAuth0, idSucursal, sucursalDTO));
 	}
@@ -65,33 +64,31 @@ public class SucursalController {
 	}
 
 	@PostMapping("/{idSucursal}/invite/{idUsuario}/role/{idRol}")
-	public ResponseEntity<ApiResponse> inviteUsuarioToSucursalWithRol(
-			@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal, @PathVariable Long idUsuario,
-			@PathVariable List<Long> idRol) {
+	public ResponseEntity<ApiResponse> inviteUsuarioToSucursalWithRol(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal, @PathVariable Long idUsuario, @PathVariable List<Long> idRol) {
 		var idAuth0 = jwt.getSubject();
 		sucursalService.inviteUserWithRoles(idAuth0, idSucursal, idUsuario, idRol);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Email con invitacion enviado"));
 	}
 
 	@PutMapping("/{idSucursal}/users/{idUsuario}/roles/{idsRol}/edit")
-	public ResponseEntity<ApiResponse> editUsuarioRoles(
-			@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal, @PathVariable Long idUsuario,
-			@PathVariable List<Long> idsRol) {
+	public ResponseEntity<ApiResponse> editUsuarioRoles(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal,
+			@PathVariable Long idUsuario, @PathVariable List<Long> idsRol) {
 		var idAuth0 = jwt.getSubject();
 		sucursalService.editUserRoles(idAuth0, idSucursal, idUsuario, idsRol);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Usuario con roles nuevos editado"));
 	}
 
 	@DeleteMapping("/{idSucursal}/users/{idUsuario}/delete")
-	public ResponseEntity<SucursalProfileResponse> deleteUserFromSucursal(
-			@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal, @PathVariable Long idUsuario) {
+	public ResponseEntity<SucursalProfileResponse> deleteUserFromSucursal(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal, @PathVariable Long idUsuario) {
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(sucursalService.deleteUserFromSucursal(idAuth0, idSucursal, idUsuario));
 	}
 
 	@GetMapping("/{idSucursal}/users/{idUsuario}/roles")
-	public ResponseEntity<List<RolDTO>> getUsuarioRoles(@AuthenticationPrincipal Jwt jwt,
-			@PathVariable Long idSucursal, @PathVariable Long idUsuario) {
+	public ResponseEntity<List<RolDTO>> getUsuarioRoles(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idSucursal,
+			@PathVariable Long idUsuario) {
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(usuarioService.getUserRoles(idAuth0, idSucursal, idUsuario));
 	}

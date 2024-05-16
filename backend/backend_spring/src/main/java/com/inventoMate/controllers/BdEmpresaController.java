@@ -28,33 +28,36 @@ import lombok.AllArgsConstructor;
 public class BdEmpresaController {
 
 	private final BdEmpresaService bdEmpresaService;
-	
+
 	@PostMapping("/create")
-	public ResponseEntity<BdEmpresaDTO> createBdEmpresa(@AuthenticationPrincipal Jwt jwt, @RequestBody BdEmpresaDTO bdEmpresaDTO) {
+	public ResponseEntity<BdEmpresaDTO> createBdEmpresa(@AuthenticationPrincipal Jwt jwt,
+			@RequestBody BdEmpresaDTO bdEmpresaDTO) {
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(bdEmpresaService.createBdEmpresa(idAuth0, bdEmpresaDTO));
 	}
-	
+
 	@GetMapping("/gestores")
-	public ResponseEntity<List<String>> listGestores(){
-		return ResponseEntity.ok(List.of(TipoBd.MYSQL.name(),TipoBd.MICROSOFTSQL.name(),TipoBd.ORACLEBD.name(),TipoBd.POSTGRESQL.name(),TipoBd.SQLLITE.name()));
+	public ResponseEntity<List<String>> listGestores() {
+		return ResponseEntity.ok(List.of(TipoBd.MYSQL.name(), TipoBd.MICROSOFTSQL.name(), TipoBd.ORACLEBD.name(),
+				TipoBd.POSTGRESQL.name(), TipoBd.SQLLITE.name()));
 	}
-	
+
 	@PutMapping("/edit")
-	public ResponseEntity<BdEmpresaDTO> editBdEmpresa(@AuthenticationPrincipal Jwt jwt, @RequestBody BdEmpresaDTO bdEmpresaDTO) {
+	public ResponseEntity<BdEmpresaDTO> editBdEmpresa(@AuthenticationPrincipal Jwt jwt,
+			@RequestBody BdEmpresaDTO bdEmpresaDTO) {
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(bdEmpresaService.editBdEmpresa(idAuth0, bdEmpresaDTO));
 	}
-	
+
 	@DeleteMapping("/delete")
-	public ResponseEntity<ApiResponse> deleteEmpresa(@AuthenticationPrincipal Jwt jwt){
+	public ResponseEntity<ApiResponse> deleteEmpresa(@AuthenticationPrincipal Jwt jwt) {
 		var idAuth0 = jwt.getSubject();
 		bdEmpresaService.deleteEmpresa(idAuth0);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Bd-empresa deleted successfully"));
 	}
-	
+
 	@GetMapping()
-	public ResponseEntity<BdEmpresaDTO> getBdEmpresaCurrentUser(@AuthenticationPrincipal Jwt jwt){
+	public ResponseEntity<BdEmpresaDTO> getBdEmpresaCurrentUser(@AuthenticationPrincipal Jwt jwt) {
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(bdEmpresaService.getBdEmpresaCurrentUser(idAuth0));
 	}
