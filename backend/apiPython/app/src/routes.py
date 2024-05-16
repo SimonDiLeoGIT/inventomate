@@ -31,10 +31,10 @@ def verTendencia():
         
 
 @app.route("/api/informe/proyeccion-de-ventas/add", methods=["POST"])
-async def insertarProyeccion():
+def insertarProyeccion():
     try:
         json_data = request.json
-        json_procesado = await procesar_json(json_data)
+        json_procesado = procesar_json(json_data)
         id = insertProyeccion(json_procesado) 
         if (id != -1):
             return jsonify({'ID-Mongo': str(id)}), 200
