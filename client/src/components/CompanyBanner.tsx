@@ -1,10 +1,29 @@
 import { Link } from "react-router-dom"
 import { useUser } from "../hook/useUser"
 import company_settings from '../assets/icons/white-settings.svg'
+import { useEffect, useState } from "react";
+import { getDatabaseConnection } from "../utils/Database.service";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const CompanyBanner = () => {
 
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   const { currentUser } = useUser()
+
+  const [databaseConnection, setDatabaseConnection] = useState<DatabaseConnection | null>(null)
+
+
+  useEffect(() => {
+
+    const getToken = async () => {
+      const accessToken = await getAccessTokenSilently()
+      const dc = await getDatabaseConnection(accessToken)
+      setDatabaseConnection(dc)
+    }
+
+    isAuthenticated && getToken()
+
+  }, [isAuthenticated])
 
   return (
     <section className="m-auto">
@@ -26,12 +45,12 @@ export const CompanyBanner = () => {
             </div>
           </li>
         </ul>
-        <div className="flex m-auto mr-0">
-          {
-            currentUser?.roles.some(rol => rol.idRol === 1)
-            &&
+        {
+          currentUser?.roles.some(rol => rol.idRol === 1)
+          &&
+          <div className="flex m-auto mr-0 relative p-2">
             <Link to='./company-settings'
-              className="flex items-center p-2 font-bold text-sm -bg--color-semidark-violet -text--color-white justify-center rounded-xl max-w-md m-auto mr-0 mb-0"
+              className="flex items-center p-2 font-bold text-sm -bg--color-semidark-violet -text--color-white justify-center rounded-xl max-w-md m-auto mr-0 mb-0 hover:opacity-80"
             >
               <img
                 src={company_settings}
@@ -39,8 +58,15 @@ export const CompanyBanner = () => {
               />
               <p className="overflow-hidden whitespace-nowrap text-ellipsis">Company Settings</p>
             </Link>
-          }
-        </div>
+            {
+              databaseConnection === null
+              &&
+              <div className="-bg--color-ful-red w-3 h-3 rounded-full absolute right-2 top-1 border -border--color-white">
+
+              </div>
+            }
+          </div>
+        }
       </div>
     </section>
   );
