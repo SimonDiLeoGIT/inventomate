@@ -53,7 +53,7 @@ public class InformeController {
 
 	// PROYECCION DE VENTAS
 	@PostMapping("/proyeccion-de-ventas/{idSucursal}")
-	public ResponseEntity<ApiResponse> postInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt
+	public ResponseEntity<ApiResponse> postInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
 			@PathVariable Long idSucursal, @RequestParam LocalDate fechaProyeccion) {
 		informeService.informeDeProyeccion(jwt.getSubject(), idSucursal, fechaProyeccion);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Informe culminado"));
@@ -66,7 +66,7 @@ public class InformeController {
 				TipoInforme.PROYECCION_DE_VENTAS));
 	}
 
-	@GetMapping("/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}"
+	@GetMapping("/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
 	public ResponseEntity<?> getInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
 			@PathVariable Long idInforme, @PathVariable Long idSucursal) {
 		return ResponseEntity
