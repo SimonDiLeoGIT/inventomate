@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 @Configuration
 @AllArgsConstructor
 public class EmailConfig {
-
+  
 	private final EmailProperties emailProperties;
 
 	private Properties getMailProperties() {

@@ -13,14 +13,17 @@
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
     "axios": "^1.6.8",
+    "chart.js": "^4.4.2",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-ionicons": "^1.5.7",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.22.3",
     "react-slick": "^0.30.2",
     "react-slider": "^2.0.6",
+    "react-spinners": "^0.13.8",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {

@@ -9,7 +9,7 @@ import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
 import { TrendReports } from "../components/TrendReports"
 import { ReportHeader } from "../components/ReportHeader"
 
-export const Trends = () => {
+export const SalesForecastingReports = () => {
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
@@ -70,7 +70,7 @@ export const Trends = () => {
         <SideNavbar />
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
-        <ReportHeader title="New Trends" button_text="Discover New Trends" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewTrends} />
+        <ReportHeader title="Sales Forecasting" button_text="Analyse Sales Forecast" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewTrends} />
         {requesting ?
           <Requesting />
           :

@@ -2,15 +2,14 @@ import { useState } from 'react'
 import '../styles/user-settings.css'
 import { useUser } from '../hook/useUser'
 import { useAuth0 } from '@auth0/auth0-react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import logout_icon from '../assets/icons/logout.svg'
 import settings_icon from '../assets/icons/settings-section.svg'
 import profile_icon from '../assets/icons/profile.svg'
 
 export const UserSettings = () => {
 
-  const { logout } = useAuth0();
-  const navigate = useNavigate()
+  const { logout } = useAuth0()
   const { currentUser } = useUser()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
