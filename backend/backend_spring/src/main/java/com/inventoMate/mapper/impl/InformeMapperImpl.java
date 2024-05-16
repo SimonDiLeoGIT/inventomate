@@ -163,6 +163,4 @@ public class InformeMapperImpl implements InformeMapper {
 	public InformeDTO mapToInformeDTO(Informe informe) {
 		return mapper.map(informe, InformeDTO.class);
 	}
-
-
 }
