@@ -1,13 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import { useEffect, useState } from "react"
-import { getDatabaseConnection, getNewTrends, getTrends } from "../utils/Database.service"
+import { getDatabaseConnection, getForecasts, getNewForecast } from "../utils/Database.service"
 import { SideNavbar } from "../components/SideNavbar"
-import { Requesting } from "../components/Requesting"
 import { EmptyHistory } from "../components/Errors/EmptyHistory"
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
-import { TrendReports } from "../components/TrendReports"
+import { Reports } from "../components/Reports"
 import { ReportHeader } from "../components/ReportHeader"
+import { SelectBranch } from "../components/Info/SelectBranch"
 
 export const SalesForecastingReports = () => {
 
@@ -17,7 +17,7 @@ export const SalesForecastingReports = () => {
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [database, setDatabase] = useState<boolean>(true)
-  const [trendReports, setTrendReports] = useState<TrendReport[] | null>(null)
+  const [forecastReports, setForecastReport] = useState<Report[]>([])
   const [branch, setBranch] = useState<string>('')
 
   useEffect(() => {
@@ -43,25 +43,28 @@ export const SalesForecastingReports = () => {
       return true
   }
 
-  const handleGetNewTrends = async () => {
+  const handleGetNewReport = async () => {
     setRequesting(true)
     const accessToken = await getAccessTokenSilently()
 
     if (await getDatabase(accessToken)) {
-      await getNewTrends(accessToken, branch)
+      await getNewForecast(accessToken, branch)
     } else {
       setDatabase(false)
     }
+    await getReports(branch)
     setRequesting(false)
+  }
+
+  const getReports = async (idBranch: string) => {
+    const accessToken = await getAccessTokenSilently()
+    const response = await getForecasts(accessToken, idBranch)
+    response && setForecastReport(response)
   }
 
   const handleChangeOption = async (idBranch: string) => {
     setBranch(idBranch)
-    console.log('branch: ', branch)
-    const accessToken = await getAccessTokenSilently()
-    const response = await getTrends(accessToken, idBranch)
-    setTrendReports(response)
-    console.log('trends: ', response)
+    getReports(idBranch)
   }
 
   return (
@@ -70,16 +73,18 @@ export const SalesForecastingReports = () => {
         <SideNavbar />
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
-        <ReportHeader title="Sales Forecasting" button_text="Analyse Sales Forecast" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewTrends} />
-        {requesting ?
-          <Requesting />
-          :
+        <ReportHeader title="Sales Forecasting" button_text="Analyse Sales Forecast" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewReport} requesting={requesting} />
+        {
           database ? (
-            ((trendReports !== null) ?
-              <TrendReports trendReports={trendReports} idBranch={branch} />
+            branch === ''
+              ?
+              <SelectBranch />
               :
-              <EmptyHistory />
-            ))
+              ((forecastReports !== null && forecastReports.length > 0) ?
+                <Reports reports={forecastReports} idBranch={branch} />
+                :
+                <EmptyHistory />
+              ))
             :
             <NoDatabaseConnection />
         }

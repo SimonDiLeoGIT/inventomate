@@ -1,6 +1,6 @@
 interface ForecastChart {
-  x: string[]
-  y: number[]
+  X: string[]
+  Y: number[]
 }
 
 interface ProductForecast {

@@ -1,11 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
 import { ChartComponent } from "../components/ChartComponent"
-import data from '../assets/temp/foreasting.json'
+import { getForecastById } from "../utils/Database.service"
 
 export const SalesForecasting = () => {
 
@@ -16,6 +16,8 @@ export const SalesForecasting = () => {
 
   const { setUser } = useUser()
 
+  const [forecast, setForecast] = useState<Forecast | null>()
+
 
   useEffect(() => {
 
@@ -23,10 +25,11 @@ export const SalesForecasting = () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
 
-      // if (idBranch && idInforme) {
-      //   const response = await getTrendById(accessToken, idBranch, idInforme)
-      //   setTrends(response)
-      // }
+      if (idBranch && idInforme) {
+        const response = await getForecastById(accessToken, idBranch, idInforme)
+        setForecast(response)
+        console.log(response)
+      }
 
     }
 
@@ -45,11 +48,13 @@ export const SalesForecasting = () => {
         </header>
         <section className="my-4">
           <h2 className="font-semibold -text--color-violet-user-email">Sales forecasting for the next month</h2>
-          <ChartComponent forecast={data} />
+          {forecast &&
+            <ChartComponent forecast={forecast} />
+          }
         </section>
         <div className="w-full grid grid-cols-2 gap-4 p-2 -bg--color-border-very-lightest-grey rounded-lg shadow-md -shadow--color-black-shadow">
           <p className="font-semibold">Total Profit</p>
-          <p>{data.ganancia_estimada}</p>
+          <p>{forecast?.ganancia_estimada}</p>
         </div>
       </section>
     </main>

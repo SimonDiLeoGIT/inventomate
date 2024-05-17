@@ -6,10 +6,11 @@ import { SideNavbar } from "../components/SideNavbar"
 import { Requesting } from "../components/Requesting"
 import { EmptyHistory } from "../components/Errors/EmptyHistory"
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
-import { TrendReports } from "../components/TrendReports"
+import { Reports } from "../components/Reports"
 import { ReportHeader } from "../components/ReportHeader"
+import { SelectBranch } from "../components/Info/SelectBranch"
 
-export const Trends = () => {
+export const TrendsReports = () => {
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
@@ -17,7 +18,7 @@ export const Trends = () => {
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [database, setDatabase] = useState<boolean>(true)
-  const [trendReports, setTrendReports] = useState<TrendReport[] | null>(null)
+  const [trendReports, setTrendReports] = useState<Report[] | null>(null)
   const [branch, setBranch] = useState<string>('')
 
   useEffect(() => {
@@ -52,16 +53,19 @@ export const Trends = () => {
     } else {
       setDatabase(false)
     }
+    await getReports(branch)
     setRequesting(false)
+  }
+
+  const getReports = async (idBranch: string) => {
+    const accessToken = await getAccessTokenSilently()
+    const response = await getTrends(accessToken, idBranch)
+    setTrendReports(response)
   }
 
   const handleChangeOption = async (idBranch: string) => {
     setBranch(idBranch)
-    console.log('branch: ', branch)
-    const accessToken = await getAccessTokenSilently()
-    const response = await getTrends(accessToken, idBranch)
-    setTrendReports(response)
-    console.log('trends: ', response)
+    await getReports(idBranch)
   }
 
   return (
@@ -70,16 +74,18 @@ export const Trends = () => {
         <SideNavbar />
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
-        <ReportHeader title="New Trends" button_text="Discover New Trends" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewTrends} />
-        {requesting ?
-          <Requesting />
-          :
+        <ReportHeader title="New Trends" button_text="Discover New Trends" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewTrends} requesting={requesting} />
+        {
           database ? (
-            ((trendReports !== null) ?
-              <TrendReports trendReports={trendReports} idBranch={branch} />
+            branch === ''
+              ?
+              <SelectBranch />
               :
-              <EmptyHistory />
-            ))
+              ((trendReports !== null && trendReports.length > 0) ?
+                <Reports reports={trendReports} idBranch={branch} />
+                :
+                <EmptyHistory />
+              ))
             :
             <NoDatabaseConnection />
         }

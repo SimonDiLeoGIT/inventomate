@@ -21,9 +21,9 @@ export const CompanyBranches: React.FC<props> = ({ company }) => {
           <Link to='/company/register-branch' className="-bg--color-semidark-violet p-2 rounded-lg font-semibold -text--color-white w-32 text-center m-auto hover:opacity-80">Add Branch</Link>
         </li>
         : (
-          company?.sucursales.map((branch) => {
+          company?.sucursales.map((branch, index) => {
             return (
-              <li className="grid grid-cols-5 hover:opacity-60">
+              <li className={`grid grid-cols-5 hover:opacity-60 ${(index % 2 === 0) && '-bg--color-border-very-lightest-grey'}`}>
                 <p><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.idSucCliente}</Link></p>
                 <p className="col-span-2"><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.nombre}</Link></p>
                 <p className="col-span-2"><Link to={`/company/branch/${branch.idSucursal}`} className="block p-2">{branch.ubicacion}</Link></p>
