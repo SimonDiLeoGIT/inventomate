@@ -39,12 +39,12 @@ export const ChartComponent: React.FC<props> = ({ forecast }) => {
         <Bar
           className='w-full'
           data={{
-            labels: product.graficoCantidadVendidaXFecha.x.map(x => x),
+            labels: product.graficoCantidadVendidaXFecha.X.map(x => x),
             datasets: [
               {
                 label: product.nombre_producto,
-                data: product.graficoCantidadVendidaXFecha.y.map(y => y),
-                backgroundColor: product.graficoCantidadVendidaXFecha.y.map((_, index, array) => {
+                data: product.graficoCantidadVendidaXFecha.Y.map(y => y),
+                backgroundColor: product.graficoCantidadVendidaXFecha.Y.map((_, index, array) => {
                   return index === array.length - 1 ? 'rgba(65, 0, 82, 0.8)' : 'rgba(171, 127, 182, 0.4)';
                 }),
                 borderColor: 'rgba(171, 127, 182)'
@@ -62,11 +62,11 @@ export const ChartComponent: React.FC<props> = ({ forecast }) => {
           <Line
             className='w-full max-w-full m-auto'
             data={{
-              labels: product.graficoCantidadVendidaXFecha.x.map(x => x),
+              labels: product.graficoCantidadVendidaXFecha.X.map(x => x),
               datasets: [
                 {
                   label: product.nombre_producto,
-                  data: product.graficoCantidadVendidaXFecha.y.map(y => y),
+                  data: product.graficoCantidadVendidaXFecha.Y.map(y => y),
                   borderColor: 'rgba(65, 0, 82, 0.6)',
                   backgroundColor: 'rgba(65, 0, 82)'
                 }

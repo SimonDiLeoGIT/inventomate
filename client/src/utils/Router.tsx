@@ -5,7 +5,7 @@ import { Company } from "../pages/Company";
 import { RegisterCompany } from "../pages/RegisterCompany";
 import { RegisterBranch } from "../pages/RegisterBranch";
 import { Branch } from "../pages/Branch";
-import { Trends } from "../pages/Trends";
+import { TrendsReports } from "../pages/TrendsReports";
 import { CompanySettings } from "../pages/CompanySettings";
 import { Product } from "../pages/Product";
 import { Profile } from "../pages/Profile";
@@ -32,7 +32,7 @@ export const Router = () => {
           <Route path="/company/company-settings" element={<CompanySettings />} />
           <Route path="/company/register-branch" element={<RegisterBranch />} />
           <Route path="/company/branch/:idBranch" element={<Branch />} />
-          <Route path="/company/reports/new-trends" element={<Trends />} />
+          <Route path="/company/reports/new-trends" element={<TrendsReports />} />
           <Route path="/company/reports/new-trends/:idBranch/:idInforme" element={<Trend />} />
           <Route path="/company/reports/new-trends/:idBranch/:idInforme/:category/:position" element={<Product />} />
           <Route path="/company/reports/sales-forecasting" element={<SalesForecastingReports />} />

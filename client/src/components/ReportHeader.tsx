@@ -2,17 +2,18 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import React, { useEffect, useState } from "react"
 import { getCompany } from "../utils/Database.service"
-import treds_icon from '../assets/icons/violet-new-trends.svg'
 import { ReportHeaderTitle } from "./ReportHeaderTitle"
+import { WaitingResponse } from "./WaitingResponse"
 
 interface props {
   title: string
   button_text: string
   handleChangeOption: (branch: string) => void
   buttonEvent: () => void
+  requesting: boolean
 }
 
-export const ReportHeader: React.FC<props> = ({ title, button_text, handleChangeOption, buttonEvent }) => {
+export const ReportHeader: React.FC<props> = ({ title, button_text, handleChangeOption, buttonEvent, requesting }) => {
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
@@ -36,7 +37,7 @@ export const ReportHeader: React.FC<props> = ({ title, button_text, handleChange
   }, [isAuthenticated])
 
   return (
-    <header className="p-2">
+    <header className="py-2">
       <ReportHeaderTitle title={title} />
       <div className="mt-4 grid gap-2">
         {currentUser?.roles.some(role => role.idRol === 1)
@@ -55,12 +56,17 @@ export const ReportHeader: React.FC<props> = ({ title, button_text, handleChange
             }
           </select>
         }
-        <button
-          className="-bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg max-w-sm"
-          onClick={() => buttonEvent()}
-        >
-          {button_text}
-        </button>
+        {
+          requesting ?
+            <WaitingResponse message="Requesting new Report" />
+            :
+            <button
+              className="-bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg max-w-sm hover:opacity-80"
+              onClick={() => buttonEvent()}
+            >
+              {button_text}
+            </button>
+        }
       </div>
     </header>
   )
