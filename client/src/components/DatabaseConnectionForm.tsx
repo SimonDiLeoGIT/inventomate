@@ -79,22 +79,34 @@ export const DatabaseConnectionForm = () => {
         </div>
         <div className="grid gap-2">
           <label className="mt-2 font-semibold -text--color-mate-dark-violet">SGBD</label>
-          <select
-            className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer"
-            value={sgdb}
-            onChange={(e) => setSGDB(e.target.value)}
-            disabled={!editing}
-            required
-          >
-            <option value='' className="-bg--color-white hover:cursor-pointer">Select SGBD</option>
-            {
-              gestors.map(gestor => {
-                return (
-                  <option value={gestor} className="-bg--color-white hover:cursor-pointer">{gestor}</option>
-                )
-              })
-            }
-          </select>
+          {
+            gestors.length > 0
+              ?
+              <select
+                className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer"
+                value={sgdb}
+                onChange={(e) => setSGDB(e.target.value)}
+                disabled={!editing}
+                required
+              >
+                <option value='' className="-bg--color-white hover:cursor-pointer">Select SGBD</option>
+                {
+                  gestors.map(gestor => {
+                    return (
+                      <option value={gestor} className="-bg--color-white hover:cursor-pointer">{gestor}</option>
+                    )
+                  })
+                }
+              </select>
+              :
+              <input
+                type="text"
+                value={sgdb}
+                onChange={(e) => setSGDB(e.target.value)}
+                disabled={!editing}
+                required
+              />
+          }
         </div>
         <div className="grid gap-2">
           <label className="mt-2 font-semibold -text--color-mate-dark-violet">Password</label>
