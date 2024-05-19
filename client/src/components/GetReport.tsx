@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react"
-import { getCompany } from "../utils/Database.service";
+import { getCompany } from "../utils/Services/company.database.service";
 
 interface props {
   getReport: () => any;

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { editMemberRoles, editUser, getMembertRoles, getRoles } from "../utils/Database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import close_icon from '../assets/icons/close.svg'
-import { useUser } from '../hook/useUser'
 import edit_icon from '../assets/icons/edit-violet.svg'
+import { editUser } from "../utils/Services/user.database.service"
 
 interface props {
   user: User

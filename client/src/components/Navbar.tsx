@@ -4,11 +4,22 @@ import { Link } from "react-router-dom";
 import { useUser } from "../hook/useUser";
 import { MobileMenu } from "./MobileMenu";
 import { UserSettings } from "./UserSettings";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
 
   const { isAuthenticated } = useAuth0();
   const { currentUser } = useUser()
+
+  const [companyLink, setCompanyLink] = useState<string>('')
+
+  useEffect(() => {
+    if (currentUser?.roles.some(rol => rol.idRol === 1)) {
+      setCompanyLink('/company')
+    } else {
+      setCompanyLink('/company/branch/' + currentUser?.sucursal?.idSucursal)
+    }
+  }, [currentUser, companyLink])
 
   return (
     <nav className="w-full border-b -border--color-border-very-light-grey h-20 -bg--color-white fixed top-0 flex items-center z-50">
@@ -23,12 +34,10 @@ export const Navbar = () => {
           <Link to='/'>Home</Link>
         </li>
         {isAuthenticated &&
-          currentUser?.empresa !== null && (
-            <li className="mx-4 hover:opacity-60">
-              <Link to='/company'>Company</Link>
-            </li>
-          )
-
+          currentUser?.empresa !== null &&
+          <li className="mx-4 hover:opacity-60">
+            <Link to={companyLink}>Company</Link>
+          </li>
         }
       </ul>
       {isAuthenticated &&

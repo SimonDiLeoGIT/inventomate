@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import { useEffect, useState } from "react"
-import { getDatabaseConnection, getNewTrends, getTrends } from "../utils/Database.service"
+import { getNewTrends, getTrends } from "../utils/Services/trends.database.service"
 import { SideNavbar } from "../components/SideNavbar"
 import { Requesting } from "../components/Requesting"
 import { EmptyHistory } from "../components/Errors/EmptyHistory"
@@ -9,6 +9,7 @@ import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
 import { Reports } from "../components/Reports"
 import { ReportHeader } from "../components/ReportHeader"
 import { SelectBranch } from "../components/Info/SelectBranch"
+import { getDatabaseConnection } from "../utils/Services/database.database.service"
 
 export const TrendsReports = () => {
 
@@ -74,7 +75,7 @@ export const TrendsReports = () => {
         <SideNavbar />
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
-        <ReportHeader title="New Trends" button_text="Discover New Trends" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewTrends} requesting={requesting} />
+        <ReportHeader title="New Trends" button_text="Discover New Trends" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewTrends} requesting={requesting} branch={branch} />
         {
           database ? (
             branch === ''

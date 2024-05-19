@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { connectDataBase, editDatabasConnection, getDatabaseConnection, getGestors } from "../utils/Database.service"
+import { connectDataBase, editDatabasConnection, getDatabaseConnection, getGestors } from "../utils/Services/database.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 

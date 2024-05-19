@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useUser } from "../hook/useUser";
 import { useAuth0 } from "@auth0/auth0-react";
-import { deleteUser, editUserPass } from "../utils/Database.service";
+import { editUserPass } from "../utils/Services/user.database.service";
 import delete_icon from '../assets/icons/delete.svg'
 import logout_icon from '../assets/icons/logout-white.svg'
 import password_icon from '../assets/icons/password.svg'
@@ -33,16 +33,16 @@ export const Profile = () => {
       window.location.href = response.ticket
   }
 
-  const handleDelete = async () => {
-    const accessToken = await getAccessTokenSilently()
-    const response = await deleteUser(accessToken)
-    console.log(response)
-    logout({
-      openUrl() {
-        window.location.href = window.location.origin
-      }
-    })
-  }
+  // const handleDelete = async () => {
+  //   const accessToken = await getAccessTokenSilently()
+  //   const response = await deleteUser(accessToken)
+  //   console.log(response)
+  //   logout({
+  //     openUrl() {
+  //       window.location.href = window.location.origin
+  //     }
+  //   })
+  // }
 
   return (
     <main className="w-11/12 m-auto -text--color-black max-w-4xl my-4">
@@ -142,7 +142,7 @@ export const Profile = () => {
             <p className="font-medium">Delete Account</p>
             <button
               className="-bg--color-ful-red -text--color-white p-2 rounded-xl m-auto mr-0 hover:opacity-80"
-              onClick={handleDelete}
+            // onClick={handleDelete}
             >
               <img src={delete_icon} className="w-6" />
             </button>

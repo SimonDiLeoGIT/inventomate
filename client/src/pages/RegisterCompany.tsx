@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { registerCompany } from "../utils/Database.service"
+import { registerCompany } from "../utils/Services/company.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 

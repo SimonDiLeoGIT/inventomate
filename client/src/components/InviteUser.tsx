@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { getRoles, inviteUser, searchUser } from "../utils/Database.service"
+import { inviteUser, searchUser } from "../utils/Services/user.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import add_icon from '../assets/icons/plus-circle-.svg'
 import close_icon from '../assets/icons/close.svg'
 import { WaitingResponse } from "./WaitingResponse"
+import { getRoles } from "../utils/Services/roles.database.service"
 
 interface props {
   idBranch: string
@@ -76,8 +77,8 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
       if (userSelected?.idUsuario !== undefined)
         await inviteUser(accessToken, idBranch, userSelected?.idUsuario, rolesSelected)
       setIsOpen(false)
-      setLoading(false)
     }
+    setLoading(false)
   }
 
   const handleUserSelect = (user: User) => {
@@ -157,18 +158,18 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
                 }
               </ul>
             </div>
-            <div className="h-14">
+            <div className="mt-4">
               {
                 !loading
                   ?
                   <button
                     type="submit"
-                    className="-bg--color-semidark-violet font-bold -text--color-white w-full mt-4 p-2 rounded-lg hover:opacity-80"
+                    className="-bg--color-semidark-violet font-bold -text--color-white w-full p-2 rounded-lg hover:opacity-80"
                   >
                     Confirm
                   </button>
                   :
-                  <WaitingResponse />
+                  <WaitingResponse message="Sending invitation" />
               }
             </div>
           </form>

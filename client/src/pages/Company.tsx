@@ -3,7 +3,7 @@ import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SideNavbar } from "../components/SideNavbar";
-import { getCompany } from "../utils/Database.service";
+import { getCompany } from "../utils/Services/company.database.service";
 import { CompanyBanner } from "../components/CompanyBanner";
 import { Searcher } from "../components/Searcher";
 import { CompanyBranches } from "../components/CompanyBranches";
@@ -22,8 +22,13 @@ export const Company = () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
 
-      const userCompany = await getCompany(accessToken)
-      setCompany(userCompany)
+      try {
+
+        const response = await getCompany(accessToken)
+        setCompany(response)
+      } catch (e: any) {
+        console.log('ocurrión un error solicitando la compania')
+      }
     }
 
     isAuthenticated && getToken()

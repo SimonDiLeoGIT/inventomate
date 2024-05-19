@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { editMemberRoles, getMembertRoles, getRoles } from "../utils/Database.service"
+import { editMemberRoles, getMembertRoles, getRoles } from "../utils/Services/roles.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import close_icon from '../assets/icons/close.svg'
 import { WaitingResponse } from "./WaitingResponse"
-import { i } from "vitest/dist/reporters-LqC_WI4d.js"
 
 interface props {
   idBranch: string | undefined
@@ -17,8 +16,7 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [roles, setRoles] = useState<Rol[] | null>(null)
-  const [memberRoles, setMemberRoles] = useState<Rol[] | null>(null)
-  const [rolesSelected, setRolesSelected] = useState<string[]>([])
+  const [rolesSelected, setRolesSelected] = useState<number[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
@@ -30,12 +28,9 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
 
       if (idBranch !== undefined) {
         const memberPermissions = await getMembertRoles(accessToken, idBranch, user.idUsuario)
-        setMemberRoles(memberPermissions)
         console.log(memberPermissions)
-        memberPermissions?.forEach(rol => {
-          setRolesSelected([...rolesSelected, rol.idRol.toString()])
-          console.log(rol)
-        })
+        const newRolesSelected = memberPermissions?.map(rol => rol.idRol) || [];
+        setRolesSelected([...rolesSelected, ...newRolesSelected]);
       }
     }
 
@@ -56,10 +51,11 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
 
   const handleRoleSelect = (e: any) => {
     const { value, checked } = e.target;
+    const idRol = parseInt(value)
     if (checked) {
-      setRolesSelected([...rolesSelected, value])
+      setRolesSelected([...rolesSelected, idRol])
     } else {
-      setRolesSelected(rolesSelected.filter(opcion => opcion !== value));
+      setRolesSelected(rolesSelected.filter(opcion => opcion !== idRol));
     }
     console.log(checked)
     console.log(value)
@@ -75,8 +71,8 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
       const accessToken = await getAccessTokenSilently()
       await editMemberRoles(accessToken, idBranch, user.idUsuario, rolesSelected)
       setIsOpen(false)
-      setLoading(false)
     }
+    setLoading(false)
   }
 
 
@@ -115,7 +111,7 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
                           value={role.idRol}
                           className="m-auto mr-0 hover:cursor-pointer"
                           onChange={handleRoleSelect}
-                          checked={rolesSelected?.some(rol => rol === role.idRol.toString())}
+                          checked={rolesSelected?.some(rol => rol === role.idRol)}
                         />
                       </li>
                     )
@@ -123,18 +119,18 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
                 }
               </ul>
             </div>
-            <div className="h-14">
+            <div className="mt-4">
               {
                 !loading
                   ?
                   <button
                     type="submit"
-                    className="-bg--color-semidark-violet font-bold -text--color-white w-full mt-4 p-2 rounded-lg hover:opacity-80"
+                    className="-bg--color-semidark-violet font-bold -text--color-white w-full  p-2 rounded-lg hover:opacity-80"
                   >
                     Confirm
                   </button>
                   :
-                  <WaitingResponse />
+                  <WaitingResponse message="Editing Roles" />
               }
             </div>
           </form>

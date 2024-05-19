@@ -105,7 +105,7 @@ export const MenuOptions = () => {
           <ul className="p-2 border-b -border--color-border-light-grey">
             <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
               <Link
-                to='/company-settings'
+                to='/company/company-settings'
                 className="flex px-1 py-2"
               >
                 <img src={settings} alt="Connection Settings" className="w-5 mr-2" />
