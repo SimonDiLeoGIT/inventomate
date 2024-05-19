@@ -93,6 +93,7 @@ def sugerir(json_data):
             pedido = {
                 "id_producto": id_producto,
                 "nombre_producto": nombre_producto,
+                "stock_actual": stockProducto,
                 "cantidad_a_comprar": cantidad_a_comprar,
                 "justificacion": justificacion
             }
@@ -101,6 +102,7 @@ def sugerir(json_data):
             pedido = {
                 "id_producto": id_producto,
                 "nombre_producto": nombre_producto,
+                "stock_actual": stockProducto,
                 "cantidad_a_comprar": 0,
                 "justificacion": justificacion
             }
