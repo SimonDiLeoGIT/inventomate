@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
+import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
 
 import jakarta.persistence.CascadeType;
@@ -97,5 +98,10 @@ public class Empresa {
 	public List<CompraDetalle> obtenerHistoricoDeCompras(Sucursal sucursal) {
 		bdEmpresa.connect();
 		return bdEmpresa.obtenerHistoricoDeCompras(sucursal.getIdSucCliente());
+	}
+
+	public List<ProductoSucursalInfo> obtenerProductos(Sucursal sucursal) {
+		bdEmpresa.connect();
+		return bdEmpresa.obtenerProductos(sucursal.getIdSucCliente());
 	}
 }

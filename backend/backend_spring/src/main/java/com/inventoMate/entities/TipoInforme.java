@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 public enum TipoInforme {
 	PROYECCION_DE_VENTAS("http://localhost:5173/company/reports/sales-forecasting", "Sales Forecasting",
 			"Sales Analyst"),
-	ANALISIS_DE_TENDENCIA("http://localhost:5173/company/reports/new-trends", "New Trends Analysis", "Trend Analyst");
+	ANALISIS_DE_TENDENCIA("http://localhost:5173/company/reports/new-trends", "New Trends Analysis", "Trend Analyst"),
+	SIGUIENTES_PEDIDOS("http://localhost:5173/company/reports/next-orders", "Next Orders", "Procurement Manager");
 
 	private final String url;
 	private final String name;

@@ -12,4 +12,6 @@ public interface FlaskService {
 	String postDatosInformeProyeccionDeVentas(JSONObject jsonObject);
 
 	Object getDatosInformeByTipoInforme(String idMongo, TipoInforme tipoInforme);
+
+	String postDatosInformeSiguientesPedidos(JSONObject mapToProductoInformation);
 }

@@ -26,3 +26,16 @@ def getProyeccion(id):
     documento = coleccion.find_one({'_id': ObjectId(id)})   
     documento['_id'] = str(documento['_id'])
     return documento
+
+def insertSugerencia(data):
+    coleccion = DB["sugerencias-pedidos"]
+    resultado = coleccion.insert_one(data)
+    if (resultado.acknowledged):
+        return resultado.inserted_id
+    return -1
+
+def getSugerencia(id):
+    coleccion = DB["sugerencias-pedidos"]
+    documento = coleccion.find_one({'_id': ObjectId(id)})   
+    documento['_id'] = str(documento['_id'])
+    return documento

@@ -56,7 +56,7 @@ def prediccionPorProducto(id_producto, datos_producto):
     coordenadas = {"X": grafico_x, "Y": grafico_y}
     return prediccion[0], coordenadas
 
-def procesar_json(json_data):
+def predecir(json_data):
     fecha_prediccion = json_data["fecha_prediccion"]
     perdida_total = 0
     ganancia_total = 0
@@ -142,7 +142,7 @@ def procesar_json(json_data):
     estimaciones_por_producto = []
     #for id_producto in set(list(ventas_por_producto.keys()) + list(compras_por_producto.keys())):
     for id_producto in set(list(ventas_por_producto.keys())):
-        nombre_producto = next((detalle["producto"]["nombre"] for compra in json_data["listado_compras"] for detalle in compra["detalle"] if detalle["producto"]["id_producto"] == id_producto), None)
+        nombre_producto = next((detalle["producto"]["nombre"] for venta in json_data["listado_ventas"] for detalle in venta["detalle"] if detalle["producto"]["id_producto"] == id_producto), None)
         cantidad_ventas = ventas_por_producto[id_producto]["cantidad_vendida"] if id_producto in ventas_por_producto else 0
         inversion = compras_por_producto[id_producto]["inversion"] if id_producto in compras_por_producto else 0
         ganancia = ventas_por_producto[id_producto]["ganancia"] if id_producto in ventas_por_producto else 0
@@ -165,7 +165,7 @@ def procesar_json(json_data):
         ])
 
         prediccion, coordenadasGrafico = prediccionPorProducto(id_producto, ventas_producto)
-        
+
         estimacion = {
             "id_producto": id_producto,
             "nombre_producto": nombre_producto,
@@ -187,9 +187,9 @@ def procesar_json(json_data):
     
     return json_procesado
 
-#if (__name__) == "__main__":
-#     with open("EstructuraDatos.json", "r") as archivo:
+# if (__name__) == "__main__":
+#     with open("datos.json", "r") as archivo:
 #         datos = json.load(archivo)
-#     res = procesar_json(datos)
+#     res = predecir(datos)
 #     with open("res.json", 'w') as file:
 #         json.dump(res, file, indent=4)

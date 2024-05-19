@@ -11,9 +11,34 @@ import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleCompra;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleVenta;
 import com.inventoMate.dtos.bdEmpresas.tablas.Producto;
+import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
+import com.inventoMate.entities.TipoBd;
 
 public class ConsultasSQL implements Consultas {
+
+	private TipoBd dbType;
+
+	public ConsultasSQL(TipoBd dbType) {
+		this.dbType = dbType;
+	}
+
+	private String getIntervalQuery() {
+		switch (dbType) {
+		case POSTGRESQL:
+			return "CURRENT_DATE - INTERVAL '1 year' AND CURRENT_DATE";
+		case MYSQL:
+			return "DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE()";
+		case MICROSOFTSQL:
+			return "CAST(DATEADD(YEAR, -1, GETDATE()) AS DATE) AND CAST(GETDATE() AS DATE)";
+		case ORACLEBD:
+			return "TRUNC(ADD_MONTHS(SYSDATE, -12)) AND TRUNC(SYSDATE)";
+		case SQLLITE:
+			return "DATE('now', '-1 year') AND DATE('now')";
+		default:
+			throw new IllegalArgumentException("Tipo de base de datos no soportado: " + dbType);
+		}
+	}
 
 	@Override
 	public List<String> listProductsByIdSucursal(JdbcTemplate jdbcTemplate, Long idSucursal) {
@@ -23,15 +48,15 @@ public class ConsultasSQL implements Consultas {
 	}
 
 	public List<VentaDetalle> gethistoricoDeVentasByIdSucursal(JdbcTemplate jdbcTemplate, Long idSucursal) {
+		String intervalQuery = getIntervalQuery();
 		String sql = "SELECT v.id AS id_venta, v.fecha_hora, "
 				+ "d.producto_id, d.cantidad, d.precio_venta, d.subtotal, d.promo, "
 				+ "p.nombre AS nombre_producto, p.categoria_id, c.nombre AS nombre_categoria " + "FROM venta v "
 				+ "INNER JOIN detalle d ON v.id = d.venta_id "
 				+ "INNER JOIN producto p ON d.producto_id = p.producto_id "
 				+ "INNER JOIN categoria c ON p.categoria_id = c.categoria_id "
-				+ "WHERE v.sucursal_id = ? AND v.fecha_hora BETWEEN CURRENT_DATE - INTERVAL '1 year' AND CURRENT_DATE "
+				+ "WHERE v.sucursal_id = ? AND v.fecha_hora BETWEEN " + intervalQuery + " "
 				+ "ORDER BY v.fecha_hora DESC";
-
 		return jdbcTemplate.queryForList(sql, idSucursal).stream().map(row -> {
 			VentaDetalle ventaDetalle = new VentaDetalle();
 			ventaDetalle.setIdVenta((Integer) row.get("id_venta"));
@@ -61,15 +86,15 @@ public class ConsultasSQL implements Consultas {
 	}
 
 	public List<CompraDetalle> getHistoricoDeComprasByIdSucursal(JdbcTemplate jdbcTemplate, Long idSucursal) {
+		String intervalQuery = getIntervalQuery();
 		String sql = "SELECT c.id AS id_compra, c.fecha_hora, "
 				+ "dc.producto_id, dc.cantidad, dc.precio_compra, dc.subtotal, "
 				+ "p.nombre AS nombre_producto, p.categoria_id, cat.nombre AS nombre_categoria " + "FROM compra c "
 				+ "INNER JOIN detalle_compra dc ON c.id = dc.compra_id "
 				+ "INNER JOIN producto p ON dc.producto_id = p.producto_id "
 				+ "INNER JOIN categoria cat ON p.categoria_id = cat.categoria_id "
-				+ "WHERE c.sucursal_id = ? AND c.fecha_hora BETWEEN CURRENT_DATE - INTERVAL '1 year' AND CURRENT_DATE "
+				+ "WHERE c.sucursal_id = ? AND c.fecha_hora BETWEEN " + intervalQuery + " "
 				+ "ORDER BY c.fecha_hora DESC";
-
 		return jdbcTemplate.queryForList(sql, idSucursal).stream().map(row -> {
 			CompraDetalle compraDetalle = new CompraDetalle();
 			compraDetalle.setIdCompra((Integer) row.get("id_compra"));
@@ -95,5 +120,15 @@ public class ConsultasSQL implements Consultas {
 
 			return compraDetalle;
 		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ProductoSucursalInfo> getProductInformationByIdSucursal(JdbcTemplate jdbcTemplate, Long idSucCliente) {
+		String sql = "SELECT p.producto_id, p.nombre, sp.stock " + "FROM PRODUCTO p "
+				+ "INNER JOIN sucursal_producto sp ON p.producto_id = sp.producto_id " + "WHERE sp.sucursal_id = ?";
+		return jdbcTemplate.queryForList(sql, idSucCliente).stream()
+				.map(row -> ProductoSucursalInfo.builder().nombre((String) row.get("nombre"))
+						.productId((Integer) row.get("producto_id")).stock((Integer) row.get("stock")).build())
+				.collect(Collectors.toList());
 	}
 }

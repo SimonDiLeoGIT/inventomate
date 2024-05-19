@@ -72,6 +72,13 @@ public class SecurityConfig {
 				.hasAuthority("read:trend-information")
 				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idInforme}/sucursales/{idSucursal}")
 				.hasAuthority("read:trend-information")
+				// siguientes pedidos
+				.requestMatchers(HttpMethod.POST, "api/informes/tendencias/{idSucursal}")
+				.hasAuthority("decide:demand-prediction-report")
+				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idSucursal}")
+				.hasAuthority("read:demand-prediction-report")
+				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("read:demand-prediction-report")
 				// otros
 				.anyRequest().permitAll()).cors(Customizer.withDefaults())
 				.oauth2ResourceServer(
