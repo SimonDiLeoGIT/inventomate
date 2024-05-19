@@ -168,5 +168,20 @@
     "name": "flask.url.tendencias",
     "type": "java.lang.String",
     "description": "A description for 'flask.url.tendencias'"
+  },
+  {
+    "name": "feign.client.config.flaskClient.connectTimeout",
+    "type": "java.lang.String",
+    "description": "A description for 'feign.client.config.flaskClient.connectTimeout'"
+  },
+  {
+    "name": "feign.client.config.flaskClient.readTimeout",
+    "type": "java.lang.String",
+    "description": "A description for 'feign.client.config.flaskClient.readTimeout'"
+  },
+  {
+    "name": "feign.client.config.flaskClient.requestTimeout",
+    "type": "java.lang.String",
+    "description": "A description for 'feign.client.config.flaskClient.requestTimeout'"
   }
 ]}
