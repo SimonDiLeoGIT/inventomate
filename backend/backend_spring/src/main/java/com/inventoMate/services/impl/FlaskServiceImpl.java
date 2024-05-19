@@ -1,20 +1,9 @@
 package com.inventoMate.services.impl;
 
-import java.net.URI;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inventoMate.dtos.meli.TrendsDTO;
 import com.inventoMate.entities.TipoInforme;
+import com.inventoMate.feign.FlaskClient;
 import com.inventoMate.services.FlaskService;
 
 import lombok.AllArgsConstructor;
@@ -24,8 +13,7 @@ import net.minidev.json.JSONObject;
 @AllArgsConstructor
 public class FlaskServiceImpl implements FlaskService {
 
-	private final String url = "http://127.0.0.1:5000/";
-	private final RestTemplate restTemplate;
+	private final FlaskClient flaskServiceFeignClient;
 
 	@Override
 	public Object getDatosInformeByTipoInforme(String idMongo, TipoInforme tipoInforme) {
@@ -43,71 +31,30 @@ public class FlaskServiceImpl implements FlaskService {
 		return response;
 	}
 
-	// informe proyeccion de ventas
 	@Override
 	public String postDatosInformeProyeccionDeVentas(JSONObject jsonObject) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> request = new HttpEntity<>(jsonObject.toJSONString(), headers);
-		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).path("api").path("/informe")
-				.path("/proyeccion-de-ventas").path("/add");
-		URI uri = builder.build(true).toUri();
-		return restTemplate.postForEntity(uri, request, JSONObject.class).getBody().get("ID-Mongo").toString();
+		return flaskServiceFeignClient.postDatosInformeProyeccionDeVentas(jsonObject).get("ID-Mongo").toString();
 	}
 
 	private Object getDatosInformeDeProyeccionDeVentas(String idMongo) {
-		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).path("api").path("/informe")
-				.path("/proyeccion-de-ventas").queryParam("idMongo", idMongo);
-		URI uri = builder.build().toUri();
-		ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, Object.class);
-		return responseEntity.getBody();
+		return flaskServiceFeignClient.getDatosInformeDeProyeccionDeVentas(idMongo);
 	}
 
-	// informe siguientes pedidos
 	@Override
 	public String postDatosInformeSiguientesPedidos(JSONObject jsonObject) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> request = new HttpEntity<>(jsonObject.toJSONString(), headers);
-		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).path("api").path("/informe")
-				.path("/sugerencias-pedidos").path("/add");
-		URI uri = builder.build(true).toUri();
-		return restTemplate.postForEntity(uri, request, JSONObject.class).getBody().get("ID-Mongo").toString();
+		return flaskServiceFeignClient.postDatosInformeSiguientesPedidos(jsonObject).get("ID-Mongo").toString();
 	}
 
 	private Object getDatosInformeSiguientesPedidos(String idMongo) {
-		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).path("api").path("/informe")
-				.path("/sugerencias-pedidos").queryParam("idMongo", idMongo);
-		URI uri = builder.build().toUri();
-		ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, Object.class);
-		return responseEntity.getBody();
+		return flaskServiceFeignClient.getDatosInformeSiguientesPedidos(idMongo);
 	}
 
-	// informe de tendencias
 	@Override
 	public String postDatosInformeTendencias(TrendsDTO trendsDTO) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		ObjectMapper objectMapper = new ObjectMapper();
-		String requestBody;
-		try {
-			requestBody = objectMapper.writeValueAsString(trendsDTO);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return null;
-		}
-		HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
-		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).path("api").path("/informe")
-				.path("/tendencias").path("/add");
-		URI uri = builder.build(true).toUri();
-		return restTemplate.postForEntity(uri, request, JSONObject.class).getBody().get("ID-Mongo").toString();
+		return flaskServiceFeignClient.postDatosInformeTendencias(trendsDTO).get("ID-Mongo").toString();
 	}
 
 	private Object getDatosInformeTendencias(String idMongo) {
-		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url).path("api").path("/informe")
-				.path("/tendencias").queryParam("idMongo", idMongo);
-		URI uri = builder.build().toUri();
-		ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, Object.class);
-		return responseEntity.getBody();
+		return flaskServiceFeignClient.getDatosInformeTendencias(idMongo);
 	}
 }
