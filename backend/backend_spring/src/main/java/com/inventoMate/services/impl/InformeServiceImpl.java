@@ -144,10 +144,10 @@ public class InformeServiceImpl implements InformeService {
 		var productosDeSucursal = empresa.obtenerProductos(sucursal);
 		String idMongo = flaskService.postDatosInformeSiguientesPedidos(
 				mapper.mapToProductoInformation(historiaDeVentas, historiaDeCompras, productosDeSucursal, idSucursal));
-		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.PROYECCION_DE_VENTAS);
+		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.SIGUIENTES_PEDIDOS);
 		sucursal.agregarInforme(informe);
 		sucursal.setEmailSender(emailSender);
 		sucursal.generarNotificacionDeInforme(informe);
-		mapper.mapToProductoInformation(historiaDeVentas, historiaDeCompras, productosDeSucursal, idSucursal);
+		informeRepository.save(informe);
 	}
 }
