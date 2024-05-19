@@ -3,7 +3,7 @@ package com.inventoMate.services.impl;
 import org.springframework.stereotype.Service;
 import com.inventoMate.dtos.meli.TrendsDTO;
 import com.inventoMate.entities.TipoInforme;
-import com.inventoMate.feign.FlaskServiceFeignClient;
+import com.inventoMate.feign.FlaskClient;
 import com.inventoMate.services.FlaskService;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import net.minidev.json.JSONObject;
 @AllArgsConstructor
 public class FlaskServiceImpl implements FlaskService {
 
-	private final FlaskServiceFeignClient flaskServiceFeignClient;
+	private final FlaskClient flaskServiceFeignClient;
 
 	@Override
 	public Object getDatosInformeByTipoInforme(String idMongo, TipoInforme tipoInforme) {
