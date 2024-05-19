@@ -3,7 +3,7 @@ import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SideNavbar } from "../components/SideNavbar";
-import { getCompany } from "../utils/Database.service";
+import { getCompany } from "../utils/Services/company.database.service";
 import { CompanyBanner } from "../components/CompanyBanner";
 import { Searcher } from "../components/Searcher";
 import { CompanyBranches } from "../components/CompanyBranches";

@@ -1,13 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import { useEffect, useState } from "react"
-import { getDatabaseConnection, getForecasts, getNewForecast } from "../utils/Database.service"
+import { getForecasts, getNewForecast } from "../utils/Services/forecast.database.service"
 import { SideNavbar } from "../components/SideNavbar"
 import { EmptyHistory } from "../components/Errors/EmptyHistory"
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
 import { Reports } from "../components/Reports"
 import { ReportHeader } from "../components/ReportHeader"
 import { SelectBranch } from "../components/Info/SelectBranch"
+import { getDatabaseConnection } from "../utils/Services/database.database.service"
 
 export const SalesForecastingReports = () => {
 

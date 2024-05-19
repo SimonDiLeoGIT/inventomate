@@ -5,7 +5,7 @@ import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
 import { ChartComponent } from "../components/ChartComponent"
-import { getForecastById } from "../utils/Database.service"
+import { getForecastById } from "../utils/Services/forecast.database.service"
 
 export const SalesForecasting = () => {
 

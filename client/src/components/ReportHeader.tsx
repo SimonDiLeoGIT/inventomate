@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import React, { useEffect, useState } from "react"
-import { getCompany } from "../utils/Database.service"
+import { getCompany } from "../utils/Services/company.database.service"
 import { ReportHeaderTitle } from "./ReportHeaderTitle"
 import { WaitingResponse } from "./WaitingResponse"
 

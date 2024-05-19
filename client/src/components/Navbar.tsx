@@ -19,8 +19,7 @@ export const Navbar = () => {
     } else {
       setCompanyLink('/company/branch/' + currentUser?.sucursal?.idSucursal)
     }
-    console.log(companyLink)
-  }, [])
+  }, [currentUser, companyLink])
 
   return (
     <nav className="w-full border-b -border--color-border-very-light-grey h-20 -bg--color-white fixed top-0 flex items-center z-50">

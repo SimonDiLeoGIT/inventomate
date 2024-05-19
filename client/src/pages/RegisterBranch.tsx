@@ -1,11 +1,9 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { registerBranch, registerCompany } from "../utils/Database.service"
+import { registerBranch } from "../utils/Services/branch.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 
 export const RegisterBranch = () => {
-  const navigate = useNavigate()
 
   const { getAccessTokenSilently } = useAuth0()
   const { setUser, currentUser } = useUser()
