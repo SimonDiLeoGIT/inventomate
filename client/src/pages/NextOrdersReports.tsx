@@ -9,6 +9,7 @@ import { Reports } from "../components/Reports"
 import { ReportHeader } from "../components/ReportHeader"
 import { SelectBranch } from "../components/Info/SelectBranch"
 import { getDatabaseConnection } from "../utils/Services/database.database.service"
+import { getNewNextOrders, getNextOrders } from "../utils/Services/nextOrders.database.service"
 
 export const NextOrdersReports = () => {
 
@@ -49,7 +50,11 @@ export const NextOrdersReports = () => {
     const accessToken = await getAccessTokenSilently()
 
     if (await getDatabase(accessToken)) {
-      await getNewForecast(accessToken, branch)
+      try {
+        await getNewNextOrders(accessToken, branch)
+      } catch (e: any) {
+
+      }
     } else {
       setDatabase(false)
     }
@@ -59,7 +64,7 @@ export const NextOrdersReports = () => {
 
   const getReports = async (idBranch: string) => {
     const accessToken = await getAccessTokenSilently()
-    const response = await getForecasts(accessToken, idBranch)
+    const response = await getNextOrders(accessToken, idBranch)
     response && setNextOrdersReport(response)
   }
 

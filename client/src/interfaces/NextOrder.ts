@@ -1,12 +1,13 @@
 interface Order {
+  cantidad_a_comprar: number
   id_producto: number
-  nombre_producto: string
-  cantidad: number
   justificacion: string
+  nombre_producto: string
+  stock_actual: number
 }
 
 interface NextOrder {
   id_informe: number
-  fecha: string
+  fecha_actual: string
   pedidos: Order[]
 }

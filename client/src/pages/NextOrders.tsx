@@ -5,6 +5,7 @@ import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
 import data from '../assets/sugests.json'
+import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
 
 export const NextOrders = () => {
 
@@ -25,9 +26,8 @@ export const NextOrders = () => {
       setUser(accessToken)
 
       if (idBranch && idInforme) {
-        // const response = await getTrendById(accessToken, idBranch, idInforme)
-        // setTrends(response)
-        setNextOrders(data[0])
+        const response = await getNextOrderById(accessToken, idBranch, idInforme)
+        setNextOrders(response)
       }
 
     }
@@ -47,7 +47,7 @@ export const NextOrders = () => {
         </header>
         <ul className="my-4">
           {
-            nextOrders?.pedidos.map(order => {
+            nextOrders?.pedidos.map((order) => {
               return (
                 <li className="-bg--color-border-very-lightest-grey rounded-lg shadow-md -shadow--color-black-shadow mb-4 overflow-hidden">
                   <ul>
@@ -69,13 +69,21 @@ export const NextOrders = () => {
                     </li>
                     <li className="grid grid-cols-2 p-2">
                       <p className="m-auto ml-0">
-                        Quantity To Order
+                        Actual Stock
                       </p>
                       <p>
-                        {order.cantidad}
+                        {order.stock_actual}
                       </p>
                     </li>
                     <li className="grid grid-cols-2 p-2 -bg--color-white">
+                      <p className="m-auto ml-0">
+                        Quantity To Order
+                      </p>
+                      <p>
+                        {order.cantidad_a_comprar}
+                      </p>
+                    </li>
+                    <li className="grid grid-cols-2 p-2">
                       <p className="m-auto ml-0">
                         Justification
                       </p>
