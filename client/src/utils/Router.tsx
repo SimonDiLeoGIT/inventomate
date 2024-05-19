@@ -13,6 +13,8 @@ import { Trend } from "../pages/Trend";
 import { SalesForecastingReports } from "../pages/SalesForecastingReports";
 import { SalesForecasting } from "../pages/SalesForecast"
 import { TermsAndCondition } from "../pages/TermsAndConditions"
+import { NextOrdersReports } from "../pages/NextOrdersReports";
+import { NextOrders } from "../pages/NextOrders";
 
 export const Router = () => {
 
@@ -36,6 +38,8 @@ export const Router = () => {
           <Route path="/company/reports/new-trends/:idBranch/:idInforme/:category/:position" element={<Product />} />
           <Route path="/company/reports/sales-forecasting" element={<SalesForecastingReports />} />
           <Route path="/company/reports/sales-forecasting/:idBranch/:idInforme" element={<SalesForecasting />} />
+          <Route path="/company/reports/next-orders" element={<NextOrdersReports />} />
+          <Route path="/company/reports/next-orders/:idBranch/:idInforme" element={<NextOrders />} />
         </Routes>
       </section>
     </BrowserRouter>

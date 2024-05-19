@@ -1,0 +1,86 @@
+[
+  {
+    "id_informe": 1,
+    "fecha": "2024-05-19",
+    "pedidos": [
+      {
+        "id_producto": 101,
+        "nombre_producto": "Toner HP 85A",
+        "cantidad": 10,
+        "justificacion": "Quedan 3 unidades, se vende mucho a empresas."
+      },
+      {
+        "id_producto": 102,
+        "nombre_producto": "Papel A4",
+        "cantidad": 50,
+        "justificacion": "Quedan 20 resmas, se vende rápidamente."
+      }
+    ]
+  },
+  {
+    "id_informe": 2,
+    "fecha": "2024-05-20",
+    "pedidos": [
+      {
+        "id_producto": 103,
+        "nombre_producto": "Laptop Dell Inspiron",
+        "cantidad": 5,
+        "justificacion": "Quedan 2 unidades, alta demanda en oficinas."
+      },
+      {
+        "id_producto": 104,
+        "nombre_producto": "Mouse Logitech",
+        "cantidad": 20,
+        "justificacion": "Quedan 8 unidades, se vende muy rápido."
+      }
+    ]
+  },
+  {
+    "id_informe": 3,
+    "fecha": "2024-05-21",
+    "pedidos": [
+      {
+        "id_producto": 105,
+        "nombre_producto": "Monitor Samsung 24''",
+        "cantidad": 8,
+        "justificacion": "Quedan 2 unidades, alta rotación."
+      },
+      {
+        "id_producto": 106,
+        "nombre_producto": "Teclado mecánico Corsair",
+        "cantidad": 15,
+        "justificacion": "Quedan 5 unidades, muy popular entre gamers."
+      }
+    ]
+  },
+  {
+    "id_informe": 4,
+    "fecha": "2024-05-22",
+    "pedidos": [
+      {
+        "id_producto": 107,
+        "nombre_producto": "Silla ergonómica",
+        "cantidad": 10,
+        "justificacion": "Quedan 4 unidades, demanda constante."
+      },
+      {
+        "id_producto": 108,
+        "nombre_producto": "Impresora Epson",
+        "cantidad": 7,
+        "justificacion": "Quedan 3 unidades, se vende bien en oficinas."
+      }
+    ]
+  },
+  {
+    "id_informe": 5,
+    "fecha": "2024-05-23",
+    "pedidos": [
+      {
+        "id_producto": 109,
+        "nombre_producto": "Tablet Samsung Galaxy",
+        "cantidad": 12,
+        "justificacion": "Quedan 5 unidades, muy solicitada por estudiantes."
+      }
+    ]
+  }
+]
