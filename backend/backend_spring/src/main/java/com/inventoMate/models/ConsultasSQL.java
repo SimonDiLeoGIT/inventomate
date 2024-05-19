@@ -11,6 +11,7 @@ import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleCompra;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleVenta;
 import com.inventoMate.dtos.bdEmpresas.tablas.Producto;
+import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
 import com.inventoMate.entities.TipoBd;
 
@@ -119,5 +120,15 @@ public class ConsultasSQL implements Consultas {
 
 			return compraDetalle;
 		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ProductoSucursalInfo> getProductInformationByIdSucursal(JdbcTemplate jdbcTemplate, Long idSucCliente) {
+		String sql = "SELECT p.producto_id, p.nombre, sp.stock " + "FROM PRODUCTO p "
+				+ "INNER JOIN sucursal_producto sp ON p.producto_id = sp.producto_id " + "WHERE sp.sucursal_id = ?";
+		return jdbcTemplate.queryForList(sql, idSucCliente).stream()
+				.map(row -> ProductoSucursalInfo.builder().nombre((String) row.get("nombre"))
+						.productId((Integer) row.get("producto_id")).stock((Integer) row.get("stock")).build())
+				.collect(Collectors.toList());
 	}
 }

@@ -125,4 +125,29 @@ public class InformeServiceImpl implements InformeService {
 		informeRepository.save(informe);
 		return flaskService.getDatosInformeByTipoInforme(informe.getIdMongo(), informe.getTipoInforme());
 	}
+
+	@Override
+	public void informeDeSiguientesPedidos(String subject, Long idSucursal) {
+
+		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
+
+		Empresa empresa = usuario.obtenerEmpresa();
+
+		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
+
+		if (sucursal == null)
+			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
+
+		var historiaDeCompras = empresa.obtenerHistoricoDeCompras(sucursal);
+		var historiaDeVentas = empresa.obtenerHistoricoDeVentas(sucursal);
+		var productosDeSucursal = empresa.obtenerProductos(sucursal);
+		String idMongo = flaskService.postDatosInformeSiguientesPedidos(
+				mapper.mapToProductoInformation(historiaDeVentas, historiaDeCompras, productosDeSucursal, idSucursal));
+		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.SIGUIENTES_PEDIDOS);
+		sucursal.agregarInforme(informe);
+		sucursal.setEmailSender(emailSender);
+		sucursal.generarNotificacionDeInforme(informe);
+		informeRepository.save(informe);
+	}
 }

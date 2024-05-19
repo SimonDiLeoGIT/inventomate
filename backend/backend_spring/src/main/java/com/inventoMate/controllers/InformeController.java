@@ -72,4 +72,26 @@ public class InformeController {
 		return ResponseEntity
 				.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme));
 	}
+
+	// SIGUIENTES PEDIDOS
+	@PostMapping("/siguientes-pedidos/{idSucursal}")
+	public ResponseEntity<ApiResponse> postInformeSiguientesPedidos(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal) {
+		informeService.informeDeSiguientesPedidos(jwt.getSubject(), idSucursal);
+		return ResponseEntity.ok().body(new ApiResponse(true, "Informe culminado"));
+	}
+
+	@GetMapping("/siguientes-pedidos/{idSucursal}")
+	public ResponseEntity<List<InformeDTO>> getInformesSiguientesPedidos(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal) {
+		return ResponseEntity.ok(informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
+				TipoInforme.SIGUIENTES_PEDIDOS));
+	}
+
+	@GetMapping("/siguientes-pedidos/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<?> getInformeSiguientesPedidos(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idInforme,
+			@PathVariable Long idSucursal) {
+		return ResponseEntity
+				.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme));
+	}
 }

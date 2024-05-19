@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
+import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
 import com.inventoMate.models.Consultas;
 import com.inventoMate.models.ConsultasSQL;
@@ -100,5 +101,9 @@ public class BdEmpresa {
 		default:
 			throw new IllegalArgumentException("Tipo de base de datos no soportado: " + tipoBd);
 		}
+	}
+
+	public List<ProductoSucursalInfo> obtenerProductos(Long idSucCliente) {
+		return consultasSQL.getProductInformationByIdSucursal(new JdbcTemplate(this.datasource), idSucCliente);
 	}
 }

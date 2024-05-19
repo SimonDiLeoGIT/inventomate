@@ -13,6 +13,7 @@ import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleCompra;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleVenta;
 import com.inventoMate.dtos.bdEmpresas.tablas.Producto;
+import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
 import com.inventoMate.dtos.informes.InformeDTO;
 import com.inventoMate.entities.Informe;
@@ -161,5 +162,33 @@ public class InformeMapperImpl implements InformeMapper {
 	@Override
 	public InformeDTO mapToInformeDTO(Informe informe) {
 		return mapper.map(informe, InformeDTO.class);
+	}
+
+	@Override
+	public JSONObject mapToProductoInformation(List<VentaDetalle> historiaDeVentas,
+			List<CompraDetalle> historiaDeCompras, List<ProductoSucursalInfo> productoInfo, Long idSucursal) {
+		JSONObject listadoCompras = mapToHistoricoCompras(historiaDeCompras);
+		JSONObject listadoVentas = mapToHistoricoVentas(historiaDeVentas);
+		JSONObject listadoProductoInformation = mapToProductoStockSucursal(productoInfo);
+		JSONObject result = new JSONObject();
+		result.put("id_sucursal", idSucursal);
+		result.merge(listadoProductoInformation);
+		result.merge(listadoCompras);
+		result.merge(listadoVentas);
+		return result;
+	}
+
+	private JSONObject mapToProductoStockSucursal(List<ProductoSucursalInfo> productoInfo) {
+		JSONArray resultList = new JSONArray();
+		productoInfo.forEach(producto -> {
+			JSONObject productoJSON = new JSONObject();
+			productoJSON.put("id_producto", producto.getProductId());
+			productoJSON.put("nombre", producto.getNombre());
+			productoJSON.put("stock", producto.getStock());
+			resultList.add(productoJSON);
+		});
+		JSONObject result = new JSONObject();
+		result.put("listado_productos", resultList);
+		return result;
 	}
 }

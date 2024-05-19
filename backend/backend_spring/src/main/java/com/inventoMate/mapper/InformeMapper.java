@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
+import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
 import com.inventoMate.dtos.informes.InformeDTO;
 import com.inventoMate.entities.Informe;
@@ -25,5 +26,8 @@ public interface InformeMapper {
 	InformeDTO mapToInformeDTO(Informe informe);
 
 	Informe mapToInforme(String idMongo, TipoInforme tipo);
+
+	JSONObject mapToProductoInformation(List<VentaDetalle> historiaDeVentas, List<CompraDetalle> historiaDeCompras,
+			List<ProductoSucursalInfo> productoInfo, Long idSucursal);
 
 }
