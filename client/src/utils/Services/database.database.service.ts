@@ -1,4 +1,5 @@
-import axios from "axios"
+import axios, { AxiosError } from "axios"
+import { handleApiError } from "../errorHander"
 
 export const getGestors = async (accessToken: string) => {
   try {
@@ -46,7 +47,8 @@ export const editDatabasConnection = async (accessToken: string, body: { gestorB
     console.log(response)
     return response.data
   } catch (error: any) {
-    return error?.response
+    const apiError = handleApiError(error as AxiosError);
+    throw apiError;
   }
 }
 

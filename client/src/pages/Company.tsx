@@ -22,8 +22,13 @@ export const Company = () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
 
-      const userCompany = await getCompany(accessToken)
-      setCompany(userCompany)
+      try {
+
+        const response = await getCompany(accessToken)
+        setCompany(response)
+      } catch (e: any) {
+        console.log('ocurrión un error solicitando la compania')
+      }
     }
 
     isAuthenticated && getToken()

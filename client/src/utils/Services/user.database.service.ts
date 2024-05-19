@@ -27,9 +27,6 @@ export const getUserCall = async (accessToken: string): Promise<UserCompany | nu
     });
     return response.data
   } catch (error: any) {
-    // if (error.response && error.response.status === 404) {
-    //   return 404
-    // }
     return error.response.status
   }
 }

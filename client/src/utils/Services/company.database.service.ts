@@ -1,9 +1,12 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios"
+import { handleApiError } from "../errorHander"
+
+const urlCompany = 'http://localhost:8080/api/empresas'
 
 export const registerCompany = async (accessToken: string, body: { nombreEmpresa: string, descripcion: string, logo: string }) => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/empresas/create',
+      url: `${urlCompany}/create`,
       method: 'POST',
       headers: {
         "content-type": "application/json",
@@ -17,10 +20,11 @@ export const registerCompany = async (accessToken: string, body: { nombreEmpresa
   }
 }
 
-export const getCompany = async (accessToken: string): Promise<Company | null> => {
+
+export const getCompany = async (accessToken: string): Promise<Company | any> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/empresas/profile',
+      url: `${urlCompany}/profile`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -28,7 +32,8 @@ export const getCompany = async (accessToken: string): Promise<Company | null> =
     })
     return response.data
   } catch (error: any) {
-    return error?.response
+    const apiError = handleApiError(error as AxiosError);
+    throw apiError;
   }
 }
 

@@ -74,7 +74,7 @@ export const SalesForecastingReports = () => {
         <SideNavbar />
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
-        <ReportHeader title="Sales Forecasting" button_text="Analyse Sales Forecast" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewReport} requesting={requesting} />
+        <ReportHeader title="Sales Forecasting" button_text="Analyse Sales Forecast" handleChangeOption={handleChangeOption} buttonEvent={handleGetNewReport} requesting={requesting} branch={branch} />
         {
           database ? (
             branch === ''

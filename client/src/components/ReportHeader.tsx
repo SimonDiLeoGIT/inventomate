@@ -11,9 +11,10 @@ interface props {
   handleChangeOption: (branch: string) => void
   buttonEvent: () => void
   requesting: boolean
+  branch: string
 }
 
-export const ReportHeader: React.FC<props> = ({ title, button_text, handleChangeOption, buttonEvent, requesting }) => {
+export const ReportHeader: React.FC<props> = ({ title, button_text, handleChangeOption, buttonEvent, requesting, branch }) => {
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
@@ -60,6 +61,8 @@ export const ReportHeader: React.FC<props> = ({ title, button_text, handleChange
           requesting ?
             <WaitingResponse message="Requesting new Report" />
             :
+            branch !== ''
+            &&
             <button
               className="-bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg max-w-sm hover:opacity-80"
               onClick={() => buttonEvent()}
