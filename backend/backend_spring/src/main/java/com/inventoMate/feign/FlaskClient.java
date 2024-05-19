@@ -10,24 +10,24 @@ import com.inventoMate.dtos.meli.TrendsDTO;
 
 import net.minidev.json.JSONObject;
 
-@FeignClient(name = "flaskClient", url = "http://127.0.0.1:5000/api/informe")
+@FeignClient(name = "flaskClient", url = "${flask.url.base}")
 public interface FlaskClient {
 
-	@PostMapping("/proyeccion-de-ventas/add")
+	@PostMapping("${flask.url.proyeccion-de-ventas-add}")
 	JSONObject postDatosInformeProyeccionDeVentas(@RequestBody JSONObject jsonObject);
 
-	@GetMapping("/proyeccion-de-ventas")
+	@GetMapping("${flask.url.proyeccion-de-ventas}")
 	Object getDatosInformeDeProyeccionDeVentas(@RequestParam("idMongo") String idMongo);
 
-	@PostMapping("/sugerencias-pedidos/add")
+	@PostMapping("${flask.url.sugerencias-pedidos-add}")
 	JSONObject postDatosInformeSiguientesPedidos(@RequestBody JSONObject jsonObject);
 
-	@GetMapping("/sugerencias-pedidos")
+	@GetMapping("${flask.url.sugerencias-pedidos}")
 	Object getDatosInformeSiguientesPedidos(@RequestParam("idMongo") String idMongo);
 
-	@PostMapping("/tendencias/add")
+	@PostMapping("${flask.url.tendencias-add}")
 	JSONObject postDatosInformeTendencias(@RequestBody TrendsDTO trendsDTO);
 
-	@GetMapping("/tendencias")
+	@GetMapping("${flask.url.tendencias}")
 	Object getDatosInformeTendencias(@RequestParam("idMongo") String idMongo);
 }

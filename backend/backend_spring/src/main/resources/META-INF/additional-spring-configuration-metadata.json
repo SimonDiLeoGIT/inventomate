@@ -133,5 +133,40 @@
     "name": "meli.url.base",
     "type": "java.lang.String",
     "description": "A description for 'meli.url.base'"
+  },
+  {
+    "name": "flask.url.base",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.base'"
+  },
+  {
+    "name": "flask.url.proyeccion-de-ventas-add",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.proyeccion-de-ventas-add'"
+  },
+  {
+    "name": "flask.url.sugerencias-pedidos-add",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.sugerencias-pedidos-add'"
+  },
+  {
+    "name": "flask.url.tendencias-add",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.tendencias-add'"
+  },
+  {
+    "name": "flask.url.sugerencias-pedidos",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.sugerencias-pedidos'"
+  },
+  {
+    "name": "flask.url.proyeccion-de-ventas",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.proyeccion-de-ventas'"
+  },
+  {
+    "name": "flask.url.tendencias",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.tendencias'"
   }
 ]}
