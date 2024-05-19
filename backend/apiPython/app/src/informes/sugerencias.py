@@ -1,17 +1,16 @@
 from flask import json
 import pandas as pd
-from datetime import datetime
+from datetime import date, datetime
 from .prediccion import obtener_estacion, prediccionPorProducto
 import math
 
 def obtener_stock_actual(id_producto, data):
     for producto in data['listado_productos']:
         if producto['id_producto'] == id_producto:
-            return producto['stock_actual']
+            return producto['stock']
     return None
 
 def sugerir(json_data):
-    fecha_prediccion = json_data["fecha_prediccion"]
     fechas = []
     ventas_por_producto = {}
     compras_por_producto = {}
@@ -89,7 +88,7 @@ def sugerir(json_data):
         cantidad_a_comprar = math.ceil(prediccion - stockProducto)
         
         if (cantidad_a_comprar > 0):
-            porcentaje = (stockProducto/prediccion) * 100
+            porcentaje = round(((stockProducto/prediccion) * 100), 2)
             justificacion = f"Se espera que el producto {nombre_producto} venda {prediccion} unidades, se recomienda comprar como minimo {cantidad_a_comprar} unidades para satisfacer la demanda esperada del proximo mes. Se cumple un {porcentaje}% de la demanda con el stock actual."
             pedido = {
                 "id_producto": id_producto,
@@ -108,7 +107,7 @@ def sugerir(json_data):
         pedidos.append(pedido) 
 
     json_procesado = {
-        "fecha_estimada": fecha_prediccion,
+        "fecha_actual": date.today().isoformat(),
         "pedidos": pedidos
     }
     
