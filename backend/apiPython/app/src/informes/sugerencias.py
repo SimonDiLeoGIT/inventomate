@@ -113,7 +113,8 @@ def procesar_json(json_data):
         cantidad_a_comprar = math.ceil(prediccion - stockProducto)
         
         if (cantidad_a_comprar > 0):
-            justificacion = f"Se espera que el producto {nombre_producto} venda {prediccion} unidades, se recomienda comprar como minimo {cantidad_a_comprar} unidades para satisfacer la demanda esperada del proximo mes."
+            porcentaje = (stockProducto/prediccion) * 100
+            justificacion = f"Se espera que el producto {nombre_producto} venda {prediccion} unidades, se recomienda comprar como minimo {cantidad_a_comprar} unidades para satisfacer la demanda esperada del proximo mes. Se cumple un {porcentaje}% de la demanda con el stock actual."
             pedido = {
                 "id_producto": id_producto,
                 "nombre_producto": nombre_producto,
