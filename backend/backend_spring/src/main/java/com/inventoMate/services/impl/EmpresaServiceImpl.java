@@ -20,6 +20,7 @@ import com.inventoMate.repositories.RolRepository;
 import com.inventoMate.repositories.UsuarioRepository;
 import com.inventoMate.services.EmpresaService;
 import com.inventoMate.services.RoleAuth0Service;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
