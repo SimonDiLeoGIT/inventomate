@@ -401,7 +401,7 @@ export const inviteUser = async (accessToken: string, idBranch: string, idUser: 
   }
 }
 
-export const editMemberRoles = async (accessToken: string, idBranch: string, idUser: number, idRol: string[]) => {
+export const editMemberRoles = async (accessToken: string, idBranch: string, idUser: number, idRol: number[]) => {
   try {
     const url = `http://localhost:8080/api/sucursales/${idBranch}/users/${idUser}/roles/${idRol}/edit`
     const body = {
