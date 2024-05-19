@@ -1,10 +1,7 @@
 from flask import json
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from dateutil.relativedelta import relativedelta
-import calendar
 from datetime import datetime
-from prediccion import obtener_estacion
+from .prediccion import obtener_estacion, prediccionPorProducto
 import math
 
 def obtener_stock_actual(id_producto, data):
@@ -13,29 +10,7 @@ def obtener_stock_actual(id_producto, data):
             return producto['stock_actual']
     return None
 
-def prediccionPorProducto(id_producto, datos_producto):
-    resumen_ventas = datos_producto.groupby(["mes"]).agg({"cantidad":"sum", "precio_unitario":"mean", "%promo":"mean", "estacion":"mean"}).reset_index()
-    X = resumen_ventas[["%promo", "precio_unitario", "estacion"]]
-    y = resumen_ventas["cantidad"]
-    # print("--------------------------------------------------------------")
-    # print(y)
-    # print(X)
-    modelo = LinearRegression()
-    modelo.fit(X, y)
-    print("Xi:\n" + str(X))
-    print("Y:\n" + str(y))
-    ultimo_mes = resumen_ventas["mes"].max()
-    primer_dia_proximo_mes = datetime(ultimo_mes.year, ultimo_mes.month, 1) + relativedelta(months=1)
-    ultimo_dia_mes_siguiente = min(calendar.monthrange(primer_dia_proximo_mes.year, primer_dia_proximo_mes.month)[1], ultimo_mes.day)
-    proximo_mes = primer_dia_proximo_mes.replace(day=ultimo_dia_mes_siguiente)
-    estacion_proximo_mes = obtener_estacion(proximo_mes)
-    valores_ultimo_mes = resumen_ventas[resumen_ventas["mes"] == ultimo_mes].iloc[0][["%promo", "precio_unitario", "estacion"]]
-    X_prediccion = [[valores_ultimo_mes["%promo"], valores_ultimo_mes["precio_unitario"], estacion_proximo_mes]]
-    prediccion = modelo.predict(X_prediccion)
-    
-    return prediccion[0]
-
-def procesar_json(json_data):
+def sugerir(json_data):
     fecha_prediccion = json_data["fecha_prediccion"]
     fechas = []
     ventas_por_producto = {}
@@ -108,7 +83,8 @@ def procesar_json(json_data):
             if detalle["producto"]["id_producto"] == id_producto
         ])
 
-        prediccion = math.ceil(prediccionPorProducto(id_producto, ventas_producto))
+        prediccion, _ = prediccionPorProducto(id_producto, ventas_producto)
+        prediccion = math.ceil(prediccion)
         stockProducto = obtener_stock_actual(id_producto,json_data)
         cantidad_a_comprar = math.ceil(prediccion - stockProducto)
         
@@ -139,9 +115,9 @@ def procesar_json(json_data):
     return json_procesado
 
 
-if (__name__) == "__main__":
-     with open("datos.json", "r") as archivo:
-         datos = json.load(archivo)
-     res = procesar_json(datos)
-     with open("res.json", 'w') as file:
-         json.dump(res, file, indent=4)
+# if (__name__) == "__main__":
+#      with open("datos.json", "r") as archivo:
+#          datos = json.load(archivo)
+#      res = sugerir(datos)
+#      with open("res.json", 'w') as file:
+#          json.dump(res, file, indent=4)

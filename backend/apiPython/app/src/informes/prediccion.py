@@ -56,7 +56,7 @@ def prediccionPorProducto(id_producto, datos_producto):
     coordenadas = {"X": grafico_x, "Y": grafico_y}
     return prediccion[0], coordenadas
 
-def procesar_json(json_data):
+def predecir(json_data):
     fecha_prediccion = json_data["fecha_prediccion"]
     perdida_total = 0
     ganancia_total = 0
@@ -187,9 +187,9 @@ def procesar_json(json_data):
     
     return json_procesado
 
-if (__name__) == "__main__":
-    with open("datos.json", "r") as archivo:
-        datos = json.load(archivo)
-    res = procesar_json(datos)
-    with open("res.json", 'w') as file:
-        json.dump(res, file, indent=4)
+# if (__name__) == "__main__":
+#     with open("datos.json", "r") as archivo:
+#         datos = json.load(archivo)
+#     res = predecir(datos)
+#     with open("res.json", 'w') as file:
+#         json.dump(res, file, indent=4)
