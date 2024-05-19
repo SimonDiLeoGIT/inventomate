@@ -3,7 +3,6 @@ import { editMemberRoles, getMembertRoles, getRoles } from "../utils/Database.se
 import { useAuth0 } from "@auth0/auth0-react"
 import close_icon from '../assets/icons/close.svg'
 import { WaitingResponse } from "./WaitingResponse"
-import { i } from "vitest/dist/reporters-LqC_WI4d.js"
 
 interface props {
   idBranch: string | undefined
@@ -17,7 +16,6 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [roles, setRoles] = useState<Rol[] | null>(null)
-  const [memberRoles, setMemberRoles] = useState<Rol[] | null>(null)
   const [rolesSelected, setRolesSelected] = useState<number[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -30,7 +28,6 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
 
       if (idBranch !== undefined) {
         const memberPermissions = await getMembertRoles(accessToken, idBranch, user.idUsuario)
-        setMemberRoles(memberPermissions)
         console.log(memberPermissions)
         const newRolesSelected = memberPermissions?.map(rol => rol.idRol) || [];
         setRolesSelected([...rolesSelected, ...newRolesSelected]);
@@ -122,13 +119,13 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
                 }
               </ul>
             </div>
-            <div className="h-14">
+            <div className="mt-4">
               {
                 !loading
                   ?
                   <button
                     type="submit"
-                    className="-bg--color-semidark-violet font-bold -text--color-white w-full mt-4 p-2 rounded-lg hover:opacity-80"
+                    className="-bg--color-semidark-violet font-bold -text--color-white w-full  p-2 rounded-lg hover:opacity-80"
                   >
                     Confirm
                   </button>

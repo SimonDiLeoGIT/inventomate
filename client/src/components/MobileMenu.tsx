@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import menu from '../assets/icons/menu.svg'
 import close from '../assets/icons/close.svg'
 import { MenuOptions } from './MenuOptions'
@@ -16,6 +16,17 @@ export const MobileMenu = () => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
+
+  const [companyLink, setCompanyLink] = useState<string>('')
+
+  useEffect(() => {
+    if (currentUser?.roles.some(rol => rol.idRol === 1)) {
+      setCompanyLink('/company')
+    } else {
+      setCompanyLink('/company/branch/' + currentUser?.sucursal?.idSucursal)
+    }
+    console.log(companyLink)
+  }, [])
 
   function handleMenuOpen() {
     !open ?
@@ -50,7 +61,7 @@ export const MobileMenu = () => {
             {isAuthenticated &&
               currentUser?.empresa !== null && (
                 <li className="hover:opacity-60">
-                  <Link to='/company' className='p-2 flex'><img src={company_icon} className='w-5 mr-2' />Company</Link>
+                  <Link to={companyLink} className='p-2 flex'><img src={company_icon} className='w-5 mr-2' />Company</Link>
                 </li>
               )
 

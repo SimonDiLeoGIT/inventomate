@@ -13,7 +13,6 @@ import { Trend } from "../pages/Trend";
 import { SalesForecastingReports } from "../pages/SalesForecastingReports";
 import { SalesForecasting } from "../pages/SalesForecast"
 import { TermsAndCondition } from "../pages/TermsAndConditions"
-import { Footer } from "../components/Footer"
 
 export const Router = () => {
 
@@ -39,7 +38,6 @@ export const Router = () => {
           <Route path="/company/reports/sales-forecasting/:idBranch/:idInforme" element={<SalesForecasting />} />
         </Routes>
       </section>
-      <Footer />
     </BrowserRouter>
   )
 }

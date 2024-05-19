@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useUser } from "../hook/useUser"
 import { Link } from "react-router-dom"
 import { Login } from "../pages/Login"
@@ -11,6 +11,17 @@ export const HomeOptions: React.FC<props> = ({ isAuthenticated }) => {
 
   const { currentUser } = useUser()
 
+  const [companyLink, setCompanyLink] = useState<string>('')
+
+  useEffect(() => {
+    if (currentUser?.roles.some(rol => rol.idRol === 1)) {
+      setCompanyLink('/company')
+    } else {
+      setCompanyLink('/company/branch/' + currentUser?.sucursal?.idSucursal)
+    }
+    console.log(companyLink)
+  }, [])
+
   return (
     <>
       {!isAuthenticated ?
@@ -22,7 +33,7 @@ export const HomeOptions: React.FC<props> = ({ isAuthenticated }) => {
           </div>
           :
           <div className="mt-12 inline-block">
-            <Link to='/company' className="block -bg--color-semidark-violet -text--color-white font-bold text-2xl p-4 rounded-2xl border hover:opacity-80"> View Company </Link>
+            <Link to={companyLink} className="block -bg--color-semidark-violet -text--color-white font-bold text-2xl p-4 rounded-2xl border hover:opacity-80"> View Company </Link>
           </div>
         )
       }
