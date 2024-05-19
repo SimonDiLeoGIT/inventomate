@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from flask import current_app as app
 from .models import *
-from .informes.proyeccion_ventas.procesadorJson import procesar_json 
+from .informes.prediccion import procesar_json 
     
     
 @app.route("/api/informe/tendencias/add", methods=["POST"])
