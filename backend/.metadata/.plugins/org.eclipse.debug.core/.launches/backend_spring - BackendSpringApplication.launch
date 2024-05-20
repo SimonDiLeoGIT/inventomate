@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.springframework.ide.eclipse.boot.launch">
+    <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/backend_spring/src/main/java/com/inventoMate/BackendSpringApplication.java"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="1"/>
+    </listAttribute>
+    <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+        <mapEntry key="AUTH0_CLIENT_ID" value="ms0lq4fkONnpPrvn6LA29q5sk14h1ehE"/>
+        <mapEntry key="AUTH0_CLIENT_SECRET" value="x1hTArWi-WwhMg7jKAlUsfwVIiAoV76QJc0wo_PqqqAXPB8wX0RyFW0hD53GE7Pg"/>
+        <mapEntry key="AUTH0_DOMAIN" value="dev-xzd1nw16hc11vsj7.us.auth0.com"/>
+        <mapEntry key="CLIENT_ORIGIN_URL" value="http://localhost:4040"/>
+        <mapEntry key="DATABASE_CONNECTION" value="Username-Password-Authentication"/>
+        <mapEntry key="EMAIL_PASSWORD" value="lbye iddm irti oljd"/>
+        <mapEntry key="EMAIL_USERNAME" value="grupo3SIP2024@gmail.com"/>
+        <mapEntry key="MELI_ACCESS_TOKEN" value="APP_USR-3016440693869591-051014-980cf870b5af9af6c2a4cc03894139a5-1722227348"/>
+        <mapEntry key="MELI_APP_ID" value="3016440693869591"/>
+        <mapEntry key="MELI_CLIENT_SECRET" value="ql6n8CR5RhhyiGjcUB8PI8OSNQ2MSWxF"/>
+        <mapEntry key="MELI_CODE_LOGIN" value="TG-65effc352a444300015fd237-1722227348"/>
+        <mapEntry key="MELI_REDIRECT_URI" value="https://google.com/"/>
+        <mapEntry key="MELI_REFRESH_TOKEN" value="TG-663e6c9eb6f4e3000196477b-1722227348"/>
+        <mapEntry key="MONGO_URI" value="mongodb://localhost:27017/inventomate_db"/>
+        <mapEntry key="OKTA_OAUTH2_AUDIENCE" value="grupo3SIP2024"/>
+        <mapEntry key="OKTA_OAUTH2_ISSUER" value="https://dev-xzd1nw16hc11vsj7.us.auth0.com/"/>
+        <mapEntry key="PASSWORD_DATABASE" value="simondileo"/>
+        <mapEntry key="PORT" value="8080"/>
+        <mapEntry key="USER_DATABASE" value="root"/>
+    </mapAttribute>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
+    <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.springframework.ide.eclipse.boot.launch.BootMavenClassPathProvider"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.inventoMate.BackendSpringApplication"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="backend_spring"/>
+    <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.springframework.ide.eclipse.boot.launch.BootMavenSourcePathProvider"/>
+    <stringAttribute key="process_factory_id" value="org.springframework.ide.eclipse.boot.launch.process.BootProcessFactory"/>
+    <booleanAttribute key="spring.boot.ansi.console" value="true"/>
+    <stringAttribute key="spring.boot.app.properties" value=""/>
+    <booleanAttribute key="spring.boot.auto-connect" value="true"/>
+    <booleanAttribute key="spring.boot.dash.hidden" value="false"/>
+    <booleanAttribute key="spring.boot.debug.enable" value="false"/>
+    <booleanAttribute key="spring.boot.fast.startup" value="true"/>
+    <booleanAttribute key="spring.boot.jmx.enable" value="true"/>
+    <booleanAttribute key="spring.boot.lifecycle.enable" value="true"/>
+    <stringAttribute key="spring.boot.lifecycle.termination.timeout" value="15000"/>
+    <booleanAttribute key="spring.boot.livebean.enable" value="false"/>
+    <stringAttribute key="spring.boot.livebean.port" value="0"/>
+    <stringAttribute key="spring.boot.profile" value=""/>
+</launchConfiguration>

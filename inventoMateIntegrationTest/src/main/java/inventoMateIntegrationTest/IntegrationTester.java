@@ -12,34 +12,43 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class IntegrationTester {
 
 	public static void main(String[] args) {
+		
+		
 		// TODO Auto-generated method stub
 		WebDriver driver = new ChromeDriver();
 		driver.get("http://localhost:5173/");	
-		// Encuentra el botón con el texto "Sign Up"
-        WebElement signUpButton = driver.findElement(By.xpath("//button[contains(text(), 'Sign Up')]"));
+		// Encuentra el botï¿½n con el texto "Sign Up"
+        WebElement signUpButton = driver.findElement(By.xpath("//button[contains(text(), 'Login')]"));
 
-        // Haz clic en el botón
+        // Haz clic en el botï¿½n
         signUpButton.click();
         
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-     // Encuentra y completa el campo de correo electrónico
+     // Encuentra y completa el campo de correo electrï¿½nico
         WebElement emailInput = driver.findElement(By.xpath("//label[contains(text(), 'Email address*')]/following-sibling::input"));
-        emailInput.sendKeys("userTest01@example.com");
+        emailInput.sendKeys("termo@gmail.com");
 
-        // Encuentra y completa el campo de contraseña
+        // Encuentra y completa el campo de contraseï¿½a
         WebElement passwordInput = driver.findElement(By.xpath("//label[contains(text(), 'Password*')]/following-sibling::input"));
 
-        // Ingresa la contraseña en el campo de entrada
-        passwordInput.sendKeys("(123Abc)");
+        // Ingresa la contraseï¿½a en el campo de entrada
+        passwordInput.sendKeys("(Abc123)");
 
-        // Encuentra el botón "Continue" y haz clic en él
+        // Encuentra el botï¿½n "Continue" y haz clic en ï¿½l
         WebElement continueButton = driver.findElement(By.xpath("//button[contains(text(), 'Continue')]"));
         continueButton.click();
+		        
+		       
+		
+		//FuncionalidaddePedirInformedeNuevasTendenciasTest fit = new FuncionalidaddePedirInformedeNuevasTendenciasTest();
         
-        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        WebElement acceptButton = driver.findElement(By.xpath("//button[contains(text(), 'Accept')]"));
-        acceptButton.click();
+        //VerInformeDeTendencias fit = new VerInformeDeTendencias();
         
+        ProyeccinTest fit = new ProyeccinTest();
+		
+		fit.setUp(driver);
+		//fit.funcionalidaddePedirInformedeNuevasTendencias();
+		fit.proyeccin();
  
 	}	
 
