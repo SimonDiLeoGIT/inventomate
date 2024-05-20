@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
-import { ChartComponent } from "../components/ChartComponent"
+import { ChartSection } from "../components/ChartSection"
 import { getForecastById } from "../utils/Services/forecast.database.service"
+import { ProductForecastInfo } from "../components/ProductForecastInfo"
 
 export const SalesForecasting = () => {
 
@@ -17,7 +18,8 @@ export const SalesForecasting = () => {
   const { setUser } = useUser()
 
   const [forecast, setForecast] = useState<Forecast | null>()
-
+  const [product, setProduct] = useState<ProductForecast>()
+  const [type, setType] = useState<number>(1)
 
   useEffect(() => {
 
@@ -29,6 +31,7 @@ export const SalesForecasting = () => {
         const response = await getForecastById(accessToken, idBranch, idInforme)
         setForecast(response)
         console.log(response)
+        setProduct(response?.estimaciones_por_producto[0])
       }
 
     }
@@ -36,6 +39,16 @@ export const SalesForecasting = () => {
     isAuthenticated && getToken()
 
   }, [isAuthenticated])
+
+
+  const handleChangeOption = (id: string) => {
+    const p = forecast?.estimaciones_por_producto.find(product => product.id_producto === parseInt(id))
+    if (p !== undefined) setProduct(p)
+  }
+
+  const handleChangeType = (id: string) => {
+    setType(parseInt(id))
+  }
 
   return (
     <main className="-text--color-black flex mb-4">
@@ -47,15 +60,41 @@ export const SalesForecasting = () => {
           <ReportHeaderTitle title="Sales Forecasting" />
         </header>
         <section className="my-4">
-          <h2 className="font-semibold -text--color-violet-user-email">Sales forecasting for the next month</h2>
-          {forecast &&
-            <ChartComponent forecast={forecast} />
+          <form className='my-4'>
+            <div className=''>
+              <select
+                className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
+                onChange={(e) => handleChangeOption(e.target.value)}
+              >
+                {
+                  forecast?.estimaciones_por_producto.map(product => {
+                    return (
+                      <option value={product.id_producto} className="-bg--color-white hover:cursor-pointer">{product.nombre_producto}</option>
+                    )
+                  })
+                }
+              </select>
+            </div>
+            <div className='mt-4'>
+              <select
+                className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
+                onChange={(e) => handleChangeType(e.target.value)}
+              >
+                <option value={1} className="-bg--color-white hover:cursor-pointer">Per Month</option>
+                <option value={2} className="-bg--color-white hover:cursor-pointer">Per Semester</option>
+                <option value={3} className="-bg--color-white hover:cursor-pointer">Per Year</option>
+              </select>
+            </div>
+          </form>
+          {
+            product
+            &&
+            <>
+              <ChartSection product={product} type={type} />
+              <ProductForecastInfo product={product} />
+            </>
           }
         </section>
-        <div className="w-full grid grid-cols-2 gap-4 p-2 -bg--color-border-very-lightest-grey rounded-lg shadow-md -shadow--color-black-shadow">
-          <p className="font-semibold">Total Profit</p>
-          <p>{forecast?.ganancia_estimada}</p>
-        </div>
       </section>
     </main>
   )

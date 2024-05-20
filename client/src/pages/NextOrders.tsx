@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
-import data from '../assets/sugests.json'
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
 
 export const NextOrders = () => {
