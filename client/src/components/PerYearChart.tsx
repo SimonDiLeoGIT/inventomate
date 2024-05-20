@@ -1,50 +1,26 @@
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
-import { useState } from 'react'
 Chart.register(...registerables)
 
 interface props {
-  forecast: Forecast
+  product: ProductForecast
 }
 
-export const ChartComponent: React.FC<props> = ({ forecast }) => {
-
-  const [product, setProduct] = useState<ProductForecast>(forecast.estimaciones_por_producto[0])
-
-  const handleChangeOption = (id: string) => {
-    const p = forecast.estimaciones_por_producto.find(product => product.id_producto === parseInt(id))
-    if (p !== undefined) setProduct(p)
-  }
+export const PerYearChart: React.FC<props> = ({ product }) => {
 
 
   return (
     <section>
-      <form className='my-4'>
-        <div className='max-h-24'>
-          <select
-            className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
-            onChange={(e) => handleChangeOption(e.target.value)}
-          >
-            {
-              forecast?.estimaciones_por_producto.map(product => {
-                return (
-                  <option value={product.id_producto} className="-bg--color-white hover:cursor-pointer">{product.nombre_producto}</option>
-                )
-              })
-            }
-          </select>
-        </div>
-      </form>
       <div className='hover:cursor-pointer rounded-xl shadow-md -shadow--color-black-shadow p-4'>
         <Bar
           className='w-full'
           data={{
-            labels: product.graficoCantidadVendidaXFecha.X.map(x => x),
+            labels: product.graficoCantidadVendidaXAnio.X.map(x => x),
             datasets: [
               {
                 label: product.nombre_producto,
-                data: product.graficoCantidadVendidaXFecha.Y.map(y => y),
-                backgroundColor: product.graficoCantidadVendidaXFecha.Y.map((_, index, array) => {
+                data: product.graficoCantidadVendidaXAnio.Y.map(y => y),
+                backgroundColor: product.graficoCantidadVendidaXAnio.Y.map((_, index, array) => {
                   return index === array.length - 1 ? 'rgba(65, 0, 82, 0.8)' : 'rgba(171, 127, 182, 0.4)';
                 }),
                 borderColor: 'rgba(171, 127, 182)'
@@ -62,11 +38,11 @@ export const ChartComponent: React.FC<props> = ({ forecast }) => {
           <Line
             className='w-full max-w-full m-auto'
             data={{
-              labels: product.graficoCantidadVendidaXFecha.X.map(x => x),
+              labels: product.graficoCantidadVendidaXAnio.X.map(x => x),
               datasets: [
                 {
                   label: product.nombre_producto,
-                  data: product.graficoCantidadVendidaXFecha.Y.map(y => y),
+                  data: product.graficoCantidadVendidaXAnio.Y.map(y => y),
                   borderColor: 'rgba(65, 0, 82, 0.6)',
                   backgroundColor: 'rgba(65, 0, 82)'
                 }
@@ -103,20 +79,10 @@ export const ChartComponent: React.FC<props> = ({ forecast }) => {
           />
         </div>
       </div>
-      <ul className='w-full my-4 rounded-lg overflow-hidden shadow-md -shadow--color-black-shadow'>
-        <li className='grid grid-cols-2 gap-4 -bg--color-border-very-lightest-grey p-2'>
-          <p className='font-semibold'>Sales Quantity</p>
-          <p>{product.cantidad_ventas}</p>
-        </li>
-        <li className='grid grid-cols-2 gap-4 p-2'>
-          <p className='font-semibold'>Sales Forecast</p>
-          <p>{product.cantidad_ventas_estimadas}</p>
-        </li>
-        <li className='grid grid-cols-2 gap-4 -bg--color-border-very-lightest-grey p-2'>
-          <p className='font-semibold'>Profit</p>
-          <p>{product.ganancia}</p>
-        </li>
-      </ul>
+      <div className='my-4 rounded-lg shadow-md -shadow--color-black-shadow grid grid-cols-2 gap-4 -bg--color-border-very-lightest-grey p-2'>
+        <p className='font-semibold'>Sales Forecast</p>
+        <p>{product.cantidad_ventas_estimadas_proximo_anio}</p>
+      </div>
     </section>
   );
 };
