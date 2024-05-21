@@ -20,6 +20,7 @@ export const Reports: React.FC<props> = ({ reports, idBranch }) => {
               <Link
                 to={`./${idBranch}/${report.id}`}
                 className="block p-2"
+                id={`${index}`}
               >
                 {report.id}
               </Link>

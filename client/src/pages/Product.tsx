@@ -13,14 +13,16 @@ export const Product = () => {
   const [currentImage, changeCurrentImage] = useState(0);
 
 
-  const [product, setProduct] = useState<Product | null>(null)
+  const [product, setProduct] = useState<Product>()
 
   useEffect(() => {
+    console.log('posotion: ', position)
     trends?.trends.map(trend => {
       if (trend.category_name === category) {
         trend.products.map(p => {
           if (position && p.trend_position === parseInt(position)) {
             setProduct(p)
+            console.log('product: ', p)
           }
         })
       }
@@ -34,7 +36,7 @@ export const Product = () => {
           <section className="">
             <img
               className="h-96 object-cover m-auto"
-              src={product?.pictures[currentImage].url}
+              src={product?.pictures[currentImage]?.url}
             />
           </section>
           {
@@ -52,7 +54,7 @@ export const Product = () => {
             </h1>
             <div className="mt-2 flex items-center">
               <p className=" -bg--color-light-opaque-pink inline-block p-1 text-sm -text--color-semidark-violet font-medium rounded-md">{product?.trend_position}° Trend Position</p>
-              <p className="m-auto mr-2 text-lg">{product?.additional_info.buy_box_winner.currency_id}${product?.additional_info.buy_box_winner.price}</p>
+              <p className="m-auto mr-2 text-lg">{product?.additional_info?.buy_box_winner?.currency_id}${product?.additional_info?.buy_box_winner?.price}</p>
             </div>
           </div>
         </section>

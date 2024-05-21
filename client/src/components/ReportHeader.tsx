@@ -46,6 +46,7 @@ export const ReportHeader: React.FC<props> = ({ title, button_text, handleChange
           <select
             className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer"
             onChange={(e) => handleChangeOption(e.target.value)}
+            id="select_branch"
           >
             <option value="" className="-bg--color-white hover:cursor-pointer">Select Branch</option>
             {
