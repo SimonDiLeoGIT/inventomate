@@ -79,6 +79,7 @@ export const SalesForecasting = () => {
               <select
                 className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
                 onChange={(e) => handleChangeType(e.target.value)}
+                id="select_chart"
               >
                 <option value={1} className="-bg--color-white hover:cursor-pointer">Per Month</option>
                 <option value={2} className="-bg--color-white hover:cursor-pointer">Per Semester</option>

@@ -81,18 +81,6 @@ export const MenuOptions = () => {
             </Link>
           </li>
         }
-        {
-          (currentUser?.roles.some(rol => rol.idRol === 1) || currentUser?.roles.some(rol => rol.idRol === 3)) &&
-          <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
-            <Link
-              to='/company/reports/sales-history'
-              className="flex px-1 py-2"
-            >
-              <img src={history} alt="Reports" className="w-5 mr-2" />
-              Sales History
-            </Link>
-          </li>
-        }
       </ul>
       {
         currentUser?.roles.some(rol => rol.idRol === 1)

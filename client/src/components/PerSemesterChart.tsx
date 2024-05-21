@@ -1,5 +1,6 @@
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
+import { DoughnutChart } from './DoughnutChart';
 Chart.register(...registerables)
 
 interface props {
@@ -54,30 +55,7 @@ export const PerSemesterChart: React.FC<props> = ({ product }) => {
             }}
           />
         </div>
-        <div className='hover:cursor-pointer w-full min-h-64  max-h-72 m-auto mr-0 rounded-xl shadow-md -shadow--color-black-shadow p-4'>
-          <Doughnut
-            className='w-full m-auto'
-            data={{
-              labels: ['Profit', 'Investment'],
-              datasets: [
-                {
-                  label: product.nombre_producto,
-                  data: [80.4, 10.5],
-                  // data: [product.ganancia, product.inversion],
-                  backgroundColor: [
-                    'rgba(0, 121, 7, 0.8)',
-                    'rgba(146, 0, 0, 0.8)'
-                  ],
-                  borderColor: 'rgba(65, 0, 82, 0.1)'
-                }
-              ]
-            }}
-            options={{
-              maintainAspectRatio: false, // Permite al gráfico ajustarse al tamaño del contenedor
-              responsive: true, // Permite al gráfico ser responsive
-            }}
-          />
-        </div>
+        <DoughnutChart product={product} />
       </div>
       <div className='my-4 rounded-lg shadow-md -shadow--color-black-shadow grid grid-cols-2 gap-4 -bg--color-border-very-lightest-grey p-2'>
         <p className='font-semibold'>Sales Forecast</p>
