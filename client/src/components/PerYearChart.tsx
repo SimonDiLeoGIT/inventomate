@@ -9,7 +9,6 @@ interface props {
 
 export const PerYearChart: React.FC<props> = ({ product }) => {
 
-
   return (
     <section>
       <div className='hover:cursor-pointer rounded-xl shadow-md -shadow--color-black-shadow p-4'>
