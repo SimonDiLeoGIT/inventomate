@@ -1,5 +1,6 @@
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
+import calculateInvestmentProfitPercent from '../utils/InvestmentProfitPercentCalculator'
 Chart.register(...registerables)
 
 interface props {
@@ -8,6 +9,7 @@ interface props {
 
 export const PerYearChart: React.FC<props> = ({ product }) => {
 
+  const [profitPercentage,investmentPercentage] = calculateInvestmentProfitPercent(product)
 
   return (
     <section>
@@ -62,7 +64,7 @@ export const PerYearChart: React.FC<props> = ({ product }) => {
               datasets: [
                 {
                   label: product.nombre_producto,
-                  data: [80.4, 10.5],
+                  data: [profitPercentage,investmentPercentage],
                   // data: [product.ganancia, product.inversion],
                   backgroundColor: [
                     'rgba(0, 121, 7, 0.8)',
