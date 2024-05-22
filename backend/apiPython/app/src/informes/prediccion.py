@@ -43,6 +43,16 @@ def sumar_un_anio(fecha):
     return nueva_fecha
 
 
+def refactorizar_semestre_a_mes(grafico_x):
+    nuevo_grafico_x = []
+    for fecha in grafico_x:
+        año, mes = fecha.split("-")
+        if int(mes) > 6:
+            nuevo_grafico_x.append(f"{año}-{2}")
+        else:
+            nuevo_grafico_x.append(f"{año}-{1}")    
+    return nuevo_grafico_x
+
 def prediccionPorProductoPorAnio(id_producto, datos_producto):
     resumen_ventas = datos_producto.groupby(["anio"]).agg({"cantidad":"sum", "precio_unitario":"mean", "%promo":"mean"}).reset_index()
     
@@ -63,6 +73,8 @@ def prediccionPorProductoPorAnio(id_producto, datos_producto):
     grafico_x.sort()
     nuevo_anio = sumar_un_anio(grafico_x[-1])
     grafico_x.append(nuevo_anio)
+    
+
     coordenadas = {"X": grafico_x, "Y": grafico_y}
     return prediccion[0], coordenadas
 
@@ -88,7 +100,8 @@ def prediccionPorProductoPorSemestre(id_producto, datos_producto):
     grafico_x.sort()
     nuevo_semestre = sumar_un_semestre(grafico_x[-1])
     grafico_x.append(nuevo_semestre)
-    coordenadas = {"X": grafico_x, "Y": grafico_y}
+    nuevo_grafico_x = refactorizar_semestre_a_mes(grafico_x)
+    coordenadas = {"X": nuevo_grafico_x, "Y": grafico_y}
     return prediccion[0], coordenadas
 
 
@@ -118,6 +131,7 @@ def prediccionPorProducto(id_producto, datos_producto):
     grafico_x = list(set(grafico_x))
     grafico_x.sort()
     nuevo_mes = sumar_un_mes(grafico_x[-1])
+    
     grafico_x.append(nuevo_mes)
     coordenadas = {"X": grafico_x, "Y": grafico_y}
     return prediccion[0], coordenadas
@@ -260,9 +274,9 @@ def predecir(json_data):
     
     return json_procesado
 
-#if (__name__) == "__main__":
-#     with open("jsonPaprobar.json", "r") as archivo:
-#         datos = json.load(archivo)
-#     res = predecir(datos)
-#     with open("res.json", 'w') as file:
-#         json.dump(res, file, indent=4)
+if (__name__) == "__main__":
+     with open("jsonPruebaSemestre.json", "r") as archivo:
+         datos = json.load(archivo)
+     res = predecir(datos)
+     with open("res.json", 'w') as file:
+         json.dump(res, file, indent=4)
