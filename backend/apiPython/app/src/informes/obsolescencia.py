@@ -1,5 +1,6 @@
 from flask import json
-from datetime import datetime
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 
 #def obtener_stock_actual(id_producto, data):
@@ -9,49 +10,51 @@ from datetime import datetime
 #    return None
 
 
-def calcular_obsolescencia(datos):
-    fecha_prediccion = datetime.strptime(datos["fecha_prediccion"], "%Y-%m-%d")
-    productos_ventas = {}
-    productos_obsoletos = []
-    max_promo = 50  # Máximo porcentaje de promoción permitido
+def calcular_obsolescencia(data):
+    fecha_actual = datetime.strptime(data["fecha_actual"], "%Y-%m-%d")
+    fecha_inicio = fecha_actual - timedelta(days=90)  # Retrocedemos 3 meses
     
-    # Inicializar los productos con la fecha de la última venta
-    for producto in datos["listado_productos"]:
-        productos_ventas[producto["id_producto"]] = {
-            "nombre": producto["nombre"],
-            "ultima_venta": None,
-            "%promo": 0
-        }
+    resultados = []
     
-    # Procesar las ventas
-    for venta in datos["listado_ventas"]:
-        fecha_venta = datetime.strptime(venta["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f")
-        for detalle in venta["detalle"]:
-            id_producto = detalle["producto"]["id_producto"]
-            if id_producto in productos_ventas:
-                if (productos_ventas[id_producto]["ultima_venta"] is None or
-                    fecha_venta > productos_ventas[id_producto]["ultima_venta"]):
-                    productos_ventas[id_producto]["ultima_venta"] = fecha_venta
-    
-    # Calcular la obsolencia y el %promo
-    for id_producto, info in productos_ventas.items():
-        if info["ultima_venta"] is None:
-            meses_sin_vender = (fecha_prediccion.year - 2020) * 12 + fecha_prediccion.month  # desde enero 2020
-        else:
-            meses_sin_vender = (fecha_prediccion.year - info["ultima_venta"].year) * 12 + fecha_prediccion.month - info["ultima_venta"].month
+    for producto in data["listado_productos"]:
+        id_producto = producto["id_producto"]
+        nombre = producto["nombre"]
+        stock_actual = producto["stock_actual"]
+        ultima_venta = datetime.strptime(producto["ultima_venta"], "%Y-%m-%d")
         
-        if meses_sin_vender > 3:
-            info["cantidad_de_meses_que_no_se_vende"] = meses_sin_vender
-            incremento_promo = 5 * (meses_sin_vender - 3)  # 5% adicional por cada mes adicional sin vender
-            info["%promo"] = min(max_promo, incremento_promo)  # Aplicar límite máximo
-            productos_obsoletos.append({
-                "id_producto": id_producto,
-                "nombre_producto": info["nombre"],
-                "cantidad_de_meses_que_no_se_vende": meses_sin_vender,
-                "%promo": info["%promo"]
-            })
-    
-    return {"productos_obsoletos": productos_obsoletos}
+        # Calcular la obsolescencia basada en la frecuencia de ventas en los últimos tres meses
+        ventas_en_periodo = sum(1 for venta in data["listado_ventas"] if
+                                datetime.strptime(venta["fecha_hora"].split()[0], "%Y-%m-%d") >= fecha_inicio and
+                                any(detalle["producto"]["id_producto"] == id_producto for detalle in venta["detalle"]))
+        
+        # Calcular la frecuencia promedio de ventas por mes
+        meses_pasados = (fecha_actual.year - fecha_inicio.year) * 12 + fecha_actual.month - fecha_inicio.month
+        frecuencia_promedio = ventas_en_periodo / meses_pasados if meses_pasados > 0 else 0
+        
+        # Si la frecuencia promedio es baja, considerar el producto como obsoleto
+        obsoleto = frecuencia_promedio <= 1
+        
+        # Determinar el porcentaje de promoción recomendado
+        if obsoleto:
+            tiempo_desde_ultima_venta = (fecha_actual - ultima_venta).days
+            promocion = min(70, tiempo_desde_ultima_venta // 90 * 5)  # Incremento de promoción cada 3 meses (90 días)
+            
+            # Ajustar la promoción en función del nivel de stock
+            if stock_actual >= 50:
+                promocion += 10  # Si tenemos mucho stock, aplicamos una promoción adicional del 10%
+            elif stock_actual < 10:
+                promocion -= 10  # Si tenemos poco stock, reducimos la promoción en un 10%
+        else:
+            promocion = 0
+        
+        resultados.append({
+            "id_producto": id_producto,
+            "nombre": nombre,
+            "obsoleto": obsoleto,
+            "promo_recomendada": promocion
+        })
+
+    return {"productos_obsoletos": resultados}
 
 
 
