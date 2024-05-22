@@ -8,7 +8,7 @@ import { EmptyHistory } from "../components/Errors/EmptyHistory"
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
 import { Reports } from "../components/Reports"
 import { ReportHeader } from "../components/ReportHeader"
-import { SelectBranch } from "../components/Info/SelectBranch"
+import { SelectBranch } from "../components/Messages/SelectBranch"
 import { getDatabaseConnection } from "../utils/Services/database.database.service"
 
 export const TrendsReports = () => {

@@ -3,6 +3,8 @@ import { editMemberRoles, getMembertRoles, getRoles } from "../utils/Services/ro
 import { useAuth0 } from "@auth0/auth0-react"
 import close_icon from '../assets/icons/close.svg'
 import { WaitingResponse } from "./WaitingResponse"
+import { DoneMessage } from "./Messages/DoneMessage"
+import done from '../assets/icons/done.svg'
 
 interface props {
   idBranch: string | undefined
@@ -18,6 +20,8 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
   const [roles, setRoles] = useState<Rol[] | null>(null)
   const [rolesSelected, setRolesSelected] = useState<number[]>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const [visible, setVisible] = useState<boolean>(false)
+  const [show, setShow] = useState<boolean>(false)
 
   useEffect(() => {
     const getToken = async () => {
@@ -70,9 +74,21 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
       console.log(rolesSelected)
       const accessToken = await getAccessTokenSilently()
       await editMemberRoles(accessToken, idBranch, user.idUsuario, rolesSelected)
-      setIsOpen(false)
+      closeForm()
+      setShow(true)
+      setVisible(true)
+      setTimeout(() => {
+        setVisible(false)
+        setTimeout(() => {
+          setShow(false)
+        }, 2000)
+      }, 2000)
     }
     setLoading(false)
+  }
+
+  const closeForm = () => {
+    setIsOpen(false)
   }
 
 
@@ -92,7 +108,7 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
             <h1 className="text-lg font-semibold">{user.nickname}</h1>
             <button
               className="absolute right-4 top-4"
-              onClick={() => setIsOpen(false)}
+              onClick={() => closeForm()}
             >
               <img src={close_icon} className="w-5" />
             </button>
@@ -136,6 +152,11 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
           </form>
         </section>
       </aside>
+      {
+        show
+        &&
+        <DoneMessage message="¡Roles successfully changed!" visible={visible} image={done} />
+      }
     </>
   )
 }
