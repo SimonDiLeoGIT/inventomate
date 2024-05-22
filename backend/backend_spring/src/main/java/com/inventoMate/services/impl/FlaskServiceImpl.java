@@ -1,5 +1,7 @@
 package com.inventoMate.services.impl;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import com.inventoMate.dtos.meli.TrendsDTO;
 import com.inventoMate.entities.TipoInforme;
@@ -30,7 +32,24 @@ public class FlaskServiceImpl implements FlaskService {
 		}
 		return response;
 	}
+	
+	@Override
+	public HttpStatusCode deleteInformeByIdAndTipoInforme(String idMongo, TipoInforme tipoInforme) {
+		HttpStatusCode response = HttpStatus.BAD_REQUEST;
+		switch (tipoInforme) {
+		case ANALISIS_DE_TENDENCIA:
+			response = deleteDatosInformeTendencias(idMongo);
+			break;
+		case PROYECCION_DE_VENTAS:
+			response = deleteDatosInformeDeProyeccionDeVentas(idMongo);
+			break;
+		case SIGUIENTES_PEDIDOS:
+			response = deleteDatosInformeSiguientesPedidos(idMongo);
+		}
+		return response;
+	}
 
+	// proyeccion de ventas
 	@Override
 	public String postDatosInformeProyeccionDeVentas(JSONObject jsonObject) {
 		return flaskServiceFeignClient.postDatosInformeProyeccionDeVentas(jsonObject).get("ID-Mongo").toString();
@@ -39,7 +58,12 @@ public class FlaskServiceImpl implements FlaskService {
 	private Object getDatosInformeDeProyeccionDeVentas(String idMongo) {
 		return flaskServiceFeignClient.getDatosInformeDeProyeccionDeVentas(idMongo);
 	}
-
+	
+	private HttpStatusCode deleteDatosInformeDeProyeccionDeVentas(String idMongo) {
+		return flaskServiceFeignClient.deleteInformeDeProyeccionDeVentas(idMongo).getStatusCode();
+	}
+	
+	// siguientes pedidos
 	@Override
 	public String postDatosInformeSiguientesPedidos(JSONObject jsonObject) {
 		return flaskServiceFeignClient.postDatosInformeSiguientesPedidos(jsonObject).get("ID-Mongo").toString();
@@ -48,7 +72,12 @@ public class FlaskServiceImpl implements FlaskService {
 	private Object getDatosInformeSiguientesPedidos(String idMongo) {
 		return flaskServiceFeignClient.getDatosInformeSiguientesPedidos(idMongo);
 	}
+	
+	private HttpStatusCode deleteDatosInformeSiguientesPedidos(String idMongo) {
+		return flaskServiceFeignClient.deleteInformeSiguientesPedidos(idMongo).getStatusCode();
+	}
 
+	// informe tendencias
 	@Override
 	public String postDatosInformeTendencias(TrendsDTO trendsDTO) {
 		return flaskServiceFeignClient.postDatosInformeTendencias(trendsDTO).get("ID-Mongo").toString();
@@ -56,5 +85,9 @@ public class FlaskServiceImpl implements FlaskService {
 
 	private Object getDatosInformeTendencias(String idMongo) {
 		return flaskServiceFeignClient.getDatosInformeTendencias(idMongo);
+	}
+	
+	private HttpStatusCode deleteDatosInformeTendencias(String idMongo) {
+		return flaskServiceFeignClient.deleteInformeTendencias(idMongo).getStatusCode();
 	}
 }

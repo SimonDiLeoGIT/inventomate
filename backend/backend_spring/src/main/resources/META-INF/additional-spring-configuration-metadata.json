@@ -183,5 +183,20 @@
     "name": "feign.client.config.flaskClient.requestTimeout",
     "type": "java.lang.String",
     "description": "A description for 'feign.client.config.flaskClient.requestTimeout'"
+  },
+  {
+    "name": "flask.url.tendencias-delete",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.tendencias-delete'"
+  },
+  {
+    "name": "flask.url.sugerencias-pedidos-delete",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.sugerencias-pedidos-delete'"
+  },
+  {
+    "name": "flask.url.proyeccion-de-ventas-delete",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.proyeccion-de-ventas-delete'"
   }
 ]}

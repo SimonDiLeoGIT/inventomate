@@ -3,6 +3,7 @@ package com.inventoMate.services.impl;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.inventoMate.dtos.informes.InformeDTO;
@@ -149,5 +150,30 @@ public class InformeServiceImpl implements InformeService {
 		sucursal.setEmailSender(emailSender);
 		sucursal.generarNotificacionDeInforme(informe);
 		informeRepository.save(informe);
+	}
+
+	@Override
+	public void deleteInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme) {
+		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
+
+		Empresa empresa = usuario.obtenerEmpresa();
+
+		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
+
+		if (sucursal == null)
+			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
+
+		Informe informe = sucursal.obtenerInforme(idInforme);
+
+		if (informe == null)
+			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
+		
+		var response = flaskService.deleteInformeByIdAndTipoInforme(informe.getIdMongo(), informe.getTipoInforme());
+		
+		if(response != HttpStatus.NOT_FOUND) 
+			throw new RuntimeException("error al eliminar el informe desde mongo : " + response.toString());
+		
+		informeRepository.delete(informe);
 	}
 }

@@ -1,6 +1,8 @@
 package com.inventoMate.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,4 +32,13 @@ public interface FlaskClient {
 
 	@GetMapping("${flask.url.tendencias}")
 	Object getDatosInformeTendencias(@RequestParam("idMongo") String idMongo);
+
+	@DeleteMapping("${flask.url.tendencias-delete}")
+	ResponseEntity<?> deleteInformeTendencias(@RequestParam("idMongo") String idMongo);
+
+	@DeleteMapping("${flask.url.sugerencias-pedidos-delete}")
+	ResponseEntity<?> deleteInformeSiguientesPedidos(@RequestParam("idMongo") String idMongo);
+
+	@DeleteMapping("${flask.url.proyeccion-de-ventas-delete}")
+	ResponseEntity<?> deleteInformeDeProyeccionDeVentas(@RequestParam("idMongo") String idMongo);
 }

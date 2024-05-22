@@ -19,4 +19,6 @@ public interface InformeService {
 
 	Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme);
 
+	void deleteInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme);
+
 }
