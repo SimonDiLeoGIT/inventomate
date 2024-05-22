@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { connectDataBase, editDatabasConnection, getDatabaseConnection, getGestors } from "../utils/Services/database.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
+import done from '../assets/icons/done.svg'
+import { DoneMessage } from "./Messages/DoneMessage"
 
 export const DatabaseConnectionForm = () => {
 
@@ -15,6 +17,9 @@ export const DatabaseConnectionForm = () => {
   const [editing, setEditing] = useState<boolean>(false)
   const [databaseConnection, setDatabaseConnection] = useState<DatabaseConnection | null>(null)
   const [gestors, setGestors] = useState<string[]>([])
+  const [visible, setVisible] = useState<boolean>(false)
+  const [show, setShow] = useState<boolean>(false)
+  const [message, setMessage] = useState<string>('')
 
   useEffect(() => {
 
@@ -48,16 +53,33 @@ export const DatabaseConnectionForm = () => {
     }
     const cdb = async () => {
       const accessToken = await getAccessTokenSilently()
+      let response;
       if (databaseConnection !== null) {
-        await editDatabasConnection(accessToken, body)
+        response = await editDatabasConnection(accessToken, body)
+        setMessage('Database successfully updated')
       } else {
-        await connectDataBase(accessToken, body)
+        response = await connectDataBase(accessToken, body)
+        setMessage('Databse successfully conected')
+      }
+      if (response.id) {
+        showMessage()
       }
       setUser(accessToken)
       console.log(currentUser)
       setEditing(false)
     }
     cdb()
+  }
+
+  const showMessage = () => {
+    setShow(true)
+    setVisible(true)
+    setTimeout(() => {
+      setVisible(false)
+      setTimeout(() => {
+        setShow(false)
+      }, 2000)
+    }, 2000)
   }
 
   return (
@@ -128,6 +150,11 @@ export const DatabaseConnectionForm = () => {
           <button type="button" onClick={() => setEditing(false)} className="font-semibold text-xl -bg--color-ful-red -text--color-white p-2 rounded-xl w-32 hover:opacity-80">Cancel</button>
           <button type="submit" className="font-semibold text-xl -bg--color-semidark-violet -text--color-white p-2 rounded-xl w-32 hover:opacity-80">Confirm</button>
         </div>
+      }
+      {
+        show
+        &&
+        <DoneMessage message={message} visible={visible} image={done} />
       }
     </form>
   )
