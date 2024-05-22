@@ -49,7 +49,7 @@ export const CompanyBanner = () => {
           currentUser?.roles.some(rol => rol.idRol === 1)
           &&
           <div className="flex m-auto mr-0 relative p-2">
-            <Link to='./company-settings'
+            <Link to='/company/company-settings'
               className="flex items-center p-2 font-bold text-sm -bg--color-semidark-violet -text--color-white justify-center rounded-xl max-w-md m-auto mr-0 mb-0 hover:opacity-80"
             >
               <img

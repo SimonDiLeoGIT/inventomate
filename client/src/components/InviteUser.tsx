@@ -5,6 +5,8 @@ import add_icon from '../assets/icons/plus-circle-.svg'
 import close_icon from '../assets/icons/close.svg'
 import { WaitingResponse } from "./WaitingResponse"
 import { getRoles } from "../utils/Services/roles.database.service"
+import { DoneMessage } from "./Messages/DoneMessage"
+import done from '../assets/icons/done.svg'
 
 interface props {
   idBranch: string
@@ -22,6 +24,8 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
   const [userSelected, setUserSelected] = useState<User | null>(null)
   const [username, setusername] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
+  const [visible, setVisible] = useState<boolean>(false)
+  const [show, setShow] = useState<boolean>(false)
 
 
   useEffect(() => {
@@ -59,9 +63,9 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
   const handleRoleSelect = (e: any) => {
     const { value, checked } = e.target;
     if (checked) {
-      setRolesSelected([...rolesSelected, value])
+      setRolesSelected([...rolesSelected, parseInt(value)])
     } else {
-      setRolesSelected(rolesSelected.filter(opcion => opcion !== value));
+      setRolesSelected(rolesSelected.filter(opcion => opcion !== parseFloat(value)));
     }
     console.log(checked)
     console.log(value)
@@ -76,7 +80,15 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
       const accessToken = await getAccessTokenSilently()
       if (userSelected?.idUsuario !== undefined)
         await inviteUser(accessToken, idBranch, userSelected?.idUsuario, rolesSelected)
-      setIsOpen(false)
+      closeForm()
+      setShow(true)
+      setVisible(true)
+      setTimeout(() => {
+        setVisible(false)
+        setTimeout(() => {
+          setShow(false)
+        }, 2000)
+      }, 2000)
     }
     setLoading(false)
   }
@@ -84,6 +96,12 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
   const handleUserSelect = (user: User) => {
     searchUsers(user.nickname)
     setUserSelected(user)
+  }
+
+  const closeForm = () => {
+    setusername('')
+    setRolesSelected([])
+    setIsOpen(false)
   }
 
   return (
@@ -102,7 +120,7 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
             <h1 className="text-lg font-semibold">Invite User</h1>
             <button
               className="absolute right-4 top-4"
-              onClick={() => setIsOpen(false)}
+              onClick={() => closeForm()}
             >
               <img src={close_icon} className="w-5" />
             </button>
@@ -151,6 +169,7 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
                           className="m-auto mr-0 hover:cursor-pointer"
                           onChange={handleRoleSelect}
                           disabled={loading}
+                          checked={rolesSelected.includes(role.idRol)}
                         />
                       </li>
                     )
@@ -175,6 +194,11 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
           </form>
         </section>
       </aside>
+      {
+        show
+        &&
+        <DoneMessage message="¡Invitation successfully sent!" visible={visible} image={done} />
+      }
     </>
   )
 }

@@ -9,6 +9,7 @@ import { Card } from '../components/Card'
 import { useEffect } from "react";
 import { useUser } from "../hook/useUser";
 import { HomeOptions } from "../components/HomeOptions";
+import { Helmet } from "react-helmet";
 
 export const Home = () => {
 
@@ -28,6 +29,10 @@ export const Home = () => {
 
   return (
     <main className="w-full relative">
+      <Helmet>
+        <title>Inventomate | Home</title>
+        <link rel="canonical" type="image/png" href={logo} />
+      </Helmet>
       <section className=' m-auto md:grid grid-cols-2 md:w-11/12 mt-4 md:mt-14 xl:w-9/12'>
         <section className='w-screen m-auto md:hidden'>
           <img src={logo} alt='InventoMate' className='m-auto w-6/12' />

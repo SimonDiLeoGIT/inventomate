@@ -11,16 +11,6 @@ export const Navbar = () => {
   const { isAuthenticated } = useAuth0();
   const { currentUser } = useUser()
 
-  const [companyLink, setCompanyLink] = useState<string>('')
-
-  useEffect(() => {
-    if (currentUser?.roles.some(rol => rol.idRol === 1)) {
-      setCompanyLink('/company')
-    } else {
-      setCompanyLink('/company/branch/' + currentUser?.sucursal?.idSucursal)
-    }
-  }, [currentUser, companyLink])
-
   return (
     <nav className="w-full border-b -border--color-border-very-light-grey h-20 -bg--color-white fixed top-0 flex items-center z-50">
       <MobileMenu />
@@ -36,7 +26,7 @@ export const Navbar = () => {
         {isAuthenticated &&
           currentUser?.empresa !== null &&
           <li className="mx-4 hover:opacity-60">
-            <Link to={companyLink}>Company</Link>
+            <Link to={currentUser?.roles.some(rol => rol.idRol === 1) ? '/company' : `/company/branch/${currentUser?.sucursal?.idSucursal}`}>Company</Link>
           </li>
         }
       </ul>

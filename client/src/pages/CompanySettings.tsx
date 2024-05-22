@@ -5,6 +5,8 @@ import { useUser } from "../hook/useUser"
 import delete_icon from '../assets/icons/delete.svg'
 import { DatabaseConnectionForm } from "../components/DatabaseConnectionForm"
 import { deleteDatabaseConnection, getDatabaseConnection } from "../utils/Services/database.database.service"
+import { DoneMessage } from "../components/Messages/DoneMessage"
+import done from '../assets/icons/done.svg'
 
 export const CompanySettings = () => {
 
@@ -12,6 +14,8 @@ export const CompanySettings = () => {
   const { setUser, currentUser } = useUser()
 
   const [databaseConnection, setDatabaseConnection] = useState<DatabaseConnection | null>(null)
+  const [visible, setVisible] = useState<boolean>(false)
+  const [show, setShow] = useState<boolean>(false)
 
   useEffect(() => {
 
@@ -32,7 +36,8 @@ export const CompanySettings = () => {
       const accessToken = await getAccessTokenSilently()
       await deleteDatabaseConnection(accessToken)
       setUser(accessToken)
-      console.log(currentUser)
+      window.location.href = '/company/company-settings'
+      showMessage()
     }
     deleteDb()
   }
@@ -43,6 +48,17 @@ export const CompanySettings = () => {
     if (response.success) {
       window.location.href = '/'
     }
+  }
+
+  const showMessage = () => {
+    setShow(true)
+    setVisible(true)
+    setTimeout(() => {
+      setVisible(false)
+      setTimeout(() => {
+        setShow(false)
+      }, 2000)
+    }, 2000)
   }
 
   return (
@@ -88,6 +104,11 @@ export const CompanySettings = () => {
           </li>
         </ul>
       </section>
+      {
+        show
+        &&
+        <DoneMessage message="¡Database successfully deleted!" visible={visible} image={done} />
+      }
     </main>
   )
 }
