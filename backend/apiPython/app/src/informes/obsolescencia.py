@@ -63,9 +63,9 @@ def calcular_obsolescencia(data):
     return {"productos_obsoletos": resultados}
 
 
-if __name__ == "__main__":
-    with open("obso.json", "r") as archivo:
-        datos = json.load(archivo)
-    res = calcular_obsolescencia(datos)
-    with open("res.json", 'w') as file:
-        json.dump(res, file, indent=4)
+#if __name__ == "__main__":
+#    with open("obso.json", "r") as archivo:
+#        datos = json.load(archivo)
+#    res = calcular_obsolescencia(datos)
+#    with open("res.json", 'w') as file:
+#        json.dump(res, file, indent=4)
