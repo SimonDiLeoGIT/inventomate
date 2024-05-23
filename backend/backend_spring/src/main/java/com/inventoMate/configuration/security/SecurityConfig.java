@@ -65,6 +65,9 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.GET,
 						"api/informes/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
 				.hasAuthority("read:sales-reports")
+				.requestMatchers(HttpMethod.DELETE,
+						"api/informes/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("decide:sales-reports")
 				// tendencias
 				.requestMatchers(HttpMethod.POST, "api/informes/tendencias/{idSucursal}")
 				.hasAuthority("decide:trend-information")
@@ -72,18 +75,23 @@ public class SecurityConfig {
 				.hasAuthority("read:trend-information")
 				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idInforme}/sucursales/{idSucursal}")
 				.hasAuthority("read:trend-information")
-				// siguientes pedidos
-				.requestMatchers(HttpMethod.POST, "api/informes/tendencias/{idSucursal}")
-				.hasAuthority("decide:demand-prediction-report")
-				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idSucursal}")
-				.hasAuthority("read:demand-prediction-report")
 				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("decide:trend-information")
+				// siguientes pedidos
+				.requestMatchers(HttpMethod.POST, "api/informes/siguientes-pedidos/{idSucursal}")
+				.hasAuthority("decide:demand-prediction-report")
+				.requestMatchers(HttpMethod.GET, "api/informes/siguientes-pedidos/{idSucursal}")
 				.hasAuthority("read:demand-prediction-report")
+				.requestMatchers(HttpMethod.GET, "api/informes/siguientes-pedidos/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("read:demand-prediction-report")
+				.requestMatchers(HttpMethod.DELETE,
+						"api/informes/siguientes-pedidos/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("decide:demand-prediction-report")
 				// otros
 				.anyRequest().permitAll()).cors(Customizer.withDefaults())
 				.oauth2ResourceServer(
 						oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(makePermissionsConverter()))
-								.authenticationEntryPoint(authenticationErrorHandler))
+						.authenticationEntryPoint(authenticationErrorHandler))
 				.build();
 	}
 
