@@ -30,4 +30,7 @@ public interface InformeMapper {
 	JSONObject mapToProductoInformation(List<VentaDetalle> historiaDeVentas, List<CompraDetalle> historiaDeCompras,
 			List<ProductoSucursalInfo> productoInfo, Long idSucursal);
 
+	JSONObject mapToProductoInformation(List<VentaDetalle> historiaDeVentas,
+			List<ProductoSucursalInfo> productosDeSucursal, Long idSucursal);
+
 }

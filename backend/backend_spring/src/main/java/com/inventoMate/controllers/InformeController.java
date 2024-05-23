@@ -119,4 +119,34 @@ public class InformeController {
 				TipoInforme.SIGUIENTES_PEDIDOS);
 		return ResponseEntity.ok(new ApiResponse(true, "Informe deleted successfully"));
 	}
+	
+	// OBSOLESCENCIA
+	@PostMapping("/obsolescencia/{idSucursal}")
+	public ResponseEntity<ApiResponse> postInformeObsolescencia(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal) {
+		informeService.informeDeObsolescencia(jwt.getSubject(), idSucursal);
+		return ResponseEntity.ok().body(new ApiResponse(true, "Informe pedido con exito"));
+	}
+
+	@GetMapping("/obsolescencia/{idSucursal}")
+	public ResponseEntity<List<InformeDTO>> getInformesObsolescencia(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal) {
+		return ResponseEntity.ok(informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
+				TipoInforme.OBSOLESCENCIA));
+	}
+
+	@GetMapping("/obsolescencia/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<?> getInformeObsolescencia(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idInforme,
+			@PathVariable Long idSucursal) {
+		return ResponseEntity.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal,
+				idInforme, TipoInforme.OBSOLESCENCIA));
+	}
+
+	@DeleteMapping("/obsolescencia/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<ApiResponse> deleteInformeObsolescencia(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idInforme, @PathVariable Long idSucursal) {
+		informeService.deleteInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme,
+				TipoInforme.OBSOLESCENCIA);
+		return ResponseEntity.ok(new ApiResponse(true, "Informe deleted successfully"));
+	}
 }

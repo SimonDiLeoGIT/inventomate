@@ -29,10 +29,14 @@ public class FlaskServiceImpl implements FlaskService {
 			break;
 		case SIGUIENTES_PEDIDOS:
 			response = getDatosInformeSiguientesPedidos(idMongo);
+			break;
+		case OBSOLESCENCIA:
+			response = getDatosInformeObsolescencia(idMongo);
+			break;
 		}
 		return response;
 	}
-	
+
 	@Override
 	public HttpStatusCode deleteInformeByIdAndTipoInforme(String idMongo, TipoInforme tipoInforme) {
 		HttpStatusCode response = HttpStatus.BAD_REQUEST;
@@ -45,6 +49,10 @@ public class FlaskServiceImpl implements FlaskService {
 			break;
 		case SIGUIENTES_PEDIDOS:
 			response = deleteDatosInformeSiguientesPedidos(idMongo);
+			break;
+		case OBSOLESCENCIA:
+			response = deleteDatosInformeObsolescencia(idMongo);
+			break;
 		}
 		return response;
 	}
@@ -89,5 +97,19 @@ public class FlaskServiceImpl implements FlaskService {
 	
 	private HttpStatusCode deleteDatosInformeTendencias(String idMongo) {
 		return flaskServiceFeignClient.deleteInformeTendencias(idMongo).getStatusCode();
+	}
+
+	// informe obsolescencia
+	@Override
+	public String postDatosInformeObsolescencia(JSONObject productoInformation) {
+		return flaskServiceFeignClient.postDatosInformeObsolescencia(productoInformation).get("ID-Mongo").toString();
+	}
+	
+	private HttpStatusCode deleteDatosInformeObsolescencia(String idMongo) {
+		return flaskServiceFeignClient.deleteInformeObsolescencia(idMongo).getStatusCode();
+	}
+	
+	private Object getDatosInformeObsolescencia(String idMongo) {
+		return flaskServiceFeignClient.getDatosInformeObsolescencia(idMongo);
 	}
 }

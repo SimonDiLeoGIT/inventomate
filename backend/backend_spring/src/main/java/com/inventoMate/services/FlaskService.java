@@ -18,4 +18,6 @@ public interface FlaskService {
 	String postDatosInformeSiguientesPedidos(JSONObject mapToProductoInformation);
 
 	HttpStatusCode deleteInformeByIdAndTipoInforme(String idMongo, TipoInforme tipoInforme);
+
+	String postDatosInformeObsolescencia(JSONObject mapToProductoInformation);
 }

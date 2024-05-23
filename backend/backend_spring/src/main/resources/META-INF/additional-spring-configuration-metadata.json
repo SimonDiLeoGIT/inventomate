@@ -198,5 +198,20 @@
     "name": "flask.url.proyeccion-de-ventas-delete",
     "type": "java.lang.String",
     "description": "A description for 'flask.url.proyeccion-de-ventas-delete'"
+  },
+  {
+    "name": "flask.url.obsolescencia",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.obsolescencia'"
+  },
+  {
+    "name": "flask.url.obsolescencia-add",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.obsolescencia-add'"
+  },
+  {
+    "name": "flask.url.obsolescencia-delete",
+    "type": "java.lang.String",
+    "description": "A description for 'flask.url.obsolescencia-delete'"
   }
 ]}
