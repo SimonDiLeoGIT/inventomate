@@ -37,13 +37,13 @@ def verTendencia():
     except Exception as e:
             return jsonify({'error': str(e)}), 500
         
-@app.route("/api/informe/tendencias", methods=["DELETE"])
+@app.route("/api/informe/tendencias/delete", methods=["DELETE"])
 def borrarTendencia():
     try:
         id = request.args.get('idMongo')
         resultado = delete(id, "historico-tendencias")
         if resultado.deleted_count > 0:
-            return jsonify({'message': 'Documento eliminado'}), 200
+            return jsonify({'message': 'Documento eliminado'}), 204
         else:
             return jsonify({'error': 'Documento no encontrado'}), 404
     except Exception as e:
@@ -74,13 +74,13 @@ def verProyeccion():
     except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-@app.route("/api/informe/proyeccion-de-ventas", methods=["DELETE"])
+@app.route("/api/informe/proyeccion-de-ventas/delete", methods=["DELETE"])
 def borrarProyeccion():
     try:
         id = request.args.get('idMongo')
         resultado = delete(id, "proyecciones-de-ventas")
         if resultado.deleted_count > 0:
-            return jsonify({'message': 'Documento eliminado'}), 200
+            return jsonify({'message': 'Documento eliminado'}), 204
         else:
             return jsonify({'error': 'Documento no encontrado'}), 404
     except Exception as e:
@@ -111,13 +111,13 @@ def verSugerencia():
     except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-@app.route("/api/informe/sugerencias-pedidos", methods=["DELETE"])
+@app.route("/api/informe/sugerencias-pedidos/delete", methods=["DELETE"])
 def borrarSugerencia():
     try:
         id = request.args.get('idMongo')
         resultado = delete(id, "sugerencias-pedidos")
         if resultado.deleted_count > 0:
-            return jsonify({'message': 'Documento eliminado'}), 200
+            return jsonify({'message': 'Documento eliminado'}), 204
         else:
             return jsonify({'error': 'Documento no encontrado'}), 404
     except Exception as e:
@@ -148,13 +148,13 @@ def verObsolescencia():
     except Exception as e:
             return jsonify({'error': str(e)}), 500
         
-@app.route("/api/informe/obsolescencia", methods=["DELETE"])
+@app.route("/api/informe/obsolescencia/delete", methods=["DELETE"])
 def borrarObsolescencia():
     try:
         id = request.args.get('idMongo')
         resultado = delete(id, "obsolescencias")
         if resultado.deleted_count > 0:
-            return jsonify({'message': 'Documento eliminado'}), 200
+            return jsonify({'message': 'Documento eliminado'}), 204
         else:
             return jsonify({'error': 'Documento no encontrado'}), 404
     except Exception as e:
