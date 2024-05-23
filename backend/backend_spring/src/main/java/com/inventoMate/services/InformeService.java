@@ -17,8 +17,9 @@ public interface InformeService {
 	List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
 			TipoInforme proyeccionDeVentas);
 
-	Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme);
+	void deleteInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme,
+			TipoInforme tipoInforme);
 
-	void deleteInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme);
+	Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme, TipoInforme tipoInforme);
 
 }

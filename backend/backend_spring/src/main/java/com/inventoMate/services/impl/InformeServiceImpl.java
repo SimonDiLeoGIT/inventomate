@@ -105,7 +105,7 @@ public class InformeServiceImpl implements InformeService {
 	}
 
 	@Override
-	public Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme) {
+	public Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme, TipoInforme tipoInforme) {
 
 		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
@@ -122,6 +122,9 @@ public class InformeServiceImpl implements InformeService {
 		if (informe == null)
 			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
 
+		if(!informe.getTipoInforme().equals(tipoInforme))
+			throw new ResourceNotFoundException("Informe", "tipoInforme", tipoInforme.toString());
+		
 		informe.setVisto(true);
 		informeRepository.save(informe);
 		return flaskService.getDatosInformeByTipoInforme(informe.getIdMongo(), informe.getTipoInforme());
@@ -153,7 +156,7 @@ public class InformeServiceImpl implements InformeService {
 	}
 
 	@Override
-	public void deleteInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme) {
+	public void deleteInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme, TipoInforme tipoInforme) {
 		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
 
@@ -164,14 +167,17 @@ public class InformeServiceImpl implements InformeService {
 		if (sucursal == null)
 			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
 
-		Informe informe = sucursal.obtenerInforme(idInforme);
+		Informe informe = sucursal.borrarInforme(idInforme);
 
 		if (informe == null)
 			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
 		
+		if(!informe.getTipoInforme().equals(tipoInforme))
+			throw new ResourceNotFoundException("Informe", "tipoInforme", tipoInforme.toString());
+		
 		var response = flaskService.deleteInformeByIdAndTipoInforme(informe.getIdMongo(), informe.getTipoInforme());
 		
-		if(response != HttpStatus.NOT_FOUND) 
+		if(response != HttpStatus.NO_CONTENT) 
 			throw new RuntimeException("error al eliminar el informe desde mongo : " + response.toString());
 		
 		informeRepository.delete(informe);
