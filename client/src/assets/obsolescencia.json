@@ -1,0 +1,15 @@
+{
+  "_id": "664e8d9e8dda060eebfd9a51",
+  "productos_obsoletos": [
+    {
+      "id_producto": 14,
+      "nombre": "iPhone 13 Pro Max",
+      "promo_recomendada": 39.89041095890411
+    },
+    {
+      "id_producto": 15,
+      "nombre": "iPhone 14",
+      "promo_recomendada": 39.89041095890411
+    }
+  ]
+}
