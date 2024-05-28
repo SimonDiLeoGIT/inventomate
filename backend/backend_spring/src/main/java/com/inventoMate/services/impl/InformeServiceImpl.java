@@ -3,6 +3,7 @@ package com.inventoMate.services.impl;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.inventoMate.dtos.informes.InformeDTO;
@@ -83,49 +84,7 @@ public class InformeServiceImpl implements InformeService {
 		sucursal.generarNotificacionDeInforme(informe);
 		informeRepository.save(informe);
 	}
-
-	@Override
-	public List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
-			TipoInforme tipoInformes) {
-
-		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
-				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
-
-		Empresa empresa = usuario.obtenerEmpresa();
-
-		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-
-		if (sucursal == null)
-			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
-
-		List<Informe> informes = sucursal.obtenerInformes(tipoInformes);
-
-		return mapper.mapToInformeDTO(informes);
-	}
-
-	@Override
-	public Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme) {
-
-		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
-				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
-
-		Empresa empresa = usuario.obtenerEmpresa();
-
-		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-
-		if (sucursal == null)
-			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
-
-		Informe informe = sucursal.obtenerInforme(idInforme);
-
-		if (informe == null)
-			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
-
-		informe.setVisto(true);
-		informeRepository.save(informe);
-		return flaskService.getDatosInformeByTipoInforme(informe.getIdMongo(), informe.getTipoInforme());
-	}
-
+	
 	@Override
 	public void informeDeSiguientesPedidos(String subject, Long idSucursal) {
 
@@ -149,5 +108,104 @@ public class InformeServiceImpl implements InformeService {
 		sucursal.setEmailSender(emailSender);
 		sucursal.generarNotificacionDeInforme(informe);
 		informeRepository.save(informe);
+	}
+	
+	@Override
+	public void informeDeObsolescencia(String subject, Long idSucursal) {
+		
+		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
+
+		Empresa empresa = usuario.obtenerEmpresa();
+
+		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
+
+		if (sucursal == null)
+			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
+		
+		var historiaDeVentas = empresa.obtenerHistoricoDeVentas(sucursal);
+		var productosDeSucursalObsolescencia = empresa.obtenerProductos(sucursal);
+		
+		String idMongo = flaskService.postDatosInformeObsolescencia(
+				mapper.mapToProductoInformation(historiaDeVentas, productosDeSucursalObsolescencia, idSucursal));
+		
+		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.OBSOLESCENCIA);
+		sucursal.agregarInforme(informe);
+		sucursal.setEmailSender(emailSender);
+		sucursal.generarNotificacionDeInforme(informe);
+		informeRepository.save(informe);
+	}
+
+	@Override
+	public List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
+			TipoInforme tipoInformes) {
+
+		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
+
+		Empresa empresa = usuario.obtenerEmpresa();
+
+		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
+
+		if (sucursal == null)
+			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
+
+		List<Informe> informes = sucursal.obtenerInformes(tipoInformes);
+
+		return mapper.mapToInformeDTO(informes);
+	}
+
+	@Override
+	public Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme, TipoInforme tipoInforme) {
+
+		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
+
+		Empresa empresa = usuario.obtenerEmpresa();
+
+		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
+
+		if (sucursal == null)
+			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
+
+		Informe informe = sucursal.obtenerInforme(idInforme);
+
+		if (informe == null)
+			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
+
+		if(!informe.getTipoInforme().equals(tipoInforme))
+			throw new ResourceNotFoundException("Informe", "tipoInforme", tipoInforme.toString());
+		
+		informe.setVisto(true);
+		informeRepository.save(informe);
+		return flaskService.getDatosInformeByTipoInforme(informe.getIdMongo(), informe.getTipoInforme());
+	}
+
+	@Override
+	public void deleteInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme, TipoInforme tipoInforme) {
+		Usuario usuario = usuarioRepository.findByIdAuth0(subject)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", subject));
+
+		Empresa empresa = usuario.obtenerEmpresa();
+
+		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
+
+		if (sucursal == null)
+			throw new ResourceNotFoundException("Sucursal", "id_empresa", empresa.getIdEmpresa().toString());
+
+		Informe informe = sucursal.borrarInforme(idInforme);
+
+		if (informe == null)
+			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
+		
+		if(!informe.getTipoInforme().equals(tipoInforme))
+			throw new ResourceNotFoundException("Informe", "tipoInforme", tipoInforme.toString());
+		
+		var response = flaskService.deleteInformeByIdAndTipoInforme(informe.getIdMongo(), informe.getTipoInforme());
+		
+		if(response != HttpStatus.NO_CONTENT) 
+			throw new RuntimeException("error al eliminar el informe desde mongo : " + response.toString());
+		
+		informeRepository.delete(informe);
 	}
 }

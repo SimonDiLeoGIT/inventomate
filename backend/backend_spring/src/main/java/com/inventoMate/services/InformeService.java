@@ -13,10 +13,15 @@ public interface InformeService {
 	void informeDeProyeccion(String subject, Long idSucursal, LocalDate fechaProyeccion);
 
 	void informeDeSiguientesPedidos(String subject, Long idSucursal);
+	
+	void informeDeObsolescencia(String subject, Long idSucursal);
 
 	List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
 			TipoInforme proyeccionDeVentas);
 
-	Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme);
+	void deleteInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme,
+			TipoInforme tipoInforme);
+
+	Object getInformeByIdInformeAndIdSucursal(String subject, Long idSucursal, Long idInforme, TipoInforme tipoInforme);
 
 }

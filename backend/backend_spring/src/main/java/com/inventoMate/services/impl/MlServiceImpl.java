@@ -49,7 +49,7 @@ public class MlServiceImpl implements MlService {
 			categoryTrend.setCategoryName(entry.getValue().categoryName);
 			categoryTrend.setProducts(new LinkedList<>());
 
-			bestSellerDTO.getContent().subList(0, 3).forEach(item -> {
+			bestSellerDTO.getContent().subList(0, 10).forEach(item -> {
 				var product = meliClient.getProductById(item.getId(), setAccessToken()).getProducts().get(0);
 				var info = meliClient.getProductAdditionalInfo(item.getId(), setAccessToken());
 				product.setTrendPosition(item.getPosition());
