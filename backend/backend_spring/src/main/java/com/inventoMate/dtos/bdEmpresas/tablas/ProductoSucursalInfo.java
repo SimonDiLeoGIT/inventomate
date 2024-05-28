@@ -15,5 +15,6 @@ public class ProductoSucursalInfo {
 	private String nombre;
 	private Integer stock;
 	private Timestamp fechaPrimerCompra;
-
+	private Double precioVenta;
+	
 }

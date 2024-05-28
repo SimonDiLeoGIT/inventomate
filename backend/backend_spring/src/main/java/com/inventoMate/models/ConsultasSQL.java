@@ -132,7 +132,7 @@ public class ConsultasSQL implements Consultas {
 		return jdbcTemplate.queryForList(sql, idSucCliente).stream()
 				.map(row -> ProductoSucursalInfo.builder().nombre((String) row.get("nombre"))
 						.productId((Integer) row.get("producto_id")).stock((Integer) row.get("stock"))
-						.fechaPrimerCompra((Timestamp) row.get("fecha_primera_compra")).build())
+						.precioVenta((Double) row.get("precio_venta")).build())
 				.collect(Collectors.toList());
 	}
 }
