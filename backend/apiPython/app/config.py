@@ -1,1 +1,1 @@
-MONGO_URI = "mongodb://localhost:27017/inventomate_db"
+MONGO_URI = "mongodb://mongodb-container:27017/inventomate_db"
