@@ -1,3 +1,4 @@
+from math import ceil
 from flask import json
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -20,26 +21,39 @@ def calcular_obsolescencia(data):
     beta = 0.3
     gamma = 0.2
     
+    grafico_X = []
+    grafico_Y = []
+    
     for producto in data["listado_productos"]:
         id_producto = producto["id_producto"]
         nombre = producto["nombre"]
         stock_actual = producto["stock_actual"]
         fecha_primer_compra = datetime.strptime(producto["fecha_primer_compra"], "%Y-%m-%d")
+        precio = producto["precio"]
         
         # Obtener las ventas del producto en los últimos tres meses
         fecha_inicio = fecha_actual - timedelta(days=90)  # Últimos 3 meses
-        ventas_recientes = [
-            venta for venta in data["listado_ventas"]
-            if fecha_inicio <= datetime.strptime(venta["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f") <= fecha_actual
-        ]
         
-        ventas_producto_recientes = [
-            detalle for venta in ventas_recientes for detalle in venta["detalle"]
-            if detalle["producto"]["id_producto"] == id_producto
-        ]
+        # Filtrar las ventas recientes basadas en el rango de fechas
+        ventas_recientes = []
+        for venta in data["listado_ventas"]:
+            fecha_venta = datetime.strptime(venta["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f")
+            if fecha_inicio <= fecha_venta <= fecha_actual:
+                ventas_recientes.append(venta)
+
+        # Filtrar los detalles de producto específicos de las ventas recientes
+        ventas_producto_recientes = []
+        for venta in ventas_recientes:
+            for detalle in venta["detalle"]:
+                if detalle["producto"]["id_producto"] == id_producto:
+                    ventas_producto_recientes.append(detalle)
+
+    
         
         # Calcular el volumen total de ventas en los últimos tres meses
         V_reciente = sum(detalle["cantidad"] for detalle in ventas_producto_recientes)
+        
+        print(V_reciente)
         
         # Calcular el volumen total de ventas (histórico)
         V_total = sum(
@@ -63,24 +77,33 @@ def calcular_obsolescencia(data):
         else:
             OG = 1  # Máxima obsolescencia si no hay ventas recientes
         
+        print(frecuencia_ventas)
+        print(OG)
         # Calcular el porcentaje de promoción recomendado (PP), con un máximo de 80%
         PP = min(OG * 100, 80)
-        
+        print(PP)
         # Determinar si el producto es obsoleto
         obsoleto = OG > 0.2
-        
-        # Gradualidad en el aumento del porcentaje de promoción recomendada
-        if obsoleto:
-            # Ajustar el porcentaje de promoción recomendada para que sea gradual
-            PP *= min(1, (t_total / 730))  # Escala linealmente en función del tiempo sin ventas, máximo 100%
-            resultados.append({
+        # PP *= min(1, (t_total / 730))  # Escala linealmente en función del tiempo sin ventas, máximo 100%
+        resultados.append({
             "id_producto": id_producto,
             "nombre": nombre,
-            "promo_recomendada": PP
+            "precio_actual": precio,
+            "stock_actual": stock_actual,
+            "promo_recomendada": ceil(PP) if obsoleto else 0,
+            "precio_con_descuento": round(precio * (1 - (ceil(PP)/100)), 2) if obsoleto else precio,
+            "OG": OG if obsoleto else 0,
+            "obsoleto": obsoleto,
+            "ventas_ultimos_3_meses": V_reciente
         })
         
-
-    return {"productos_obsoletos": resultados}
+        grafico_X.append(nombre)
+        grafico_Y.append(OG)
+        
+    grafico = {"X": grafico_X, "Y": grafico_Y}
+        
+    return {"productos_obsoletos": resultados,
+            "grafico": grafico}
 
 
 
