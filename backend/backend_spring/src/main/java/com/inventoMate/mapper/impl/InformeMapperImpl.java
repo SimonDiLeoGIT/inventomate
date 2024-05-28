@@ -184,8 +184,8 @@ public class InformeMapperImpl implements InformeMapper {
 			JSONObject productoJSON = new JSONObject();
 			productoJSON.put("id_producto", producto.getProductId());
 			productoJSON.put("nombre", producto.getNombre());
-			productoJSON.put("stock", producto.getStock());
-			productoJSON.put("fecha_primer_compra", producto.getFechaPrimerCompra());
+			productoJSON.put("stock_actual", producto.getStock());
+			productoJSON.put("fecha_primer_compra", producto.getFechaPrimerCompra().toString());
 			productoJSON.put("precio", producto.getPrecioVenta());
 			resultList.add(productoJSON);
 		});
@@ -201,7 +201,6 @@ public class InformeMapperImpl implements InformeMapper {
 		JSONObject listadoProductoInformation = mapToProductoStockSucursal(productosDeSucursal);
 		JSONObject result = new JSONObject();
 		result.put("id_sucursal", idSucursal);
-		result.put("fecha_actual", LocalDate.now().toString());
 		result.merge(listadoProductoInformation);
 		result.merge(listadoVentas);
 		return result;

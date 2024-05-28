@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 
 
 def calcular_obsolescencia(data):
-    fecha_actual = datetime.strptime(data["fecha_actual"], "%Y-%m-%d")
+    fecha_actual = datetime.now()
     
     resultados = []
     
@@ -21,7 +21,7 @@ def calcular_obsolescencia(data):
         id_producto = producto["id_producto"]
         nombre = producto["nombre"]
         stock_actual = producto["stock_actual"]
-        fecha_primer_compra = datetime.strptime(producto["fecha_primer_compra"], "%Y-%m-%d")
+        fecha_primer_compra = datetime.strptime(producto["fecha_primer_compra"], "%Y-%m-%d %H:%M:%S.%f")
         precio = producto["precio"]
         
         # Obtener las ventas del producto en los últimos tres meses
@@ -45,9 +45,7 @@ def calcular_obsolescencia(data):
         
         # Calcular el volumen total de ventas en los últimos tres meses
         V_reciente = sum(detalle["cantidad"] for detalle in ventas_producto_recientes)
-        
-        print(V_reciente)
-        
+                
         # Calcular el volumen total de ventas (histórico)
         V_total = sum(
             detalle["cantidad"] for venta in data["listado_ventas"]
@@ -70,11 +68,8 @@ def calcular_obsolescencia(data):
         else:
             OG = 1  # Máxima obsolescencia si no hay ventas recientes
         
-        print(frecuencia_ventas)
-        print(OG)
         # Calcular el porcentaje de promoción recomendado (PP), con un máximo de 80%
         PP = min(OG * 100, 80)
-        print(PP)
         # Determinar si el producto es obsoleto
         obsoleto = OG > 0.2
         # PP *= min(1, (t_total / 730))  # Escala linealmente en función del tiempo sin ventas, máximo 100%
