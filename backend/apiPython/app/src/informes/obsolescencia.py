@@ -4,13 +4,6 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 
-#def obtener_stock_actual(id_producto, data):
-#    for producto in data['listado_productos']:
-#        if producto['id_producto'] == id_producto:
-#            return producto['stock']
-#    return None
-
-
 def calcular_obsolescencia(data):
     fecha_actual = datetime.strptime(data["fecha_actual"], "%Y-%m-%d")
     
