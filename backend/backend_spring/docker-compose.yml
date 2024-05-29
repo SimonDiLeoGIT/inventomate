@@ -12,8 +12,7 @@ services:
       - springboot-network
 
   app:
-    build: .
-    container_name: springboot
+    image: simondileogit/spring-inventomate:3
     ports:
       - "8080:8080"
     environment:
@@ -39,6 +38,7 @@ services:
       MONGO_URI: ${MONGO_URI}
     depends_on:
       - db
+    restart: on-failure
     networks:
       - springboot-network
 
