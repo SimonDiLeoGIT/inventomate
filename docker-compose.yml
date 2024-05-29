@@ -17,14 +17,16 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: empresa
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
-      interval: 1s
-      timeout: 5s
-      retries: 10
+    networks:
+      - inventomate-network
+    # healthcheck:
+    #   test: [ "CMD-SHELL", "pg_isready" ]
+    #   interval: 1s
+    #   timeout: 5s
+    #   retries: 10
 
   spring:
     image: simondileogit/spring-inventomate:6
@@ -52,6 +54,7 @@ services:
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
       EMAIL_USERNAME: ${EMAIL_USERNAME}
       MONGO_URI: ${MONGO_URI}
+      FLASK_URL_BASE: ${FLASK_URL_BASE}
     depends_on:
       - mysql
     restart: on-failure
