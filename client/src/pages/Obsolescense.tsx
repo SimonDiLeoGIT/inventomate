@@ -1,14 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
+import data from '../assets/obsolescencia.json'
 
 export const Obsolescense = () => {
-
-  const { idBranch } = useParams()
-  const { idInforme } = useParams()
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0()
 
@@ -22,7 +19,7 @@ export const Obsolescense = () => {
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
-
+      setObsolescense(data)
       // if (idBranch && idInforme) {
       //   const response = await getNextOrderById(accessToken, idBranch, idInforme)
       //   setObsolescense(response)

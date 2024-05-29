@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useUser } from "../hook/useUser";
 import { MobileMenu } from "./MobileMenu";
 import { UserSettings } from "./UserSettings";
-import { useEffect, useState } from "react";
 
 export const Navbar = () => {
 

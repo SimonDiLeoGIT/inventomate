@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  db:
+  mysql:
     image: mysql:latest
     container_name: mysql
     environment:
@@ -9,10 +9,26 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - springboot-network
+      - inventomate-network
 
-  app:
-    image: simondileogit/spring-inventomate:5
+  postgresql:
+    image: postgres:latest
+    container_name: postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: empresa
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  spring:
+    image: simondileogit/spring-inventomate:6
+    container_name: spring-inventomate
     ports:
       - "8080:8080"
     environment:
@@ -37,11 +53,43 @@ services:
       EMAIL_USERNAME: ${EMAIL_USERNAME}
       MONGO_URI: ${MONGO_URI}
     depends_on:
-      - db
+      - mysql
     restart: on-failure
     networks:
-      - springboot-network
+      - inventomate-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - inventomate-network
+
+  python:
+    image: simondileogit/python-inventomate:1
+    container_name: python-inventomate
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    networks:
+      - inventomate-network
+
+  frontend:
+    image: simondileogit/frontend-inventomate:1
+    container_name: frontend-inventomate
+    ports:
+      - "5173:5173"
+    depends_on:
+      - mysql
+      - spring
+      - mongodb
+      - python
+    networks:
+      - inventomate-network
 
 networks:
-  springboot-network:
+  inventomate-network:
+    name: inventomate-network
     driver: bridge

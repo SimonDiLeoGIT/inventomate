@@ -11,7 +11,7 @@ import done from '../assets/icons/done.svg'
 export const CompanySettings = () => {
 
   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
-  const { setUser, currentUser } = useUser()
+  const { setUser } = useUser()
 
   const [databaseConnection, setDatabaseConnection] = useState<DatabaseConnection | null>(null)
   const [visible, setVisible] = useState<boolean>(false)

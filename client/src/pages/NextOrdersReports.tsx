@@ -1,7 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import { useEffect, useState } from "react"
-import { getForecasts, getNewForecast } from "../utils/Services/forecast.database.service"
 import { SideNavbar } from "../components/SideNavbar"
 import { EmptyHistory } from "../components/Errors/EmptyHistory"
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
