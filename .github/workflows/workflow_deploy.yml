@@ -2,8 +2,7 @@ name: Inventomate
 
 on:
   push:
-    branches:
-      - feature/despliegue
+    branches: ['feature/despliegue']
 
 
 jobs:
