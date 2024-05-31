@@ -132,4 +132,14 @@ public class Sucursal {
 		var informe = obtenerInforme(idInforme);
 		return informes.remove(informe)? informe : null;
 	}
+
+	public void generarNotificacionDeInforme(Informe informe, Usuario empleado) {
+		emailSender.sendDecisionNotification(this.empresa, this, informe, empleado, this.empresa.getOwner());
+	}
+
+	public List<Informe> obtenerInformesConDecisiones() {
+		return informes.stream()
+				.filter(informe -> informe.tieneDecisiones())
+				.collect(Collectors.toList());
+	}
 }
