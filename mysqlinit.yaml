@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: init-mysql
-data:
-  init-mysql.sql: |
-    ALTER USER 'root'@'%' IDENTIFIED BY '12345678';
-    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
-    FLUSH PRIVILEGES;

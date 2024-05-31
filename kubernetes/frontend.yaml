@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend-inventomate
-        image: simondileogit/frontend-inventomate:1
+        image: simondileogit/frontend-inventomate:latest
         ports:
         - containerPort: 5173
 ---
@@ -24,7 +24,9 @@ kind: Service
 metadata:
   name: frontend-inventomate
 spec:
+  type: LoadBalancer
   ports:
-  - port: 5173
+  - port: 80
+    targetPort: 5173
   selector:
     app: frontend-inventomate
