@@ -4,97 +4,96 @@ on:
   push:
     branches: ['feature/despliegue']
 
-
 jobs:
-    build-images:
-        name: Build and Push Docker Image
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+  build-images:
+      name: Build and Push Docker Image
+      runs-on: ubuntu-latest
+      steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
 
-            - name: Login to Docker Hub
-              uses: docker/login-action@v3
-              with:
-                  username: ${{ secrets.DOCKER_USERNAME }}
-                  password: ${{ secrets.DOCKER_PASSWORD }}
+          - name: Login to Docker Hub
+            uses: docker/login-action@v3
+            with:
+                username: ${{ secrets.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_PASSWORD }}
 
-            - name: Build and push spring image
-              uses: docker/build-push-action@v5
-              with:
-                  context: ./backend/backend_spring
-                  push: true
-                  tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:latest
+          - name: Build and push spring image
+            uses: docker/build-push-action@v5
+            with:
+                context: ./backend/backend_spring
+                push: true
+                tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:latest
 
-            - name: Build and push python api image
-              uses: docker/build-push-action@v5
-              with:
-                  context: ./backend/apiPython
-                  push: true
-                  tags: ${{ secrets.DOCKER_USERNAME }}/python-inventomate:latest
+          - name: Build and push python api image
+            uses: docker/build-push-action@v5
+            with:
+                context: ./backend/apiPython
+                push: true
+                tags: ${{ secrets.DOCKER_USERNAME }}/python-inventomate:latest
 
-            - name: Build and push frontend image
-              uses: docker/build-push-action@v5
-              with:
-                  context: ./client
-                  push: true
-                  tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
+          - name: Build and push frontend image
+            uses: docker/build-push-action@v5
+            with:
+                context: ./client
+                push: true
+                tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
 
 
-     deploy-apps:
-        name: Deploy apps and services
-        # if: startsWith(github.event.head_commit.message, '(up)')
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    deploy-apps:
+      name: Deploy apps and services
+      # if: startsWith(github.event.head_commit.message, '(up)')
+      runs-on: ubuntu-latest
+      steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
 
-            # Configuración CLI Google Cloud.
-            - name: Google Cloud authentication
-              uses: google-github-actions/auth@v2
-              with:
-                  credentials_json: ${{ secrets.GCLOUD_SERVICE_ACCOUNT_KEY }}
+          # Configuración CLI Google Cloud.
+          - name: Google Cloud authentication
+            uses: google-github-actions/auth@v2
+            with:
+                credentials_json: ${{ secrets.GCLOUD_SERVICE_ACCOUNT_KEY }}
 
-            - name: Google Cloud kubectl plugin
-              uses: google-github-actions/setup-gcloud@v2
-              with:
-                  version: '>= 363.0.0'
-                  install_components: 'kubectl'
+          - name: Google Cloud kubectl plugin
+            uses: google-github-actions/setup-gcloud@v2
+            with:
+                version: '>= 363.0.0'
+                install_components: 'kubectl'
 
-            - name: Google Cloud kubectl cluster metadata
-              run: |
-                  gcloud container clusters create --machine-type=e2-medium --zone=us-east1-b inventomate-cluster
-                  gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
+          - name: Google Cloud kubectl cluster metadata
+            run: |
+                gcloud container clusters create --machine-type=e2-medium --zone=us-east1-b inventomate-cluster
+                gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
 
-            - name: Create Aplication Config
-              working-directory: kubernetes
-              run: |
-                  kubectl apply -f app-config.yml
+          - name: Create Aplication Config
+            working-directory: kubernetes
+            run: |
+                kubectl apply -f app-config.yml
 
-            - name: MYSQL deploy
-              working-directory: kubernetes
-              run: |
-                  kubectl apply -f init-mysql.yml
-                  
-                  kubectl apply -f mysql.yml
+          - name: MYSQL deploy
+            working-directory: kubernetes
+            run: |
+                kubectl apply -f init-mysql.yml
+                
+                kubectl apply -f mysql.yml
 
-                  sleep 120
+                sleep 120
 
-            - name: PotgreSQL deploy
-              working-directory: kubernetes
-              run: |
-                  kubectl apply -f init-postgresql.yml
-                  
-                  kubectl apply -f postgresql.yml
-            
-            - name: PotgreSQL deploy
-              working-directory: kubernetes
-              run: |
-                  kubectl apply -f mongo.yml
+          - name: PotgreSQL deploy
+            working-directory: kubernetes
+            run: |
+                kubectl apply -f init-postgresql.yml
+                
+                kubectl apply -f postgresql.yml
+          
+          - name: PotgreSQL deploy
+            working-directory: kubernetes
+            run: |
+                kubectl apply -f mongo.yml
 
-            - name: Aplications Deploy
-              working-directory: kubernetes
-              run: |
-                  kubectl apply -f spring.yaml
-                  kubectl apply -f python.yaml
-                  kubectl apply -f frontend.yaml
+          - name: Aplications Deploy
+            working-directory: kubernetes
+            run: |
+                kubectl apply -f spring.yaml
+                kubectl apply -f python.yaml
+                kubectl apply -f frontend.yaml
