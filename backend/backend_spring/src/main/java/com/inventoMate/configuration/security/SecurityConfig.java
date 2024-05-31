@@ -97,6 +97,16 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.DELETE,
 						"api/informes/obsolescencia/{idInforme}/sucursales/{idSucursal}")
 				.hasAuthority("decide:suggestions-for-stagnant-products")
+				// decisiones
+				.requestMatchers(HttpMethod.POST, "api/informes/decision/{idInforme}/sucursales/{idSucursal}")
+				.hasAnyAuthority("decide:suggestions-for-stagnant-products","decide:demand-prediction-report","decide:trend-information","decide:sales-reports")
+				.requestMatchers(HttpMethod.GET, "api/informes/decision/{idSucursal}")
+				.hasAuthority("edit:company")
+				.requestMatchers(HttpMethod.GET, "api/informes/decision/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("edit:company")
+				.requestMatchers(HttpMethod.DELETE,
+						"api/informes/decision/{idInforme}/sucursales/{idSucursal}/decisiones/{idDecision}")
+				.hasAuthority("edit:company")
 				// otros
 				.anyRequest().permitAll()).cors(Customizer.withDefaults())
 				.oauth2ResourceServer(
