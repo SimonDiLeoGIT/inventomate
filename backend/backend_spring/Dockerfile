@@ -1,7 +1,7 @@
 # Usa una imagen base de Java
 FROM openjdk:17-slim
 
-# Establece el direcatorio de trabajo
+# Establece el directorio de trabajo
 WORKDIR /app
 
 # Copia el script de inicialización y el archivo JAR de la aplicación al contenedor
