@@ -81,29 +81,29 @@ jobs:
       - name: Create Aplication Config
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f app-config.yml
-          kubectl apply -f db-secrets.yml
+          kubectl apply -f app-config.yaml
+          kubectl apply -f db-secrets.yaml
 
       - name: MYSQL deploy
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f init-mysql.yml
+          kubectl apply -f init-mysql.yaml
           
-          kubectl apply -f mysql.yml
+          kubectl apply -f mysql.yaml
 
           sleep 120
 
       - name: PotgreSQL deploy
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f init-postgresql.yml
+          kubectl apply -f init-postgresql.yaml
           
-          kubectl apply -f postgresql.yml
+          kubectl apply -f postgresql.yaml
       
       - name: PotgreSQL deploy
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f mongo.yml
+          kubectl apply -f mongo.yaml
 
       - name: Aplications Deploy
         working-directory: ./kubernetes
