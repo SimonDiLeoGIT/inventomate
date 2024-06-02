@@ -111,3 +111,34 @@ jobs:
           kubectl apply -f spring.yaml
           kubectl apply -f python.yaml
           kubectl apply -f frontend.yaml
+
+      - name: Get Load Balancer IP
+        run: |
+          # Comando para obtener la dirección IP del Load Balancer
+          LOAD_BALANCER_IP=$(kubectl get services frontend-inventomate -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          echo "Load Balancer IP: $LOAD_BALANCER_IP"
+          echo "::set-env name=LOAD_BALANCER_IP::$LOAD_BALANCER_IP" # Establecer la variable de entorno
+
+      - name: Update Auth0 Firewall Rule
+        run: |
+          # Obtener token de acceso de Auth0
+          AUTH0_DOMAIN="dev-xzd1nw16hc11vsj7.us.auth0.com"
+          AUTH0_CLIENT_ID="ms0lq4fkONnpPrvn6LA29q5sk14h1ehE"
+          AUTH0_CLIENT_SECRET="x1hTArWi-WwhMg7jKAlUsfwVIiAoV76QJc0wo_PqqqAXPB8wX0RyFW0hD53GE7Pg"
+
+          TOKEN=$(curl --request POST \
+            --url "https://${AUTH0_DOMAIN}/oauth/token" \
+            --header 'content-type: application/json' \
+            --data "{\"client_id\":\"${AUTH0_CLIENT_ID}\",\"client_secret\":\"${AUTH0_CLIENT_SECRET}\",\"audience\":\"https://${AUTH0_DOMAIN}/api/v2/\",\"grant_type\":\"client_credentials\"}" \
+            --silent | jq -r '.access_token')
+
+          # Obtener IP del Load Balancer del servicio frontend-inventomate
+          LOAD_BALANCER_IP=$(kubectl get services frontend-inventomate -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+          # Actualizar regla de firewall en Auth0 con la dirección IP obtenida
+          curl --request POST \
+            --url "https://${AUTH0_DOMAIN}/api/v2/firewall/rules" \
+            --header "content-type: application/json" \
+            --header "Authorization: Bearer ${TOKEN}" \
+            --data "{\"ip\": \"${LOAD_BALANCER_IP}\"}"
+
