@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend-inventomate
-        image: simondileogit/frontend-inventomate:1
+        image: simondileogit/frontend-inventomate:latest
         ports:
         - containerPort: 5173
 ---
