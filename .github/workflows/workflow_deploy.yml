@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build with Maven
-        run: ./backend/backend_spring clean package
+        run: ./backend/backend_spring/mvnw clean package
 
       - name: Build and push spring image
         uses: docker/build-push-action@v5
