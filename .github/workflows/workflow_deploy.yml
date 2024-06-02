@@ -66,12 +66,13 @@ jobs:
           gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
 
       - name: Create Aplication Config
-        working-directory: kubernetes
+        working-directory: ./kubernetes
         run: |
           kubectl apply -f app-config.yml
+          kubectl apply -f db-secrets.yml
 
       - name: MYSQL deploy
-        working-directory: kubernetes
+        working-directory: ./kubernetes
         run: |
           kubectl apply -f init-mysql.yml
           
@@ -80,19 +81,19 @@ jobs:
           sleep 120
 
       - name: PotgreSQL deploy
-        working-directory: kubernetes
+        working-directory: ./kubernetes
         run: |
           kubectl apply -f init-postgresql.yml
           
           kubectl apply -f postgresql.yml
       
       - name: PotgreSQL deploy
-        working-directory: kubernetes
+        working-directory: ./kubernetes
         run: |
           kubectl apply -f mongo.yml
 
       - name: Aplications Deploy
-        working-directory: kubernetes
+        working-directory: ./kubernetes
         run: |
           kubectl apply -f spring.yaml
           kubectl apply -f python.yaml

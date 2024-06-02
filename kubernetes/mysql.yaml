@@ -19,7 +19,7 @@ spec:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: app-config
+              name: db-secrets
               key: PASSWORD_DATABASE
         - name: MYSQL_DATABASE
           value: bd-inventomate
