@@ -82,11 +82,10 @@ jobs:
 
       # Crear el clúster si no existe
       - name: Create Cluster if not exists
-        if: steps.check-cluster.outcome == 'success'
+        if: steps.check-cluster.outcome == 'failure'
         run: |
           gcloud container clusters create --machine-type=e2-medium --zone=us-east1-b inventomate-cluster
           gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
-
 
       - name: Create Aplication Config
         working-directory: ./kubernetes
