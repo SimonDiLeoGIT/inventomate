@@ -158,13 +158,14 @@ jobs:
             --silent | jq -r '.access_token')
 
           # Obtener IP del Load Balancer del servicio frontend-inventomate
-          LOAD_BALANCER_IP=${{ steps.get_lb_ip.outputs.load_balancer_ip }}
+          LOAD_BALANCER_IP=$(echo ${{ steps.get_lb_ip.outputs.load_balancer_ip }})
 
           # Actualizar regla de firewall en Auth0 con la dirección IP obtenida
           curl --request POST \
             --url "https://${AUTH0_DOMAIN}/api/v2/firewall/rules" \
             --header "content-type: application/json" \
             --header "Authorization: Bearer ${TOKEN}" \
-            --data "{\"ip\": \"${LOAD_BALANCER_IP}\"}"
+            --data "{\"name\": \"Inventomate\", \"script\": \"ip.src == '${LOAD_BALANCER_IP}'\", \"enabled\": true}"
+
 
 
