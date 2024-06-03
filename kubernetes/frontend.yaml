@@ -25,10 +25,12 @@ metadata:
   name: frontend-inventomate
 spec:
   type: LoadBalancer
-  loadBalancerIP: 34.36.117.132
   ports:
   - port: 80
     targetPort: 5173
   selector:
     app: frontend-inventomate
-
+status:
+  loadBalancer:
+    ingress:
+    - ip: 34.36.117.132
