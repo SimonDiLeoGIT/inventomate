@@ -113,11 +113,12 @@ jobs:
           kubectl apply -f frontend.yaml
 
       - name: Get Load Balancer IP
+        id: get_lb_ip
         run: |
           # Comando para obtener la dirección IP del Load Balancer
           LOAD_BALANCER_IP=$(kubectl get services frontend-inventomate -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
           echo "Load Balancer IP: $LOAD_BALANCER_IP"
-          echo "::set-env name=LOAD_BALANCER_IP::$LOAD_BALANCER_IP" # Establecer la variable de entorno
+          echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP" # Establecer la variable de salida
 
       - name: Update Auth0 Firewall Rule
         run: |
@@ -133,7 +134,7 @@ jobs:
             --silent | jq -r '.access_token')
 
           # Obtener IP del Load Balancer del servicio frontend-inventomate
-          LOAD_BALANCER_IP=$(kubectl get services frontend-inventomate -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          LOAD_BALANCER_IP=$(echo ${{ steps.get_lb_ip.outputs.load_balancer_ip }})
 
           # Actualizar regla de firewall en Auth0 con la dirección IP obtenida
           curl --request POST \
@@ -141,4 +142,3 @@ jobs:
             --header "content-type: application/json" \
             --header "Authorization: Bearer ${TOKEN}" \
             --data "{\"ip\": \"${LOAD_BALANCER_IP}\"}"
-
