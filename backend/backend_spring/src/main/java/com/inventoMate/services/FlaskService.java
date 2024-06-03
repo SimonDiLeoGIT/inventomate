@@ -1,5 +1,7 @@
 package com.inventoMate.services;
 
+import org.springframework.http.HttpStatusCode;
+
 import com.inventoMate.dtos.meli.TrendsDTO;
 import com.inventoMate.entities.TipoInforme;
 
@@ -14,4 +16,8 @@ public interface FlaskService {
 	Object getDatosInformeByTipoInforme(String idMongo, TipoInforme tipoInforme);
 
 	String postDatosInformeSiguientesPedidos(JSONObject mapToProductoInformation);
+
+	HttpStatusCode deleteInformeByIdAndTipoInforme(String idMongo, TipoInforme tipoInforme);
+
+	String postDatosInformeObsolescencia(JSONObject mapToProductoInformation);
 }

@@ -7,13 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventoMate.dtos.informes.DecisionRequest;
+import com.inventoMate.dtos.informes.DecisionResponse;
 import com.inventoMate.dtos.informes.InformeDTO;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.payload.ApiResponse;
@@ -47,8 +51,16 @@ public class InformeController {
 	@GetMapping("/tendencias/{idInforme}/sucursales/{idSucursal}")
 	public ResponseEntity<?> getInformeTendencias(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idInforme,
 			@PathVariable Long idSucursal) {
-		return ResponseEntity
-				.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme));
+		return ResponseEntity.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal,
+				idInforme, TipoInforme.ANALISIS_DE_TENDENCIA));
+	}
+
+	@DeleteMapping("/tendencias/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<ApiResponse> deleteInformeTendencias(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idInforme, @PathVariable Long idSucursal) {
+		informeService.deleteInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme,
+				TipoInforme.ANALISIS_DE_TENDENCIA);
+		return ResponseEntity.ok(new ApiResponse(true, "Informe deleted successfully"));
 	}
 
 	// PROYECCION DE VENTAS
@@ -69,8 +81,16 @@ public class InformeController {
 	@GetMapping("/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
 	public ResponseEntity<?> getInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
 			@PathVariable Long idInforme, @PathVariable Long idSucursal) {
-		return ResponseEntity
-				.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme));
+		return ResponseEntity.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal,
+				idInforme, TipoInforme.PROYECCION_DE_VENTAS));
+	}
+
+	@DeleteMapping("/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<ApiResponse> deleteInformeProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idInforme, @PathVariable Long idSucursal) {
+		informeService.deleteInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme,
+				TipoInforme.PROYECCION_DE_VENTAS);
+		return ResponseEntity.ok(new ApiResponse(true, "Informe deleted successfully"));
 	}
 
 	// SIGUIENTES PEDIDOS
@@ -91,7 +111,73 @@ public class InformeController {
 	@GetMapping("/siguientes-pedidos/{idInforme}/sucursales/{idSucursal}")
 	public ResponseEntity<?> getInformeSiguientesPedidos(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idInforme,
 			@PathVariable Long idSucursal) {
-		return ResponseEntity
-				.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme));
+		return ResponseEntity.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal,
+				idInforme, TipoInforme.SIGUIENTES_PEDIDOS));
+	}
+
+	@DeleteMapping("/siguientes-pedidos/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<ApiResponse> deleteInformeSiguientesPedidos(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idInforme, @PathVariable Long idSucursal) {
+		informeService.deleteInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme,
+				TipoInforme.SIGUIENTES_PEDIDOS);
+		return ResponseEntity.ok(new ApiResponse(true, "Informe deleted successfully"));
+	}
+	
+	// OBSOLESCENCIA
+	@PostMapping("/obsolescencia/{idSucursal}")
+	public ResponseEntity<ApiResponse> postInformeObsolescencia(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal) {
+		informeService.informeDeObsolescencia(jwt.getSubject(), idSucursal);
+		return ResponseEntity.ok().body(new ApiResponse(true, "Informe pedido con exito"));
+	}
+
+	@GetMapping("/obsolescencia/{idSucursal}")
+	public ResponseEntity<List<InformeDTO>> getInformesObsolescencia(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal) {
+		return ResponseEntity.ok(informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
+				TipoInforme.OBSOLESCENCIA));
+	}
+
+	@GetMapping("/obsolescencia/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<?> getInformeObsolescencia(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idInforme,
+			@PathVariable Long idSucursal) {
+		return ResponseEntity.ok(informeService.getInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal,
+				idInforme, TipoInforme.OBSOLESCENCIA));
+	}
+
+	@DeleteMapping("/obsolescencia/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<ApiResponse> deleteInformeObsolescencia(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idInforme, @PathVariable Long idSucursal) {
+		informeService.deleteInformeByIdInformeAndIdSucursal(jwt.getSubject(), idSucursal, idInforme,
+				TipoInforme.OBSOLESCENCIA);
+		return ResponseEntity.ok(new ApiResponse(true, "Informe deleted successfully"));
+	}
+	
+	// DECISION
+	@PostMapping("/decision/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<ApiResponse> postInformeDecision(@AuthenticationPrincipal Jwt jwt,
+			 @PathVariable Long idInforme, @PathVariable Long idSucursal, @RequestBody DecisionRequest decision) {
+		informeService.informeDeDecision(jwt.getSubject(), idInforme, idSucursal, decision);
+		return ResponseEntity.ok().body(new ApiResponse(true, "decision creada con exito"));
+	}
+
+	@GetMapping("/decision/{idSucursal}")
+	public ResponseEntity<List<InformeDTO>> getInformesDecision(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal) {
+		return ResponseEntity.ok(informeService.getInformesConDecisiones(jwt.getSubject(), idSucursal));
+	}
+
+	@GetMapping("/decision/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<List<DecisionResponse>> getInformeDecision(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idInforme,
+			@PathVariable Long idSucursal) {
+		return ResponseEntity.ok(informeService.getDecisionesDelInforme(jwt.getSubject(), idSucursal, idInforme));
+	}
+
+	@DeleteMapping("/decision/{idInforme}/sucursales/{idSucursal}/decisiones/{idDecision}")
+	public ResponseEntity<ApiResponse> deleteInformeDecision(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idInforme, @PathVariable Long idSucursal, @PathVariable Long idDecision) {
+		informeService.deleteDecisionDelInforme(jwt.getSubject(), idSucursal, idInforme,
+				idDecision);
+		return ResponseEntity.ok(new ApiResponse(true, "decision deleted successfully"));
 	}
 }
