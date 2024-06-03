@@ -132,10 +132,10 @@ jobs:
           kubectl apply -f frontend.yaml
 
       - name: Describe Reserved IP
-        run: gcloud compute addresses describe lb-ipv4-1 --global
+        run: LB_IP=$(gcloud compute addresses describe lb-ipv4-1 --global --format="value(address)")
 
       - name: Add IP to Load Balancer
-        run: gcloud compute addresses add-resources lb-ipv4-1 --resources=frontend-inventomate --global
+        run: gcloud compute addresses add-resources lb-ipv4-1 --resources=frontend-inventomate --global --address=$LB_IP
 
 
       # Obtener la dirección IP del Load Balancer
