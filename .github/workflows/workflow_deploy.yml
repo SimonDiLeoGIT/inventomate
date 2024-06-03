@@ -73,10 +73,20 @@ jobs:
           version: '>= 363.0.0'
           install_components: 'kubectl'
 
-      - name: Google Cloud kubectl cluster metadata
+      # Verificar si el clúster ya está creado
+      - name: Check if cluster exists
+        id: check-cluster
+        run: |
+          gcloud container clusters list --format="value(name)" | grep -q inventomate-cluster || echo "Cluster does not exist"
+        continue-on-error: true
+
+      # Crear el clúster si no existe
+      - name: Create Cluster if not exists
+        if: steps.check-cluster.outcome == 'success'
         run: |
           gcloud container clusters create --machine-type=e2-medium --zone=us-east1-b inventomate-cluster
           gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
+
 
       - name: Create Aplication Config
         working-directory: ./kubernetes
