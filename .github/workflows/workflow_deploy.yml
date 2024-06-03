@@ -131,6 +131,10 @@ jobs:
           kubectl apply -f python.yaml
           kubectl apply -f frontend.yaml
 
+      - name: Assign IP to Load Balancer
+        run: gcloud compute addresses create lb-ipv4-1 --addresses=34.36.117.132 --global
+
+
       # Obtener la dirección IP del Load Balancer
       - name: Get Load Balancer IP
         id: get-lb-ip
