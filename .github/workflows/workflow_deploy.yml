@@ -134,16 +134,3 @@ jobs:
           LOAD_BALANCER_IP=$(kubectl get services frontend-inventomate -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
           echo "Load Balancer IP: $LOAD_BALANCER_IP"
           echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP" # Establecer la variable de salida
-
-      # Configurar el registro DNS
-      - name: Configure DNS Record
-        run: |
-          # Utiliza herramientas de tu proveedor de DNS para configurar el registro A
-          # Ejemplo utilizando gcloud para Google Cloud DNS:
-          gcloud dns record-sets transaction start --zone=your-zone
-          gcloud dns record-sets transaction add $DOMAIN --name="inventomate.org" --type=A --ttl=300 "$LOAD_BALANCER_IP"
-          gcloud dns record-sets transaction execute --zone=your-zone
-
-      # Esperar la propagación DNS
-      - name: Wait for DNS propagation
-        run: sleep 300 # Espera 5 minutos (puedes ajustar el tiempo según sea necesario)

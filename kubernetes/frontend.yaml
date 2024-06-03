@@ -30,3 +30,5 @@ spec:
     targetPort: 5173
   selector:
     app: frontend-inventomate
+  loadBalancerIP: 34.36.117.132
+
