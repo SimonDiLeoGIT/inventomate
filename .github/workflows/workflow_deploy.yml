@@ -89,6 +89,11 @@ jobs:
           gcloud container clusters create --machine-type=e2-medium --zone=us-east1-b inventomate-cluster
           gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
 
+      - name: Set Kubernetes context
+        run: |
+          gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
+          kubectl config use-context gke_inventomate-424520_us-east1-b_inventomate-cluster
+
 
       - name: Create Aplication Config
         working-directory: ./kubernetes
@@ -96,11 +101,7 @@ jobs:
           kubectl apply -f app-config.yaml
           kubectl apply -f db-secrets.yaml
 
-      - name: Set Kubernetes context
-        run: |
-          gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
-          kubectl config use-context gke_inventomate-424520_us-east1-b_inventomate-cluster
-
+      
 
       - name: MYSQL deploy
         working-directory: ./kubernetes
