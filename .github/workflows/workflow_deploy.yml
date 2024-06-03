@@ -166,3 +166,4 @@ jobs:
             --header "content-type: application/json" \
             --header "Authorization: Bearer ${TOKEN}" \
             --data "{\"ip\": \"${LOAD_BALANCER_IP}\"}"
+
