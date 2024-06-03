@@ -127,45 +127,23 @@ jobs:
           kubectl apply -f python.yaml
           kubectl apply -f frontend.yaml
 
+      # Obtener la dirección IP del Load Balancer
       - name: Get Load Balancer IP
         id: get-lb-ip
         run: |
-          retries=0
-          while [ $retries -lt 5 ]; do
-            LOAD_BALANCER_IP=$(kubectl get services frontend-inventomate -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
-            if [ -n "$LOAD_BALANCER_IP" ]; then
-              echo "Load Balancer IP: $LOAD_BALANCER_IP"
-              echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP" # Establecer la variable de salida
-              break
-            else
-              echo "Waiting for Load Balancer IP..."
-              sleep 30
-              retries=$((retries+1))
-            fi
-          done
+          LOAD_BALANCER_IP=$(kubectl get services frontend-inventomate -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          echo "Load Balancer IP: $LOAD_BALANCER_IP"
+          echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP" # Establecer la variable de salida
 
-      - name: Update Auth0 Firewall Rule
+      # Configurar el registro DNS
+      - name: Configure DNS Record
         run: |
-          # Obtener token de acceso de Auth0
-          AUTH0_DOMAIN="dev-xzd1nw16hc11vsj7.us.auth0.com"
-          AUTH0_CLIENT_ID="ms0lq4fkONnpPrvn6LA29q5sk14h1ehE"
-          AUTH0_CLIENT_SECRET="x1hTArWi-WwhMg7jKAlUsfwVIiAoV76QJc0wo_PqqqAXPB8wX0RyFW0hD53GE7Pg"
+          # Utiliza herramientas de tu proveedor de DNS para configurar el registro A
+          # Ejemplo utilizando gcloud para Google Cloud DNS:
+          gcloud dns record-sets transaction start --zone=your-zone
+          gcloud dns record-sets transaction add $DOMAIN --name="inventomate.org" --type=A --ttl=300 "$LOAD_BALANCER_IP"
+          gcloud dns record-sets transaction execute --zone=your-zone
 
-          TOKEN=$(curl --request POST \
-            --url "https://${AUTH0_DOMAIN}/oauth/token" \
-            --header 'content-type: application/json' \
-            --data "{\"client_id\":\"${AUTH0_CLIENT_ID}\",\"client_secret\":\"${AUTH0_CLIENT_SECRET}\",\"audience\":\"https://${AUTH0_DOMAIN}/api/v2/\",\"grant_type\":\"client_credentials\"}" \
-            --silent | jq -r '.access_token')
-
-          # Obtener IP del Load Balancer del servicio frontend-inventomate
-          LOAD_BALANCER_IP=$(echo ${{ steps.get_lb_ip.outputs.load_balancer_ip }})
-
-          # Actualizar regla de firewall en Auth0 con la dirección IP obtenida
-          curl --request POST \
-            --url "https://${AUTH0_DOMAIN}/api/v2/firewall/rules" \
-            --header "content-type: application/json" \
-            --header "Authorization: Bearer ${TOKEN}" \
-            --data "{\"name\": \"Inventomate\", \"script\": \"ip.src == '${LOAD_BALANCER_IP}'\", \"enabled\": true}"
-
-
-
+      # Esperar la propagación DNS
+      - name: Wait for DNS propagation
+        run: sleep 300 # Espera 5 minutos (puedes ajustar el tiempo según sea necesario)
