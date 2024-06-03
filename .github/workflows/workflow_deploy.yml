@@ -79,15 +79,20 @@ jobs:
       - name: Check if cluster exists
         id: check-cluster
         run: |
-          gcloud container clusters list --format="value(name)" | grep -q inventomate-cluster || echo "Cluster does not exist"
+          if gcloud container clusters list --format="value(name)" | grep -q "inventomate-cluster"; then
+            echo "Cluster exists" > cluster_status.txt
+          else
+            echo "Cluster does not exist" > cluster_status.txt
+          fi
         continue-on-error: true
 
       # Crear el clúster si no existe
       - name: Create Cluster if not exists
-        if: steps.check-cluster.outcome == 'failure'
+        if: steps.check-cluster.outputs.cluster_status != 'Cluster exists'
         run: |
-          gcloud container clusters create --machine-type=e2-medium --zone=us-east1-b inventomate-cluster
+          gcloud container clusters create inventomate-cluster --machine-type=e2-medium --zone=us-east1-b
           gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
+
 
       - name: Create Aplication Config
         working-directory: ./kubernetes
