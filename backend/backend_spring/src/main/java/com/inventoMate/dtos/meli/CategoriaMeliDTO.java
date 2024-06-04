@@ -6,15 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.minidev.json.JSONObject;
 
-@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TrendsDTO {
+@Builder
+public class CategoriaMeliDTO {
 
-	private List<CategoryTrendDTO> trends;
-	JSONObject historico;
+	private Long id;
+	private String nombre;
+	private String idMeli;
+	private List<ProductoMeliDTO> productos;
 	
 }

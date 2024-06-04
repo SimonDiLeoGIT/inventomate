@@ -16,6 +16,10 @@ import com.inventoMate.dtos.bdEmpresas.tablas.Producto;
 import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
 import com.inventoMate.dtos.informes.InformeDTO;
+import com.inventoMate.dtos.meli.CategoriaMeliDTO;
+import com.inventoMate.dtos.meli.ProductoMeliDTO;
+import com.inventoMate.dtos.meli.TrendsDTO;
+import com.inventoMate.entities.CategoriaMeli;
 import com.inventoMate.entities.Informe;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.mapper.InformeMapper;
@@ -206,4 +210,39 @@ public class InformeMapperImpl implements InformeMapper {
 		result.merge(listadoVentas);
 		return result;
 	}
+
+	 @Override
+	    public TrendsDTO mapToInformeDeTendencia(TrendsDTO response1, List<CategoriaMeli> response2) {
+	        JSONObject historico = new JSONObject();
+
+	        // Agrupar productos por categoría
+	        response2.forEach(categoria -> {
+	            CategoriaMeliDTO categoriaDTO = mapper.map(categoria, CategoriaMeliDTO.class);
+	            JSONArray fechasArray = new JSONArray();
+
+	            // Agrupar productos por fecha dentro de cada categoría
+	            Map<LocalDate, List<ProductoMeliDTO>> productosPorFecha = categoria.getProductos().stream()
+	                .map(producto -> mapper.map(producto, ProductoMeliDTO.class))
+	                .collect(Collectors.groupingBy(ProductoMeliDTO::getFecha));
+
+	            productosPorFecha.forEach((fecha, productosEnFecha) -> {
+	                JSONObject fechaObject = new JSONObject();
+	                JSONArray productosArray = new JSONArray();
+
+	                productosEnFecha.forEach(productoDTO -> {
+	                    JSONObject productoObject = new JSONObject();
+	                    productoObject.put("producto", productoDTO);
+	                    productosArray.add(productoObject);
+	                });
+
+	                fechaObject.put(fecha.toString(), productosArray);
+	                fechasArray.add(fechaObject);
+	            });
+
+	            historico.put(categoriaDTO.getNombre(), fechasArray);
+	        });
+
+	        response1.setHistorico(historico);
+	        return response1;
+	    }
 }

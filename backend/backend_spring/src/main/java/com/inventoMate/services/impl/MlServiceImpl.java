@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,10 @@ import com.inventoMate.configuration.meli.MeliProperties;
 import com.inventoMate.dtos.meli.CategoryDTO;
 import com.inventoMate.dtos.meli.CategoryTrendDTO;
 import com.inventoMate.dtos.meli.TrendsDTO;
+import com.inventoMate.entities.CategoriaMeli;
 import com.inventoMate.entities.MeliToken;
 import com.inventoMate.feign.MeliClient;
+import com.inventoMate.repositories.CategoriaMeliRepository;
 import com.inventoMate.repositories.MeliTokenRepository;
 import com.inventoMate.services.MlService;
 
@@ -29,6 +32,7 @@ public class MlServiceImpl implements MlService {
 	private final MeliClient meliClient;
 	private final MeliProperties meliProperties;
 	private final MeliTokenRepository meliTokenRepository;
+	private final CategoriaMeliRepository categoriaMeliRepository;
 
 	class MapNode {
 		String categoryName;
@@ -47,6 +51,7 @@ public class MlServiceImpl implements MlService {
 		var trends = new LinkedList<CategoryTrendDTO>();
 
 		categoryProducts.entrySet().forEach(entry -> {
+			guardarHistoricoDeCategoria(entry);
 			var categoryTrend = new CategoryTrendDTO();
 			String categoryId = entry.getKey();
 			var bestSellerDTO = meliClient.highlightsTop20(categoryId, setAccessToken());
@@ -67,6 +72,18 @@ public class MlServiceImpl implements MlService {
 
 		trendsResponse.setTrends(trends);
 		return trendsResponse;
+	}
+
+	private void guardarHistoricoDeCategoria(Entry<String, MapNode> entry) {
+		CategoriaMeli categoria = categoriaMeliRepository.findByIdMeli(entry.getKey()).orElse(null);
+		// si no tengo registro de la categoria entonces la guardo y ahora cada mes obtendre el historico
+		if(categoria == null) {
+			categoria = new CategoriaMeli();
+			categoria.setIdMeli(entry.getKey());
+			categoria.setNombre(entry.getValue().categoryName);
+			categoria.setProductos(new LinkedList<>());
+			categoriaMeliRepository.save(categoria);
+		}
 	}
 
 	private HashMap<String, MapNode> categorizeProducts(List<String> products) {
@@ -103,5 +120,17 @@ public class MlServiceImpl implements MlService {
 	private String setAccessToken() {
 		MeliToken token = meliTokenRepository.findById("Bearer").orElse(null);
 		return "Bearer " + token.getAccessToken();
+	}
+
+	@Override
+	public List<CategoriaMeli> getHistorico(List<CategoryTrendDTO> trends) {
+		var historico = new LinkedList<CategoriaMeli>();
+		trends.forEach(trend -> {
+			var cat = categoriaMeliRepository.findByNombre(trend.getCategoryName()).orElse(null);
+			if(cat != null) {
+				historico.add(cat);
+			}
+		});
+		return historico;
 	}
 }
