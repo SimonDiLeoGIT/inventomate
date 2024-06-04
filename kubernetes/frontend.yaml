@@ -24,10 +24,10 @@ kind: Service
 metadata:
   name: frontend-inventomate
   annotations:
-    cloud.google.com/load-balancer-ipv4: "34.36.117.132" 
+    cloud.google.com/load-balancer-ipv4: "35.227.28.109" 
 spec:
   type: LoadBalancer
-  loadBalancerIP: 34.36.117.132
+  loadBalancerIP: 35.227.28.109
   ports:
   - port: 80
     targetPort: 5173
