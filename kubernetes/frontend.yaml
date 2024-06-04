@@ -25,7 +25,7 @@ metadata:
   name: frontend-inventomate
 spec:
   type: LoadBalancer
-  loadBalancerIP: "lb-ipv4-1"
+  loadBalancerIP: 34.36.117.132
   ports:
   - port: 80
     targetPort: 5173
