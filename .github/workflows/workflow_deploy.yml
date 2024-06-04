@@ -138,7 +138,7 @@ jobs:
           SERVICE_NAME=frontend-inventomate
           NAMESPACE=default
           EXPECTED_IP=34.36.117.132
-          MAX_ATTEMPTS=30
+          MAX_ATTEMPTS=10
           INTERVAL=10
           COUNT=0
 
