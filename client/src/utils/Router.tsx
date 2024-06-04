@@ -15,6 +15,9 @@ import { SalesForecasting } from "../pages/SalesForecast"
 import { TermsAndCondition } from "../pages/TermsAndConditions"
 import { NextOrdersReports } from "../pages/NextOrdersReports";
 import { NextOrders } from "../pages/NextOrders";
+import { Obsolescense } from "../pages/Obsolescense";
+import { DecisionReports } from "../pages/DecisionReports";
+import { Decisions } from "../pages/Decisions";
 
 export const Router = () => {
 
@@ -40,6 +43,10 @@ export const Router = () => {
           <Route path="/company/reports/sales-forecasting/:idBranch/:idInforme" element={<SalesForecasting />} />
           <Route path="/company/reports/next-orders" element={<NextOrdersReports />} />
           <Route path="/company/reports/next-orders/:idBranch/:idInforme" element={<NextOrders />} />
+          {/* <Route path="/company/reports/next-orders" element={<NextOrdersReports />} /> */}
+          <Route path="/company/reports/anti-obsolescense/:idBranch/:idInforme" element={<Obsolescense />} />
+          <Route path="/company/reports/decisions" element={<DecisionReports />} />
+          <Route path="/company/reports/decisions/:type/:idBranch/:idInforme" element={<Decisions />} />
         </Routes>
       </section>
     </BrowserRouter>

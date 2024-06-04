@@ -1,22 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
-import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
-import { MakeDecision } from "../components/MakeDecision"
+import data from '../assets/obsolescencia.json'
 
-export const NextOrders = () => {
-
-  const { idBranch } = useParams()
-  const { idInforme } = useParams()
+export const Obsolescense = () => {
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0()
 
   const { setUser } = useUser()
 
-  const [nextOrders, setNextOrders] = useState<NextOrder>()
+  const [obsolescense, setObsolescense] = useState<Obsolescense>()
 
 
   useEffect(() => {
@@ -24,11 +19,11 @@ export const NextOrders = () => {
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
-
-      if (idBranch && idInforme) {
-        const response = await getNextOrderById(accessToken, idBranch, idInforme)
-        setNextOrders(response)
-      }
+      setObsolescense(data)
+      // if (idBranch && idInforme) {
+      //   const response = await getNextOrderById(accessToken, idBranch, idInforme)
+      //   setObsolescense(response)
+      // }
 
     }
 
@@ -47,7 +42,7 @@ export const NextOrders = () => {
         </header>
         <ul className="my-4">
           {
-            nextOrders?.pedidos.map((order) => {
+            obsolescense?.productos_obsoletos.map((product) => {
               return (
                 <li className="-bg--color-border-very-lightest-grey rounded-lg shadow-md -shadow--color-black-shadow mb-4 overflow-hidden">
                   <ul>
@@ -56,7 +51,7 @@ export const NextOrders = () => {
                         Product Id
                       </p>
                       <p>
-                        {order.id_producto}
+                        {product.id_producto}
                       </p>
                     </li>
                     <li className="grid grid-cols-2 -bg--color-white p-2">
@@ -64,31 +59,15 @@ export const NextOrders = () => {
                         Product Name
                       </p>
                       <p>
-                        {order.nombre_producto}
+                        {product.nombre}
                       </p>
                     </li>
                     <li className="grid grid-cols-2 p-2">
                       <p className="m-auto ml-0">
-                        Actual Stock
+                        Recommended promotion
                       </p>
                       <p>
-                        {order.stock_actual}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2 -bg--color-white">
-                      <p className="m-auto ml-0">
-                        Quantity To Order
-                      </p>
-                      <p>
-                        {order.cantidad_a_comprar}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Justification
-                      </p>
-                      <p>
-                        {order.justificacion}
+                        {product.promo_recomendada}
                       </p>
                     </li>
                   </ul>
@@ -97,12 +76,6 @@ export const NextOrders = () => {
             })
           }
         </ul>
-        <div className="my-4">
-          {
-            idInforme && idBranch &&
-            <MakeDecision idReport={idInforme} idBranch={idBranch} />
-          }
-        </div>
       </section>
     </main>
   )

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import menu from '../assets/icons/menu.svg'
 import close from '../assets/icons/close.svg'
 import { MenuOptions } from './MenuOptions'

@@ -1,4 +1,4 @@
-import { Bar, Doughnut, Line } from 'react-chartjs-2'
+import { Bar, Line } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
 import { DoughnutChart } from './DoughnutChart';
 Chart.register(...registerables)

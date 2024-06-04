@@ -4,7 +4,6 @@ import obsolesecnce from '../assets/icons/anti-obsolescence.svg'
 import trends from '../assets/icons/new-trends.svg'
 import orders from '../assets/icons/next-orders.svg'
 import forecasting from '../assets/icons/forecasting.svg'
-import history from '../assets/icons/history.svg'
 import settings from '../assets/icons/settings.svg'
 import settings_section from '../assets/icons/settings-section.svg'
 import report from '../assets/icons/report.svg'
@@ -25,7 +24,7 @@ export const MenuOptions = () => {
           currentUser?.roles.some(rol => rol.idRol === 1) &&
           <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
             <Link
-              to='/company/reports/members-decisions'
+              to='/company/reports/decisions'
               className="flex px-1 py-2"
             >
               <img src={decisions} alt="Company Settings" className="w-5 mr-2" />

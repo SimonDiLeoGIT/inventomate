@@ -20,7 +20,7 @@ export const EditUser: React.FC<props> = ({ user }) => {
 
   useEffect(() => {
     const getToken = async () => {
-      const accessToken = await getAccessTokenSilently()
+      // const accessToken = await getAccessTokenSilently()
 
     }
 
