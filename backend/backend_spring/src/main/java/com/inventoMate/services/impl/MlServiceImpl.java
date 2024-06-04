@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,13 @@ import com.inventoMate.configuration.meli.MeliProperties;
 import com.inventoMate.dtos.meli.CategoryDTO;
 import com.inventoMate.dtos.meli.CategoryTrendDTO;
 import com.inventoMate.dtos.meli.TrendsDTO;
+import com.inventoMate.entities.MeliToken;
 import com.inventoMate.feign.MeliClient;
+import com.inventoMate.repositories.MeliTokenRepository;
 import com.inventoMate.services.MlService;
 
 import lombok.AllArgsConstructor;
+import net.minidev.json.JSONObject;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +28,7 @@ public class MlServiceImpl implements MlService {
 
 	private final MeliClient meliClient;
 	private final MeliProperties meliProperties;
+	private final MeliTokenRepository meliTokenRepository;
 
 	class MapNode {
 		String categoryName;
@@ -49,7 +54,7 @@ public class MlServiceImpl implements MlService {
 			categoryTrend.setCategoryName(entry.getValue().categoryName);
 			categoryTrend.setProducts(new LinkedList<>());
 
-			bestSellerDTO.getContent().subList(0, 3).forEach(item -> {
+			bestSellerDTO.getContent().subList(0, 10).forEach(item -> {
 				var product = meliClient.getProductById(item.getId(), setAccessToken()).getProducts().get(0);
 				var info = meliClient.getProductAdditionalInfo(item.getId(), setAccessToken());
 				product.setTrendPosition(item.getPosition());
@@ -88,7 +93,15 @@ public class MlServiceImpl implements MlService {
 		return response;
 	}
 
+	public Map<String, String> refreshToken() {
+		JSONObject response = meliClient.refreshToken("refresh_token", meliProperties.getAppId(),
+				meliProperties.getClientSecret(), meliProperties.getRefreshToken(), "application/json");
+		return Map.of("access_token", response.get("access_token").toString(), "refresh_token",
+				response.get("refresh_token").toString());
+	}
+
 	private String setAccessToken() {
-		return "Bearer " + meliProperties.getAccessToken();
+		MeliToken token = meliTokenRepository.findById("Bearer").orElse(null);
+		return "Bearer " + token.getAccessToken();
 	}
 }

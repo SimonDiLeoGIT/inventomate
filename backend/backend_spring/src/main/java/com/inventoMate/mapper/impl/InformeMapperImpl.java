@@ -184,11 +184,26 @@ public class InformeMapperImpl implements InformeMapper {
 			JSONObject productoJSON = new JSONObject();
 			productoJSON.put("id_producto", producto.getProductId());
 			productoJSON.put("nombre", producto.getNombre());
-			productoJSON.put("stock", producto.getStock());
+			productoJSON.put("stock_actual", producto.getStock());
+			productoJSON.put("fecha_primer_compra", producto.getFechaPrimerCompra().toString());
+			productoJSON.put("precio", producto.getPrecioVenta());
+			productoJSON.put("categoria", producto.getCategoria());
 			resultList.add(productoJSON);
 		});
 		JSONObject result = new JSONObject();
 		result.put("listado_productos", resultList);
+		return result;
+	}
+
+	@Override
+	public JSONObject mapToProductoInformation(List<VentaDetalle> historiaDeVentas,
+			List<ProductoSucursalInfo> productosDeSucursal, Long idSucursal) {
+		JSONObject listadoVentas = mapToHistoricoVentas(historiaDeVentas);
+		JSONObject listadoProductoInformation = mapToProductoStockSucursal(productosDeSucursal);
+		JSONObject result = new JSONObject();
+		result.put("id_sucursal", idSucursal);
+		result.merge(listadoProductoInformation);
+		result.merge(listadoVentas);
 		return result;
 	}
 }

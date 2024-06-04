@@ -65,6 +65,9 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.GET,
 						"api/informes/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
 				.hasAuthority("read:sales-reports")
+				.requestMatchers(HttpMethod.DELETE,
+						"api/informes/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("decide:sales-reports")
 				// tendencias
 				.requestMatchers(HttpMethod.POST, "api/informes/tendencias/{idSucursal}")
 				.hasAuthority("decide:trend-information")
@@ -72,18 +75,43 @@ public class SecurityConfig {
 				.hasAuthority("read:trend-information")
 				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idInforme}/sucursales/{idSucursal}")
 				.hasAuthority("read:trend-information")
-				// siguientes pedidos
-				.requestMatchers(HttpMethod.POST, "api/informes/tendencias/{idSucursal}")
-				.hasAuthority("decide:demand-prediction-report")
-				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idSucursal}")
-				.hasAuthority("read:demand-prediction-report")
 				.requestMatchers(HttpMethod.GET, "api/informes/tendencias/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("decide:trend-information")
+				// siguientes pedidos
+				.requestMatchers(HttpMethod.POST, "api/informes/siguientes-pedidos/{idSucursal}")
+				.hasAuthority("decide:demand-prediction-report")
+				.requestMatchers(HttpMethod.GET, "api/informes/siguientes-pedidos/{idSucursal}")
 				.hasAuthority("read:demand-prediction-report")
+				.requestMatchers(HttpMethod.GET, "api/informes/siguientes-pedidos/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("read:demand-prediction-report")
+				.requestMatchers(HttpMethod.DELETE,
+						"api/informes/siguientes-pedidos/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("decide:demand-prediction-report")
+				// obsolescencia
+				.requestMatchers(HttpMethod.POST, "api/informes/obsolescencia/{idSucursal}")
+				.hasAuthority("decide:suggestions-for-stagnant-products")
+				.requestMatchers(HttpMethod.GET, "api/informes/obsolescencia/{idSucursal}")
+				.hasAuthority("read:suggestions-for-stagnant-products")
+				.requestMatchers(HttpMethod.GET, "api/informes/obsolescencia/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("read:suggestions-for-stagnant-products")
+				.requestMatchers(HttpMethod.DELETE,
+						"api/informes/obsolescencia/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("decide:suggestions-for-stagnant-products")
+				// decisiones
+				.requestMatchers(HttpMethod.POST, "api/informes/decision/{idInforme}/sucursales/{idSucursal}")
+				.hasAnyAuthority("decide:suggestions-for-stagnant-products","decide:demand-prediction-report","decide:trend-information","decide:sales-reports")
+				.requestMatchers(HttpMethod.GET, "api/informes/decision/{idSucursal}")
+				.hasAuthority("edit:company")
+				.requestMatchers(HttpMethod.GET, "api/informes/decision/{idInforme}/sucursales/{idSucursal}")
+				.hasAuthority("edit:company")
+				.requestMatchers(HttpMethod.DELETE,
+						"api/informes/decision/{idInforme}/sucursales/{idSucursal}/decisiones/{idDecision}")
+				.hasAuthority("edit:company")
 				// otros
 				.anyRequest().permitAll()).cors(Customizer.withDefaults())
 				.oauth2ResourceServer(
 						oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(makePermissionsConverter()))
-								.authenticationEntryPoint(authenticationErrorHandler))
+						.authenticationEntryPoint(authenticationErrorHandler))
 				.build();
 	}
 
