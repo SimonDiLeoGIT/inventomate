@@ -110,7 +110,7 @@ jobs:
           
           kubectl apply -f mysql.yaml
 
-          sleep 120
+          sleep 12
 
       - name: PotgreSQL deploy
         working-directory: ./kubernetes
@@ -137,11 +137,12 @@ jobs:
         run: |
           SERVICE_NAME=frontend-inventomate
           NAMESPACE=default
+          EXPECTED_IP=34.36.117.132
           MAX_ATTEMPTS=30
           INTERVAL=10
           COUNT=0
 
-          while [ -z "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
+          while [ "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != "$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
             echo "Waiting for external IP..."
             sleep $INTERVAL
             COUNT=$((COUNT+1))
