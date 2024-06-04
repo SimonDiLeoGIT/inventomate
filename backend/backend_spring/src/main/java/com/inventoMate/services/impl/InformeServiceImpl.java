@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.inventoMate.dtos.informes.DecisionRequest;
 import com.inventoMate.dtos.informes.DecisionResponse;
 import com.inventoMate.dtos.informes.InformeDTO;
+import com.inventoMate.dtos.meli.TrendsDTO;
+import com.inventoMate.entities.CategoriaMeli;
 import com.inventoMate.entities.Decision;
 import com.inventoMate.entities.Empresa;
 import com.inventoMate.entities.Informe;
@@ -47,11 +49,11 @@ public class InformeServiceImpl implements InformeService {
 		Sucursal sucursal = obtenerSucursal(idAuth0, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
 		List<String> productos = empresa.obtenerProductosDeSucursal(sucursal);
-
-		var responseMeli = mlService.getTendencias(productos);
+		TrendsDTO response1 = mlService.getTendencias(productos);
+		List<CategoriaMeli> response2 = mlService.getHistorico(response1.getTrends());
+		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1,response2);
 		String idMongo = flaskService.postDatosInformeTendencias(responseMeli);
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.ANALISIS_DE_TENDENCIA);
-
 		procesarInforme(sucursal, informe);
 	}
 

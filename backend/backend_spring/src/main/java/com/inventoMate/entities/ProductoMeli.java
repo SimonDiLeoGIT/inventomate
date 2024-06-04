@@ -25,6 +25,9 @@ public class ProductoMeli {
 	@Column(name = "trend_position")
 	private Integer trendPosition;
 	private LocalDate fecha;
+	private String nombre;
+	private String precio;
+	private String divisa;
 	@ManyToOne
 	@JoinColumn(name = "id_categoria")
 	private CategoriaMeli categoriaMeli;
