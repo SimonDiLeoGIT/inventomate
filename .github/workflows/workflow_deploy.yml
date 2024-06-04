@@ -132,26 +132,26 @@ jobs:
           kubectl apply -f frontend.yaml
 
 
-          - name: Wait for Load Balancer IP
-          id: wait-for-lb-ip
-          run: |
-            SERVICE_NAME=frontend-inventomate
-            NAMESPACE=default
-            MAX_ATTEMPTS=30
-            INTERVAL=10
-            COUNT=0
-  
-            while [ -z "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
-              echo "Waiting for external IP..."
-              sleep $INTERVAL
-              COUNT=$((COUNT+1))
-            done
-  
-            if [ $COUNT -eq $MAX_ATTEMPTS ]; then
-              echo "Timed out waiting for external IP"
-              exit 1
-            else
-              LOAD_BALANCER_IP=$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
-              echo "Load Balancer IP: $LOAD_BALANCER_IP"
-              echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP"
-            fi
+      - name: Wait for Load Balancer IP
+        id: wait-for-lb-ip
+        run: |
+          SERVICE_NAME=frontend-inventomate
+          NAMESPACE=default
+          MAX_ATTEMPTS=30
+          INTERVAL=10
+          COUNT=0
+
+          while [ -z "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
+            echo "Waiting for external IP..."
+            sleep $INTERVAL
+            COUNT=$((COUNT+1))
+          done
+
+          if [ $COUNT -eq $MAX_ATTEMPTS ]; then
+            echo "Timed out waiting for external IP"
+            exit 1
+          else
+            LOAD_BALANCER_IP=$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+            echo "Load Balancer IP: $LOAD_BALANCER_IP"
+            echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP"
+          fi
