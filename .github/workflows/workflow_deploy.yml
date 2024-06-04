@@ -73,22 +73,22 @@ jobs:
           version: '>= 363.0.0'
           install_components: 'kubectl'
 
+      - name: Check and Create Cluster if not exists
+        run: |
+          CLUSTER_NAME=inventomate-cluster
+          CLUSTER_ZONE=us-east1-b
+      
+          if ! gcloud container clusters list --format="value(name)" | grep -q $CLUSTER_NAME; then
+            echo "Cluster does not exist. Creating cluster..."
+            gcloud container clusters create $CLUSTER_NAME --machine-type=e2-medium --zone=$CLUSTER_ZONE
+          else
+            echo "Cluster already exists."
+          fi
+          
+          gcloud container clusters get-credentials $CLUSTER_NAME --zone $CLUSTER_ZONE
       
 
-        # Verificar si el clúster ya está creado
-      - name: Check if cluster exists
-        id: check-cluster
-        run: |
-          gcloud container clusters list --format="value(name)" | grep -q inventomate-cluster || echo "Cluster does not exist"
-        continue-on-error: true
-
-      # Crear el clúster si no existe
-      - name: Create Cluster if not exists
-        if: steps.check-cluster.outcome == 'failure'
-        run: |
-          gcloud container clusters create --machine-type=e2-medium --zone=us-east1-b inventomate-cluster
-          gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
-
+      
       - name: Set Kubernetes context
         run: |
           gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
