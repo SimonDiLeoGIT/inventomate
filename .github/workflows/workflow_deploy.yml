@@ -119,7 +119,7 @@ jobs:
           
           kubectl apply -f postgresql.yaml
       
-      - name: PotgreSQL deploy
+      - name: Mongo deploy
         working-directory: ./kubernetes
         run: |
           kubectl apply -f mongo.yaml
