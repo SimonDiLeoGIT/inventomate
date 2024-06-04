@@ -187,6 +187,7 @@ public class InformeMapperImpl implements InformeMapper {
 			productoJSON.put("stock_actual", producto.getStock());
 			productoJSON.put("fecha_primer_compra", producto.getFechaPrimerCompra().toString());
 			productoJSON.put("precio", producto.getPrecioVenta());
+			productoJSON.put("categoria", producto.getCategoria());
 			resultList.add(productoJSON);
 		});
 		JSONObject result = new JSONObject();
