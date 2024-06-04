@@ -33,6 +33,8 @@ export const SalesForecastingReports = () => {
     if (currentUser?.sucursal?.idSucursal !== undefined)
       setBranch(currentUser?.sucursal?.idSucursal.toString())
 
+
+
   }, [isAuthenticated])
 
 
