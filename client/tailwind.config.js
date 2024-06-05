@@ -28,6 +28,8 @@ export default {
       '--color-ful-red': '#920000',
       /* Light Red */
       '--color-light-red': '#FF8D8D',
+      /* Green */
+      '--color-green': 'rgba(0, 121, 7, 0.8)',
       /* Light Grey */
       '--color-border-light-grey': '#929292',
       /* Very Light Grey */
