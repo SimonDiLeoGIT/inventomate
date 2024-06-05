@@ -5,6 +5,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/load-balancer-ip: "35.227.28.109"  # Actualiza con la nueva dirección IP
 spec:
   tls:
   - hosts:
