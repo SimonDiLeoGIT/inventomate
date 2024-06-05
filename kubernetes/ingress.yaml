@@ -22,4 +22,4 @@ spec:
             port:
               number: 80
   ingressClassName: nginx
-  loadBalancerIP: 35.227.28.109 
+  loadBalancerIP: 35.227.28.109
