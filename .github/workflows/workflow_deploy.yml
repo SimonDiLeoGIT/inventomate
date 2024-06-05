@@ -132,6 +132,7 @@ jobs:
           kubectl apply -f frontend.yaml
 
       - name: Editar Ingress
+        working-directory: ./kubernetes
         run: |
           sed -i 's/34.36.168.151/35.227.28.109/g' ingress.yaml
 
