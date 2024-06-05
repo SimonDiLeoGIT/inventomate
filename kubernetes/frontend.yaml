@@ -24,7 +24,7 @@ kind: Service
 metadata:
   name: frontend-inventomate
   annotations:
-    cloud.google.com/neg: '{"ingress": true}'
+    #cloud.google.com/neg: '{"ingress": true}'
     service.beta.kubernetes.io/azure-load-balancer-resource-group: myResourceGroup
     cloud.google.com/load-balancer-ipv4: "35.227.28.109" 
 spec:
@@ -38,6 +38,6 @@ spec:
     - name: https
       protocol: TCP
       port: 443
-      targetPort: 5173
+      targetPort: 5174
   type: LoadBalancer
   loadBalancerIP: 35.227.28.109

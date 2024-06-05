@@ -131,10 +131,10 @@ jobs:
           kubectl apply -f python.yaml
           kubectl apply -f frontend.yaml
 
-      - name: Apply Ingress
-        working-directory: ./kubernetes
-        run: |
-          kubectl apply -f ingress.yaml
+      #- name: Apply Ingress
+      #  working-directory: ./kubernetes
+      #  run: |
+      #    kubectl apply -f ingress.yaml
 
       #Espera a que se setie la ip en el load balancer y luego la imprime
       - name: Wait for Load Balancer IP
