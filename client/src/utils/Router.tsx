@@ -19,6 +19,7 @@ import { Obsolescense } from "../pages/Obsolescense";
 import { DecisionReports } from "../pages/DecisionReports";
 import { Decisions } from "../pages/Decisions";
 import { ObsolescenceReports } from "../pages/ObsolescenceReports";
+import { HelpPage } from "../pages/HelpPage";
 
 export const Router = () => {
 
@@ -30,6 +31,7 @@ export const Router = () => {
         </header>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/help" element={<HelpPage />} />
           <Route path="/terms&conditions" element={<TermsAndCondition />} />
           <Route path="/register-company" element={<RegisterCompany />} />
           <Route path="/company" element={<Company />} />
