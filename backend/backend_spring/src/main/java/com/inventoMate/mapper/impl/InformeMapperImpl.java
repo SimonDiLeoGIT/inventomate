@@ -230,9 +230,7 @@ public class InformeMapperImpl implements InformeMapper {
 	                JSONArray productosArray = new JSONArray();
 
 	                productosEnFecha.forEach(productoDTO -> {
-	                    JSONObject productoObject = new JSONObject();
-	                    productoObject.put("producto", productoDTO);
-	                    productosArray.add(productoObject);
+	                    productosArray.add(productoDTO);
 	                });
 
 	                fechaObject.put(fecha.toString(), productosArray);
