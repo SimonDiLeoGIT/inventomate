@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - inventomate.xyz
+    - 35.227.28.109
     secretName: tls-secret
   rules:
-  - host: inventomate.xyz
+  - host: 35.227.28.109
     http:
       paths:
       - path: /
@@ -20,4 +20,4 @@ spec:
           service:
             name: frontend-inventomate
             port:
-              number: 80
+              number: 5173
