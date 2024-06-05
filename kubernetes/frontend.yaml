@@ -26,7 +26,7 @@ metadata:
   annotations:
     cloud.google.com/neg: '{"ingress": true}'
     service.beta.kubernetes.io/azure-load-balancer-resource-group: myResourceGroup
-    cloud.google.com/load-balancer-type: "External"  # O "Internal", según sea necesario
+    cloud.google.com/load-balancer-ipv4: "35.227.28.109" 
 spec:
   selector:
     app: frontend
@@ -34,9 +34,10 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 5173
     - name: https
       protocol: TCP
       port: 443
       targetPort: 443
   type: LoadBalancer
+  loadBalancerIP: 35.227.28.109

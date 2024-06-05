@@ -21,5 +21,3 @@ spec:
             name: frontend-inventomate
             port:
               number: 80
-  ingressClassName: nginx
-  loadBalancerIP: 35.227.28.109
