@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - 35.227.28.109
+    - inventomate.xyz   # Utiliza el nombre de host DNS aquí
     secretName: tls-secret
   rules:
-  - host: 35.227.28.109
+  - host: inventomate.xyz   # Utiliza el nombre de host DNS aquí
     http:
       paths:
       - path: /
