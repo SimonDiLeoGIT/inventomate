@@ -38,6 +38,6 @@ spec:
     - name: https
       protocol: TCP
       port: 443
-      targetPort: 443
+      targetPort: 5173
   type: LoadBalancer
   loadBalancerIP: 35.227.28.109
