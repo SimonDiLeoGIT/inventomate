@@ -34,7 +34,7 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 5173
     - name: https
       protocol: TCP
       port: 443
