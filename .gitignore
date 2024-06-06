@@ -1,3 +1,5 @@
 /.metadata/
 .vscode
 .env
+certificat.crt
+private.key
