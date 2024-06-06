@@ -1,23 +1,24 @@
+# ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: frontend-ingress
+  name: inventomate-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/issuer: "letsencrypt-staging" # O "letsencrypt" si estás usando el entorno de producción
 spec:
   tls:
-  - hosts:
-    - inventomate.xyz   # Utiliza el nombre de host DNS aquí
-    secretName: tls-secret
+    - hosts:
+        - inventomate.xyz
+      secretName: inventomate-tls # Nombre del secreto que contiene el certificado SSL/TLS
   rules:
-  - host: inventomate.xyz   # Utiliza el nombre de host DNS aquí
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend-inventomate
-            port:
-              number: 80
+    - host: inventomate.xyz
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: frontend-inventomate
+                port:
+                  number: 80 # Puerto en el que se ejecuta tu frontend
