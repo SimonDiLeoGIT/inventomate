@@ -94,9 +94,18 @@ jobs:
           kubectl config use-context gke_inventomate-424520_us-east1-b_inventomate-cluster
 
       #para evitar inconvenientes en cada corrida borramos los pods de cert manager    
-      - name: Delete cert-manager pods
+      
+      - name: Authenticate to Kubernetes cluster
         run: |
-          kubectl delete pods --namespace cert-manager --all
+          echo ${{ secrets.KUBECONFIG }} | base64 --decode > $HOME/.kube/config
+
+      - name: Delete existing cert-manager deployment
+        run: |
+          kubectl delete deployment cert-manager -n cert-manager || true
+
+      - name: Apply cert-manager manifest
+        run: |
+          kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
       
       - name: Install cert-manager
         run: |
