@@ -3,9 +3,12 @@ import './styles/index.css'
 import { Auth0Provider } from '@auth0/auth0-react'
 import App from './App'
 
-const domain = import.meta.env.VITE_APP_AUTH0_DOMAIN
-const clientId = import.meta.env.VITE_APP_AUTH0_CLIENT_ID
-const audience = import.meta.env.VITE_APP_AUTH0_AUDIENCE
+// const domain = import.meta.env.VITE_APP_AUTH0_DOMAIN
+// const clientId = import.meta.env.VITE_APP_AUTH0_CLIENT_ID
+// const audience = import.meta.env.VITE_APP_AUTH0_AUDIENCE
+const domain = process.env.VITE_APP_AUTH0_DOMAIN || ''
+const clientId = process.env.VITE_APP_AUTH0_CLIENT_ID || ''
+const audience = process.env.VITE_APP_AUTH0_AUDIENCE || ''
 console.log(domain)
 console.log(clientId)
 console.log(audience)
