@@ -16,7 +16,7 @@ spec:
       - name: frontend-inventomate
         image: simondileogit/frontend-inventomate:latest
         ports:
-        - containerPort: 5173
+        - containerPort: 3000
         env:
         - name: VITE_APP_AUTH0_DOMAIN
           valueFrom:
@@ -55,7 +55,7 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 5173
+      targetPort: 3000
     - name: https
       protocol: TCP
       port: 443
