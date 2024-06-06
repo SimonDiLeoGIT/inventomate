@@ -105,7 +105,8 @@ jobs:
 
       - name: Apply cert-manager manifest
         run: |
-          kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+          wget https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+          kubectl apply --validate=false -f cert-manager.yaml
       
       - name: Install cert-manager
         run: |
