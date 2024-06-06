@@ -97,15 +97,15 @@ jobs:
 
       - name: Update Spring App Deployment
         run: |
-          kubectl set image deployment/spring-inventomate spring-container=${{ secrets.DOCKER_USERNAME }}/spring-inventomate:${{ github.sha }}
+          kubectl set image spring-inventomate spring-container=${{ secrets.DOCKER_USERNAME }}/spring-inventomate:${{ github.sha }}
 
       - name: Update Python API Deployment
         run: |
-          kubectl set image deployment/python-inventomate python-container=${{ secrets.DOCKER_USERNAME }}/python-inventomate:${{ github.sha }}
+          kubectl set image python-inventomate python-container=${{ secrets.DOCKER_USERNAME }}/python-inventomate:${{ github.sha }}
 
       - name: Update Frontend App Deployment
         run: |
-          kubectl set image deployment/frontend-inventomate frontend-container=${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:${{ github.sha }}
+          kubectl set image frontend-inventomate frontend-container=${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:${{ github.sha }}
 
 
       - name: Create Aplication Config
