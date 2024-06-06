@@ -25,6 +25,7 @@ public class Decision {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
 	private boolean aceptado;
+	@Column(length = 2000)
 	private String justificacion;
 	@Column(name = "id_empleado")
 	private Long idEmpleado;

@@ -1,7 +1,9 @@
 flask
 flask[async]
+flask_cors
 pandas
 scikit-learn
 pymongo
 numpy
 matplotlib
+Werkzeug

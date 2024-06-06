@@ -122,7 +122,7 @@ public class InformeController {
 				TipoInforme.SIGUIENTES_PEDIDOS);
 		return ResponseEntity.ok(new ApiResponse(true, "Informe deleted successfully"));
 	}
-	
+
 	// OBSOLESCENCIA
 	@PostMapping("/obsolescencia/{idSucursal}")
 	public ResponseEntity<ApiResponse> postInformeObsolescencia(@AuthenticationPrincipal Jwt jwt,
@@ -152,11 +152,11 @@ public class InformeController {
 				TipoInforme.OBSOLESCENCIA);
 		return ResponseEntity.ok(new ApiResponse(true, "Informe deleted successfully"));
 	}
-	
+
 	// DECISION
 	@PostMapping("/decision/{idInforme}/sucursales/{idSucursal}")
 	public ResponseEntity<ApiResponse> postInformeDecision(@AuthenticationPrincipal Jwt jwt,
-			 @PathVariable Long idInforme, @PathVariable Long idSucursal, @RequestBody DecisionRequest decision) {
+			@PathVariable Long idInforme, @PathVariable Long idSucursal, @RequestBody DecisionRequest decision) {
 		informeService.informeDeDecision(jwt.getSubject(), idInforme, idSucursal, decision);
 		return ResponseEntity.ok().body(new ApiResponse(true, "decision creada con exito"));
 	}
@@ -168,7 +168,8 @@ public class InformeController {
 	}
 
 	@GetMapping("/decision/{idInforme}/sucursales/{idSucursal}")
-	public ResponseEntity<List<DecisionResponse>> getInformeDecision(@AuthenticationPrincipal Jwt jwt, @PathVariable Long idInforme,
+	public ResponseEntity<List<DecisionResponse>> getInformeDecision(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idInforme,
 			@PathVariable Long idSucursal) {
 		return ResponseEntity.ok(informeService.getDecisionesDelInforme(jwt.getSubject(), idSucursal, idInforme));
 	}

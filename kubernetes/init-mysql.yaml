@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-mysql
+data:
+  init-mysql.sql: |
+    ALTER USER 'root'@'%' IDENTIFIED BY '12345678';
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+    
+    # CREATE TABLE IF NOT EXISTS `bd-inventomate.roles` (
+    #   idRol INT AUTO_INCREMENT PRIMARY KEY,
+    #   nombreRol VARCHAR(255) NOT NULL,
+    #   descripcion VARCHAR(255) NOT NULL,
+    #   idRolAuth0 VARCHAR(255) NOT NULL
+    # );
+
+    # INSERT INTO `bd-inventomate.roles` (nombreRol, descripcion, idRolAuth0) VALUES 
+    # ('Executive Manager', 'Recibe toda la información + la toma de decisiones de los otros roles con respecto a esta información (Es el rol principal)', 'rol_Srg9Adz4UR3BDUz5'),
+    # ('Procurement Manager', 'Recibe sugerencias de siguientes pedidos a realizar', 'rol_YQ7k5ic0TQhDbAZz'),
+    # ('Sales Analyst', 'Recibe informes de ventas + sugerencias de qué hacer con los productos estancados', 'rol_H6p8RFAAe6X91IHu'),
+    # ('Trend Analyst', 'Recibe información de nuevas tendencia', 'rol_PQoRMVTvHNj8ezmp');

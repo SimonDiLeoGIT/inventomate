@@ -20,8 +20,7 @@ export const UserProvider = ({ children }: Props) => {
   const setUser = async (accessToken: string) => {
     try {
       const user = await getUser(accessToken);
-
-      setCurrentUser(user);
+      if (typeof user !== 'number') setCurrentUser(user);
     } catch (error) {
       console.error("Error al obtener el usuario:", error);
       setCurrentUser(null);

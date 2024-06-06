@@ -17,7 +17,6 @@ export const Home = () => {
   const { setUser } = useUser()
 
   useEffect(() => {
-    console.log('a')
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
