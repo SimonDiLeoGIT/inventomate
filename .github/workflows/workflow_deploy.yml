@@ -36,21 +36,21 @@ jobs:
         with:
           context: ./backend/backend_spring
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:latest
 
       - name: Build and push python api image
         uses: docker/build-push-action@v5
         with:
           context: ./backend/apiPython
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/python-inventomate:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/python-inventomate:latest
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
           context: ./client
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
 
 
   deploy-apps:
@@ -93,19 +93,6 @@ jobs:
         run: |
           gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
           kubectl config use-context gke_inventomate-424520_us-east1-b_inventomate-cluster
-
-
-      - name: Update Spring App Deployment
-        run: |
-          kubectl set image spring-inventomate spring-container=${{ secrets.DOCKER_USERNAME }}/spring-inventomate:${{ github.sha }}
-
-      - name: Update Python API Deployment
-        run: |
-          kubectl set image python-inventomate python-container=${{ secrets.DOCKER_USERNAME }}/python-inventomate:${{ github.sha }}
-
-      - name: Update Frontend App Deployment
-        run: |
-          kubectl set image frontend-inventomate frontend-container=${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:${{ github.sha }}
 
 
       - name: Create Aplication Config
