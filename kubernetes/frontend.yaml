@@ -17,15 +17,18 @@ spec:
         image: simondileogit/frontend-inventomate:latest
         ports:
         - containerPort: 3000
-        env:
-        - name: VITE_APP_AUTH0_DOMAIN
-          value: dev-xzd1nw16hc11vsj7.us.auth0.com
-        - name: VITE_APP_AUTH0_CLIENT_ID
-          value: joqKy6suHcPTxhs2CfgWWlTwKsMMSGyQ
-        - name: VITE_APP_API_SERVER_URL
-          value: http://localhost:8080/
-        - name: VITE_APP_AUTH0_AUDIENCE
-          value: grupo3SIP2024
+        envFrom:
+          - configMapRef:
+              name: front-config
+        volumeMounts:
+          - name: config-volume
+            mountPath: /app/.env
+            readOnly: true
+      volumes:
+        - name: config-volume
+          configMap:
+            name: front-config
+        
           
 ---
 # frontend-service.yaml
