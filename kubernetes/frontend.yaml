@@ -19,25 +19,14 @@ spec:
         - containerPort: 3000
         env:
         - name: VITE_APP_AUTH0_DOMAIN
-          valueFrom:
-            configMapKeyRef:
-              name: front-config
-              key: VITE_APP_AUTH0_DOMAIN
+          value: dev-xzd1nw16hc11vsj7.us.auth0.com
         - name: VITE_APP_AUTH0_CLIENT_ID
-          valueFrom:
-            configMapKeyRef:
-              name: front-config
-              key: VITE_APP_AUTH0_CLIENT_ID
+          value: joqKy6suHcPTxhs2CfgWWlTwKsMMSGyQ
         - name: VITE_APP_API_SERVER_URL
-          valueFrom:
-            configMapKeyRef:
-              name: front-config
-              key: VITE_APP_API_SERVER_URL
+          value: http://localhost:8080/
         - name: VITE_APP_AUTH0_AUDIENCE
-          valueFrom:
-            configMapKeyRef:
-              name: front-config
-              key: VITE_APP_AUTH0_AUDIENCE
+          value: grupo3SIP2024
+          
 ---
 # frontend-service.yaml
 apiVersion: v1
