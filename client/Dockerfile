@@ -9,6 +9,8 @@ RUN npm install
 
 COPY . .
 
+COPY .env .
+
 # Build the project
 RUN npm run build
 
@@ -16,6 +18,6 @@ RUN npm run build
 RUN npm install -g serve
 
 # Set the command to serve the build files
-CMD ["serve", "-s", "dist"]
+CMD ["serve", "-s", "dist", "-p", "5173"]
 
 EXPOSE 5173
