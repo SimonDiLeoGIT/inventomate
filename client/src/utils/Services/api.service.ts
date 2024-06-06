@@ -10,7 +10,7 @@ export class ApiService {
     data?: any
   ): Promise<T> {
     const config: AxiosRequestConfig = {
-      url: `http://35.227.28.109:8080/api${endpoint}`,
+      url: `http://localhost:8080/api${endpoint}`,
       method,
       headers: {
         Authorization: `Bearer ${accessToken}`,

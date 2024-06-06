@@ -131,8 +131,7 @@ metadata:
   name: spring-inventomate
 spec:
   ports:
-  - name: spring
-    protocol: TCP
+  - protocol: TCP
     port: 8080
     targetPort: 8080
   selector:
