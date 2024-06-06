@@ -100,6 +100,7 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl apply -f app-config.yaml
+          kubectl apply -f front-config.yaml
           kubectl apply -f db-secrets.yaml
 
       
