@@ -36,21 +36,21 @@ jobs:
         with:
           context: ./backend/backend_spring
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:latest
 
       - name: Build and push python api image
         uses: docker/build-push-action@v5
         with:
           context: ./backend/apiPython
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/python-inventomate:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/python-inventomate:latest
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
           context: ./client
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
 
 
   deploy-apps:

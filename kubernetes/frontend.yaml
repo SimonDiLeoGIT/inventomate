@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend-inventomate
-        image: simondileogit/frontend-inventomate:${{ github.sha }}
+        image: simondileogit/frontend-inventomate:latest
         ports:
         - containerPort: 5173
         env:
