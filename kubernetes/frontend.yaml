@@ -51,6 +51,6 @@ spec:
     - name: https
       protocol: TCP
       port: 443
-      targetPort: 5174
+      targetPort: 3000
   selector:
     app: frontend-inventomate
