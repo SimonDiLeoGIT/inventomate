@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: spring-inventomate
-        image: simondileogit/spring-inventomate:latest
+        image: simondileogit/spring-inventomate:${{ github.sha }}
         ports:
         - containerPort: 8080
         env:
