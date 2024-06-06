@@ -36,21 +36,21 @@ jobs:
         with:
           context: ./backend/backend_spring
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:${{ github.sha }}
 
       - name: Build and push python api image
         uses: docker/build-push-action@v5
         with:
           context: ./backend/apiPython
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/python-inventomate:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/python-inventomate:${{ github.sha }}
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
           context: ./client
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:${{ github.sha }}
 
 
   deploy-apps:
@@ -95,17 +95,18 @@ jobs:
           kubectl config use-context gke_inventomate-424520_us-east1-b_inventomate-cluster
 
 
-      - name: Force rollout restart for Frontend Deployment
+      - name: Update Spring App Deployment
         run: |
-          kubectl rollout restart deployment/frontend-inventomate
-     
-      - name: Force rollout restart for Spring Deployment
+          kubectl set image deployment/spring-deployment spring-container=${{ secrets.DOCKER_USERNAME }}/spring-inventomate:${{ github.sha }}
+
+      - name: Update Python API Deployment
         run: |
-          kubectl rollout restart deployment/spring-inventomate
-     
-      - name: Force rollout restart for Python Deployment
+          kubectl set image deployment/python-deployment python-container=${{ secrets.DOCKER_USERNAME }}/python-inventomate:${{ github.sha }}
+
+      - name: Update Frontend App Deployment
         run: |
-          kubectl rollout restart deployment/python-inventomate
+          kubectl set image deployment/frontend-deployment frontend-container=${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:${{ github.sha }}
+
 
       - name: Create Aplication Config
         working-directory: ./kubernetes
