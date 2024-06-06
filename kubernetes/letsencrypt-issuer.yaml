@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: letsencrypt-staging
+  name: letsencrypt-prod
 spec:
   acme:
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory  # Servidor de producción de Let's Encrypt
     email: fedesimone31@gmail.com
     privateKeySecretRef:
-      name: letsencrypt-staging-private-key
+      name: letsencrypt-prod-private-key  # Nombre del secreto que contiene la clave privada para Let's Encrypt en producción
     solvers:
       - http01:
           ingress:

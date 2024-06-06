@@ -40,7 +40,7 @@ kind: Deployment
 metadata:
   name: cert-manager
   namespace: cert-manager
-spec:
+  spec:
   replicas: 1
   template:
     metadata:

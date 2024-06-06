@@ -9,7 +9,7 @@ spec:
   tls:
     - hosts:
         - inventomate.xyz
-      secretName: inventomate-tls # Nombre del secreto que contiene el certificado SSL/TLS
+      secretName: secretin # Nombre del secreto que contiene el certificado SSL/TLS
   rules:
     - host: inventomate.xyz
       http:
@@ -20,4 +20,4 @@ spec:
               service:
                 name: frontend-inventomate
                 port:
-                  number: 80 # Puerto en el que se ejecuta tu frontend
+                  number: 443 # Puerto en el que se ejecuta tu frontend
