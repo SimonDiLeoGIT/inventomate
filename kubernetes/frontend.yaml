@@ -17,6 +17,27 @@ spec:
         image: simondileogit/frontend-inventomate:${{ github.sha }}
         ports:
         - containerPort: 5173
+        env:
+        - name: VITE_APP_AUTH0_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              name: front-config
+              key: VITE_APP_AUTH0_DOMAIN
+        - name: VITE_APP_AUTH0_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: front-config
+              key: VITE_APP_AUTH0_CLIENT_ID
+        - name: VITE_APP_API_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: front-config
+              key: VITE_APP_API_SERVER_URL
+        - name: VITE_APP_AUTH0_AUDIENCE
+          valueFrom:
+            configMapKeyRef:
+              name: front-config
+              key: VITE_APP_AUTH0_AUDIENCE
 ---
 # frontend-service.yaml
 apiVersion: v1

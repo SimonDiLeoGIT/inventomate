@@ -1,0 +1,10 @@
+# app-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: front-config
+data:
+  VITE_APP_AUTH0_DOMAIN: "dev-xzd1nw16hc11vsj7.us.auth0.com"
+  VITE_APP_AUTH0_CLIENT_ID: "joqKy6suHcPTxhs2CfgWWlTwKsMMSGyQ"
+  VITE_APP_API_SERVER_URL: "http://localhost:8080/"
+  VITE_APP_AUTH0_AUDIENCE: "grupo3SIP2024"
