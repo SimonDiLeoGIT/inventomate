@@ -7,6 +7,11 @@ COPY package.json .
 
 RUN npm install
 
+ENV VITE_APP_AUTH0_DOMAIN="dev-xzd1nw16hc11vsj7.us.auth0.com"
+ENV VITE_APP_AUTH0_CLIENT_ID="joqKy6suHcPTxhs2CfgWWlTwKsMMSGyQ"
+ENV VITE_APP_API_SERVER_URL="http://localhost:8080/"
+ENV VITE_APP_AUTH0_AUDIENCE="grupo3SIP2024"
+
 COPY . .
 
 # Build the project
