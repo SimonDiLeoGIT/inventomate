@@ -11,7 +11,7 @@ export const Products: React.FC<props> = ({ trend }) => {
     <section className="grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {trend.products.map((product) => {
         return (
-          <article className="-bg--color-form-background-semi-white shadow-md -shadow--color-border-light-grey p-2 block">
+          <article className="-bg--color-form-background-semi-white shadow-md -shadow--color-border-light-grey p-2 block relative">
             <figure className="overflow-hidden">
               <div className="h-48 grid place-content-center overflow-hidden">
                 <Link to={`./${trend.category_name}/${product.trend_position}`}>
@@ -23,6 +23,11 @@ export const Products: React.FC<props> = ({ trend }) => {
                 <p className="h-[3rem] overflow-hidden text-ellipsis font-semibold">{product.name}</p>
               </figcaption>
             </figure>
+            {
+              product.procesamiento.meses_en_tendencia === 0
+              &&
+              <p className="-bg--color-semidark-violet -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute top-2 right-2">New Trend</p>
+            }
           </article>
         )
       })}

@@ -20,9 +20,25 @@ interface Picture {
 }
 
 interface Product {
-  trend_position: number
   name: string
   additional_info: AditionalInfo
   attributes: Atribute[]
   pictures: Picture[]
+  procesamiento: Process
+  trend_position: number
+}
+
+interface Process {
+  desvio_precio: number
+  desvio_trendPosition: number
+  media_precio: number
+  media_trendPosition: number
+  meses_en_tendencia: number
+  variacion_precio: VariationChart
+  variacion_tendencia: VariationChart
+}
+
+interface VariationChart {
+  X: string[]
+  Y: number[]
 }

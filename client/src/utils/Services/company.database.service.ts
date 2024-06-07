@@ -2,8 +2,6 @@ import axios, { AxiosError } from "axios"
 import { handleApiError } from "../errorHander"
 import { url } from "./api.service"
 
-const urlCompany = 'http://localhost:8080/api/empresas'
-
 export const registerCompany = async (accessToken: string, body: { nombreEmpresa: string, descripcion: string, logo: string }) => {
   try {
     const response = await axios({
@@ -25,7 +23,7 @@ export const registerCompany = async (accessToken: string, body: { nombreEmpresa
 export const getCompany = async (accessToken: string): Promise<Company | any> => {
   try {
     const response = await axios({
-      url: `${url}/api/empresas/profile`,
+      url: `${url}api/empresas/profile`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

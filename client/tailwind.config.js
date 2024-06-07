@@ -30,6 +30,10 @@ export default {
       '--color-light-red': '#FF8D8D',
       /* Green */
       '--color-green': 'rgba(0, 121, 7, 0.8)',
+      /* Yellow */
+      '--color-yellow': '#EAC400',
+      /* Dark Yellow */
+      '--color-dark-yellow': '#D7B400',
       /* Light Grey */
       '--color-border-light-grey': '#929292',
       /* Very Light Grey */
