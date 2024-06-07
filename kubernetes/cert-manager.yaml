@@ -40,8 +40,11 @@ kind: Deployment
 metadata:
   name: cert-manager
   namespace: cert-manager
-  spec:
+spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: cert-manager
   template:
     metadata:
       labels:
