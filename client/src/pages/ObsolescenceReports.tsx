@@ -8,7 +8,6 @@ import { Reports } from "../components/Reports/Reports"
 import { ReportHeader } from "../components/Reports/ReportHeader"
 import { SelectBranch } from "../components/Messages/SelectBranch"
 import { getDatabaseConnection } from "../utils/Services/database.database.service"
-import { getNewNextOrders, getNextOrders } from "../utils/Services/nextOrders.database.service"
 import { getNewObsoletProducts, getObsoletProductsReports } from "../utils/Services/obsolescence.database.service"
 
 export const ObsolescenceReports = () => {

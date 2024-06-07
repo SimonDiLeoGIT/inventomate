@@ -6,7 +6,6 @@ import { SideNavbar } from "../components/Global/SideNavbar"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
 import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
-import { Bar } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 

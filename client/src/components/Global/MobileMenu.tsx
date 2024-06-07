@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import menu from '../assets/icons/menu.svg'
-import close from '../assets/icons/close.svg'
+import menu from '../../assets/icons/menu.svg'
+import close from '../../assets/icons/close.svg'
 import { MenuOptions } from './MenuOptions'
-import '../styles/mobile-menu.css'
+import '../../styles/mobile-menu.css'
 import { useUser } from '../../hook/useUser'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'react-router-dom'
-import home_icon from '../assets/icons/home.svg'
-import company_icon from '../assets/icons/company.svg'
+import home_icon from '../../assets/icons/home.svg'
+import company_icon from '../../assets/icons/company.svg'
 
 export const MobileMenu = () => {
 

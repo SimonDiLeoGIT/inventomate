@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import '../styles/Reports.css'
+import '../../styles/Reports.css'
 
 interface props {
   reports: Report[]

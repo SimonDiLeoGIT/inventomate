@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useUser } from "../../hook/useUser"
-import company_settings from '../assets/icons/white-settings.svg'
+import company_settings from '../../assets/icons/white-settings.svg'
 import { useEffect, useState } from "react";
 import { getDatabaseConnection } from "../../utils/Services/database.database.service";
 import { useAuth0 } from "@auth0/auth0-react";
