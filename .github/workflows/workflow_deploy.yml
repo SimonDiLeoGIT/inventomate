@@ -174,7 +174,7 @@ jobs:
         id: wait-for-lb-ip
         run: |
           SERVICE_NAME=frontend-inventomate
-          NAMESPACE=default
+          NAMESPACE=inventomate
           EXPECTED_IP=35.227.28.109
           MAX_ATTEMPTS=10
           INTERVAL=10
