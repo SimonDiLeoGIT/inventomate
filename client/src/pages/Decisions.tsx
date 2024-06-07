@@ -5,7 +5,6 @@ import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
 import { getDecisionsFromReport } from "../utils/Services/decision.database.service"
-import { DoughnutChart } from "../components/DoughnutChart"
 import { Doughnut } from "react-chartjs-2"
 
 export const Decisions = () => {
