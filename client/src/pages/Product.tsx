@@ -4,6 +4,7 @@ import { ArrowButtons } from "../components/ArrowButtons"
 import { useTrends } from "../hook/useTrends";
 import { BarChart } from "../components/BarChart";
 import { ProductFeatures } from "../components/ProductFeatures";
+import { ProductStatistics } from "../components/ProductStatistics";
 
 export const Product = () => {
 
@@ -53,6 +54,13 @@ export const Product = () => {
             &&
             <ArrowButtons currentImage={currentImage} changeCurrentImage={changeCurrentImage} carousel={false} cant={product?.pictures.length} />
           }
+          {
+            product
+            &&
+            product.procesamiento.meses_en_tendencia === 0
+            &&
+            <p className="-bg--color-semidark-violet -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute top-2 right-2">New Trend</p>
+          }
         </div>
         <section className="md:grid">
           <div className="p-4 -text--color-black md:grid place-content-center">
@@ -67,20 +75,16 @@ export const Product = () => {
             </div>
           </div>
         </section>
-        {
-          product &&
-          <BarChart x={product?.procesamiento.variacion_precio.X} y={product?.procesamiento.variacion_precio.Y} label="Price Variation" />
-        }
         <section className="w-11/12 m-auto col-span-2 md:w-full">
           <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
             <h2
-              className={`text-lg font-semibold p-4 hover:cursor-pointer hover:opacity-80 ${features && "-bg--color-black bg-opacity-10"}`}
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${features && "-bg--color-black bg-opacity-10"} `}
               onClick={() => changeSection()}
             >
               Features
             </h2>
             <h2
-              className={`text-lg font-semibold p-4 hover:cursor-pointer hover:opacity-80 ${statistics && "-bg--color-black bg-opacity-10"}`}
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${statistics && "-bg--color-black bg-opacity-10"} `}
               onClick={() => changeSection()}
             >
               Statistics
@@ -92,7 +96,7 @@ export const Product = () => {
           }
           {
             statistics && product &&
-            <ProductFeatures product={product} />
+            <ProductStatistics product={product} />
           }
         </section>
       </section>
