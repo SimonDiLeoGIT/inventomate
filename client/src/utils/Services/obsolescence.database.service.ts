@@ -2,10 +2,10 @@ import axios, { AxiosError } from "axios"
 import { handleApiError } from "../errorHander"
 import { url } from "./api.service"
 
-export const getNextOrders = async (accessToken: string, idBranch: string): Promise<Report[]> => {
+export const getObsoletProductsReports = async (accessToken: string, idBranch: string): Promise<Report[]> => {
   try {
     const response = await axios({
-      url: `${url}api/informes/siguientes-pedidos/` + idBranch,
+      url: `${url}api/informes/obsolescencia/` + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -19,10 +19,10 @@ export const getNextOrders = async (accessToken: string, idBranch: string): Prom
   }
 }
 
-export const getNewNextOrders = async (accessToken: string, idBranch: string): Promise<Report[]> => {
+export const getNewObsoletProducts = async (accessToken: string, idBranch: string): Promise<Report[]> => {
   try {
     const response = await axios({
-      url: `${url}api/informes/siguientes-pedidos/` + idBranch,
+      url: `${url}api/informes/obsolescencia/` + idBranch,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -36,10 +36,10 @@ export const getNewNextOrders = async (accessToken: string, idBranch: string): P
   }
 }
 
-export const getNextOrderById = async (accessToken: string, idBranch: string, idInforme: string): Promise<NextOrder> => {
+export const getObsolescenceById = async (accessToken: string, idBranch: string, idInforme: string): Promise<Obsolescense> => {
   try {
     const response = await axios({
-      url: `${url}api/informes/siguientes-pedidos/` + idInforme + '/sucursales/' + idBranch,
+      url: `${url}api/informes/obsolescencia/` + idInforme + '/sucursales/' + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

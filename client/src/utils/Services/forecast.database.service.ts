@@ -1,9 +1,10 @@
 import axios from "axios"
+import { url } from "./api.service"
 
 export const getForecasts = async (accessToken: string, idBranch: string): Promise<Report[] | null> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/informes/proyeccion-de-ventas/' + idBranch,
+      url: `${url}api/informes/proyeccion-de-ventas/` + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -19,7 +20,7 @@ export const getForecasts = async (accessToken: string, idBranch: string): Promi
 export const getForecastById = async (accessToken: string, idBranch: string, idInforme: string): Promise<Forecast | null> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/informes/proyeccion-de-ventas/' + idInforme + '/sucursales/' + idBranch,
+      url: `${url}api/informes/proyeccion-de-ventas/` + idInforme + '/sucursales/' + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -41,7 +42,7 @@ export const getNewForecast = async (accessToken: string, idBranch: string) => {
     const formattedDate: string = `${year}-${month}-${day}`
 
     const response = await axios({
-      url: 'http://localhost:8080/api/informes/proyeccion-de-ventas/' + idBranch + '?fechaProyeccion=' + formattedDate,
+      url: `${url}api/informes/proyeccion-de-ventas/` + idBranch + '?fechaProyeccion=' + formattedDate,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,

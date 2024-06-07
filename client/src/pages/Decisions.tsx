@@ -5,6 +5,8 @@ import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
 import { getDecisionsFromReport } from "../utils/Services/decision.database.service"
+import { DoughnutChart } from "../components/DoughnutChart"
+import { Doughnut } from "react-chartjs-2"
 
 export const Decisions = () => {
 
@@ -17,6 +19,8 @@ export const Decisions = () => {
   const { setUser, currentUser } = useUser()
 
   const [decisions, setDecisions] = useState<Decision[]>([])
+  const [positive, setPositive] = useState<number>(0)
+  const [negative, setNegative] = useState<number>(0)
 
 
   useEffect(() => {
@@ -29,6 +33,13 @@ export const Decisions = () => {
         const response = await getDecisionsFromReport(accessToken, idInforme, idBranch)
         setDecisions(response)
         console.log(response)
+        let p = 0
+        let n = 0
+        response.map(r => {
+          r.decision.aceptado ? p += 1 : n += 1
+        })
+        setPositive(p)
+        setNegative(n)
       }
 
     }
@@ -67,7 +78,7 @@ export const Decisions = () => {
                   <div className="absolute top-6 right-4 font-semibold text-sm">
                     {
                       decision.decision.aceptado ?
-                        <p className="-text--color-semidark-violet">ACCEPTED</p>
+                        <p className="-text--color-green">ACCEPTED</p>
                         :
                         <p className="-text--color-ful-red">REJECTED</p>
                     }
@@ -79,6 +90,29 @@ export const Decisions = () => {
               )
             })
           }
+          <div className='hover:cursor-pointer w-full min-h-64  max-h-72 m-auto mr-0 rounded-xl shadow-md -shadow--color-black-shadow p-4'>
+            <Doughnut
+              className='w-full m-auto'
+              data={{
+                labels: ['Acepted', 'Rejected'],
+                datasets: [
+                  {
+                    label: "Rate",
+                    data: [positive, negative],
+                    backgroundColor: [
+                      'rgba(0, 121, 7, 0.8)',
+                      'rgba(146, 0, 0, 0.8)'
+                    ],
+                    borderColor: 'rgba(65, 0, 82, 0.1)'
+                  }
+                ]
+              }}
+              options={{
+                maintainAspectRatio: false, // Permite al gráfico ajustarse al tamaño del contenedor
+                responsive: true, // Permite al gráfico ser responsive
+              }}
+            />
+          </div>
         </section>
       </section>
     </main>

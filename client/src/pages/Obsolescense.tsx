@@ -3,9 +3,14 @@ import { useEffect, useState } from "react"
 import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
-import data from '../assets/obsolescencia.json'
+import { useParams } from "react-router-dom"
+import { getObsolescenceById } from "../utils/Services/obsolescence.database.service"
+import { ObsolescenceChart } from "../components/ObsolescenceChart"
 
 export const Obsolescense = () => {
+
+  const { idInforme } = useParams()
+  const { idBranch } = useParams()
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0()
 
@@ -19,11 +24,10 @@ export const Obsolescense = () => {
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
-      setObsolescense(data)
-      // if (idBranch && idInforme) {
-      //   const response = await getNextOrderById(accessToken, idBranch, idInforme)
-      //   setObsolescense(response)
-      // }
+      if (idBranch && idInforme) {
+        const response = await getObsolescenceById(accessToken, idBranch, idInforme)
+        setObsolescense(response)
+      }
 
     }
 
@@ -38,9 +42,12 @@ export const Obsolescense = () => {
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
         <header className="p-2">
-          <ReportHeaderTitle title="Next Orders" />
+          <ReportHeaderTitle title="Obsolescence" />
         </header>
-        <ul className="my-4">
+        {obsolescense &&
+          <ObsolescenceChart grafico={obsolescense?.grafico} />
+
+        }<ul className="my-4">
           {
             obsolescense?.productos_obsoletos.map((product) => {
               return (

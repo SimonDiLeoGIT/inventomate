@@ -1,9 +1,10 @@
 import axios from "axios";
+import { url } from "./api.service";
 
 export const registerBranch = async (accessToken: string, body: { nombre: string, ubicacion: string, idSucCliente: number }) => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/sucursales/create',
+      url: `${url}api/sucursales/create`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -19,7 +20,7 @@ export const registerBranch = async (accessToken: string, body: { nombre: string
 export const getBranch = async (accessToken: string, idBranch: string): Promise<BranchCompany | null> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/sucursales/' + idBranch,
+      url: `${url}api/sucursales/` + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

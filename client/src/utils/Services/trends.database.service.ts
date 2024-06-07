@@ -1,9 +1,10 @@
 import axios from "axios"
+import { url } from "./api.service"
 
 export const getTrends = async (accessToken: string, idBranch: string): Promise<Report[] | null> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/informes/tendencias/' + idBranch,
+      url: `${url}api/informes/tendencias/` + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -19,7 +20,7 @@ export const getTrends = async (accessToken: string, idBranch: string): Promise<
 export const getTrendById = async (accessToken: string, idBranch: string, idInforme: string): Promise<Trends | null> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/informes/tendencias/' + idInforme + '/sucursales/' + idBranch,
+      url: `${url}api/informes/tendencias/` + idInforme + '/sucursales/' + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -35,7 +36,7 @@ export const getTrendById = async (accessToken: string, idBranch: string, idInfo
 export const getNewTrends = async (accessToken: string, idBranch: string) => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/informes/tendencias/' + idBranch,
+      url: `${url}api/informes/tendencias/` + idBranch,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,

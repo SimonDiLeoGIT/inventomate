@@ -18,6 +18,8 @@ import { NextOrders } from "../pages/NextOrders";
 import { Obsolescense } from "../pages/Obsolescense";
 import { DecisionReports } from "../pages/DecisionReports";
 import { Decisions } from "../pages/Decisions";
+import { ObsolescenceReports } from "../pages/ObsolescenceReports";
+import { HelpPage } from "../pages/HelpPage";
 
 export const Router = () => {
 
@@ -29,6 +31,7 @@ export const Router = () => {
         </header>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/help" element={<HelpPage />} />
           <Route path="/terms&conditions" element={<TermsAndCondition />} />
           <Route path="/register-company" element={<RegisterCompany />} />
           <Route path="/company" element={<Company />} />
@@ -43,7 +46,7 @@ export const Router = () => {
           <Route path="/company/reports/sales-forecasting/:idBranch/:idInforme" element={<SalesForecasting />} />
           <Route path="/company/reports/next-orders" element={<NextOrdersReports />} />
           <Route path="/company/reports/next-orders/:idBranch/:idInforme" element={<NextOrders />} />
-          {/* <Route path="/company/reports/next-orders" element={<NextOrdersReports />} /> */}
+          <Route path="/company/reports/anti-obsolescense" element={<ObsolescenceReports />} />
           <Route path="/company/reports/anti-obsolescense/:idBranch/:idInforme" element={<Obsolescense />} />
           <Route path="/company/reports/decisions" element={<DecisionReports />} />
           <Route path="/company/reports/decisions/:type/:idBranch/:idInforme" element={<Decisions />} />
