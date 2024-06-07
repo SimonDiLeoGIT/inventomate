@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const editMemberRoles = async (accessToken: string, idBranch: string, idUser: number, idRol: number[]) => {
   try {
-    const url = `http://localhost:8080/api/sucursales/${idBranch}/users/${idUser}/roles/${idRol}/edit`
+    const url = `http://spring-inventomate:8080/api/sucursales/${idBranch}/users/${idUser}/roles/${idRol}/edit`
     const body = {
       idSucursal: idBranch,
       idUsuario: idUser,

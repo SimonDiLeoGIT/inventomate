@@ -4,7 +4,7 @@ import { handleApiError } from "../errorHander"
 export const getNextOrders = async (accessToken: string, idBranch: string): Promise<Report[]> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/informes/siguientes-pedidos/' + idBranch,
+      url: 'http://spring-inventomate:8080/api/informes/siguientes-pedidos/' + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

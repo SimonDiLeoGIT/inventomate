@@ -3,7 +3,7 @@ import axios from "axios"
 export const getForecasts = async (accessToken: string, idBranch: string): Promise<Report[] | null> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/informes/proyeccion-de-ventas/' + idBranch,
+      url: 'http://spring-inventomate:8080/api/informes/proyeccion-de-ventas/' + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

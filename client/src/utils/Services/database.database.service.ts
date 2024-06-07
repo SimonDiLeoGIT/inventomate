@@ -4,7 +4,7 @@ import { handleApiError } from "../errorHander"
 export const getGestors = async (accessToken: string) => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/bd-empresa/gestores',
+      url: 'http://spring-inventomate:8080/api/bd-empresa/gestores',
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

@@ -3,7 +3,7 @@ import axios from "axios"
 export const getTrends = async (accessToken: string, idBranch: string): Promise<Report[] | null> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/informes/tendencias/' + idBranch,
+      url: 'http://spring-inventomate:8080/api/informes/tendencias/' + idBranch,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

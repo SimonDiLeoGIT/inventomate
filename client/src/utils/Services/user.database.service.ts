@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlUser = 'http://localhost:8080/api/users'
+const urlUser = 'http://spring-inventomate:8080/api/users'
 
 export const getUser = async (accessToken: string): Promise<UserCompany | number> => {
   try {
