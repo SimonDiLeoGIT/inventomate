@@ -1,7 +1,7 @@
 from flask import json
 import pandas as pd
 from datetime import date, datetime
-from prediccion import obtener_estacion, prediccionPorProducto
+from .prediccion import obtener_estacion, prediccionPorProducto
 import math
 
 def obtener_stock_producto(id_producto, data):
