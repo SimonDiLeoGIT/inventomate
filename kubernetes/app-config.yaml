@@ -24,5 +24,5 @@ data:
   EMAIL_PASSWORD: "lbye iddm irti oljd"
   EMAIL_USERNAME: "grupo3SIP2024@gmail.com"
   MONGO_URI: "mongodb://mongodb:27017/inventomate_db"
-  FLASK_URL_BASE: "http://python:5000/api/informe"
+  FLASK_URL_BASE: "http://python-inventomate:5000/api/informe"
 
