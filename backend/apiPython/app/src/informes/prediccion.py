@@ -4,6 +4,7 @@ from sklearn.linear_model import LinearRegression
 from dateutil.relativedelta import relativedelta
 import calendar
 from datetime import datetime
+from obsolescencia import ordenar_coordenadas_por_Y
 
 def obtener_estacion(fecha):
     if (fecha.month == 12 and fecha.day >= 21) or (fecha.month == 1) or (fecha.month == 2) or (fecha.month == 3 and fecha.day <= 20):
@@ -205,9 +206,11 @@ def predecir(json_data):
     # #ganancia_estimada = modelo_ventas.predict([[suma_cantidades_proximo_mes, suma_precio_unitario_proximo_mes]])[0]
 
     estimaciones_por_producto = []
+    estimaciones_por_categoria = {}
+    estimaciones_generales = {"X": [], "Y": []}
     #for id_producto in set(list(ventas_por_producto.keys()) + list(compras_por_producto.keys())):
     for id_producto in set(list(ventas_por_producto.keys())):
-        nombre_producto = next((detalle["producto"]["nombre"] for venta in json_data["listado_ventas"] for detalle in venta["detalle"] if detalle["producto"]["id_producto"] == id_producto), None)
+        nombre_producto, categoria_producto = next(((detalle["producto"]["nombre"], detalle["producto"]["categoria"]) for venta in json_data["listado_ventas"] for detalle in venta["detalle"] if detalle["producto"]["id_producto"] == id_producto), (None, None))
         cantidad_ventas = ventas_por_producto[id_producto]["cantidad_vendida"] if id_producto in ventas_por_producto else 0
         inversion = compras_por_producto[id_producto]["inversion"] if id_producto in compras_por_producto else 0
         ganancia = ventas_por_producto[id_producto]["ganancia"] if id_producto in ventas_por_producto else 0
@@ -249,19 +252,37 @@ def predecir(json_data):
             "graficoCantidadVendidaXAnio": coordenadasGraficoAnual
 
         }
+        # Se puede mejorar
         estimaciones_por_producto.append(estimacion)
+        estimaciones_por_categoria.setdefault(categoria_producto, {"X": [], "Y": []})
+        estimaciones_por_categoria[categoria_producto]["X"].append(nombre_producto)
+        estimaciones_por_categoria[categoria_producto]["Y"].append(prediccion)
+        
+        X, Y = ordenar_coordenadas_por_Y(estimaciones_por_categoria[categoria_producto]["X"],estimaciones_por_categoria[categoria_producto]["Y"])
+        estimaciones_por_categoria[categoria_producto]["X"] = X[:10]
+        estimaciones_por_categoria[categoria_producto]["Y"] = Y[:10]
+        
+        estimaciones_generales["X"].append(nombre_producto)
+        estimaciones_generales["Y"].append(prediccion)
+        
+    X, Y = ordenar_coordenadas_por_Y(estimaciones_generales["X"], estimaciones_generales["Y"])
+    estimaciones_generales["X"] = X[:10]
+    estimaciones_generales["Y"] = Y[:10]
+    
 
     json_procesado = {
         "fecha_estimada": fecha_prediccion,
         #"perdida_estimada": perdida_estimada,
         #"ganancia_estimada": ganancia_estimada,
-        "estimaciones_por_producto": estimaciones_por_producto
+        "estimaciones_por_producto": estimaciones_por_producto,
+        "grafico_por_categoria_top10": estimaciones_por_categoria,
+        "grafico_general_top10": estimaciones_generales
     }
     
     return json_procesado
 
-#if (__name__) == "__main__":
-#     with open("jsonPaprobar.json", "r") as archivo:
+# if (__name__) == "__main__":
+#     with open("predic.json", "r") as archivo:
 #         datos = json.load(archivo)
 #     res = predecir(datos)
 #     with open("res.json", 'w') as file:

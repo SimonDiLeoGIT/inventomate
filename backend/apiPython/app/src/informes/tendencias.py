@@ -96,9 +96,9 @@ def desvio(datos):
         return None
 
 
-if (__name__) == "__main__":
-    with open("ejemplo.json", "r", encoding="utf-8") as archivo:
-        datos = json.load(archivo)
-        res = procesar_tendencias(datos)
-    with open("res.json", 'w') as file:
-        json.dump(res, file, indent=4)
+# if (__name__) == "__main__":
+#     with open("ejemplo.json", "r", encoding="utf-8") as archivo:
+#         datos = json.load(archivo)
+#         res = procesar_tendencias(datos)
+#     with open("res.json", 'w') as file:
+#         json.dump(res, file, indent=4)
