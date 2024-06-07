@@ -25,7 +25,7 @@ export const registerCompany = async (accessToken: string, body: { nombreEmpresa
 export const getCompany = async (accessToken: string): Promise<Company | any> => {
   try {
     const response = await axios({
-      url: `${url}/api/empresas/profile`,
+      url: `${url}api/empresas/profile`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
