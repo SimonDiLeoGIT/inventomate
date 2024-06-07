@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: python-inventomate
+  namespace: inventomate
 spec:
   selector:
     matchLabels:
@@ -23,6 +24,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: python-inventomate
+  namespace: inventomate
 spec:
   ports:
   - port: 5000

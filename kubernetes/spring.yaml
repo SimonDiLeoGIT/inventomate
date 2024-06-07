@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spring-inventomate
+  namespace: inventomate
 spec:
   selector:
     matchLabels:
@@ -129,6 +130,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spring-inventomate
+  namespace: inventomate
 spec:
   ports:
   - protocol: TCP
