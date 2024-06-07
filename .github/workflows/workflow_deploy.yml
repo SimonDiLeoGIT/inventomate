@@ -156,6 +156,7 @@ jobs:
           kubectl apply -f letsencrypt-issuer.yaml
 
       - name: Apply Certificate
+        working-directory: ./kubernetes
         run: kubectl apply -f inventomate-cert.yaml
 
       #Espera a que e stee la ip en el load balancer y luego la imprime
