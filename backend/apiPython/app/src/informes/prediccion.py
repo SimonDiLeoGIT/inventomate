@@ -205,7 +205,7 @@ def predecir(json_data):
     # suma_precio_unitario_proximo_mes = sum(detalle["precio_unitario"] for detalle in json_data["listado_ventas"][-1]["detalle"])
     # #ganancia_estimada = modelo_ventas.predict([[suma_cantidades_proximo_mes, suma_precio_unitario_proximo_mes]])[0]
 
-    estimaciones_por_producto = []
+    estimaciones_por_producto = {}
     estimaciones_por_categoria = {}
     estimaciones_generales = {"X": [], "Y": []}
     #for id_producto in set(list(ventas_por_producto.keys()) + list(compras_por_producto.keys())):
@@ -253,7 +253,8 @@ def predecir(json_data):
 
         }
         # Se puede mejorar
-        estimaciones_por_producto.append(estimacion)
+        estimaciones_por_producto.setdefault(categoria_producto, [])
+        estimaciones_por_producto[categoria_producto].append(estimacion)
         estimaciones_por_categoria.setdefault(categoria_producto, {"X": [], "Y": []})
         estimaciones_por_categoria[categoria_producto]["X"].append(nombre_producto)
         estimaciones_por_categoria[categoria_producto]["Y"].append(prediccion)
