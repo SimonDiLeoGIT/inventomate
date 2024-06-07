@@ -1,8 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { handleApiError } from '../errorHander';
 
-export class ApiService {
+export const url = import.meta.env.VITE_APP_API_SERVER_URL || 'http://spring-inventomate:8080/api/';
 
+export class ApiService {
   async request<T>(
     accessToken: string,
     endpoint: string,
@@ -10,7 +11,7 @@ export class ApiService {
     data?: any
   ): Promise<T> {
     const config: AxiosRequestConfig = {
-      url: `http://localhost:8080/api${endpoint}`,
+      url: `${url}${endpoint}`,
       method,
       headers: {
         Authorization: `Bearer ${accessToken}`,

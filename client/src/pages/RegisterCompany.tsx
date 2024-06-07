@@ -1,11 +1,10 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { registerCompany } from "../utils/Services/company.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 
 export const RegisterCompany = () => {
-  const navigate = useNavigate()
 
   const { getAccessTokenSilently } = useAuth0()
   const { setUser, currentUser } = useUser()
@@ -89,7 +88,7 @@ export const RegisterCompany = () => {
               className="mx-2 hover:cursor-pointer"
               required
             />
-            <p className="">I accept <Link to='/terms&conditions' className="-text--color-semidark-violet">terms & conditions</Link></p>
+            <p className="">I accept <Link to='/terms&conditions' target="_blank" className="-text--color-semidark-violet">terms & conditions</Link></p>
           </div>
         </div>
         <div className="text-center space-x-4 mt-4">
