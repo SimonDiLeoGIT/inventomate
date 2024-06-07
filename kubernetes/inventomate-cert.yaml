@@ -2,14 +2,12 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: inventomate-certificate
+  namespace: default
 spec:
-  secretName: secretin  # Nombre del secreto donde se almacenará el certificado y la clave privada
-  duration: 2160h        # Duración del certificado (opcional)
-  renewBefore: 720h      # Cuándo renovar el certificado antes de que expire (opcional)
   commonName: inventomate.xyz
   dnsNames:
-    - inventomate.xyz    # Lista de nombres de dominio para incluir en el certificado
+    - inventomate.xyz
   issuerRef:
-    name: letsencrypt-prod  # Nombre del Issuer que emitirá el certificado
     kind: ClusterIssuer
-    group: cert-manager.io
+    name: letsencrypt-prod
+  secretName: secretin  # Agrega el nombre del secreto aq
