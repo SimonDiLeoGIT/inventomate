@@ -168,7 +168,7 @@ jobs:
         run: |
           kubectl annotate certificate inventomate-certificate cert-manager.io/secret-name=secretin
 
-      #Espera a que este laa ip en el load balancer y luego la imprime
+      #Espera a que este la ip en el load balancer y luego la imprime
       - name: Wait for Load Balancer IP
         id: wait-for-lb-ip
         run: |
