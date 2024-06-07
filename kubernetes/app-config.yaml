@@ -7,7 +7,7 @@ data:
   PORT: "8080"
   OKTA_OAUTH2_ISSUER: "https://dev-xzd1nw16hc11vsj7.us.auth0.com/"
   OKTA_OAUTH2_AUDIENCE: "grupo3SIP2024"
-  CLIENT_ORIGIN_URL: "http://localhost:4040"
+  CLIENT_ORIGIN_URL: "http://35.227.28.109:4040"
   AUTH0_DOMAIN: "dev-xzd1nw16hc11vsj7.us.auth0.com"
   AUTH0_CLIENT_ID: "ms0lq4fkONnpPrvn6LA29q5sk14h1ehE"
   AUTH0_CLIENT_SECRET: "x1hTArWi-WwhMg7jKAlUsfwVIiAoV76QJc0wo_PqqqAXPB8wX0RyFW0hD53GE7Pg"

@@ -54,5 +54,9 @@ spec:
       protocol: TCP
       port: 443
       targetPort: 3000
+    - name: client
+      protocol: TCP
+      port: 4040
+      targetPort: 4040
   selector:
     app: frontend-inventomate

@@ -31,7 +31,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/users")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://35.227.28.109")
 @Validated
 public class UserController {
 
