@@ -138,7 +138,11 @@ jobs:
       - name: Delete existing cert-manager deployment
         run: |
           kubectl delete deployment cert-manager -n cert-manager || true
-
+      
+      - name: Crear secreto en Kubernetes
+        run: |
+          kubectl create secret tls secretin --cert=certificate.crt --key=private.key --dry-run=client -o yaml | kubectl apply -f -
+          
       - name: Install cert-manager
         run: |
           kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
@@ -159,9 +163,6 @@ jobs:
         working-directory: ./kubernetes
         run: kubectl apply -f inventomate-cert.yaml
 
-      - name: Crear secreto en Kubernetes
-        run: |
-          kubectl create secret tls secretin --cert=certificate.crt --key=private.key --dry-run=client -o yaml | kubectl apply -f -
       
       - name: Asignar secreto al recurso del certificado
         run: |
