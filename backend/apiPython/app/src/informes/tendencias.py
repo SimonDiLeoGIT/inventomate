@@ -15,9 +15,10 @@ def procesar_tendencias(datos):
             prod_nombre = producto["name"].strip()
             historico_categoria = datos["historico"][categoria]
             actual_trend_position = producto["trend_position"]
-            actual_precio = float(producto["additional_info"]["buy_box_winner"]["price"])
-            procesamiento = procesar_producto(historico_categoria,  prod_nombre, actual_trend_position, actual_precio)
-            producto["procesamiento"] = procesamiento
+            if producto["additional_info"]["buy_box_winner"] is not None:
+                actual_precio = float(producto["additional_info"]["buy_box_winner"]["price"])
+                procesamiento = procesar_producto(historico_categoria,  prod_nombre, actual_trend_position, actual_precio)
+                producto["procesamiento"] = procesamiento
             # pprint.pprint(procesamiento)
     
     return resultado
@@ -125,9 +126,9 @@ def desvio(datos):
         return None
 
 
-# if (__name__) == "__main__":
-#     with open("ejemplo.json", "r", encoding="utf-8") as archivo:
-#         datos = json.load(archivo)
-#         res = procesar_tendencias(datos)
-#     with open("res.json", 'w') as file:
-#         json.dump(res, file, indent=4)
+if (__name__) == "__main__":
+    with open("ejemplo.json", "r", encoding="utf-8") as archivo:
+        datos = json.load(archivo)
+        res = procesar_tendencias(datos)
+    with open("res.json", 'w') as file:
+        json.dump(res, file, indent=4)
