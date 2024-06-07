@@ -1,10 +1,10 @@
 from flask import json
 import pandas as pd
 from datetime import date, datetime
-from .prediccion import obtener_estacion, prediccionPorProducto
+from prediccion import obtener_estacion, prediccionPorProducto
 import math
 
-def obtener_stock_actual(id_producto, data):
+def obtener_stock_producto(id_producto, data):
     for producto in data['listado_productos']:
         if producto['id_producto'] == id_producto:
             return producto['stock_actual']
@@ -62,63 +62,119 @@ def sugerir(json_data):
     
     fechas = sorted(set(fechas))
 
-    pedidos = []
+    pedidos = {}
+    top_por_categoria = {}
+    top_general = []
+    grafico_por_categoria = {}
+    grafico_general = {"X": [], "Y":[]}
+    
     for id_producto in set(list(ventas_por_producto.keys())):
-        nombre_producto = next((detalle["producto"]["nombre"] for venta in json_data["listado_ventas"] for detalle in venta["detalle"] if detalle["producto"]["id_producto"] == id_producto), None)
+  
+        ventas_producto_list = []
+        nombre_producto = None
         
+        for venta in json_data["listado_ventas"]:
+            for detalle in venta["detalle"]:
+                if detalle["producto"]["id_producto"] == id_producto:
+                    if not nombre_producto:
+                        nombre_producto = detalle["producto"]["nombre"]
+                        categoria_producto = detalle["producto"]["categoria"]
+                    
+                    venta_producto = {
+                        "fecha_hora": datetime.strptime(venta["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f"),
+                        "%promo": detalle["%promo"],
+                        "precio_unitario": detalle["precio_unitario"],
+                        "cantidad": detalle["cantidad"],
+                        "producto": detalle["producto"],
+                        "mes": pd.to_datetime(venta["fecha_hora"], format="%Y-%m-%d %H:%M:%S.%f").to_period("M"),
+                        "estacion": obtener_estacion(datetime.strptime(venta["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f"))
+                    }
+                    
+                    ventas_producto_list.append(venta_producto)
         
-        ventas_producto = pd.DataFrame([
-            {
-                "fecha_hora": datetime.strptime(compra["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f"),
-                "%promo": detalle["%promo"],
-                "precio_unitario": detalle["precio_unitario"],
-                "cantidad": detalle["cantidad"],
-                "producto": detalle["producto"],
-                "mes": pd.to_datetime(compra["fecha_hora"], format="%Y-%m-%d %H:%M:%S.%f").to_period("M"),
-                "estacion": obtener_estacion(datetime.strptime(compra["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f"))
-            }
-            for compra in json_data["listado_ventas"]
-            for detalle in compra["detalle"]
-            if detalle["producto"]["id_producto"] == id_producto
-        ])
-
+        ventas_producto = pd.DataFrame(ventas_producto_list)
+        
         prediccion, _ = prediccionPorProducto(id_producto, ventas_producto)
         prediccion = math.ceil(prediccion)
-        stockProducto = obtener_stock_actual(id_producto,json_data)
-        cantidad_a_comprar = math.ceil(prediccion - stockProducto)
         
-        if (cantidad_a_comprar > 0):
-            porcentaje = round(((stockProducto/prediccion) * 100), 2)
-            justificacion = f"Se espera que el producto {nombre_producto} venda {prediccion} unidades, se recomienda comprar como minimo {cantidad_a_comprar} unidades para satisfacer la demanda esperada del proximo mes. Se cumple un {porcentaje}% de la demanda con el stock actual."
-            pedido = {
-                "id_producto": id_producto,
-                "nombre_producto": nombre_producto,
-                "stock_actual": stockProducto,
-                "cantidad_a_comprar": cantidad_a_comprar,
-                "justificacion": justificacion
-            }
-        else:
-            justificacion = f"La cantidad de {nombre_producto} que tenemos en stock actualmente ({stockProducto}) alcanza para satisfacer la demanda esperada del proximo mes ({prediccion})"
-            pedido = {
-                "id_producto": id_producto,
-                "nombre_producto": nombre_producto,
-                "stock_actual": stockProducto,
-                "cantidad_a_comprar": 0,
-                "justificacion": justificacion
-            }
-        pedidos.append(pedido) 
+        stockProducto = obtener_stock_producto(id_producto, json_data)
+        cantidad_a_comprar = math.ceil(prediccion - stockProducto)
 
+        if cantidad_a_comprar > 0:
+            porcentaje = round(((stockProducto / prediccion) * 100), 2)
+            justificacion = (
+                f"Se espera que el producto {nombre_producto} venda {prediccion} unidades, "
+                f"se recomienda comprar como mínimo {cantidad_a_comprar} unidades para satisfacer la demanda "
+                f"esperada del próximo mes. Se cumple un {porcentaje}% de la demanda con el stock actual."
+            )
+        else:
+            justificacion = (
+                f"La cantidad de {nombre_producto} que tenemos en stock actualmente ({stockProducto}) "
+                f"alcanza para satisfacer la demanda esperada del próximo mes ({prediccion})."
+            )
+
+        
+        pedido = {
+            "id_producto": id_producto,
+            "nombre_producto": nombre_producto,
+            "stock_actual": stockProducto,
+            "cantidad_a_comprar": 0,
+            "justificacion": justificacion
+        }
+        
+        
+        
+        pedidos.setdefault(categoria_producto, [])
+        pedidos[categoria_producto].append(pedido)
+        grafico_por_categoria.setdefault(categoria_producto, {"X": [], "Y": []})
+        
+        
+        top_por_categoria.setdefault(categoria_producto, [])
+        top_por_categoria[categoria_producto].append({
+            "id_producto": id_producto,
+            "nombre_producto": nombre_producto,
+            "stock_actual": stockProducto,
+            "cantidad_a_comprar": cantidad_a_comprar,
+            "categoria": categoria_producto
+        })
+        
+        grafico_por_categoria[categoria_producto]["Y"].append(cantidad_a_comprar)
+        grafico_por_categoria[categoria_producto]["X"].append(nombre_producto)
+        
+        # Ordenar la lista por 'cantidad_a_comprar' en orden descendente y quedarte con los 10 mayores
+        top_por_categoria[categoria_producto] = sorted(
+            top_por_categoria[categoria_producto], 
+            key=lambda x: x["cantidad_a_comprar"], 
+            reverse=True
+        )[:10]
+    
+    
+    for categoria in top_por_categoria:
+        top_general.extend(top_por_categoria[categoria])
+
+    # Ordenar la lista general por 'cantidad_a_comprar' en orden descendente y quedarse con los 10 mayores
+    top_general = sorted(top_general, key=lambda x: x["cantidad_a_comprar"], reverse=True)[:10]
+
+    for producto in top_general:
+        grafico_general["X"].append(producto["nombre_producto"])
+        grafico_general["Y"].append(producto["cantidad_a_comprar"])
+
+    # Crear el JSON procesado
     json_procesado = {
         "fecha_actual": date.today().isoformat(),
-        "pedidos": pedidos
+        "pedidos": pedidos,
+        "top_por_categoria": top_por_categoria,
+        "top_general": top_general,
+        "grafico_por_categoria": grafico_por_categoria,
+        "grafico_general": grafico_general
     }
     
     return json_procesado
 
 
 # if (__name__) == "__main__":
-#      with open("datos.json", "r") as archivo:
-#          datos = json.load(archivo)
-#      res = sugerir(datos)
-#      with open("res.json", 'w') as file:
-#          json.dump(res, file, indent=4)
+#     with open("pedidos2.json", "r") as archivo:
+#         datos = json.load(archivo)
+#     res = sugerir(datos)
+#     with open("res.json", 'w') as file:
+#         json.dump(res, file, indent=4)
