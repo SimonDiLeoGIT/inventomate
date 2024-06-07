@@ -65,56 +65,26 @@ def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, a
         "media_trendPosition": round(statistics.mean(variacion_tendencia), 2),
         "desvio_precio": desvio(variacion_precios),
         "desvio_trendPosition": desvio(variacion_tendencia),
-        "meses_en_tendencia": len(meses),
+        "meses_en_tendencia": len(meses) - 1,
     }
     
     return procesamiento
 
 
-
-def generar_rango_fechas(fecha_inicio, fecha_fin):
-    """Genera una lista de fechas desde fecha_inicio hasta fecha_fin."""
-    fechas = []
-    while fecha_inicio <= fecha_fin:
-        fechas.append(fecha_inicio.strftime('%Y-%m-%d'))
-        # Añadir un mes a la fecha actual
-        if fecha_inicio.month == 12:
-            fecha_inicio = fecha_inicio.replace(year=fecha_inicio.year + 1, month=1)
-        else:
-            fecha_inicio = fecha_inicio.replace(month=fecha_inicio.month + 1)
-    return fechas
-
 def ordenarGraficoPorFecha(coordenadasGrafico):
     # Emparejar las fechas con los valores
     pares = list(zip(coordenadasGrafico["X"], coordenadasGrafico["Y"]))
     # Ordenar los pares por la fecha
-    pares_ordenados = sorted(pares, key=lambda x: datetime.strptime(x[0], '%Y-%m-%d'))
+    pares_ordenados = sorted(pares, key=lambda x: x[0])
     # Separar las fechas y los valores ordenados
     fechas_ordenadas, valores_ordenados = zip(*pares_ordenados)
-    
-    # Convertir las tuplas de vuelta a listas
+    # Convertir las tuplas de vuelta a listas (si es necesario)
     fechas_ordenadas = list(fechas_ordenadas)
     valores_ordenados = list(valores_ordenados)
-    
-    # Generar un rango de fechas desde la primera hasta la última
-    fecha_inicio = datetime.strptime(fechas_ordenadas[0], '%Y-%m-%d')
-    fecha_fin = datetime.strptime(fechas_ordenadas[-1], '%Y-%m-%d')
-    rango_fechas = generar_rango_fechas(fecha_inicio, fecha_fin)
-    
-    # Crear diccionario para buscar rápidamente los valores por fecha
-    valores_por_fecha = dict(pares_ordenados)
-    
-    # Rellenar las fechas faltantes con valor 0
-    fechas_completas = []
-    valores_completos = []
-    for fecha in rango_fechas:
-        fechas_completas.append(fecha)
-        valores_completos.append(valores_por_fecha.get(fecha, 0))
-    
-    # Crear el diccionario ordenado y completo
+    # Crear el diccionario ordenado
     graficoCoordenadasOrdenado = {
-        "X": fechas_completas,
-        "Y": valores_completos
+        "X": fechas_ordenadas,
+        "Y": valores_ordenados
     }
     
     return graficoCoordenadasOrdenado
