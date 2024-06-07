@@ -7,6 +7,7 @@ import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
 import { ChartSection } from "../components/ChartSection"
 import { getForecastById } from "../utils/Services/forecast.database.service"
 import { ProductForecastInfo } from "../components/ProductForecastInfo"
+import { MakeDecision } from "../components/MakeDecision"
 
 export const SalesForecasting = () => {
 
@@ -96,6 +97,10 @@ export const SalesForecasting = () => {
             </>
           }
         </section>
+        {
+          idInforme && idBranch &&
+          <MakeDecision idBranch={idBranch} idReport={idInforme} />
+        }
       </section>
     </main>
   )

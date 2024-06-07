@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.JSONObject;
 
 @Builder
 @Data
@@ -14,5 +15,6 @@ import lombok.NoArgsConstructor;
 public class TrendsDTO {
 
 	private List<CategoryTrendDTO> trends;
-
+	JSONObject historico;
+	
 }

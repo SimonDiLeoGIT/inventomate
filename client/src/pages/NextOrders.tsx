@@ -5,6 +5,10 @@ import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/SideNavbar"
 import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
+import { MakeDecision } from "../components/MakeDecision"
+import { Bar } from 'react-chartjs-2'
+import { Chart, registerables } from 'chart.js'
+Chart.register(...registerables)
 
 export const NextOrders = () => {
 
@@ -96,6 +100,12 @@ export const NextOrders = () => {
             })
           }
         </ul>
+        <div className="my-4">
+          {
+            idInforme && idBranch &&
+            <MakeDecision idReport={idInforme} idBranch={idBranch} />
+          }
+        </div>
       </section>
     </main>
   )

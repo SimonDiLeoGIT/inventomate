@@ -24,7 +24,7 @@ export const MenuOptions = () => {
           currentUser?.roles.some(rol => rol.idRol === 1) &&
           <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
             <Link
-              to='/company/reports/members-decisions'
+              to='/company/reports/decisions'
               className="flex px-1 py-2"
             >
               <img src={decisions} alt="Company Settings" className="w-5 mr-2" />
