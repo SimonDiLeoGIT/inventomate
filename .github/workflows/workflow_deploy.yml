@@ -159,6 +159,14 @@ jobs:
         working-directory: ./kubernetes
         run: kubectl apply -f inventomate-cert.yaml
 
+      - name: Crear secreto en Kubernetes
+        run: |
+          kubectl create secret tls secretin --cert=certificate.crt --key=private.key
+      
+      - name: Asignar secreto al recurso del certificado
+        run: |
+          kubectl annotate certificate inventomate-certificate cert-manager.io/secret-name=secretin
+          
       #Espera a que este la ip en el load balancer y luego la imprime
       - name: Wait for Load Balancer IP
         id: wait-for-lb-ip
