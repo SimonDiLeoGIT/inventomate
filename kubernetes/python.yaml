@@ -1,0 +1,30 @@
+# python-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-inventomate
+spec:
+  selector:
+    matchLabels:
+      app: python-inventomate
+  template:
+    metadata:
+      labels:
+        app: python-inventomate
+    spec:
+      containers:
+      - name: python-inventomate
+        image: simondileogit/python-inventomate:1
+        ports:
+        - containerPort: 5000
+---
+# python-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-inventomate
+spec:
+  ports:
+  - port: 5000
+  selector:
+    app: python-inventomate

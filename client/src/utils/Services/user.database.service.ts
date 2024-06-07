@@ -1,6 +1,7 @@
 import axios from "axios";
+import { url } from "./api.service";
 
-const urlUser = 'http://localhost:8080/api/users'
+const urlUser = `${url}api/users`
 
 export const getUser = async (accessToken: string): Promise<UserCompany | number> => {
   try {
@@ -100,14 +101,14 @@ export const searchUser = async (accessToken: string, email: string): Promise<Us
 
 export const inviteUser = async (accessToken: string, idBranch: string, idUser: number, idRol: number[]) => {
   try {
-    const url = `http://localhost:8080/api/sucursales/${idBranch}/invite/${idUser}/role/${idRol}`
+    const completeUrl = `${url}api/sucursales/${idBranch}/invite/${idUser}/role/${idRol}`
     const body = {
       idSucursal: idBranch,
       idUsuario: idUser,
       idRol: idRol
     }
     const response = await axios({
-      url: url,
+      url: completeUrl,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,

@@ -2,11 +2,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { SideNavbar } from "../components/SideNavbar";
+import { SideNavbar } from "../components/Global/SideNavbar";
 import { getCompany } from "../utils/Services/company.database.service";
-import { CompanyBanner } from "../components/CompanyBanner";
+import { CompanyBanner } from "../components/Company/CompanyBanner";
 import { Searcher } from "../components/Searcher";
-import { CompanyBranches } from "../components/CompanyBranches";
+import { CompanyBranches } from "../components/Company/CompanyBranches";
 
 export const Company = () => {
 

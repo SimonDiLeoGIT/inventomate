@@ -9,6 +9,8 @@ import { Card } from '../components/Card'
 import { useEffect } from "react";
 import { useUser } from "../hook/useUser";
 import { HomeOptions } from "../components/HomeOptions";
+import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
 
@@ -16,7 +18,6 @@ export const Home = () => {
   const { setUser } = useUser()
 
   useEffect(() => {
-    console.log('a')
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)
@@ -28,6 +29,10 @@ export const Home = () => {
 
   return (
     <main className="w-full relative">
+      <Helmet>
+        <title>Inventomate | Home</title>
+        <link rel="canonical" type="image/png" href={logo} />
+      </Helmet>
       <section className=' m-auto md:grid grid-cols-2 md:w-11/12 mt-4 md:mt-14 xl:w-9/12'>
         <section className='w-screen m-auto md:hidden'>
           <img src={logo} alt='InventoMate' className='m-auto w-6/12' />
@@ -39,6 +44,15 @@ export const Home = () => {
           </h1>
           <h2 className='text-lg font-semibold -text--color-mate-dark-violet'>The predictive system to improve inventory management.</h2>
           <HomeOptions isAuthenticated={isAuthenticated} />
+          <section className="mt-8">
+            <p>Is your first time using Inventomate?</p>
+            <Link
+              to='/help'
+              className="-text--color-semidark-violet border-b"
+            >
+              I need help
+            </Link>
+          </section>
         </section>
         <section className='hidden md:block'>
           <img src={logo} alt='InventoMate' className='m-auto w-6/12' />

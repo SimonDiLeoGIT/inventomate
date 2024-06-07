@@ -124,11 +124,19 @@ public class ConsultasSQL implements Consultas {
 
 	@Override
 	public List<ProductoSucursalInfo> getProductInformationByIdSucursal(JdbcTemplate jdbcTemplate, Long idSucCliente) {
-		String sql = "SELECT p.producto_id, p.nombre, sp.stock " + "FROM PRODUCTO p "
+		String sql = "SELECT p.producto_id, p.nombre, sp.stock, sp.precio_venta, cat.nombre AS nombre_categoria, "
+				+ "(SELECT MIN(c.fecha_hora) " + " FROM detalle_compra dc "
+				+ " INNER JOIN compra c ON dc.compra_id = c.id " + " WHERE dc.producto_id = p.producto_id "
+				+ "   AND c.sucursal_id = sp.sucursal_id) AS fecha_primera_compra " + "FROM PRODUCTO p "
+				+ "INNER JOIN categoria cat ON p.categoria_id = cat.categoria_id "
 				+ "INNER JOIN sucursal_producto sp ON p.producto_id = sp.producto_id " + "WHERE sp.sucursal_id = ?";
+
 		return jdbcTemplate.queryForList(sql, idSucCliente).stream()
 				.map(row -> ProductoSucursalInfo.builder().nombre((String) row.get("nombre"))
-						.productId((Integer) row.get("producto_id")).stock((Integer) row.get("stock")).build())
+						.productId((Integer) row.get("producto_id")).stock((Integer) row.get("stock"))
+						.fechaPrimerCompra((Timestamp) row.get("fecha_primera_compra"))
+						.categoria((String) row.get("nombre_categoria")).precioVenta((Double) row.get("precio_venta"))
+						.build())
 				.collect(Collectors.toList());
 	}
 }

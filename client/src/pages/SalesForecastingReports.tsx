@@ -2,12 +2,12 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import { useEffect, useState } from "react"
 import { getForecasts, getNewForecast } from "../utils/Services/forecast.database.service"
-import { SideNavbar } from "../components/SideNavbar"
+import { SideNavbar } from "../components/Global/SideNavbar"
 import { EmptyHistory } from "../components/Errors/EmptyHistory"
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
-import { Reports } from "../components/Reports"
-import { ReportHeader } from "../components/ReportHeader"
-import { SelectBranch } from "../components/Info/SelectBranch"
+import { Reports } from "../components/Reports/Reports"
+import { ReportHeader } from "../components/Reports/ReportHeader"
+import { SelectBranch } from "../components/Messages/SelectBranch"
 import { getDatabaseConnection } from "../utils/Services/database.database.service"
 
 export const SalesForecastingReports = () => {
@@ -32,6 +32,8 @@ export const SalesForecastingReports = () => {
 
     if (currentUser?.sucursal?.idSucursal !== undefined)
       setBranch(currentUser?.sucursal?.idSucursal.toString())
+
+
 
   }, [isAuthenticated])
 

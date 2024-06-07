@@ -1,15 +1,16 @@
 import axios from "axios"
+import { url } from "./api.service"
 
 export const editMemberRoles = async (accessToken: string, idBranch: string, idUser: number, idRol: number[]) => {
   try {
-    const url = `http://localhost:8080/api/sucursales/${idBranch}/users/${idUser}/roles/${idRol}/edit`
+    const completeUrl = `${url}api/sucursales/${idBranch}/users/${idUser}/roles/${idRol}/edit`
     const body = {
       idSucursal: idBranch,
       idUsuario: idUser,
       idsRol: idRol
     }
     const response = await axios({
-      url: url,
+      url: completeUrl,
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -26,7 +27,7 @@ export const editMemberRoles = async (accessToken: string, idBranch: string, idU
 export const getRoles = async (accessToken: string): Promise<Rol[] | null> => {
   try {
     const response = await axios({
-      url: 'http://localhost:8080/api/roles',
+      url: `${url}api/roles`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -41,9 +42,9 @@ export const getRoles = async (accessToken: string): Promise<Rol[] | null> => {
 
 export const getMembertRoles = async (accessToken: string, idBranch: string, idUser: number): Promise<Rol[] | null> => {
   try {
-    const url = `http://localhost:8080/api/sucursales/${idBranch}/users/${idUser}/roles`
+    const completeUrl = `${url}api/sucursales/${idBranch}/users/${idUser}/roles`
     const response = await axios({
-      url: url,
+      url: completeUrl,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

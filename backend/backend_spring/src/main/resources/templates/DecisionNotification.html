@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Notificación de culminación de informe</title>
+<style type="text/css">
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	text-align: center;
+}
+
+.card {
+	width: 60%;
+	max-width: 400px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border: 1px solid #ccc;
+	text-align: center;
+}
+
+.logo {
+	margin-bottom: 20px;
+}
+
+.logo img {
+	width: 150px;
+	border-radius: 50%;
+	margin-bottom: 20px;
+}
+
+.notification-text {
+	color: #6c757d;
+	margin-bottom: 20px;
+}
+
+.notification-text strong {
+	color: #6f42c1;
+}
+
+.button-container {
+	margin-top: 30px;
+}
+
+.button {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #6f42c1;
+	color: #ffff !important;
+	text-decoration: none;
+	border-radius: 5px;
+	transition: background-color 0.3s;
+	margin: 0 10px;
+}
+
+.button:hover {
+	background-color: #5a3ec9;
+}
+</style>
+</head>
+<body>
+	<div class="card">
+		<div class="logo">
+			<img th:src="${empresa.getLogo()}" alt="Logo de la empresa">
+		</div>
+		<div class="notification-text">
+			<p>
+				Hola <span th:text="${usuario.getNickname()}"></span>,
+			</p>
+			<p>
+				Te informamos que el informe de <strong
+					th:text="${informe.tipoInforme.name}"></strong> tiene una nueva decision .
+			</p>
+			<p>
+				Puedes revisar los detalles de la decision del informe para la sucursal <strong
+					th:text="${sucursal.getNombre()}"></strong> en nuestra plataforma.
+			</p>
+			<p>
+				Nombre de la empresa: <strong
+					th:text="${empresa.getNombreEmpresa()}"></strong>
+			</p>
+			<p>
+				Fecha del informe : <strong
+					th:text="${informe.getFecha()}"></strong>
+			</p>
+			<p>
+				Empleado que tomó la decision : <strong
+					th:text="${usuarioDecision.getNickname()}"></strong>
+			</p>
+		</div>
+		<div class="button-container">
+			<a th:href="${informe.tipoInforme.url}" class="button">Ver
+				decision</a>
+		</div>
+	</div>
+</body>
+</html>
