@@ -2,11 +2,12 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
-import { SideNavbar } from "../components/SideNavbar"
-import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
-import { ChartSection } from "../components/ChartSection"
+import { SideNavbar } from "../components/Global/SideNavbar"
+import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
+import { ChartSection } from "../components/Reports/Forecast/ChartSection"
 import { getForecastById } from "../utils/Services/forecast.database.service"
-import { ProductForecastInfo } from "../components/ProductForecastInfo"
+import { ProductForecastInfo } from "../components/Reports/Forecast/ProductForecastInfo"
+import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
 
 export const SalesForecasting = () => {
 
@@ -79,6 +80,7 @@ export const SalesForecasting = () => {
               <select
                 className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
                 onChange={(e) => handleChangeType(e.target.value)}
+                id="select_chart"
               >
                 <option value={1} className="-bg--color-white hover:cursor-pointer">Per Month</option>
                 <option value={2} className="-bg--color-white hover:cursor-pointer">Per Semester</option>
@@ -95,6 +97,10 @@ export const SalesForecasting = () => {
             </>
           }
         </section>
+        {
+          idInforme && idBranch &&
+          <MakeDecision idBranch={idBranch} idReport={idInforme} />
+        }
       </section>
     </main>
   )

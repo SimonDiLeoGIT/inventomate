@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { ArrowButtons } from "../components/ArrowButtons"
+import { ArrowButtons } from "../components/Reports/Trends/ArrowButtons"
 import { useTrends } from "../hook/useTrends";
+import { ProductFeatures } from "../components/Reports/Trends/ProductFeatures";
+import { ProductStatistics } from "../components/Reports/Trends/ProductStatistics";
 
 export const Product = () => {
 
@@ -11,21 +13,30 @@ export const Product = () => {
   const { trends } = useTrends()
 
   const [currentImage, changeCurrentImage] = useState(0);
+  const [features, setFeatures] = useState<boolean>(true);
+  const [statistics, setStatistics] = useState<boolean>(false);
 
 
-  const [product, setProduct] = useState<Product | null>(null)
+  const [product, setProduct] = useState<Product>()
 
   useEffect(() => {
+    console.log('posotion: ', position)
     trends?.trends.map(trend => {
       if (trend.category_name === category) {
         trend.products.map(p => {
           if (position && p.trend_position === parseInt(position)) {
             setProduct(p)
+            console.log('product: ', p)
           }
         })
       }
     })
   }, [position])
+
+  function changeSection() {
+    setFeatures(!features)
+    setStatistics(!statistics)
+  }
 
   return (
     <main className="-text--color-black flex ">
@@ -34,13 +45,20 @@ export const Product = () => {
           <section className="">
             <img
               className="h-96 object-cover m-auto"
-              src={product?.pictures[currentImage].url}
+              src={product?.pictures[currentImage]?.url}
             />
           </section>
           {
             product
             &&
             <ArrowButtons currentImage={currentImage} changeCurrentImage={changeCurrentImage} carousel={false} cant={product?.pictures.length} />
+          }
+          {
+            product
+            &&
+            product.procesamiento.meses_en_tendencia === 0
+            &&
+            <p className="-bg--color-semidark-violet -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute top-2 right-2">New Trend</p>
           }
         </div>
         <section className="md:grid">
@@ -52,34 +70,33 @@ export const Product = () => {
             </h1>
             <div className="mt-2 flex items-center">
               <p className=" -bg--color-light-opaque-pink inline-block p-1 text-sm -text--color-semidark-violet font-medium rounded-md">{product?.trend_position}° Trend Position</p>
-              <p className="m-auto mr-2 text-lg">{product?.additional_info.buy_box_winner.currency_id}${product?.additional_info.buy_box_winner.price}</p>
+              <p className="m-auto mr-2 text-lg">{product?.additional_info?.buy_box_winner?.currency_id}${product?.additional_info?.buy_box_winner?.price}</p>
             </div>
           </div>
         </section>
         <section className="w-11/12 m-auto col-span-2 md:w-full">
-          <header className=" my-2">
-            <h2 className="text-lg font-semibold">Features</h2>
+          <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${features && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => changeSection()}
+            >
+              Features
+            </h2>
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${statistics && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => changeSection()}
+            >
+              Statistics
+            </h2>
           </header>
-          <ul className="w-/full m-auto rounded-lg overflow-hidden shadow-md -shadow--color-black-shadow">
-            {
-              product?.attributes.map((atribute, index) => {
-                return (
-                  <li className={`grid grid-cols-2 gap-2 p-2 lg:py-4 ${(index % 2 === 0) && '-bg--color-border-very-lightest-grey'}`}>
-                    <p>{atribute.name}</p>
-                    <p>{atribute.value_name}</p>
-                  </li>
-                )
-              })
-            }
-          </ul>
-        </section>
-        <section className="w-11/12 m-auto my-4 col-span-2 md:w-full">
-          <header>
-            <h2 className="text-lg font-semibold my-2">Description</h2>
-          </header>
-          <p>
-            {product?.additional_info.short_description.content}
-          </p>
+          {
+            features && product &&
+            <ProductFeatures product={product} />
+          }
+          {
+            statistics && product &&
+            <ProductStatistics product={product} />
+          }
         </section>
       </section>
     </main >

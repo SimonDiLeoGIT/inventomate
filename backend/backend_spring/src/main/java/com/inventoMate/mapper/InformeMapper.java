@@ -7,6 +7,8 @@ import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
 import com.inventoMate.dtos.informes.InformeDTO;
+import com.inventoMate.dtos.meli.TrendsDTO;
+import com.inventoMate.entities.CategoriaMeli;
 import com.inventoMate.entities.Informe;
 import com.inventoMate.entities.TipoInforme;
 
@@ -32,5 +34,7 @@ public interface InformeMapper {
 
 	JSONObject mapToProductoInformation(List<VentaDetalle> historiaDeVentas,
 			List<ProductoSucursalInfo> productosDeSucursal, Long idSucursal);
+
+	TrendsDTO mapToInformeDeTendencia(TrendsDTO response1, List<CategoriaMeli> response2);
 
 }

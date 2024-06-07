@@ -1,0 +1,32 @@
+# frontend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-inventomate
+spec:
+  selector:
+    matchLabels:
+      app: frontend-inventomate
+  template:
+    metadata:
+      labels:
+        app: frontend-inventomate
+    spec:
+      containers:
+      - name: frontend-inventomate
+        image: simondileogit/frontend-inventomate:1
+        ports:
+        - containerPort: 5173
+---
+# frontend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-inventomate
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 5173
+  selector:
+    app: frontend-inventomate
