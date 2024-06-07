@@ -159,7 +159,7 @@ jobs:
         working-directory: ./kubernetes
         run: kubectl apply -f inventomate-cert.yaml
 
-      #Espera a que e estee la ip en el load balancer y luego la imprime
+      #Espera a que e este la ip en el load balancer y luego la imprime
       - name: Wait for Load Balancer IP
         id: wait-for-lb-ip
         run: |
