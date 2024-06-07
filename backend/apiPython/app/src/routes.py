@@ -4,6 +4,7 @@ from .models import *
 from .informes.prediccion import predecir
 from .informes.sugerencias import sugerir 
 from .informes.obsolescencia import calcular_obsolescencia
+from .informes.tendencias import procesar_tendencias
     
 # Colecciones:
 # historico-tendencias
@@ -15,7 +16,8 @@ from .informes.obsolescencia import calcular_obsolescencia
 def insertarTendencia():
     try:
         json_data = request.json
-        id = insert(json_data, "historico-tendencias")
+        json_procesado = procesar_tendencias(json_data)
+        id = insert(json_procesado, "historico-tendencias")
                 
         if (id != -1):
             return jsonify({'ID-Mongo': str(id)}), 200
