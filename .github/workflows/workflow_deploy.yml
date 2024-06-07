@@ -92,7 +92,7 @@ jobs:
         run: |
           gcloud container clusters get-credentials inventomate-cluster --zone us-east1-b
           kubectl config use-context gke_inventomate-424520_us-east1-b_inventomate-cluster
-          kubectl create namespace inventomate
+          kubectl get namespace inventomate || kubectl create namespace inventomate
       
       - name: Create Aplication Config
         working-directory: ./kubernetes
