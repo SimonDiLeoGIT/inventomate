@@ -184,6 +184,3 @@ jobs:
             echo "Load Balancer IP: $LOAD_BALANCER_IP"
             echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP"
           fi
-      - name: Verify SSL/TLS configuration
-        run: |
-          openssl s_client -connect inventomate.xyz:443
