@@ -4,9 +4,7 @@ import { url } from "./api.service"
 export const getTrends = async (accessToken: string, idBranch: string): Promise<Report[] | null> => {
   try {
     const response = await axios({
-
       url: `${url}api/informes/tendencias/` + idBranch,
-
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

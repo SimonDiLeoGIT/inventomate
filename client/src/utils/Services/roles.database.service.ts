@@ -3,9 +3,7 @@ import { url } from "./api.service"
 
 export const editMemberRoles = async (accessToken: string, idBranch: string, idUser: number, idRol: number[]) => {
   try {
-
     const completeUrl = `${url}api/sucursales/${idBranch}/users/${idUser}/roles/${idRol}/edit`
-
     const body = {
       idSucursal: idBranch,
       idUsuario: idUser,

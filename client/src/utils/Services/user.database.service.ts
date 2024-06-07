@@ -1,9 +1,7 @@
 import axios from "axios";
 import { url } from "./api.service";
 
-
 const urlUser = `${url}api/users`
-
 
 export const getUser = async (accessToken: string): Promise<UserCompany | number> => {
   try {

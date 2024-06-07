@@ -13,7 +13,7 @@ export class ApiService {
     data?: any
   ): Promise<T> {
     const config: AxiosRequestConfig = {
-      url: `http://spring-inventomate:8080/api${endpoint}`,
+      url: `http://localhost:8080/api${endpoint}`,
       method,
       headers: {
         Authorization: `Bearer ${accessToken}`,

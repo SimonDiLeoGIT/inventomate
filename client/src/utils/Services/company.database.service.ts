@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios"
 import { handleApiError } from "../errorHander"
 import { url } from "./api.service"
 
-const urlCompany = 'http://spring-inventomate:8080/api/empresas'
+const urlCompany = 'http://localhost:8080/api/empresas'
 
 export const registerCompany = async (accessToken: string, body: { nombreEmpresa: string, descripcion: string, logo: string }) => {
   try {
