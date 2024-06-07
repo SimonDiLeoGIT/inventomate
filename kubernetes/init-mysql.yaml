@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: init-mysql
+  namespace: inventomate
 data:
   init-mysql.sql: |
     ALTER USER 'root'@'%' IDENTIFIED BY '12345678';

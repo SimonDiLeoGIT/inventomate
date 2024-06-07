@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: app-config
+  namespace: inventomate
 data:
   PORT: "8080"
   OKTA_OAUTH2_ISSUER: "https://dev-xzd1nw16hc11vsj7.us.auth0.com/"

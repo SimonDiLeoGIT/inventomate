@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: init-postgresql
+  namespace: inventomate
 data:
   init.sql: |
     -- Crear tabla de sucursales
