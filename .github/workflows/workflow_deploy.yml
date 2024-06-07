@@ -144,17 +144,19 @@ jobs:
           kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
           kubectl wait --for=condition=Available deployment --timeout=300s -n cert-manager --all
 
-      - name: Apply cert-manager manifest
+      - name: Apply cert-manager
         run: |
           wget https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
           kubectl apply --validate=false -f cert-manager.yaml
-      
+          kubectl wait --for=condition=Available deployment --timeout=300s -n cert-manager --all
       
       - name: Create ClusterIssuer for Let's Encrypt
         working-directory: ./kubernetes
         run: |
           kubectl apply -f letsencrypt-issuer.yaml
 
+      - name: Apply Certificate
+        run: kubectl apply -f inventomate-cert.yaml
 
       #Espera a que e stee la ip en el load balancer y luego la imprime
       - name: Wait for Load Balancer IP
