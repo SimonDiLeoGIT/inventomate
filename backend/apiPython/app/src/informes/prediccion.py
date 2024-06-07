@@ -4,7 +4,7 @@ from sklearn.linear_model import LinearRegression
 from dateutil.relativedelta import relativedelta
 import calendar
 from datetime import datetime
-from obsolescencia import ordenar_coordenadas_por_Y
+from .obsolescencia import ordenar_coordenadas_por_Y
 
 def obtener_estacion(fecha):
     if (fecha.month == 12 and fecha.day >= 21) or (fecha.month == 1) or (fecha.month == 2) or (fecha.month == 3 and fecha.day <= 20):
