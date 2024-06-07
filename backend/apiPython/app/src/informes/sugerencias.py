@@ -7,7 +7,7 @@ import math
 def obtener_stock_actual(id_producto, data):
     for producto in data['listado_productos']:
         if producto['id_producto'] == id_producto:
-            return producto['stock']
+            return producto['stock_actual']
     return None
 
 def sugerir(json_data):

@@ -1,4 +1,4 @@
-from flask import Flask, logging
+from flask import Flask
 from flask_cors import CORS
 from pymongo import MongoClient
 from app.config import MONGO_URI

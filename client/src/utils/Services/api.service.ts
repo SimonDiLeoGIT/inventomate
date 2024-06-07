@@ -1,9 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { handleApiError } from '../errorHander';
 
-export const url = import.meta.env.VITE_APP_API_SERVER_URL || 'http://spring-inventomate:8080/api/';
+export const url = import.meta.env.VITE_APP_API_SERVER_URL || 'http://spring-inventomate:8080/'
 
 export class ApiService {
+
+
   async request<T>(
     accessToken: string,
     endpoint: string,

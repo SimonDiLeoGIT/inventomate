@@ -3,6 +3,7 @@ package com.inventoMate.configuration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -15,7 +16,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
 	private final ApplicationProperties applicationProps;
 
 	@Override
-	public void addCorsMappings(final CorsRegistry registry) {
+	public void addCorsMappings(final @NonNull CorsRegistry registry) {
 		registry.addMapping("/**").allowedOrigins(applicationProps.getClientOriginUrl())
 				.allowedHeaders(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE)
 				.allowedMethods(HttpMethod.GET.name()).maxAge(86400);

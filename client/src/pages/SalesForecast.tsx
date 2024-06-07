@@ -2,11 +2,12 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
-import { SideNavbar } from "../components/SideNavbar"
-import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
-import { ChartSection } from "../components/ChartSection"
+import { SideNavbar } from "../components/Global/SideNavbar"
+import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
+import { ChartSection } from "../components/Reports/Forecast/ChartSection"
 import { getForecastById } from "../utils/Services/forecast.database.service"
-import { ProductForecastInfo } from "../components/ProductForecastInfo"
+import { ProductForecastInfo } from "../components/Reports/Forecast/ProductForecastInfo"
+import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
 
 export const SalesForecasting = () => {
 
@@ -96,6 +97,10 @@ export const SalesForecasting = () => {
             </>
           }
         </section>
+        {
+          idInforme && idBranch &&
+          <MakeDecision idBranch={idBranch} idReport={idInforme} />
+        }
       </section>
     </main>
   )

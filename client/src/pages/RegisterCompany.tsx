@@ -76,6 +76,7 @@ export const RegisterCompany = () => {
           <div className="w-40 h-40 border -border--color-border-light-grey rounded-xl overflow-hidden">
             <img src={logo} className="h-full w-full object-cover" />
           </div>
+          <p className="text-xs -text--color-mate-dark-violet">Insert Logo URL</p>
           <input
             type="text"
             className="border -border--color-border-light-grey rounded-lg p-2"
@@ -88,12 +89,22 @@ export const RegisterCompany = () => {
               className="mx-2 hover:cursor-pointer"
               required
             />
-            <p className="">I accept <Link to='/terms&conditions' target="_blank" className="-text--color-semidark-violet">terms & conditions</Link></p>
+            <p className="">
+              I accept { }
+              <Link
+                to='/terms&conditions'
+                target="_blank"
+                rel="noopener noreferrer"
+                className="-text--color-semidark-violet hover:border-b"
+              >
+                terms & conditions
+              </Link>
+            </p>
           </div>
         </div>
         <div className="text-center space-x-4 mt-4">
-          <button className="font-bold text-xl -bg--color-ful-red -text--color-white p-4 rounded-xl w-36 hover:opacity-60">Cancel</button>
-          <button type="submit" className="font-bold text-xl -bg--color-semidark-violet -text--color-white p-4 rounded-xl w-36 hover:opacity-60">Register</button>
+          <button className="font-bold text-xl -bg--color-ful-red -text--color-white p-4 rounded-xl w-36 hover:opacity-80">Cancel</button>
+          <button type="submit" className="font-bold text-xl -bg--color-semidark-violet -text--color-white p-4 rounded-xl w-36 hover:opacity-80">Register</button>
         </div>
       </form>
     </main>

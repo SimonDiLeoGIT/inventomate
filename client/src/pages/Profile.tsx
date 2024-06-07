@@ -9,7 +9,7 @@ import { EditUser } from "../components/EditUser";
 
 export const Profile = () => {
 
-  const { isAuthenticated, getAccessTokenSilently, logout } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const { currentUser, setUser } = useUser()
 
