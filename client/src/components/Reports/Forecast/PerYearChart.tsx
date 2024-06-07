@@ -1,13 +1,13 @@
 import { Bar, Line } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
-import { DoughnutChart } from './DoughnutChart';
+import { DoughnutChart } from '../Decisions/DoughnutChart';
 Chart.register(...registerables)
 
 interface props {
   product: ProductForecast
 }
 
-export const PerDateChart: React.FC<props> = ({ product }) => {
+export const PerYearChart: React.FC<props> = ({ product }) => {
 
   return (
     <section>
@@ -15,12 +15,12 @@ export const PerDateChart: React.FC<props> = ({ product }) => {
         <Bar
           className='w-full'
           data={{
-            labels: product.graficoCantidadVendidaXFecha.X.map(x => x),
+            labels: product.graficoCantidadVendidaXAnio.X.map(x => x),
             datasets: [
               {
                 label: product.nombre_producto,
-                data: product.graficoCantidadVendidaXFecha.Y.map(y => y),
-                backgroundColor: product.graficoCantidadVendidaXFecha.Y.map((_, index, array) => {
+                data: product.graficoCantidadVendidaXAnio.Y.map(y => y),
+                backgroundColor: product.graficoCantidadVendidaXAnio.Y.map((_, index, array) => {
                   return index === array.length - 1 ? 'rgba(65, 0, 82, 0.8)' : 'rgba(171, 127, 182, 0.4)';
                 }),
                 borderColor: 'rgba(171, 127, 182)'
@@ -38,11 +38,11 @@ export const PerDateChart: React.FC<props> = ({ product }) => {
           <Line
             className='w-full max-w-full m-auto'
             data={{
-              labels: product.graficoCantidadVendidaXFecha.X.map(x => x),
+              labels: product.graficoCantidadVendidaXAnio.X.map(x => x),
               datasets: [
                 {
                   label: product.nombre_producto,
-                  data: product.graficoCantidadVendidaXFecha.Y.map(y => y),
+                  data: product.graficoCantidadVendidaXAnio.Y.map(y => y),
                   borderColor: 'rgba(65, 0, 82, 0.6)',
                   backgroundColor: 'rgba(65, 0, 82)'
                 }
@@ -58,7 +58,7 @@ export const PerDateChart: React.FC<props> = ({ product }) => {
       </div>
       <div className='my-4 rounded-lg shadow-md -shadow--color-black-shadow grid grid-cols-2 gap-4 -bg--color-border-very-lightest-grey p-2'>
         <p className='font-semibold'>Sales Forecast</p>
-        <p>{product.cantidad_ventas_estimadas}</p>
+        <p>{product.cantidad_ventas_estimadas_proximo_anio}</p>
       </div>
     </section>
   );

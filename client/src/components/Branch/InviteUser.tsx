@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { inviteUser, searchUser } from "../utils/Services/user.database.service"
+import { inviteUser, searchUser } from "../../utils/Services/user.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import add_icon from '../assets/icons/plus-circle-.svg'
 import close_icon from '../assets/icons/close.svg'
-import { WaitingResponse } from "./WaitingResponse"
-import { getRoles } from "../utils/Services/roles.database.service"
-import { DoneMessage } from "./Messages/DoneMessage"
+import { WaitingResponse } from "../Messages/WaitingResponse"
+import { getRoles } from "../../utils/Services/roles.database.service"
+import { DoneMessage } from "../Messages/DoneMessage"
 import done from '../assets/icons/done.svg'
 
 interface props {

@@ -1,5 +1,5 @@
 import { Doughnut } from "react-chartjs-2"
-import calculateInvestmentProfitPercent from "../utils/InvestmentProfitPercentCalculator"
+import calculateInvestmentProfitPercent from "../../utils/InvestmentProfitPercentCalculator"
 
 interface props {
   product: ProductForecast

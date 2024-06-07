@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { editMemberRoles, getMembertRoles, getRoles } from "../utils/Services/roles.database.service"
+import { editMemberRoles, getMembertRoles, getRoles } from "../../utils/Services/roles.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import close_icon from '../assets/icons/close.svg'
-import { WaitingResponse } from "./WaitingResponse"
-import { DoneMessage } from "./Messages/DoneMessage"
+import { WaitingResponse } from "../Messages/WaitingResponse"
+import { DoneMessage } from "../Messages/DoneMessage"
 import done from '../assets/icons/done.svg'
 
 interface props {

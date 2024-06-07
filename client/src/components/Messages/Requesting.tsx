@@ -1,4 +1,4 @@
-import { Loading } from "../pages/Loading"
+import { Loading } from "../../pages/Loading"
 
 export const Requesting = () => {
   return (

@@ -1,11 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
 import { useUser } from "../hook/useUser"
-import { SideNavbar } from "../components/SideNavbar"
-import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
+import { SideNavbar } from "../components/Global/SideNavbar"
+import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { useParams } from "react-router-dom"
 import { getObsolescenceById } from "../utils/Services/obsolescence.database.service"
-import { ObsolescenceChart } from "../components/ObsolescenceChart"
+import { ObsolescenceChart } from "../components/Reports/Obsolescence/ObsolescenceChart"
 
 export const Obsolescense = () => {
 

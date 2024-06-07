@@ -1,4 +1,4 @@
-import { useUser } from "../hook/useUser"
+import { useUser } from "../../hook/useUser"
 import { MenuOptions } from "./MenuOptions"
 
 export const SideNavbar = () => {

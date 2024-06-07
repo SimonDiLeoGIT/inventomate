@@ -1,5 +1,5 @@
 import React from "react";
-import { CompanyBanner } from "./CompanyBanner";
+import { CompanyBanner } from "../Company/CompanyBanner";
 
 interface props {
   branch: BranchCompany | null

@@ -1,6 +1,6 @@
 import { Bar, Line } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
-import { DoughnutChart } from './DoughnutChart';
+import { DoughnutChart } from '../Decisions/DoughnutChart';
 Chart.register(...registerables)
 
 interface props {

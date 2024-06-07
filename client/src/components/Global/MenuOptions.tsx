@@ -7,7 +7,7 @@ import forecasting from '../assets/icons/forecasting.svg'
 import settings from '../assets/icons/settings.svg'
 import settings_section from '../assets/icons/settings-section.svg'
 import report from '../assets/icons/report.svg'
-import { useUser } from "../hook/useUser"
+import { useUser } from "../../hook/useUser"
 
 export const MenuOptions = () => {
 

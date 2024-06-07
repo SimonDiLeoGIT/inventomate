@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { ArrowButtons } from "../components/ArrowButtons"
+import { ArrowButtons } from "../components/Reports/Trends/ArrowButtons"
 import { useTrends } from "../hook/useTrends";
-import { BarChart } from "../components/BarChart";
-import { ProductFeatures } from "../components/ProductFeatures";
-import { ProductStatistics } from "../components/ProductStatistics";
+import { BarChart } from "../components/Reports/Trends/BarChart";
+import { ProductFeatures } from "../components/Reports/Trends/ProductFeatures";
+import { ProductStatistics } from "../components/Reports/Trends/ProductStatistics";
 
 export const Product = () => {
 

@@ -2,10 +2,10 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
-import { SideNavbar } from "../components/SideNavbar"
-import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
+import { SideNavbar } from "../components/Global/SideNavbar"
+import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
-import { MakeDecision } from "../components/MakeDecision"
+import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
 import { Bar } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)

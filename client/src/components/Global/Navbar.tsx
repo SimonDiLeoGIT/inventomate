@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import logo from "../assets/images/InventoMate-logo.png"
 import { Link } from "react-router-dom";
-import { useUser } from "../hook/useUser";
+import { useUser } from "../../hook/useUser";
 import { MobileMenu } from "./MobileMenu";
-import { UserSettings } from "./UserSettings";
+import { UserSettings } from "../UserSettings";
 
 export const Navbar = () => {
 

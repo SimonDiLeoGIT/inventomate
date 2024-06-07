@@ -3,11 +3,11 @@ import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
 import { getTrendById } from "../utils/Services/trends.database.service"
-import { SideNavbar } from "../components/SideNavbar"
+import { SideNavbar } from "../components/Global/SideNavbar"
 import { useTrends } from "../hook/useTrends"
-import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
-import { Products } from "../components/Products"
-import { MakeDecision } from "../components/MakeDecision"
+import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
+import { Products } from "../components/Reports/Trends/Products"
+import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
 
 export const Trend = () => {
 

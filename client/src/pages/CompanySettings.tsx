@@ -3,7 +3,7 @@ import { deleteCompany } from "../utils/Services/company.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import delete_icon from '../assets/icons/delete.svg'
-import { DatabaseConnectionForm } from "../components/DatabaseConnectionForm"
+import { DatabaseConnectionForm } from "../components/Company/DatabaseConnectionForm"
 import { deleteDatabaseConnection, getDatabaseConnection } from "../utils/Services/database.database.service"
 import { DoneMessage } from "../components/Messages/DoneMessage"
 import done from '../assets/icons/done.svg'

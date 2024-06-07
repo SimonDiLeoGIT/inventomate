@@ -2,10 +2,9 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
-import { SideNavbar } from "../components/SideNavbar"
-import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
+import { SideNavbar } from "../components/Global/SideNavbar"
+import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getDecisionsFromReport } from "../utils/Services/decision.database.service"
-import { DoughnutChart } from "../components/DoughnutChart"
 import { Doughnut } from "react-chartjs-2"
 
 export const Decisions = () => {
