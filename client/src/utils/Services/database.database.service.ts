@@ -5,11 +5,7 @@ import { url } from "./api.service"
 export const getGestors = async (accessToken: string) => {
   try {
     const response = await axios({
-<<<<<<< HEAD
-      url: 'http://spring-inventomate:8080/api/bd-empresa/gestores',
-=======
       url: `${url}api/bd-empresa/gestores`,
->>>>>>> 34a40045ecc9db5c75f617f9f0f0323025d5886e
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

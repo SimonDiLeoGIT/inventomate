@@ -3,11 +3,9 @@ import { url } from "./api.service"
 
 export const editMemberRoles = async (accessToken: string, idBranch: string, idUser: number, idRol: number[]) => {
   try {
-<<<<<<< HEAD
-    const url = `http://spring-inventomate:8080/api/sucursales/${idBranch}/users/${idUser}/roles/${idRol}/edit`
-=======
+
     const completeUrl = `${url}api/sucursales/${idBranch}/users/${idUser}/roles/${idRol}/edit`
->>>>>>> 34a40045ecc9db5c75f617f9f0f0323025d5886e
+
     const body = {
       idSucursal: idBranch,
       idUsuario: idUser,
