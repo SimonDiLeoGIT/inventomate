@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
-import decisions from '../assets/icons/decisions.svg'
-import obsolesecnce from '../assets/icons/anti-obsolescence.svg'
-import trends from '../assets/icons/new-trends.svg'
-import orders from '../assets/icons/next-orders.svg'
-import forecasting from '../assets/icons/forecasting.svg'
-import settings from '../assets/icons/settings.svg'
-import settings_section from '../assets/icons/settings-section.svg'
-import report from '../assets/icons/report.svg'
+import decisions from '../../assets/icons/decisions.svg'
+import obsolesecnce from '../../assets/icons/anti-obsolescence.svg'
+import trends from '../../assets/icons/new-trends.svg'
+import orders from '../../assets/icons/next-orders.svg'
+import forecasting from '../../assets/icons/forecasting.svg'
+import settings from '../../assets/icons/settings.svg'
+import settings_section from '../../assets/icons/settings-section.svg'
+import report from '../../assets/icons/report.svg'
 import { useUser } from "../../hook/useUser"
 
 export const MenuOptions = () => {

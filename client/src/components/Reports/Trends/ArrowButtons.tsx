@@ -1,6 +1,6 @@
 import React from 'react'
-import left_arrow from '../assets/icons/left-arrow.svg'
-import right_arrow from '../assets/icons/right-arrow.svg'
+import left_arrow from '../../../assets/icons/left-arrow.svg'
+import right_arrow from '../../../assets/icons/right-arrow.svg'
 
 interface Props {
   currentImage: number

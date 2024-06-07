@@ -1,14 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { LogoSubtitles } from "../components/LogoSubtitles";
 import logo from "../assets/images/InventoMate-logo.png"
-import violet_analysis_icon from "../assets/icons/violet-forecasting.svg"
-import violet_trend_icon from "../assets/icons/violet-new-trends.svg"
-import violet_report from "../assets/icons/violet-report.svg"
-import inventory_icon from "../assets/icons/file-tray-full-outline.svg"
-import { Card } from '../components/Card'
 import { useEffect } from "react";
 import { useUser } from "../hook/useUser";
-import { HomeOptions } from "../components/HomeOptions";
 import { Helmet } from "react-helmet";
 import { HelpSteps } from "../components/Helps/HelpSteps";
 

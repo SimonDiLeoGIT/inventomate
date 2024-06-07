@@ -1,4 +1,4 @@
-import '../styles/Reports.css'
+import '../../../styles/Reports.css'
 import { ReportWithType } from './ReportWithType'
 
 interface props {

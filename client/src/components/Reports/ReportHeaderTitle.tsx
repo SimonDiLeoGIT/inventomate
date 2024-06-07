@@ -1,4 +1,4 @@
-import treds_icon from '../assets/icons/violet-new-trends.svg'
+import treds_icon from '../../assets/icons/violet-new-trends.svg'
 
 interface props {
   title: string

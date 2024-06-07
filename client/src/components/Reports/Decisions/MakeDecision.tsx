@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useState } from "react";
-import close_icon from '../assets/icons/close.svg'
+import close_icon from '../../../assets/icons/close.svg'
 import { postDecision } from "../../../utils/Services/decision.database.service";
 import { WaitingResponse } from "../../Messages/WaitingResponse";
 import { DoneMessage } from "../../Messages/DoneMessage";
-import done from '../assets/icons/done.svg'
+import done from '../../../assets/icons/done.svg'
 
 interface props {
   idReport: string
