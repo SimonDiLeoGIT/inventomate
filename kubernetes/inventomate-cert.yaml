@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nginx-dev-cloudflare
+  namespace: inventomate
+spec:
+  secretName: nginx-dev-cloudflare-tls  # Nombre del secreto que contiene el certificado
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "inventomate.xyz"
+  dnsNames:
+    - "inventomate.xyz"

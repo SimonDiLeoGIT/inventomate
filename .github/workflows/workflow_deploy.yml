@@ -137,29 +137,35 @@ jobs:
           kubectl apply -f python.yaml
           
 
-      - name: Apply Ingress
-        working-directory: ./kubernetes
-        run: |
-          kubectl apply -f ingress.yaml
-
+      
       - name: Install cert-manager CRDs
         run: |
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
-
-      - name: Install cert-manager
-        working-directory: ./kubernetes
-        run: |
-          kubectl apply -f cert-manager.yaml
 
       - name: Crear secreto en Kubernetes
         run: |
           kubectl create secret generic cloudflare-token-secret \
             --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
             --namespace inventomate || echo " secret already exists"      
+      
+      
+      - name: Install cert-manager
+        working-directory: ./kubernetes
+        run: |
+          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+
+      - name: Apply Ingress
+        working-directory: ./kubernetes
+        run: |
+          kubectl apply -f ingress.yaml
+
+
       - name: Install cluster-issuer
         working-directory: ./kubernetes
         run: |
           kubectl apply -f cluster-issuer.yaml
+
+      
     
       
 

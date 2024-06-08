@@ -24,7 +24,7 @@ spec:
         - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
         - --dns01-recursive-nameservers-only
         - --pod-dns-policy=None
-        - --leader-election-namespace=cert-manager
+        - --leader-election-namespace=inventomate
         - --controllers='*'
         - --enable-certificate-owner-ref
         volumeMounts:
@@ -33,12 +33,13 @@ spec:
       volumes:
       - name: temp-ssl-storage
         emptyDir: {}
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: cert-manager-webhook
-  namespace: inventomate
+  namespace: cert-manager
 spec:
   selector:
     app: cert-manager
