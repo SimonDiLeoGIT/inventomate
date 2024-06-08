@@ -4,6 +4,7 @@ kind: Ingress
 metadata:
   name: inventomate-ingress
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
