@@ -7,8 +7,11 @@ spec:
     server: https://acme-v02.api.letsencrypt.org/directory
     email: fedesimone31@gmail.com
     privateKeySecretRef:
-      name: letsencrypt-production
+      name: letsencrypt-prod
     solvers:
+      - http01:
+          ingress:
+            class: nginx
       - dns01:
           cloudflare:
             email: fedesimone31@gmail.com
