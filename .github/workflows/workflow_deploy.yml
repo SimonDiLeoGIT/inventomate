@@ -166,6 +166,11 @@ jobs:
             --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
             --namespace inventomate || echo " secret already exists"      
 
+      - name: Verificar y crear cert-manager-webhook
+        run: |
+          kubectl get svc -n cert-manager cert-manager-webhook || \
+          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.14.5/cert-manager-webhook.yaml
+
       - name: Apply Certificate
         working-directory: ./kubernetes
         run: |
