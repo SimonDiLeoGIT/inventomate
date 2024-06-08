@@ -174,9 +174,11 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl get svc -n inventomate cert-manager-webhook
+
       - name: Apply Certificate
         working-directory: ./kubernetes
         run: |
+          kubectl get crd
           kubectl apply -f inventomate-cert.yaml
 
       
