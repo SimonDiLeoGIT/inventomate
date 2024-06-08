@@ -11,7 +11,7 @@ spec:
     solvers:
       - dns01:
           cloudflare:
-            email: dmpetrocelli@gmail.com
+            email: fedesimone31@gmail.com
             apiTokenSecretRef:
               name: cloudflare-token-secret
               key: NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF

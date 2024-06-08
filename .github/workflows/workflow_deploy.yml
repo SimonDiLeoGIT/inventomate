@@ -156,7 +156,10 @@ jobs:
           kubectl create secret generic cloudflare-token-secret \
             --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
             --namespace inventomate || echo " secret already exists"      
-
+      - name: Install cluster-issuer
+        working-directory: ./kubernetes
+        run: |
+          kubectl apply -f cluster-issuer.yaml
     
       
 
