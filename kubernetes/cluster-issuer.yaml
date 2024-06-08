@@ -14,7 +14,7 @@ spec:
             email: fedesimone31@gmail.com
             apiTokenSecretRef:
               name: cloudflare-token-secret
-              key: 5878375eb036a88ce8d063a2905d5083aced9
+              key: NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF
         selector:
           dnsZones:
             - "inventomate.xyz"
