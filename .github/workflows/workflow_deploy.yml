@@ -95,12 +95,6 @@ jobs:
       
 
       
-      - name: Delete existing cert-manager resources
-        run: |
-          kubectl delete crd certificaterequests.cert-manager.io || true
-
-
-      
 
       - name: Create Aplication Config
         working-directory: ./kubernetes
@@ -155,16 +149,10 @@ jobs:
           kubectl create ns cert-manager || echo " namespace already exists"   
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
 
-      
-
-
       - name: Install cluster-issuer
         working-directory: ./kubernetes
         run: |
           kubectl apply -f cluster-issuer.yaml
-
-    
-      
 
       - name: Get Spring Load Balancer IP
         id: get-spring-ip
