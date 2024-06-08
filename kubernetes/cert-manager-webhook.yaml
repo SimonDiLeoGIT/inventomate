@@ -15,7 +15,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cert-manager-webhook
-  namespace: cert-manager
+  namespace: inventomate
 spec:
   replicas: 1
   selector:
