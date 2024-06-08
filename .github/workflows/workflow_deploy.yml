@@ -135,8 +135,14 @@ jobs:
         run: |
           kubectl apply -f spring.yaml
           kubectl apply -f python.yaml
-          
-      
+
+      - name: Creacion del secreto
+        working-directory: ./kubernetes
+        run: |
+          kubectl create secret generic cloudflare-token-secret \
+          --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF \
+          --namespace cert-manager || echo " secret already exists"
+
       - name: Apply Ingress
         working-directory: ./kubernetes
         run: |
