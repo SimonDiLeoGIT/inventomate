@@ -94,6 +94,12 @@ jobs:
           kubectl config use-context gke_inventomate-424520_us-east1-b_inventomate-cluster
          # kubectl create namespace inventomate
       
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+
       - name: Create Aplication Config
         working-directory: ./kubernetes
         run: |
@@ -140,8 +146,17 @@ jobs:
       
       - name: Install cert-manager
         run: |
-          kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
-          kubectl wait --for=condition=Available deployment --timeout=300s -n cert-manager --all
+          helm install cert-manager jetstack/cert-manager \
+          --namespace cert-manager \
+          --create-namespace \
+          --version 1.14.5 \
+          --set installCRDs=true \
+          --set replicaCount=1 \
+          --set-string 'extraArgs[0]=--dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53' \
+          --set 'extraArgs[1]=--dns01-recursive-nameservers-only' \
+          --set podDnsPolicy=None \
+          --set 'podDnsConfig.nameservers[0]=1.1.1.1' \
+          --set 'podDnsConfig.nameservers[1]=9.9.9.9
 
       - name: Crear secreto en Kubernetes
         run: |
