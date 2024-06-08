@@ -4,6 +4,7 @@ metadata:
   name: cert-manager
   namespace: inventomate
 spec:
+  secretName: cloudflare-token-secret
   replicas: 1
   selector:
     matchLabels:
