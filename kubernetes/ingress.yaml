@@ -11,7 +11,7 @@ spec:
   tls:
   - hosts:
     - inventomate.xyz
-    secretName: hello-tls
+    secretName: cloudflare-token-secret
   rules:
   - host: inventomate.xyz
     http:
