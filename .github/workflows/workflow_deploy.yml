@@ -176,7 +176,8 @@ jobs:
       - name: Create ClusterIssuer for Let's Encrypt
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f cluster-issuer.yaml      
+          kubectl apply -f cluster-issuer.yaml
+          kubectl apply -f letsencrypt-production.yaml      
 
 
       - name: Get Spring Load Balancer IP
