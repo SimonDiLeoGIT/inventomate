@@ -142,15 +142,6 @@ jobs:
         run: |
           kubectl apply -f ingress.yaml
 
-      - name: Delete existing cert-manager deployment
-        run: |
-          kubectl delete deployment cert-manager -n cert-manager || true
-
-      - name: Delete existing cert-manager namespace
-        run: |
-          kubectl delete namespace cert-manager || true
-          kubectl delete crd challenges.acme.cert-manager.io || true
-
       - name: Install cert-manager CRDs
         run: |
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
