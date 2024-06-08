@@ -147,6 +147,10 @@ jobs:
       - name: Delete existing cert-manager deployment
         run: |
           kubectl delete deployment cert-manager -n cert-manager || true
+
+      - name: Delete existing cert-manager namespace
+        run: |
+          kubectl delete namespace cert-manager || true
       
       - name: Install cert-manager
         run: |
