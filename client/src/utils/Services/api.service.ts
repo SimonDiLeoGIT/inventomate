@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { handleApiError } from '../errorHander';
 
-export const url = import.meta.env.VITE_APP_API_SERVER_URL || 'http://spring-inventomate.inventomate.svc.cluster.local/'
+export const url = import.meta.env.VITE_APP_API_SERVER_URL || 'http://10.4.2.6/'
 
 export class ApiService {
 
