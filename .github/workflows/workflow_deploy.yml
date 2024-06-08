@@ -163,6 +163,7 @@ jobs:
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
 
       - name: Install cert-manager
+        working-directory: ./kubernetes
         run: |
           kubectl apply -f cert-manager.yaml
 
