@@ -10,7 +10,7 @@ spec:
   tls:
   - hosts:
     - inventomate.xyz
-    secretName: secretin
+    secretName: cloudflare-token-secret
   rules:
   - host: inventomate.xyz
     http:
