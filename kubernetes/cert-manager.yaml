@@ -18,9 +18,41 @@ rules:
   - ""
   resources:
   - secrets
+  - services
   verbs:
   - get
+  - list
+  - watch
   - create
+  - update
+  - delete
+- apiGroups:
+  - "extensions"
+  - "networking.k8s.io"
+  resources:
+  - ingresses
+  - ingressclasses
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - delete
+- apiGroups:
+  - cert-manager.io
+  resources:
+  - certificates
+  - issuers
+  - orders
+  - challenges
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - delete
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -41,7 +73,7 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: cert-manager
@@ -51,6 +83,16 @@ spec:
         app: cert-manager
     spec:
       serviceAccountName: cert-manager
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 1.1.1.1
+          - 9.9.9.9
       containers:
       - name: cert-manager
-        image: quay.io/jetstack/cert-manager-controller:v1.4.0
+        image: quay.io/jetstack/cert-manager-controller:v1.14.5
+        args:
+          - --v=2
+          - --installCRDs=true
+          - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
+          - --dns01-recursive-nameservers-only
