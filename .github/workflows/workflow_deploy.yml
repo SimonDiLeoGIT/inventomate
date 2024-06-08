@@ -139,8 +139,8 @@ jobs:
       - name: Creacion del secreto
         working-directory: ./kubernetes
         run: |
-          kubectl create secret generic cloudflare-token-secret \
-          --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF \
+          kubectl create secret generic cloudflare \
+          --from-literal=cloudflare-token=5878375eb036a88ce8d063a2905d5083aced9 \
           --namespace cert-manager || echo " secret already exists"
 
       - name: Apply Ingress
