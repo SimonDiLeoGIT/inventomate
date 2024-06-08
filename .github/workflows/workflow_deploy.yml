@@ -138,36 +138,31 @@ jobs:
         run: |
           kubectl delete deployment cert-manager -n cert-manager || true
       
-      - name: Crear secreto en Kubernetes
-        run: |
-          kubectl create secret secretin cloudflare-token-secret \
-            --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
-            --namespace cert-manager || echo " secret already exists"
-          
       - name: Install cert-manager
         run: |
           kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
           kubectl wait --for=condition=Available deployment --timeout=300s -n cert-manager --all
 
+      - name: Crear secreto en Kubernetes
+        run: |
+          kubectl create secret generic cloudflare-token-secret \
+            --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
+            --namespace cert-manager || echo " secret already exists"
+          
+      - name: Create ClusterIssuer for Let's Encrypt
+        working-directory: ./kubernetes
+        run: |
+          kubectl apply -f cluster-issuer.yaml      
+
       - name: Apply cert-manager
         run: |
           wget https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
           kubectl apply --validate=false -f cert-manager.yaml
-          kubectl wait --for=condition=Available deployment --timeout=300s -n cert-manager --all
-      
-      - name: Create ClusterIssuer for Let's Encrypt
-        working-directory: ./kubernetes
-        run: |
-          kubectl apply -f cluster-issuer.yaml
+          kubectl wait --for=condition=Available deployment --timeout=300s -n cert-manager --all      
 
       - name: Apply Certificate
         working-directory: ./kubernetes
         run: kubectl apply -f inventomate-cert.yaml
-
-      
-      - name: Asignar secreto al recurso del certificado
-        run: |
-          kubectl annotate certificate inventomate-certificate cert-manager.io/secret-name=secretin
 
 
       - name: Get Spring Load Balancer IP
