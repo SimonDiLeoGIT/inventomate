@@ -13,12 +13,3 @@ spec:
       - http01:
           ingress:
             class: nginx
-      - dns01:
-          cloudflare:
-            email: fedesimone31@gmail.com
-            apiTokenSecretRef:
-              name: cloudflare-token-secret
-              key: NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF
-        selector:
-          dnsZones:
-            - "inventomate.xyz"
