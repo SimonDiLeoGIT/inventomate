@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { handleApiError } from '../errorHander';
-
-export const url = 'http://34.138.246.40/'
+ 
+export const url = import.meta.env.VITE_APP_API_SERVER_URL
 
 export class ApiService {
 

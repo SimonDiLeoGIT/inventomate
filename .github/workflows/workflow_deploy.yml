@@ -142,7 +142,7 @@ jobs:
         run: |
           kubectl apply -f spring.yaml
           kubectl apply -f python.yaml
-          kubectl apply -f frontend.yaml
+          
 
       - name: Apply Ingress
         working-directory: ./kubernetes
@@ -229,6 +229,8 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl apply -f front-config.yaml
+          kubectl apply -f frontend.yaml
+
 
 
       #Espera a que estea la ip en el load balancer y luego la imprime
