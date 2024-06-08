@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: inventomate-certificate
-  namespace: default
+  name: nginx-dev-cloudflare
+  namespace: inventomate
 spec:
-  commonName: inventomate.xyz
-  dnsNames:
-    - inventomate.xyz
+  secretName: cloudflare-token-secret  # Nombre del secreto que contiene el certificado
   issuerRef:
+    name: letsencrypt-production
     kind: ClusterIssuer
-    name: letsencrypt-prod
-  secretName: secretin  # Agrega el nombre del secreto aq
+  commonName: "inventomate.xyz"
+  dnsNames:
+  - "inventomate.xyz"

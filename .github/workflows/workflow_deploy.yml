@@ -155,16 +155,21 @@ jobs:
         run: |
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
 
+      - name: Install cert-manager
+        working-directory: ./kubernetes
+        run: |
+          kubectl apply -f cert-manager.yaml
+
       - name: Crear secreto en Kubernetes
         run: |
           kubectl create secret generic cloudflare-token-secret \
             --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
             --namespace inventomate || echo " secret already exists"      
 
-      - name: Install cert-manager
+      - name: Apply Certificate
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f cert-manager.yaml
+          kubectl apply -f inventomate-cert.yaml
 
       
 
