@@ -24,7 +24,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: nginx-dev-cloudflare
-  namespace: istio-system
+  namespace: inventomate
 spec:
   secretName: nginx-default-tls
   issuerRef:
