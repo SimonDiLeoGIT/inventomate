@@ -3,7 +3,7 @@ kind: ClusterIssuer
 metadata:
   name: letsencrypt-production
   annotations:
-    cert-manager.io/disable-validation: "true"   # Anotación para desactivar la validación del webhook
+    cert-manager.io/disable-validation: "true"
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
@@ -20,18 +20,3 @@ spec:
         selector:
           dnsZones:
             - "inventomate.xyz"
----
-
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: nginx-dev-cloudflare
-  namespace: cert-manager
-spec:
-  secretName: nginx-default-tls
-  issuerRef:
-    name: letsencrypt-production
-    kind: ClusterIssuer
-  commonName: "inventomate.xyz"
-  dnsNames:
-  - "inventomate.xyz"
