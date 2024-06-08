@@ -101,7 +101,7 @@ jobs:
 
       - name: Delete existing cert-manager resources
         run: |
-          kubectl delete crd certificates.cert-manager.io clusterissuers.cert-manager.io issuers.cert-manager.io orders.cert-manager.io || true
+          kubectl delete crd certificaterequests.cert-manager.io || true
 
 
       - name: Add jetstack repo
@@ -156,41 +156,43 @@ jobs:
       - name: Delete existing cert-manager namespace
         run: |
           kubectl delete namespace cert-manager || true
-      
-      - name: Install cert-manager
-        run: |
-          helm install cert-manager jetstack/cert-manager \
-          --namespace cert-manager \
-          --create-namespace \
-          --version 1.14.5 \
-          --set installCRDs=true \
-          --set replicaCount=3 \
-          --set-string 'extraArgs[0]=--dns01-recursive-nameservers=1.1.1.1:53\,9.9.9.9:53' \
-          --set 'extraArgs[1]=--dns01-recursive-nameservers-only' \
-          --set podDnsPolicy=None \
-          --set 'podDnsConfig.nameservers[0]=1.1.1.1' \
-          --set 'podDnsConfig.nameservers[1]=9.9.9.9'
+          kubectl delete crd challenges.acme.cert-manager.io || true
 
-      - name: Crear secreto en Kubernetes
-        run: |
-          kubectl create secret generic cloudflare-token-secret \
-            --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
-            --namespace cert-manager || echo " secret already exists"
+
+      #- name: Install cert-manager
+      #  run: |
+      #    helm install cert-manager jetstack/cert-manager \
+      #    --namespace cert-manager \
+      #    --create-namespace \
+      #    --version 1.14.5 \
+      #    --set installCRDs=true \
+      #    --set replicaCount=3 \
+      #    --set-string 'extraArgs[0]=--dns01-recursive-nameservers=1.1.1.1:53\,9.9.9.9:53' \
+      #    --set 'extraArgs[1]=--dns01-recursive-nameservers-only' \
+      #    --set podDnsPolicy=None \
+      #    --set 'podDnsConfig.nameservers[0]=1.1.1.1' \
+      #    --set 'podDnsConfig.nameservers[1]=9.9.9.9'
+
+      #- name: Crear secreto en Kubernetes
+      #  run: |
+      #    kubectl create secret generic cloudflare-token-secret \
+      #      --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
+      #      --namespace cert-manager || echo " secret already exists"
           
-      - name: Create ClusterIssuer for Let's Encrypt
-        working-directory: ./kubernetes
-        run: |
-          kubectl apply -f cluster-issuer.yaml      
+      #- name: Create ClusterIssuer for Let's Encrypt
+      #  working-directory: ./kubernetes
+      #  run: |
+      #    kubectl apply -f cluster-issuer.yaml      
 
-      - name: Apply cert-manager
-        run: |
-          wget https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
-          kubectl apply --validate=false -f cert-manager.yaml
-          kubectl wait --for=condition=Available deployment --timeout=300s -n cert-manager --all      
+      #- name: Apply cert-manager
+      #  run: |
+      #    wget https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+      #    kubectl apply --validate=false -f cert-manager.yaml
+      #    kubectl wait --for=condition=Available deployment --timeout=300s -n cert-manager --all      
 
-      - name: Apply Certificate
-        working-directory: ./kubernetes
-        run: kubectl apply -f inventomate-cert.yaml
+      #- name: Apply Certificate
+      #  working-directory: ./kubernetes
+      #  run: kubectl apply -f inventomate-cert.yaml
 
 
       - name: Get Spring Load Balancer IP
