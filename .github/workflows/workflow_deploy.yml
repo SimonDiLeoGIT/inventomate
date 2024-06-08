@@ -178,12 +178,6 @@ jobs:
         run: |
           kubectl apply -f cluster-issuer.yaml      
 
-      - name: Apply cert-manager
-        run: |
-          wget https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
-          kubectl apply --validate=false -f cert-manager.yaml
-          kubectl wait --for=condition=Available deployment --timeout=300s -n cert-manager --all      
-
       - name: Apply Certificate
         working-directory: ./kubernetes
         run: kubectl apply -f inventomate-cert.yaml
