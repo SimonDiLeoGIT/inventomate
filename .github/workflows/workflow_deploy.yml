@@ -167,9 +167,10 @@ jobs:
             --namespace inventomate || echo " secret already exists"      
 
       - name: Verificar y crear cert-manager-webhook
+        working-directory: ./kubernetes
         run: |
           kubectl get svc -n inventomate cert-manager-webhook || \
-          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.14.5/cert-manager-webhook.yaml
+          kubectl apply -f cert-manager-webhook.yaml
 
       - name: Apply Certificate
         working-directory: ./kubernetes
