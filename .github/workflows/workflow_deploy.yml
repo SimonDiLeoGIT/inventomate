@@ -140,7 +140,9 @@ jobs:
       
       - name: Crear secreto en Kubernetes
         run: |
-          kubectl create secret tls secretin --cert=certificate.crt --key=private.key --dry-run=client -o yaml | kubectl apply -f -
+          kubectl create secret secretin cloudflare-token-secret \
+            --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
+            --namespace cert-manager || echo " secret already exists"
           
       - name: Install cert-manager
         run: |
