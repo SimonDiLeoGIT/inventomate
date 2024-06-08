@@ -5,9 +5,18 @@ metadata:
   namespace: inventomate
 spec:
   secretName: cloudflare-token-secret  # Nombre del secreto que contiene el certificado
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  isCA: false
+  usages:
+    - server auth
+  commonName: "inventomate.xyz"
+  dnsNames:
+    - "inventomate.xyz"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: "inventomate.xyz"
-  dnsNames:
-  - "inventomate.xyz"
