@@ -165,7 +165,10 @@ jobs:
         run: |
           kubectl apply -f cluster-issuer.yaml
 
-      
+      - name: Install certificate
+        working-directory: ./kubernetes
+        run: |
+          kubectl apply -f inventomate-cert.yaml
     
       
 
