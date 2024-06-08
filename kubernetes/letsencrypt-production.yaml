@@ -1,3 +1,4 @@
+---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -14,22 +15,7 @@ spec:
             email: fedesimone31@gmail.com
             apiTokenSecretRef:
               name: cloudflare-token-secret
-              key: 5878375eb036a88ce8d063a2905d5083aced9
+              key: cloudflare-token
         selector:
           dnsZones:
             - "inventomate.xyz"
----
-
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: nginx-dev-cloudflare
-  namespace: istio-system
-spec:
-  secretName: nginx-default-tls
-  issuerRef:
-    name: letsencrypt-production
-    kind: ClusterIssuer
-  commonName: "inventomate.xyz"
-  dnsNames:
-  - "inventomate.xyz"

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { handleApiError } from '../errorHander';
 
-export const url = 'http://spring-inventomate/'
+export const url = 'http://34.75.30.74/'
 
 export class ApiService {
 

@@ -158,7 +158,7 @@ jobs:
       - name: Create ClusterIssuer for Let's Encrypt
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f letsencrypt-issuer.yaml
+          kubectl apply -f cluster-issuer.yaml
 
       - name: Apply Certificate
         working-directory: ./kubernetes
@@ -168,6 +168,43 @@ jobs:
       - name: Asignar secreto al recurso del certificado
         run: |
           kubectl annotate certificate inventomate-certificate cert-manager.io/secret-name=secretin
+
+
+      - name: Get Spring Load Balancer IP
+        id: get-spring-ip
+        run: |
+          SERVICE_NAME=spring-inventomate
+          NAMESPACE=inventomate
+          MAX_ATTEMPTS=10
+          INTERVAL=10
+          COUNT=0
+          
+          while [ "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" == "" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
+            echo "Waiting for external IP for service $SERVICE_NAME..."
+            sleep $INTERVAL
+            COUNT=$((COUNT+1))
+          done
+
+          if [ $COUNT -eq $MAX_ATTEMPTS ]; then
+            echo "Timed out waiting for external IP for service $SERVICE_NAME"
+            exit 1
+          else
+            SPRING_LB_IP=$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+            echo "Spring Load Balancer IP: $SPRING_LB_IP"
+            echo "::set-output name=spring_lb_ip::$SPRING_LB_IP"
+          fi
+
+      - name: Update front-config.yaml with Spring IP
+        run: |
+          SPRING_LB_IP=${{ steps.get-spring-ip.outputs.spring_lb_ip }}
+          sed -i "s|VITE_APP_API_SERVER_URL: .*|VITE_APP_API_SERVER_URL: \"http://$SPRING_LB_IP/api\"|g" ./kubernetes/front-config.yaml
+          cat ./kubernetes/front-config.yaml # Para verificar que el cambio se aplicó correctamente
+
+      - name: Reapply updated front-config.yaml
+        working-directory: ./kubernetes
+        run: |
+          kubectl apply -f front-config.yaml
+
 
       #Espera a que estea la ip en el load balancer y luego la imprime
       - name: Wait for Load Balancer IP
