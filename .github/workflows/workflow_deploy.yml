@@ -146,7 +146,7 @@ jobs:
         run: |
           kubectl create secret generic cloudflare-token-secret \
             --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
-            --namespace inventomate || echo " secret already exists"      
+            --namespace default || echo " secret already exists"      
       
       
       - name: Install cert-manager
