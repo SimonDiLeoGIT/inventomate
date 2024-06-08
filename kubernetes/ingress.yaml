@@ -21,7 +21,7 @@ spec:
           service:
             name: frontend-inventomate
             port:
-              number: 443
+              number: 80
       - path: /api
         pathType: Prefix
         backend:
