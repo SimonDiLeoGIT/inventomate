@@ -33,3 +33,16 @@ spec:
       volumes:
       - name: temp-ssl-storage
         emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cert-manager-webhook
+  namespace: inventomate
+spec:
+  selector:
+    app: cert-manager
+  ports:
+    - protocol: TCP
+      port: 443
+      targetPort: 8443

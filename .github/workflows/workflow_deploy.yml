@@ -166,10 +166,6 @@ jobs:
             --from-literal=cloudflare-token=NcABmzmORZSzjkG8gOq4qM9ONIrZHCmWpWWbSSJF\
             --namespace inventomate || echo " secret already exists"      
 
-      - name: Deploy cert-manager webhook
-        working-directory: ./kubernetes
-        run: kubectl apply -f cert-manager-webhook.yaml
-
       - name: Verificar y crear cert-manager-webhook
         working-directory: ./kubernetes
         run: |
@@ -178,7 +174,6 @@ jobs:
       - name: Apply Certificate
         working-directory: ./kubernetes
         run: |
-          kubectl get crd
           kubectl apply -f inventomate-cert.yaml
 
       
