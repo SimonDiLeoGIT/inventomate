@@ -1,15 +1,13 @@
-apiVersion: cert-manager.io/v1
+apiVersion: apps/v1
 kind: Certificate
 metadata:
   name: nginx-dev-cloudflare
   namespace: inventomate
-  annotations:
-    cert-manager.io/disable-validation: "true"  # Esta anotación deshabilita la validación del webhook
 spec:
-  secretName: cloudflare-token-secret  # Nombre del secreto que contiene el certificado
+  secretName: cloudflare-token-secret
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
   commonName: "inventomate.xyz"
   dnsNames:
-  - "inventomate.xyz"
+    - "inventomate.xyz"
