@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.inventoMate.dtos.bdEmpresas.tablas.Categoria;
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaGanancia;
 import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleCompra;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleVenta;
@@ -139,4 +140,13 @@ public class ConsultasSQL implements Consultas {
 						.build())
 				.collect(Collectors.toList());
 	}
+
+	@Override
+	public List<CategoriaGanancia> getProductoPorcentajeGanancia(JdbcTemplate jdbcTemplate,
+			Long idSucCliente) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }
