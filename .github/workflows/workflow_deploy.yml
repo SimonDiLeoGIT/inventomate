@@ -128,7 +128,7 @@ jobs:
         run: |
           kubectl apply -f spring.yaml
           kubectl apply -f python.yaml
-          kubectl apply -f frontend.yaml
+         
 
       - name: Creacion del secreto
         working-directory: ./kubernetes
