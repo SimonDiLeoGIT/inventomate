@@ -100,7 +100,6 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl apply -f app-config.yaml
-          kubectl apply -f front-config.yaml
           kubectl apply -f db-secrets.yaml
 
       - name: MYSQL deploy
@@ -190,7 +189,7 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl apply -f front-config.yaml
-          kubectl delete pod -l app=frontend -n inventomate
+          kubectl delete pod -l app=frontend-inventomate -n inventomate
           kubectl apply -f frontend.yaml
 
 
