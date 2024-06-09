@@ -21,14 +21,6 @@ spec:
         envFrom:
           - configMapRef:
               name: front-config
-        volumeMounts:
-          - name: config-volume
-            mountPath: /app/.env
-            readOnly: true
-      volumes:
-        - name: config-volume
-          configMap:
-            name: front-config
         
           
 ---
