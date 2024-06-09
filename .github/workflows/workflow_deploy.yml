@@ -172,7 +172,7 @@ jobs:
           fi
 
       #Espera a que estea la ipa en el load balancer y luego la imprime
-      - name: Wait for Load Balancer IP
+      - name: Wait for Frontend Load Balancer IP
         id: wait-for-lb-ip
         run: |
           SERVICE_NAME=frontend-inventomate
