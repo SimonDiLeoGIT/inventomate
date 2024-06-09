@@ -189,7 +189,6 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl apply -f front-config.yaml
-          kubectl delete pod -l app=frontend-inventomate -n inventomate
           kubectl apply -f frontend.yaml
 
 
