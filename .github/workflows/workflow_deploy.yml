@@ -183,11 +183,11 @@ jobs:
           SPRING_LB_IP=${{ steps.get-spring-ip.outputs.spring_lb_ip }}
           sed -i "s|VITE_APP_API_SERVER_URL: .*|VITE_APP_API_SERVER_URL: \"http://$SPRING_LB_IP/api\"|g" ./kubernetes/front-config.yaml
           cat ./kubernetes/front-config.yaml # Para verificar que el cambio se aplicó correctamente
+          kubectl apply -f ./kubernetes/front-config.yaml
 
       - name: Reapply updated front-config.yaml
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f front-config.yaml
           kubectl apply -f frontend.yaml
           sleep 12
 
