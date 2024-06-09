@@ -189,6 +189,7 @@ jobs:
         run: |
           kubectl apply -f front-config.yaml
           kubectl apply -f frontend.yaml
+          sleep 12
 
 
 
