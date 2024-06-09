@@ -192,7 +192,7 @@ jobs:
 
 
 
-      #Espera a que estae la ip en el load balancer y luego la imprime
+      #Espera a que este la ip en el load balancer y luego la imprime
       - name: Wait for Load Balancer IP
         id: wait-for-lb-ip
         run: |
