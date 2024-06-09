@@ -1,3 +1,7 @@
+interface PedidoConCategoria extends Pedido {
+  categoria: string;
+}
+
 interface Pedido {
   cantidad_a_comprar: number;
   id_producto: number;

@@ -7,13 +7,15 @@ interface Props {
 }
 
 export const Overview: React.FC<Props> = ({ nextOrders }) => {
-  const [orders, setOrders] = useState<Pedido[]>([]);
-  const [sortBy, setSortBy] = useState<keyof Pedido>('id_producto');
+  const [orders, setOrders] = useState<PedidoConCategoria[]>([]);
+  const [sortBy, setSortBy] = useState<keyof PedidoConCategoria>('id_producto');
   const [sortOrder, setSortOrder] = useState<string>('asc');
 
   useEffect(() => {
-    const allOrders = Object.values(nextOrders.pedidos).flatMap(categoria => categoria);
-    let sortedOrders: Pedido[]
+    const allOrders: PedidoConCategoria[] = Object.entries(nextOrders.pedidos).flatMap(([categoria, pedidos]) =>
+      pedidos.map(pedido => ({ ...pedido, categoria }))
+    );
+    let sortedOrders: PedidoConCategoria[]
     if (sortBy === 'id_producto' || sortBy === 'stock_actual' || sortBy === 'cantidad_a_comprar') {
       sortedOrders = orderByNumber(allOrders, sortBy, sortOrder);
     } else {
@@ -22,40 +24,30 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
     setOrders(sortedOrders);
   }, [nextOrders, sortBy, sortOrder]);
 
-  const orderByString = (orders: Pedido[], sortBy: keyof Pedido, sortOrder: string) => {
-    return orders.slice().sort((a, b) => {
-      let aValue: string | number = a[sortBy];
-      let bValue: string | number = b[sortBy];
-
-      if (typeof aValue === 'number') aValue = aValue.toString();
-      if (typeof bValue === 'number') bValue = bValue.toString();
-
-      if (sortOrder === 'asc') {
-        return aValue.localeCompare(bValue);
-      } else {
-        return bValue.localeCompare(aValue);
-      }
+  // Función para ordenar por número
+  const orderByNumber = (orders: PedidoConCategoria[], sortBy: keyof PedidoConCategoria, sortOrder: string): PedidoConCategoria[] => {
+    return orders.sort((a, b) => {
+      const valueA = a[sortBy] as number;
+      const valueB = b[sortBy] as number;
+      return sortOrder === 'asc' ? valueA - valueB : valueB - valueA;
     });
   };
 
-  const orderByNumber = (orders: Pedido[], sortBy: keyof Pedido, sortOrder: string) => {
-    return orders.slice().sort((a, b) => {
-      let aValue: string | number = a[sortBy];
-      let bValue: string | number = b[sortBy];
-
-      if (typeof aValue === 'string') aValue = Number(aValue)
-      if (typeof bValue === 'string') bValue = Number(bValue)
-
+  // Función para ordenar por cadena
+  const orderByString = (orders: PedidoConCategoria[], sortBy: keyof PedidoConCategoria, sortOrder: string): PedidoConCategoria[] => {
+    return orders.sort((a, b) => {
+      const valueA = a[sortBy] as string;
+      const valueB = b[sortBy] as string;
       if (sortOrder === 'asc') {
-        return aValue - bValue;
+        return valueA.localeCompare(valueB);
       } else {
-        return bValue - aValue;
+        return valueB.localeCompare(valueA);
       }
     });
   };
 
 
-  const handleSelect = (id: keyof Pedido, op: string) => {
+  const handleSelect = (id: keyof PedidoConCategoria, op: string) => {
     setSortBy(id);
     setSortOrder(op);
   };
@@ -93,14 +85,9 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
         </div>
       </li>
       {
-        // Object.keys(nextOrders.pedidos).map((categoria) => (
-        //   nextOrders.pedidos[categoria].map((order, index) => (
-        //     <SuggestionJustification order={order} justification={order.justificacion} index={index} category={categoria} />
-        //   ))
-        // ))
         orders.map((order, index) => {
           return (
-            <SuggestionJustification order={order} justification={order.justificacion} index={index} category='' />
+            <SuggestionJustification order={order} justification={order.justificacion} index={index} category={order.categoria} />
           )
         })
       }
