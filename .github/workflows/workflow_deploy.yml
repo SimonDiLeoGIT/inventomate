@@ -94,8 +94,6 @@ jobs:
           kubectl create namespace inventomate || echo " namespace already exists"
       
 
-      
-
       - name: Create Aplication Config
         working-directory: ./kubernetes
         run: |
@@ -130,29 +128,10 @@ jobs:
           kubectl apply -f python.yaml
          
 
-      - name: Creacion del secreto
-        working-directory: ./kubernetes
-        run: |
-          kubectl create secret generic cloudflare \
-          --from-literal=cloudflare-token=5878375eb036a88ce8d063a2905d5083aced9 \
-          --namespace cert-manager || echo " secret already exists"
-
       - name: Apply Ingress
         working-directory: ./kubernetes
         run: |
           kubectl apply -f ingress.yaml      
-
-
-      - name: Install cert-manager
-        working-directory: ./kubernetes
-        run: |
-          kubectl create ns cert-manager || echo " namespace already exists"   
-          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
-
-      - name: Aplicar cluster-issuer
-        working-directory: ./kubernetes
-        run: |
-          kubectl apply -f cluster-issuer.yaml
 
       - name: Get Spring Load Balancer IP
         id: get-spring-ip
