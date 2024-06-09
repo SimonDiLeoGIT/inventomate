@@ -149,7 +149,7 @@ jobs:
           kubectl create ns cert-manager || echo " namespace already exists"   
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
 
-      - name: Install cluster-issuer
+      - name: Aplicar cluster-issuer
         working-directory: ./kubernetes
         run: |
           kubectl apply -f cluster-issuer.yaml
