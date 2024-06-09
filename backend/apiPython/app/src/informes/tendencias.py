@@ -4,6 +4,21 @@ import pprint
 import statistics
 
 
+def obtener_datos_cliente(info_cliente, categoria):
+    precio_min = 0
+    precio_max = 0
+    porcentaje_ganancia = 0
+    for info_categoria in info_cliente["minimos_maximos_categorias"]:
+        if categoria == info_categoria["nombre_categoria"]:
+            precio_min = float(info_categoria["precio_minimo"])
+            precio_max = float(info_categoria["precio_maximo"])
+    
+    for info_ganancia in info_cliente["porcentaje_ganancia_categorias"]:
+        if categoria == info_ganancia["nombre_categoria"]:
+            porcentaje_ganancia = float(info_ganancia["porcentaje_ganancia"])
+            
+    return precio_min, precio_max, porcentaje_ganancia
+
 def procesar_tendencias(datos):
     resultado = {}
     resultado["fecha_actual"] = date.today().strftime("%Y-%m-%d")
@@ -17,14 +32,21 @@ def procesar_tendencias(datos):
             actual_trend_position = producto["trend_position"]
             if producto["additional_info"]["buy_box_winner"] is not None:
                 actual_precio = float(producto["additional_info"]["buy_box_winner"]["price"])
-                procesamiento = procesar_producto(historico_categoria,  prod_nombre, actual_trend_position, actual_precio)
+                min_precio, max_precio, porcentaje = obtener_datos_cliente(datos["informacion_cliente"], categoria)
+                procesamiento = procesar_producto(
+                    historico_categoria, prod_nombre, 
+                    actual_trend_position, 
+                    actual_precio, 
+                    min_precio, 
+                    max_precio, 
+                    porcentaje)
                 producto["procesamiento"] = procesamiento
             # pprint.pprint(procesamiento)
     
     return resultado
 
 
-def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, actual_precio):
+def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, actual_precio, min_precio_cat, max_precio_cat, porcentaje_cat):
     procesamiento = {}
     variacion_precios = [actual_precio]
     variacion_tendencia = [actual_trend_position]
@@ -46,6 +68,8 @@ def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, a
                     meses.append(mes)
                     variacion_precios.append(precioProducto)
                     variacion_tendencia.append(trendPosition)
+                    
+            
     
     grafico_precios = {
         "X": meses,
@@ -57,6 +81,9 @@ def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, a
         "Y": variacion_tendencia
     }
     
+    precio_sugerido = round(actual_precio * ((100 - porcentaje_cat) / 100), 2)
+    
+    en_rango = ((actual_precio >= min_precio_cat) and (actual_precio <= max_precio_cat))
     
     procesamiento = {
         "variacion_precio": ordenarGraficoPorFecha(grafico_precios),
@@ -66,6 +93,10 @@ def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, a
         "desvio_precio": desvio(variacion_precios),
         "desvio_trendPosition": desvio(variacion_tendencia),
         "meses_en_tendencia": len(meses) - 1,
+        "minimo_precio": min(variacion_precios),
+        "maximo_precio": max(variacion_precios),
+        "precio_sugerido": precio_sugerido,
+        "en_rango_categoria": en_rango
     }
     
     return procesamiento
@@ -96,9 +127,9 @@ def desvio(datos):
         return None
 
 
-# if (__name__) == "__main__":
-#     with open("ejemplo.json", "r", encoding="utf-8") as archivo:
-#         datos = json.load(archivo)
-#         res = procesar_tendencias(datos)
-#     with open("res.json", 'w') as file:
-#         json.dump(res, file, indent=4)
+if (__name__) == "__main__":
+    with open("ejemplo.json", "r", encoding="utf-8") as archivo:
+        datos = json.load(archivo)
+        res = procesar_tendencias(datos)
+    with open("res.json", 'w') as file:
+        json.dump(res, file, indent=4)

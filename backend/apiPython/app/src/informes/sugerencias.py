@@ -118,7 +118,7 @@ def sugerir(json_data):
             "id_producto": id_producto,
             "nombre_producto": nombre_producto,
             "stock_actual": stockProducto,
-            "cantidad_a_comprar": 0,
+            "cantidad_a_comprar": cantidad_a_comprar,
             "justificacion": justificacion
         }
         
@@ -172,9 +172,9 @@ def sugerir(json_data):
     return json_procesado
 
 
-# if (__name__) == "__main__":
-#     with open("pedidos2.json", "r") as archivo:
-#         datos = json.load(archivo)
-#     res = sugerir(datos)
-#     with open("res.json", 'w') as file:
-#         json.dump(res, file, indent=4)
+if (__name__) == "__main__":
+    with open("pedidos2.json", "r") as archivo:
+        datos = json.load(archivo)
+    res = sugerir(datos)
+    with open("res.json", 'w') as file:
+        json.dump(res, file, indent=4)
