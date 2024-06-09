@@ -29,8 +29,8 @@ spec:
         - name: config-volume
           configMap:
             name: front-config
-        
-          
+
+
 ---
 # frontend-service.yaml
 apiVersion: v1

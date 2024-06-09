@@ -131,8 +131,13 @@ kind: Service
 metadata:
   name: spring-inventomate
   namespace: inventomate
+  annotations:
+    #cloud.google.com/neg: '{"ingress": true}'
+    #service.beta.kubernetes.io/azure-load-balancer-resource-group: myResourceGroup
+    cloud.google.com/load-balancer-ipv4: "34.148.152.120"
 spec:
   type: LoadBalancer
+  loadBalancerIP: 34.148.152.120
   ports:
   - protocol: TCP
     port: 80

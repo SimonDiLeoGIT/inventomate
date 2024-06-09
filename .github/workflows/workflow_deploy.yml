@@ -99,6 +99,7 @@ jobs:
         run: |
           kubectl apply -f app-config.yaml
           kubectl apply -f db-secrets.yaml
+          kubectl apply -f front-config.yaml
 
       - name: MYSQL deploy
         working-directory: ./kubernetes
@@ -126,51 +127,49 @@ jobs:
         run: |
           kubectl apply -f spring.yaml
           kubectl apply -f python.yaml
-         
+          kubectl apply -f frontend.yaml
 
       - name: Apply Ingress
         working-directory: ./kubernetes
         run: |
           kubectl apply -f ingress.yaml      
 
-      - name: Get Spring Load Balancer IP
-        id: get-spring-ip
+
+      - name: Install cert-manager
+        run: |
+          kubectl create ns cert-manager || echo " namespace already exists"   
+          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+
+      - name: Apply cluster-issuer
+        working-directory: ./kubernetes
+        run: |
+          kubectl apply -f cluster-issuer.yaml
+
+      #Espera a que estea la ipa en el load balancer y luego la imprime
+      - name: Wait for Spring Load Balancer IP
+        id: wait-for-sp-lb-ip
         run: |
           SERVICE_NAME=spring-inventomate
           NAMESPACE=inventomate
+          EXPECTED_IP=34.148.152.120
           MAX_ATTEMPTS=10
           INTERVAL=10
           COUNT=0
-          
-          while [ "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" == "" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
-            echo "Waiting for external IP for service $SERVICE_NAME..."
+
+          while [ "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != "$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
+            echo "Waiting for external IP..."
             sleep $INTERVAL
             COUNT=$((COUNT+1))
           done
 
           if [ $COUNT -eq $MAX_ATTEMPTS ]; then
-            echo "Timed out waiting for external IP for service $SERVICE_NAME"
+            echo "Timed out waiting for external IP"
             exit 1
           else
-            SPRING_LB_IP=$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
-            echo "Spring Load Balancer IP: $SPRING_LB_IP"
-            echo "::set-output name=spring_lb_ip::$SPRING_LB_IP"
+            LOAD_BALANCER_IP=$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+            echo "Load Balancer IP: $LOAD_BALANCER_IP"
+            echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP"
           fi
-
-      - name: Update front-config.yaml with Spring IP
-        run: |
-          SPRING_LB_IP=${{ steps.get-spring-ip.outputs.spring_lb_ip }}
-          sed -i "s|VITE_APP_API_SERVER_URL: .*|VITE_APP_API_SERVER_URL: \"http://$SPRING_LB_IP/api\"|g" ./kubernetes/front-config.yaml
-          cat ./kubernetes/front-config.yaml # Para verificar que el cambio se aplicó correctamente
-          
-
-      - name: Reapply updated front-config.yaml
-        working-directory: ./kubernetes
-        run: |
-          kubectl apply -f front-config.yaml
-          kubectl apply -f frontend.yaml
-
-
 
       #Espera a que estea la ipa en el load balancer y luego la imprime
       - name: Wait for Load Balancer IP
