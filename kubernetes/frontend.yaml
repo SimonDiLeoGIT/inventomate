@@ -39,7 +39,7 @@ metadata:
   name: frontend-inventomate
   namespace: inventomate
   annotations:
-    cloud.google.com/neg: '{"ingress": true}'
+    #cloud.google.com/neg: '{"ingress": true}'
     #service.beta.kubernetes.io/azure-load-balancer-resource-group: myResourceGroup
     cloud.google.com/load-balancer-ipv4: "35.227.28.109" 
 spec:
