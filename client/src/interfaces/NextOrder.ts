@@ -1,11 +1,3 @@
-interface Producto {
-  cantidad_a_comprar: number;
-  id_producto: number;
-  justificacion: string;
-  nombre_producto: string;
-  stock_actual: number;
-}
-
 interface Pedido {
   cantidad_a_comprar: number;
   id_producto: number;
