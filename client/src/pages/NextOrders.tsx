@@ -6,8 +6,8 @@ import { SideNavbar } from "../components/Global/SideNavbar"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
 import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
-import { NextOrdersChart } from "../components/NextOrders/NextOrdersChart"
-import { SuggestionJustification } from "../components/NextOrders/SuggestionJustification"
+import { TopTen } from "../components/NextOrders/TopTen"
+import { Overview } from "../components/NextOrders/Overview"
 
 export const NextOrders = () => {
 
@@ -19,8 +19,9 @@ export const NextOrders = () => {
   const { setUser } = useUser()
 
   const [nextOrders, setNextOrders] = useState<NextOrders>()
-  const [category, setCategory] = useState<string>('General')
 
+  const [overview, setOverview] = useState<boolean>(false);
+  const [urgently, setUrgently] = useState<boolean>(true);
 
   useEffect(() => {
 
@@ -39,8 +40,10 @@ export const NextOrders = () => {
 
   }, [isAuthenticated])
 
-  const handleChangeOption = (id: string) => {
-    if (id !== undefined) setCategory(id)
+
+  function changeSection() {
+    setOverview(!overview)
+    setUrgently(!urgently)
   }
 
 
@@ -53,65 +56,32 @@ export const NextOrders = () => {
         <header className="p-2">
           <ReportHeaderTitle title="Next Orders" />
         </header>
-        <h3 className="font-bold -text--color-mate-dark-violet text-lg">Top Ten Products To Order</h3>
-        <form className='my-4'>
-          <select
-            className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
-            onChange={(e) => handleChangeOption(e.target.value)}
-          >
-            <option value={"General"} className="-bg--color-white hover:cursor-pointer">General</option>
-            {
-              nextOrders && Object.keys(nextOrders.pedidos).map(categoria => {
-                return (
-                  <option value={categoria} className="-bg--color-white hover:cursor-pointer">{categoria}</option>
-                )
-              })
-            }
-          </select>
-        </form>
-        {
-          nextOrders &&
-          <NextOrdersChart nextOrders={nextOrders} category={category} />
-        }
-        <ul className="my-4 rounded-lg overflow-hidden shadow-md">
-          <li className="grid grid-cols-10 border-b p-2 -bg--color-mate-dark-violet -text--color-white font-bold">
-            <p >Id</p>
-            <p className="col-span-3">Name</p>
-            <p className="col-span-2">Category</p>
-            <p className="col-span-2">Actual Stock</p>
-            <p className="col-span-2">Quantity To Order</p>
-          </li>
+        <section>
+          <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${urgently && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => changeSection()}
+            >
+              Top ten
+            </h2>
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${overview && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => changeSection()}
+            >
+              Overview
+            </h2>
+          </header>
           {
             nextOrders &&
             (
-              category === "General"
+              urgently
                 ?
-                nextOrders.top_general.map((order, index) => {
-                  return (
-                    Object.keys(nextOrders.pedidos).map((categoria) => (
-                      nextOrders.pedidos[categoria].map((justificatedOrder) => (
-                        justificatedOrder.id_producto === order.id_producto &&
-                        <SuggestionJustification order={order} justification={justificatedOrder.justificacion} index={index} category={categoria} />
-                      ))
-                    ))
-                  )
-                })
+                <TopTen nextOrders={nextOrders} />
                 :
-                nextOrders.top_por_categoria[category].flatMap((order, index) =>
-                  nextOrders.pedidos[category].flatMap((justificatedOrder) =>
-                    justificatedOrder.id_producto === order.id_producto
-                      ? <SuggestionJustification
-                        key={`${order.id_producto}-${index}`}
-                        order={order}
-                        justification={justificatedOrder.justificacion}
-                        index={index}
-                        category={category}
-                      />
-                      : []
-                  ))
+                <Overview nextOrders={nextOrders} />
             )
           }
-        </ul>
+        </section>
         <div className="my-4">
           {
             idInforme && idBranch &&
