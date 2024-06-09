@@ -189,7 +189,7 @@ jobs:
       - name: Reapply updated front-config.yaml
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f ./kubernetes/front-config.yaml
+          kubectl apply -f front-config.yaml
           
 
 
