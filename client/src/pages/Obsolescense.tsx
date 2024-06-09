@@ -5,7 +5,6 @@ import { SideNavbar } from "../components/Global/SideNavbar"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { useParams } from "react-router-dom"
 import { getObsolescenceById } from "../utils/Services/obsolescence.database.service"
-import { ObsolescenceChart } from "../components/Reports/Obsolescence/ObsolescenceChart"
 
 export const Obsolescense = () => {
 
@@ -44,10 +43,8 @@ export const Obsolescense = () => {
         <header className="p-2">
           <ReportHeaderTitle title="Obsolescence" />
         </header>
-        {obsolescense &&
-          <ObsolescenceChart grafico={obsolescense?.grafico} />
 
-        }<ul className="my-4">
+        <ul className="my-4">
           {
             obsolescense?.productos_obsoletos.map((product) => {
               return (

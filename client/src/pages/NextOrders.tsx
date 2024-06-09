@@ -6,8 +6,8 @@ import { SideNavbar } from "../components/Global/SideNavbar"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
 import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
-import { Chart, registerables } from 'chart.js'
-Chart.register(...registerables)
+import { BarChart } from "../components/Chart/BarChart"
+import { NextOrdersChart } from "../components/NextOrders/NextOrdersChart"
 
 export const NextOrders = () => {
 
@@ -18,7 +18,8 @@ export const NextOrders = () => {
 
   const { setUser } = useUser()
 
-  const [nextOrders, setNextOrders] = useState<NextOrder>()
+  const [nextOrders, setNextOrders] = useState<NextOrders>()
+  const [category, setCategory] = useState<string>('General')
 
 
   useEffect(() => {
@@ -38,6 +39,11 @@ export const NextOrders = () => {
 
   }, [isAuthenticated])
 
+  const handleChangeOption = (id: string) => {
+    if (id !== undefined) setCategory(id)
+  }
+
+
   return (
     <main className="-text--color-black flex">
       <section className="hidden relative lg:block w-64">
@@ -47,58 +53,38 @@ export const NextOrders = () => {
         <header className="p-2">
           <ReportHeaderTitle title="Next Orders" />
         </header>
-        <ul className="my-4">
-          {
-            nextOrders?.pedidos.map((order) => {
-              return (
-                <li className="-bg--color-border-very-lightest-grey rounded-lg shadow-md -shadow--color-black-shadow mb-4 overflow-hidden">
-                  <ul>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Product Id
-                      </p>
-                      <p>
-                        {order.id_producto}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 -bg--color-white p-2">
-                      <p className="m-auto ml-0">
-                        Product Name
-                      </p>
-                      <p>
-                        {order.nombre_producto}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Actual Stock
-                      </p>
-                      <p>
-                        {order.stock_actual}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2 -bg--color-white">
-                      <p className="m-auto ml-0">
-                        Quantity To Order
-                      </p>
-                      <p>
-                        {order.cantidad_a_comprar}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Justification
-                      </p>
-                      <p>
-                        {order.justificacion}
-                      </p>
-                    </li>
-                  </ul>
-                </li>
-              )
-            })
-          }
-        </ul>
+        <h3 className="font-bold -text--color-mate-dark-violet text-lg">Top Ten Products To Order</h3>
+        <form className='my-4'>
+          <select
+            className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
+            onChange={(e) => handleChangeOption(e.target.value)}
+          >
+            <option value={"General"} className="-bg--color-white hover:cursor-pointer">General</option>
+            {
+              nextOrders && Object.keys(nextOrders.pedidos).map(categoria => {
+                return (
+                  <option value={categoria} className="-bg--color-white hover:cursor-pointer">{categoria}</option>
+                )
+              })
+            }
+          </select>
+        </form>
+        {
+          nextOrders &&
+          <NextOrdersChart nextOrders={nextOrders} category={category} />
+        }
+        {
+          nextOrders && category === "General" &&
+          <ul className="my-4">
+            {nextOrders.top_general.map((pedido, index) => (
+              <li key={index}>
+                <p><strong>Nombre del producto:</strong> {pedido.nombre_producto}</p>
+                <p><strong>Cantidad a comprar:</strong> {pedido.cantidad_a_comprar}</p>
+                <p><strong>Stock actual:</strong> {pedido.stock_actual}</p>
+              </li>
+            ))}
+          </ul>
+        }
         <div className="my-4">
           {
             idInforme && idBranch &&
