@@ -6,7 +6,7 @@ import App from './App'
 const domain = import.meta.env.VITE_APP_AUTH0_DOMAIN || 'dev-xzd1nw16hc11vsj7.us.auth0.com'
 const clientId = import.meta.env.VITE_APP_AUTH0_CLIENT_ID || 'joqKy6suHcPTxhs2CfgWWlTwKsMMSGyQ'
 const audience = import.meta.env.VITE_APP_AUTH0_AUDIENCE || 'grupo3SIP2024'
-const url = import.meta.env.VITE_APP_API_SERVER_URL || "http://localhost/"
+const url = "http://34.148.152.120/"
 
 console.log(domain)
 console.log(clientId)
