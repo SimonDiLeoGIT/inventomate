@@ -3,6 +3,12 @@ package com.inventoMate.controllers;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -42,10 +48,18 @@ public class InformeController {
 	}
 
 	@GetMapping("/tendencias/{idSucursal}")
-	public ResponseEntity<List<InformeDTO>> getInformesTendencias(@AuthenticationPrincipal Jwt jwt,
-			@PathVariable Long idSucursal) {
-		return ResponseEntity.ok(informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
-				TipoInforme.ANALISIS_DE_TENDENCIA));
+	public ResponseEntity<Page<InformeDTO>> getInformesTendencias(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "desc") String sortDirection,
+			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
+			@RequestParam(required = false) Boolean visto) {
+
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.fromString(sortDirection), "fecha"));
+		Page<InformeDTO> informes = informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
+				TipoInforme.ANALISIS_DE_TENDENCIA, pageable, desde, hasta, visto);
+
+		return ResponseEntity.ok(informes);
 	}
 
 	@GetMapping("/tendencias/{idInforme}/sucursales/{idSucursal}")
@@ -72,10 +86,18 @@ public class InformeController {
 	}
 
 	@GetMapping("/proyeccion-de-ventas/{idSucursal}")
-	public ResponseEntity<List<InformeDTO>> getInformesProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
-			@PathVariable Long idSucursal) {
-		return ResponseEntity.ok(informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
-				TipoInforme.PROYECCION_DE_VENTAS));
+	public ResponseEntity<Page<InformeDTO>> getInformesProyeccionDeVentas(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "desc") String sortDirection,
+			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
+			@RequestParam(required = false) Boolean visto) {
+
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.fromString(sortDirection), "fecha"));
+		Page<InformeDTO> informes = informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
+				TipoInforme.PROYECCION_DE_VENTAS, pageable, desde, hasta, visto);
+
+		return ResponseEntity.ok(informes);
 	}
 
 	@GetMapping("/proyeccion-de-ventas/{idInforme}/sucursales/{idSucursal}")
@@ -102,10 +124,18 @@ public class InformeController {
 	}
 
 	@GetMapping("/siguientes-pedidos/{idSucursal}")
-	public ResponseEntity<List<InformeDTO>> getInformesSiguientesPedidos(@AuthenticationPrincipal Jwt jwt,
-			@PathVariable Long idSucursal) {
-		return ResponseEntity.ok(informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
-				TipoInforme.SIGUIENTES_PEDIDOS));
+	public ResponseEntity<Page<InformeDTO>> getInformesSiguientesPedidos(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "desc") String sortDirection,
+			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
+			@RequestParam(required = false) Boolean visto) {
+
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.fromString(sortDirection), "fecha"));
+		Page<InformeDTO> informes = informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
+				TipoInforme.SIGUIENTES_PEDIDOS, pageable, desde, hasta, visto);
+
+		return ResponseEntity.ok(informes);
 	}
 
 	@GetMapping("/siguientes-pedidos/{idInforme}/sucursales/{idSucursal}")
@@ -132,10 +162,18 @@ public class InformeController {
 	}
 
 	@GetMapping("/obsolescencia/{idSucursal}")
-	public ResponseEntity<List<InformeDTO>> getInformesObsolescencia(@AuthenticationPrincipal Jwt jwt,
-			@PathVariable Long idSucursal) {
-		return ResponseEntity.ok(informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
-				TipoInforme.OBSOLESCENCIA));
+	public ResponseEntity<Page<InformeDTO>> getInformesObsolescencia(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idSucursal, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "desc") String sortDirection,
+			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
+			@RequestParam(required = false) Boolean visto) {
+
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.fromString(sortDirection), "fecha"));
+		Page<InformeDTO> informes = informeService.getInformesByIdSucursalAndTipoInforme(jwt.getSubject(), idSucursal,
+				TipoInforme.OBSOLESCENCIA, pageable, desde, hasta, visto);
+
+		return ResponseEntity.ok(informes);
 	}
 
 	@GetMapping("/obsolescencia/{idInforme}/sucursales/{idSucursal}")
@@ -169,16 +207,14 @@ public class InformeController {
 
 	@GetMapping("/decision/{idInforme}/sucursales/{idSucursal}")
 	public ResponseEntity<List<DecisionResponse>> getInformeDecision(@AuthenticationPrincipal Jwt jwt,
-			@PathVariable Long idInforme,
-			@PathVariable Long idSucursal) {
+			@PathVariable Long idInforme, @PathVariable Long idSucursal) {
 		return ResponseEntity.ok(informeService.getDecisionesDelInforme(jwt.getSubject(), idSucursal, idInforme));
 	}
 
 	@DeleteMapping("/decision/{idInforme}/sucursales/{idSucursal}/decisiones/{idDecision}")
 	public ResponseEntity<ApiResponse> deleteInformeDecision(@AuthenticationPrincipal Jwt jwt,
 			@PathVariable Long idInforme, @PathVariable Long idSucursal, @PathVariable Long idDecision) {
-		informeService.deleteDecisionDelInforme(jwt.getSubject(), idSucursal, idInforme,
-				idDecision);
+		informeService.deleteDecisionDelInforme(jwt.getSubject(), idSucursal, idInforme, idDecision);
 		return ResponseEntity.ok(new ApiResponse(true, "decision deleted successfully"));
 	}
 }
