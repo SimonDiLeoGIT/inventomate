@@ -3,8 +3,8 @@ import down_arrow from '../assets/icons/down-arrow.svg'
 
 interface props {
   options: string[]
-  id: keyof Pedido
-  handleSelect: (id: keyof Pedido, op: string) => void
+  id: any
+  handleSelect: (id: any, op: string) => void
 }
 
 export const TableSelector: React.FC<props> = ({ options, id, handleSelect }) => {
@@ -16,7 +16,7 @@ export const TableSelector: React.FC<props> = ({ options, id, handleSelect }) =>
     setIsOpen(!isOpen)
   }
 
-  function handleClik(id: keyof Pedido, op: string) {
+  function handleClik(id: any, op: string) {
     handleSelect(id, op)
     handleMenuOpen()
   }
