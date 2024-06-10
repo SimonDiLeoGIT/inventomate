@@ -19,7 +19,6 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
   const [totalPages, setTotalPages] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [data, setData] = useState<PedidoConCategoria[]>(orders.slice(currentPage, totalArticles))
-  const [searchInput, setSearchInput] = useState<string>('')
 
   useEffect(() => {
     const allOrders: PedidoConCategoria[] = Object.entries(nextOrders.pedidos).flatMap(([categoria, pedidos]) =>
@@ -78,26 +77,29 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
   }
 
   const handleSearchChange = (input: string) => {
-    setSearchInput(input)
     if (input === '') {
       setData(orders.slice(currentPage, (currentPage) + totalArticles))
     } else {
-      search()
+      search(input)
     }
   }
 
-  function search() {
+  function search(input: string) {
     let newData: PedidoConCategoria[] = []
     orders.map(order => {
-      const subString = order.nombre_producto.substring(0, searchInput.length)
-      if (subString.toLocaleUpperCase() === searchInput.toLocaleUpperCase()) newData.push(order)
+      const subString = order.nombre_producto.substring(0, input.length)
+      if (subString.toLocaleUpperCase() === input.toLocaleUpperCase()) newData.push(order)
     })
     setData(newData.slice(currentPage, (currentPage) + totalArticles))
   }
 
   return (
     <section>
-      <Searcher handleSearchChange={handleSearchChange} />
+      {
+        currentPage === 0
+        &&
+        <Searcher handleSearchChange={handleSearchChange} />
+      }
       <ul className="my-4 rounded-lg overflow-hidden shadow-md">
         <li className="grid grid-cols-10 border-b p-2 -bg--color-mate-dark-violet -text--color-white font-bold">
           <div className="flex items-center relative">
