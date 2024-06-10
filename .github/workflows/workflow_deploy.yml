@@ -146,7 +146,7 @@ jobs:
         run: |
           kubectl apply -f cluster-issuer.yaml
 
-      #Espera a que estea la ipa en el load balancer y luego la imprime
+      #Espera a que este la ipa en el load balancer y luego la imprime
       - name: Wait for Spring Load Balancer IP
         id: wait-for-sp-lb-ip
         run: |
