@@ -19,6 +19,7 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
   const [totalPages, setTotalPages] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [data, setData] = useState<PedidoConCategoria[]>(orders.slice(currentPage, totalArticles))
+  const [searchInput, setSearchInput] = useState<string>('')
 
   useEffect(() => {
     const allOrders: PedidoConCategoria[] = Object.entries(nextOrders.pedidos).flatMap(([categoria, pedidos]) =>
@@ -30,18 +31,15 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
     } else {
       sortedOrders = orderByString(allOrders, sortBy, sortOrder);
     }
-    setOrders(sortedOrders);
+    setOrders(sortedOrders)
   }, [nextOrders, sortBy, sortOrder]);
-
-
 
   useEffect(() => {
     setData(orders.slice(currentPage, (currentPage) + totalArticles))
     setTotalPages(orders?.length / totalArticles)
+    searchInput !== '' && search(searchInput)
   }, [orders, currentPage]);
 
-
-  // Función para ordenar por número
   const orderByNumber = (orders: PedidoConCategoria[], sortBy: keyof PedidoConCategoria, sortOrder: string): PedidoConCategoria[] => {
     return orders.sort((a, b) => {
       const valueA = a[sortBy] as number;
@@ -50,7 +48,6 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
     });
   };
 
-  // Función para ordenar por cadena
   const orderByString = (orders: PedidoConCategoria[], sortBy: keyof PedidoConCategoria, sortOrder: string): PedidoConCategoria[] => {
     return orders.sort((a, b) => {
       const valueA = a[sortBy] as string;
@@ -63,11 +60,10 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
     });
   };
 
-
   const handleSelect = (id: keyof PedidoConCategoria, op: string) => {
-    setSortBy(id);
-    setSortOrder(op);
-  };
+    setSortBy(id)
+    setSortOrder(op)
+  }
 
   const handlePageClick = (event: any) => {
     const next = (event.selected * totalArticles) % orders.length;
@@ -77,6 +73,7 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
   }
 
   const handleSearchChange = (input: string) => {
+    setSearchInput(input)
     if (input === '') {
       setData(orders.slice(currentPage, (currentPage) + totalArticles))
     } else {
