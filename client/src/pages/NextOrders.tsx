@@ -62,7 +62,7 @@ export const NextOrders = () => {
               className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${urgently && "-bg--color-black bg-opacity-10"} `}
               onClick={() => changeSection()}
             >
-              Top ten
+              Top Ten
             </h2>
             <h2
               className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${overview && "-bg--color-black bg-opacity-10"} `}
