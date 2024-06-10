@@ -16,6 +16,7 @@ spec:
       containers:
       - name: frontend-inventomate
         image: simondileogit/frontend-inventomate:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         envFrom:
