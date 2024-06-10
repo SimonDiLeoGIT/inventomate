@@ -6,8 +6,8 @@ import { SideNavbar } from "../components/Global/SideNavbar"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
 import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
-import { Chart, registerables } from 'chart.js'
-Chart.register(...registerables)
+import { TopTen } from "../components/NextOrders/TopTen"
+import { Overview } from "../components/NextOrders/Overview"
 
 export const NextOrders = () => {
 
@@ -18,8 +18,10 @@ export const NextOrders = () => {
 
   const { setUser } = useUser()
 
-  const [nextOrders, setNextOrders] = useState<NextOrder>()
+  const [nextOrders, setNextOrders] = useState<NextOrders>()
 
+  const [overview, setOverview] = useState<boolean>(false);
+  const [urgently, setUrgently] = useState<boolean>(true);
 
   useEffect(() => {
 
@@ -38,6 +40,13 @@ export const NextOrders = () => {
 
   }, [isAuthenticated])
 
+
+  function changeSection() {
+    setOverview(!overview)
+    setUrgently(!urgently)
+  }
+
+
   return (
     <main className="-text--color-black flex">
       <section className="hidden relative lg:block w-64">
@@ -47,58 +56,32 @@ export const NextOrders = () => {
         <header className="p-2">
           <ReportHeaderTitle title="Next Orders" />
         </header>
-        <ul className="my-4">
+        <section>
+          <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${urgently && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => changeSection()}
+            >
+              Top Ten
+            </h2>
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${overview && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => changeSection()}
+            >
+              Overview
+            </h2>
+          </header>
           {
-            nextOrders?.pedidos.map((order) => {
-              return (
-                <li className="-bg--color-border-very-lightest-grey rounded-lg shadow-md -shadow--color-black-shadow mb-4 overflow-hidden">
-                  <ul>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Product Id
-                      </p>
-                      <p>
-                        {order.id_producto}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 -bg--color-white p-2">
-                      <p className="m-auto ml-0">
-                        Product Name
-                      </p>
-                      <p>
-                        {order.nombre_producto}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Actual Stock
-                      </p>
-                      <p>
-                        {order.stock_actual}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2 -bg--color-white">
-                      <p className="m-auto ml-0">
-                        Quantity To Order
-                      </p>
-                      <p>
-                        {order.cantidad_a_comprar}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Justification
-                      </p>
-                      <p>
-                        {order.justificacion}
-                      </p>
-                    </li>
-                  </ul>
-                </li>
-              )
-            })
+            nextOrders &&
+            (
+              urgently
+                ?
+                <TopTen nextOrders={nextOrders} />
+                :
+                <Overview nextOrders={nextOrders} />
+            )
           }
-        </ul>
+        </section>
         <div className="my-4">
           {
             idInforme && idBranch &&
