@@ -3,6 +3,7 @@ import { SuggestionJustification } from "./SuggestionJustification";
 import { TableSelector } from "../TableSelector";
 import { Searcher } from "../Searcher";
 import { Pagination } from "../Global/Pagination";
+import { NoDataFound } from "../Errors/NoDataFound";
 
 interface Props {
   nextOrders: NextOrders;
@@ -111,7 +112,7 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
             className="col-span-2 flex items-center relative"
           >
             <p>Category</p>
-            <TableSelector options={['asc', 'desc']} id='nombre_producto' handleSelect={handleSelect} />
+            <TableSelector options={['asc', 'desc']} id='categoria' handleSelect={handleSelect} />
           </div>
           <div
             className="col-span-2 flex items-center relative"
@@ -127,13 +128,16 @@ export const Overview: React.FC<Props> = ({ nextOrders }) => {
           </div>
         </li>
         {
-          data.map((order, index) => {
-            return (
-              <SuggestionJustification order={order} justification={order.justificacion} index={index} category={order.categoria} />
-            )
-          })
+          data.length === 0
+            ?
+            <NoDataFound />
+            :
+            data.map((order, index) => {
+              return (
+                <SuggestionJustification order={order} justification={order.justificacion} index={index} category={order.categoria} />
+              )
+            })
         }
-
       </ul>
       <Pagination handlePageClick={handlePageClick} totalPages={totalPages} />
     </section>
