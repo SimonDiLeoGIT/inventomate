@@ -134,12 +134,14 @@ jobs:
         run: |
           kubectl apply -f ingress.yaml      
 
-
+      # tiro este comando dos veces para que se configure en webhook
       - name: Install cert-manager
         run: |
           kubectl create ns cert-manager || echo " namespace already exists"   
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
-          sleep 12
+          kubectl create ns cert-manager || echo " namespace already exists"   
+          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+          
 
       - name: Apply cluster-issuer
         working-directory: ./kubernetes
