@@ -1,9 +1,15 @@
 package com.inventoMate.entities;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Order;
 
 import com.inventoMate.models.EmailSender;
 
@@ -119,9 +125,24 @@ public class Sucursal {
 		informe.setSucursal(this);
 	}
 
-	public List<Informe> obtenerInformes(TipoInforme tipo) {
-		return getInformes().stream().filter(informe -> informe.getTipoInforme().equals(tipo))
+	public Page<Informe> obtenerInformes(TipoInforme tipo, Pageable pageable, LocalDate startDate, LocalDate endDate,
+			Boolean visto) {
+		List<Informe> filteredInformes = getInformes().stream().filter(informe -> informe.getTipoInforme().equals(tipo))
+				.filter(informe -> (startDate == null || !informe.getFecha().isBefore(startDate)))
+				.filter(informe -> (endDate == null || !informe.getFecha().isAfter(endDate)))
+				.filter(informe -> (visto == null || informe.isVisto() == visto))
 				.collect(Collectors.toList());
+
+		boolean ascending = pageable.getSort().stream().filter(order -> order.getProperty().equals("fecha")).findFirst()
+				.map(Order::isAscending).orElse(true);
+
+		filteredInformes.sort((i1, i2) -> ascending ? i1.getFecha().compareTo(i2.getFecha())
+				: i2.getFecha().compareTo(i1.getFecha()));
+
+		int start = (int) pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), filteredInformes.size());
+
+		return new PageImpl<>(filteredInformes.subList(start, end), pageable, filteredInformes.size());
 	}
 
 	public Informe obtenerInforme(Long idInforme) {
@@ -130,7 +151,7 @@ public class Sucursal {
 
 	public Informe borrarInforme(Long idInforme) {
 		var informe = obtenerInforme(idInforme);
-		return informes.remove(informe)? informe : null;
+		return informes.remove(informe) ? informe : null;
 	}
 
 	public void generarNotificacionDeInforme(Informe informe, Usuario empleado) {
@@ -138,8 +159,6 @@ public class Sucursal {
 	}
 
 	public List<Informe> obtenerInformesConDecisiones() {
-		return informes.stream()
-				.filter(informe -> informe.tieneDecisiones())
-				.collect(Collectors.toList());
+		return informes.stream().filter(informe -> informe.tieneDecisiones()).collect(Collectors.toList());
 	}
 }

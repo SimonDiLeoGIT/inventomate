@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +53,7 @@ public class InformeServiceImpl implements InformeService {
 		List<String> productos = empresa.obtenerProductosDeSucursal(sucursal);
 		TrendsDTO response1 = mlService.getTendencias(productos);
 		List<CategoriaMeli> response2 = mlService.getHistorico(response1.getTrends());
-		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1,response2);
+		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1, response2);
 		String idMongo = flaskService.postDatosInformeTendencias(responseMeli);
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.ANALISIS_DE_TENDENCIA);
 		procesarInforme(sucursal, informe);
@@ -98,12 +100,13 @@ public class InformeServiceImpl implements InformeService {
 	}
 
 	@Override
-	public List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
-			TipoInforme tipoInformes) {
-		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
-		List<Informe> informes = sucursal.obtenerInformes(tipoInformes);
+	public Page<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
+			TipoInforme tipoInforme, Pageable pageable, LocalDate desde, LocalDate hasta, Boolean visto) {
 
-		return mapper.mapToInformeDTO(informes);
+		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
+		Page<Informe> informes = sucursal.obtenerInformes(tipoInforme, pageable, desde, hasta, visto);
+
+		return informes.map(mapper::mapToInformeDTO);
 	}
 
 	@Override
