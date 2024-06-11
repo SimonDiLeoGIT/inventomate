@@ -14,7 +14,7 @@ spec:
               service:
                 port:
                   number: 80
-                name: helloworld-http
+                name: frontend-inventomate
             path: /
             pathType: Prefix
   tls:
