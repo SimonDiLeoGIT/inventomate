@@ -129,10 +129,10 @@ jobs:
           kubectl apply -f python.yaml
           kubectl apply -f frontend.yaml
 
-      - name: Apply Ingress
-        working-directory: ./kubernetes
-        run: |
-          kubectl apply -f ingress.yaml      
+      #kubectl create secret generic cloudflare-token-secret --from-literal=api-key=M8cw0_STDKr-qNdilJ1qdlmZIgdgfVDQqtpkZxj1
+
+
+          
 
       #tiro este comand0 dos veces para que se configure en webhook
       - name: Install cert-manager
@@ -149,6 +149,11 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl apply -f cluster-issuer.yaml
+
+      - name: Apply Ingress
+        working-directory: ./kubernetes
+        run: |
+          kubectl apply -f ingress.yaml  
 
       #Espera a que este la ip en el load balancer y luego la imprime
       - name: Wait for Spring Load Balancer IP

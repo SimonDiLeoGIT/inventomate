@@ -1,32 +1,24 @@
-# ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress
+  name: api-helloword
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  namespace: inventomate
 spec:
-  tls:
-  - hosts:
-    - inventomate.xyz
-    secretName: cloudflare
   rules:
-  - host: inventomate.xyz
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend-inventomate
-            port:
-              number: 80
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: spring-inventomate
-            port:
-              number: 8080
+    - host: inventomate.xyz
+      http:
+        paths:
+          - backend:
+              service:
+                port:
+                  number: 80
+                name: helloworld-http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - inventomate.xyz
+      secretName: helloworld-http-tls
+  ingressClassName: nginx

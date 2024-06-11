@@ -1,21 +1,28 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token
+  namespace: cert-manager
+type: Opaque
+stringData:
+  api-token: M8cw0_STDKr-qNdilJ1qdlmZIgdgfVDQqtpkZxj1
+
+
+---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
-  namespace: cert-manager
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
     email: fedesimone31@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-prod
+      name: cluster-issuer-account-key
     solvers:
-      - dns01:
-          cloudflare:
-            email: fedesimone31@gmail.com
-            apiTokenSecretRef:
-              name: cloudflare-token-secret
-              key: cloudflare-token
-        selector:
-          dnsZones:
-            - "inventomate.xyz"
+    - dns01:
+        cloudflare:
+          email: fedesimone31@gmail.com
+          apiTokenSecretRef:
+            name: cloudflare-api-token
+            key: api-token
