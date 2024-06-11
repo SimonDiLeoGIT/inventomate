@@ -40,7 +40,7 @@ export const MobileMenu = () => {
 
       <aside className={`fixed w-screen h-screen overflow-hidden top-20 left-0 ${!isOpen && 'hidden'} opacity-animation lg:hidden`}>
         <section
-          className={`fixed w-screen h-screen top-20 left-0 -bg--color-white z-10 ${open ? ' open-mobile-menu' : ' close-mobile-menu'} overflow-hidden max-w-96 md:left-auto`}
+          className={`fixed w-screen h-screen top-20 left-0 -bg--color-white z-10 ${open ? ' open-left-menu' : ' close-left-menu'} overflow-hidden max-w-96 md:left-auto`}
           onClick={() => handleMenuOpen()}
         >
           <ul className="font-medium border-b -border--color-border-light-grey w-11/12 m-auto">

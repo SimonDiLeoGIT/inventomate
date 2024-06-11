@@ -4,10 +4,11 @@ import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/Global/SideNavbar"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
-import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
+import { MakeDecision } from "../components/Reports/RateReports/MakeDecision"
 import { getObsolescenceById } from "../utils/Services/obsolescence.database.service"
-import { TopTen } from "../components/Obsolescence/TopTen"
-import { Overview } from "../components/Obsolescence/Overview"
+import { TopTen } from "../components/Reports/Obsolescence/TopTen"
+import { Overview } from "../components/Reports/Obsolescence/Overview"
+import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
 
 export const Obsolescence = () => {
 
@@ -22,6 +23,7 @@ export const Obsolescence = () => {
 
   const [overview, setOverview] = useState<boolean>(false);
   const [urgently, setUrgently] = useState<boolean>(true);
+  const [assessment, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -41,9 +43,22 @@ export const Obsolescence = () => {
   }, [isAuthenticated])
 
 
-  function changeSection() {
-    setOverview(!overview)
-    setUrgently(!urgently)
+  function selectOverview() {
+    setOverview(true)
+    setUrgently(false)
+    setAssessment(false)
+  }
+
+  function selectUrgently() {
+    setOverview(false)
+    setUrgently(true)
+    setAssessment(false)
+  }
+
+  function selectAssessment() {
+    setOverview(false)
+    setUrgently(false)
+    setAssessment(true)
   }
 
 
@@ -60,34 +75,40 @@ export const Obsolescence = () => {
           <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
             <h2
               className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${urgently && "-bg--color-black bg-opacity-10"} `}
-              onClick={() => changeSection()}
+              onClick={() => selectUrgently()}
             >
               Top Ten
             </h2>
             <h2
               className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${overview && "-bg--color-black bg-opacity-10"} `}
-              onClick={() => changeSection()}
+              onClick={() => selectOverview()}
             >
               Overview
             </h2>
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${assessment && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => selectAssessment()}
+            >
+              Assessment
+            </h2>
           </header>
           {
-            obsolescence &&
+            obsolescence && idBranch && idInforme &&
             (
               urgently
                 ?
                 <TopTen obsolescence={obsolescence} />
                 :
-                <Overview obsolescence={obsolescence} />
+                (
+                  overview
+                    ?
+                    <Overview obsolescence={obsolescence} />
+                    :
+                    <ReportRating idBranch={idBranch} idInforme={idInforme} />
+                )
             )
           }
         </section>
-        <div className="my-4">
-          {
-            idInforme && idBranch &&
-            <MakeDecision idReport={idInforme} idBranch={idBranch} />
-          }
-        </div>
       </section>
     </main>
   )

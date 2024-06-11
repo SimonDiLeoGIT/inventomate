@@ -5,9 +5,9 @@ import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/Global/SideNavbar"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
-import { MakeDecision } from "../components/Reports/Decisions/MakeDecision"
-import { TopTen } from "../components/NextOrders/TopTen"
-import { Overview } from "../components/NextOrders/Overview"
+import { TopTen } from "../components/Reports/NextOrders/TopTen"
+import { Overview } from "../components/Reports/NextOrders/Overview"
+import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
 
 export const NextOrders = () => {
 
@@ -22,6 +22,7 @@ export const NextOrders = () => {
 
   const [overview, setOverview] = useState<boolean>(false);
   const [urgently, setUrgently] = useState<boolean>(true);
+  const [assessment, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -40,10 +41,22 @@ export const NextOrders = () => {
 
   }, [isAuthenticated])
 
+  function selectOverview() {
+    setOverview(true)
+    setUrgently(false)
+    setAssessment(false)
+  }
 
-  function changeSection() {
-    setOverview(!overview)
-    setUrgently(!urgently)
+  function selectUrgently() {
+    setOverview(false)
+    setUrgently(true)
+    setAssessment(false)
+  }
+
+  function selectAssessment() {
+    setOverview(false)
+    setUrgently(false)
+    setAssessment(true)
   }
 
 
@@ -60,34 +73,40 @@ export const NextOrders = () => {
           <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
             <h2
               className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${urgently && "-bg--color-black bg-opacity-10"} `}
-              onClick={() => changeSection()}
+              onClick={() => selectUrgently()}
             >
               Top Ten
             </h2>
             <h2
               className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${overview && "-bg--color-black bg-opacity-10"} `}
-              onClick={() => changeSection()}
+              onClick={() => selectOverview()}
             >
               Overview
             </h2>
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${assessment && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => selectAssessment()}
+            >
+              Assessment
+            </h2>
           </header>
           {
-            nextOrders &&
+            nextOrders && idBranch && idInforme &&
             (
               urgently
                 ?
                 <TopTen nextOrders={nextOrders} />
                 :
-                <Overview nextOrders={nextOrders} />
+                (
+                  overview
+                    ?
+                    <Overview nextOrders={nextOrders} />
+                    :
+                    <ReportRating idBranch={idBranch} idInforme={idInforme} />
+                )
             )
           }
         </section>
-        <div className="my-4">
-          {
-            idInforme && idBranch &&
-            <MakeDecision idReport={idInforme} idBranch={idBranch} />
-          }
-        </div>
       </section>
     </main>
   )

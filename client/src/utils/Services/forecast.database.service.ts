@@ -17,7 +17,7 @@ export const getForecasts = async (accessToken: string, idBranch: string): Promi
   }
 }
 
-export const getForecastById = async (accessToken: string, idBranch: string, idInforme: string): Promise<Forecast | null> => {
+export const getForecastById = async (accessToken: string, idBranch: string, idInforme: string): Promise<Forecast> => {
   try {
     const response = await axios({
       url: `${url}api/informes/proyeccion-de-ventas/` + idInforme + '/sucursales/' + idBranch,
@@ -29,7 +29,7 @@ export const getForecastById = async (accessToken: string, idBranch: string, idI
     console.log(response.data)
     return response.data
   } catch (error: any) {
-    return null
+    return error
   }
 }
 

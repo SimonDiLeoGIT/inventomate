@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { TableSelector } from "../TableSelector";
-import { Searcher } from "../Searcher";
-import { Pagination } from "../Global/Pagination";
+import { TableSelector } from "../../TableSelector";
+import { Searcher } from "../../Searcher";
+import { Pagination } from "../../Global/Pagination";
 import { TableData } from "./TableData";
-import { NoDataFound } from "../Errors/NoDataFound";
+import { NoDataFound } from "../../Errors/NoDataFound";
 
 interface Props {
   obsolescence: Obsolescence;
