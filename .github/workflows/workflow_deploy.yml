@@ -155,7 +155,7 @@ jobs:
         run: |
           kubectl apply -f ingress.yaml  
 
-      #Espera que este la ip en el load balancer y luego la imprime
+      #Espera que este e la ip en el load balancer y luego la imprime
       - name: Wait for Spring Load Balancer IP
         id: wait-for-sp-lb-ip
         run: |
