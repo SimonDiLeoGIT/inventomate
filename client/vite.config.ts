@@ -18,6 +18,8 @@ export default defineConfig({
     strictPort: true,
     host: true,
     origin: "http://localhost:5173",
+    // Habilita HTTPS en el servidor de desarrollo
+    https: true,
   },
   test: {
     globals: true,
