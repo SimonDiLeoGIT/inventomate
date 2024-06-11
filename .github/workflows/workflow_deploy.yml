@@ -61,7 +61,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Configuración CLI Google Cloud.
+      #. Configuración CLI Google Cloud.
       - name: Google Cloud authentication
         uses: google-github-actions/auth@v2
         with:
