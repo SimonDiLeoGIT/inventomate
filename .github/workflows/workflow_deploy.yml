@@ -206,27 +206,3 @@ jobs:
             echo "Load Balancer IP: $LOAD_BALANCER_IP"
             echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP"
           fi
-
-      - name: Configure React server for HTTPS
-        run: |
-          # Descargar archivos de certificado y clave privada del secreto
-          kubectl get secret helloworld-http-tls -n inventomate -o jsonpath='{.data.tls\.crt}' | base64 -d > ./client/cert.pem
-          kubectl get secret helloworld-http-tls -n inventomate -o jsonpath='{.data.tls\.key}' | base64 -d > ./client/key.pem
-
-          # Reemplazar las rutas en vite.config.ts
-          sed -i "s|const certPath =.*|const certPath = path.resolve(__dirname, 'cert.pem')|g" ./client/vite.config.ts
-          sed -i "s|const keyPath =.*|const keyPath = path.resolve(__dirname, 'key.pem')|g" ./client/vite.config.ts
-
-          echo "HTTPS configuration updated in vite.config.ts"
-
-      - name: Build and push updated frontend image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./client
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
-
-      - name: Update Frontend Deployment
-        run: |
-          kubectl rollout restart deployment frontend-inventomate -n inventomate
-          echo "Frontend deployment updated and restarted"
