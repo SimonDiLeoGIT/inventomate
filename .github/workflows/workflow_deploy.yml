@@ -55,7 +55,7 @@ jobs:
 
   deploy-apps:
     name: Deploy apps and services
-    # if: startsWith(github.event.head_commit.message, '(up)')
+    if: startsWith(github.event.head_commit.message, '(up)')
     runs-on: ubuntu-latest 
     steps:
       - name: Checkout code
