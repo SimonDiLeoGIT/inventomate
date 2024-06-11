@@ -134,7 +134,7 @@ jobs:
 
           
 
-      #tiro este comand0 dos veces para que se configure en webhook
+      #tiro este comando dos veces para que se configure en webhook
       - name: Install cert-manager
         run: |
           kubectl create ns cert-manager || echo " namespace already exists"   
