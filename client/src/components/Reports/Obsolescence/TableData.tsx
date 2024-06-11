@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import close_icon from '../../assets/icons/close.svg'
+import close_icon from '../../../assets/icons/close.svg'
 
 interface props {
   product: ObsoletProductsWithCategory

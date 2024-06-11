@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { SuggestionJustification } from "./SuggestionJustification";
-import { TableSelector } from "../TableSelector";
-import { Searcher } from "../Searcher";
-import { Pagination } from "../Global/Pagination";
-import { NoDataFound } from "../Errors/NoDataFound";
+import { TableSelector } from "../../TableSelector";
+import { Searcher } from "../../Searcher";
+import { Pagination } from "../../Global/Pagination";
+import { NoDataFound } from "../../Errors/NoDataFound";
 
 interface Props {
   nextOrders: NextOrders;

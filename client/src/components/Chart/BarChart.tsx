@@ -3,7 +3,7 @@ import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 
 interface props {
-  grafico: Grafico
+  grafico: Charts
   label: string
 }
 
