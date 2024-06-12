@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { handleApiError } from '../errorHander';
  
-export const url = "http://34.148.152.120/"
+export const url = "https://34.148.152.120/"
 
 export class ApiService {
 

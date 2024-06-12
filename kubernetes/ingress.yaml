@@ -20,5 +20,6 @@ spec:
   tls:
     - hosts:
         - inventomate.xyz
+        - '*.inventomate.xyz'
       secretName: helloworld-http-tls
   ingressClassName: nginx
