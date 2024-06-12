@@ -161,7 +161,7 @@ jobs:
         with:
             context: ./client
             push: true
-            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/frontend-inventomate:latest
+            tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
 
 
       - name: Crear pod frontend
