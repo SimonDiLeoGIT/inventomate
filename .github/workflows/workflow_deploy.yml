@@ -146,10 +146,11 @@ jobs:
       - name: Apply Ingress
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f ingress.yaml  
+          kubectl apply -f ingress.yaml 
+          sleep 120
 
       - name: Generate TLS certificates
-        working-directory: client
+        working-directory: ./client
         run: |
             kubectl get secret helloworld-http-tls -n cert-manager -o=jsonpath='{.data.tls\.crt}' | base64 -d > tls.crt
             kubectl get secret helloworld-http-tls -n cert-manager -o=jsonpath='{.data.tls\.key}' | base64 -d > tls.key
@@ -158,13 +159,13 @@ jobs:
       - name: Build frontend image
         uses: docker/build-push-action@v5
         with:
-            context: ./frontend
-            push: false
-            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/lot-frontend:1.0.0
+            context: ./client
+            push: true
+            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/frontend-inventomate:latest
 
 
       - name: Crear pod frontend
-        working-directory: frontend
+        working-directory: ./kubernetes
         run: |
             kubectl apply -f frontend.yaml
 
