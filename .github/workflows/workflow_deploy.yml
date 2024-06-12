@@ -206,3 +206,10 @@ jobs:
             echo "Load Balancer IP: $LOAD_BALANCER_IP"
             echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP"
           fi
+
+      - name: Transferir el secreto SSL al espacio de nombres de la aplicación
+        run: |
+          kubectl get secret helloworld-http-tls -n cert-manager -o yaml | \
+          sed 's/namespace: cert-manager/namespace: inventomate/g' | \
+          kubectl apply -f -
+        working-directory: ./client
