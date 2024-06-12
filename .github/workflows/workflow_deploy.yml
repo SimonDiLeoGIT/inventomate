@@ -127,7 +127,7 @@ jobs:
         run: |
           kubectl apply -f spring.yaml
           kubectl apply -f python.yaml
-          kubectl apply -f frontend.yaml
+         
 
       #kubectl create secret generic cloudflare-token-secret --from-literal=api-key=M8cw0_STDKr-qNdilJ1qdlmZIgdgfVDQqtpkZxj1
 
@@ -154,6 +154,26 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl apply -f ingress.yaml  
+
+      - name: Generate TLS certificates
+              working-directory: client
+              run: |
+                  kubectl get secret helloworld-http-tls -n cert-manager -o=jsonpath='{.data.tls\.crt}' | base64 -d > tls.crt
+                  kubectl get secret helloworld-http-tls -n cert-manager -o=jsonpath='{.data.tls\.key}' | base64 -d > tls.key
+                  ls -lah
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v5
+        with:
+            context: ./frontend
+            push: false
+            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/lot-frontend:1.0.0
+
+
+      - name: Crear pod frontend
+            working-directory: frontend
+            run: |
+                kubectl apply -f frontend.yaml
 
       #Espera que este  la ip en el load balancer y luego la imprime
       - name: Wait for Spring Load Balancer IP

@@ -1,21 +1,20 @@
-FROM node:18-alpine
-
+#Stage 1
+FROM node:18-alpine as builder
 WORKDIR /app
-
-# Copy package.json
-COPY package.json .
-
+COPY package*.json .
 RUN npm install
-
 COPY . .
-
-# Build the project
 RUN npm run build
 
-# Install a simple HTTP server to serve the build files
-RUN npm install -g serve
+#Stage 2
+FROM nginx:alpine3.19
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY --from=builder /app/dist .
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY tls.crt /etc/nginx/ssl/tls.crt
+COPY tls.key /etc/nginx/ssl/tls.key
 
-# Set the command to serve the build files
-CMD ["serve", "-s", "dist"]
-
-EXPOSE 3000
+EXPOSE 80
+EXPOSE 443
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
