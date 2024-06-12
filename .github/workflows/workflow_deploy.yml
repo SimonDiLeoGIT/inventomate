@@ -171,9 +171,9 @@ jobs:
 
 
       - name: Crear pod frontend
-            working-directory: frontend
-            run: |
-                kubectl apply -f frontend.yaml
+        working-directory: frontend
+        run: |
+            kubectl apply -f frontend.yaml
 
       #Espera que este  la ip en el load balancer y luego la imprime
       - name: Wait for Spring Load Balancer IP
