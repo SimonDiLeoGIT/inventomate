@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { handleApiError } from '../errorHander';
  
-export const url = "https://34.148.152.120/"
+export const url = "https://api.inventomate.xyz/"
 
 export class ApiService {
 
