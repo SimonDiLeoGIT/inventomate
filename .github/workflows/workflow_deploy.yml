@@ -45,13 +45,6 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/python-inventomate:latest
 
-      - name: Build and push frontend image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./client
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
-
 
   deploy-apps:
     name: Deploy apps and services
