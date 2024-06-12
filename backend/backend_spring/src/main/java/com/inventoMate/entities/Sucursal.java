@@ -136,8 +136,8 @@ public class Sucursal {
 		boolean ascending = pageable.getSort().stream().filter(order -> order.getProperty().equals("fecha")).findFirst()
 				.map(Order::isAscending).orElse(true);
 
-		filteredInformes.sort((i1, i2) -> ascending ? i1.getFecha().compareTo(i2.getFecha())
-				: i2.getFecha().compareTo(i1.getFecha()));
+		filteredInformes.sort((i1, i2) -> ascending ? i1.getId().compareTo(i2.getId())
+				: i2.getId().compareTo(i1.getId()));
 
 		int start = (int) pageable.getOffset();
 		int end = Math.min((start + pageable.getPageSize()), filteredInformes.size());
