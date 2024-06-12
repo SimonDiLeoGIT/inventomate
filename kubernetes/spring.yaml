@@ -141,7 +141,7 @@ spec:
   loadBalancerIP: 34.148.152.120
   ports:
   - protocol: TCP
-    port: 80
+    port: 443
     targetPort: 8080
   selector:
     app: spring-inventomate

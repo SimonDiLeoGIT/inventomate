@@ -147,7 +147,21 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl apply -f ingress.yaml 
-          sleep 300
+          for i in {1..30}; do
+            status=$(kubectl get certificate -A -o jsonpath="{.items[?(@.metadata.name=='helloworld-http-tls')].status.conditions[?(@.type=='Ready')].status}")
+            if [ "$status" == "True" ]; then
+              echo "Certificate is ready."
+              break
+            fi
+            echo "Waiting for certificate to be ready..."
+            sleep 10
+          done
+
+          # If the loop completes without the certificate being ready, exit with an error
+          if [ "$status" != "True" ]; then
+            echo "Certificate was not ready in time." >&2
+            exit 1
+          fi
 
       - name: Generate TLS certificates
         working-directory: ./client
