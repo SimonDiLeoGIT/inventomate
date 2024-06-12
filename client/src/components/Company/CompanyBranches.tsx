@@ -14,6 +14,7 @@ export const CompanyBranches: React.FC<props> = ({ branches, user }) => {
 
   const [sortBy, setSortBy] = useState<keyof Branch>('idSucCliente');
   const [sortOrder, setSortOrder] = useState<string>('asc');
+  const [branchesList, setBranchesList] = useState<Branch[]>(branches)
   const [data, setData] = useState<Branch[]>([])
   const totalArticles = 10
   const [totalPages, setTotalPages] = useState<number>(0)
@@ -21,21 +22,20 @@ export const CompanyBranches: React.FC<props> = ({ branches, user }) => {
   const [searchInput, setSearchInput] = useState<string>('')
 
   useEffect(() => {
-    let sortedBranches
+    let sortedBranches: Branch[]
     if (sortBy === 'idSucCliente') {
       sortedBranches = orderByNumber(branches, sortBy, sortOrder);
-      console.log(sortedBranches)
     } else {
       sortedBranches = orderByString(branches, sortBy, sortOrder);
     }
-    setData(sortedBranches)
-  }, [branches, sortBy, sortOrder]);
+    setBranchesList(sortedBranches)
+  }, [sortBy, sortOrder]);
 
   useEffect(() => {
-    setData(branches.slice(currentPage, (currentPage) + totalArticles))
-    setTotalPages(branches?.length / totalArticles)
+    setData(branchesList.slice(currentPage, (currentPage) + totalArticles))
+    setTotalPages(branchesList?.length / totalArticles)
     searchInput !== '' && search(searchInput)
-  }, [branches, currentPage]);
+  }, [branchesList, currentPage, sortBy, sortOrder]);
 
   const orderByNumber = (branches: Branch[], sortBy: keyof Branch, sortOrder: string): Branch[] => {
     return branches.sort((a, b) => {
@@ -103,23 +103,29 @@ export const CompanyBranches: React.FC<props> = ({ branches, user }) => {
         </div>
       }
       <ul className="my-4 grid w-full m-auto rounded-lg overflow-hidden shadow-md">
-        <li className="grid grid-cols-5 border-b p-2 -bg--color-mate-dark-violet -text--color-white font-bold">
+        <li className="grid grid-cols-7 border-b p-2 -bg--color-mate-dark-violet -text--color-white font-bold">
           <div className="flex items-center relative">
             <p>Id</p>
             <TableSelector options={['asc', 'desc']} id='idSucCliente' handleSelect={handleSelect} />
           </div>
-          <p className="col-span-2">Name</p>
-          <p className="col-span-2">Location</p>
+          <div className="flex items-center relative col-span-3">
+            <p className="">Name</p>
+            <TableSelector options={['asc', 'desc']} id='nombre' handleSelect={handleSelect} />
+          </div>
+          <div className="flex items-center relative col-span-3">
+            <p className="">Location</p>
+            <TableSelector options={['asc', 'desc']} id='ubicacion' handleSelect={handleSelect} />
+          </div>
         </li>
         {data?.length === 0 ?
           <NoDataFound />
           : (
-            data?.map((branch, index) => {
+            data.map((branch, index) => {
               return (
-                <li className={`grid grid-cols-5 hover:opacity-60 ${(index % 2 === 0) && '-bg--color-border-very-lightest-grey'}`}>
+                <li className={`grid grid-cols-7 hover:opacity-60 ${(index % 2 === 0) && '-bg--color-border-very-lightest-grey'}`}>
                   <p><Link to={`/branches/branch/${branch.idSucursal}`} className="block p-2">{branch.idSucCliente}</Link></p>
-                  <p className="col-span-2"><Link to={`/branches/branch/${branch.idSucursal}`} className="block p-2">{branch.nombre}</Link></p>
-                  <p className="col-span-2"><Link to={`/branches/branch/${branch.idSucursal}`} className="block p-2">{branch.ubicacion}</Link></p>
+                  <p className="col-span-3"><Link to={`/branches/branch/${branch.idSucursal}`} className="block p-2">{branch.nombre}</Link></p>
+                  <p className="col-span-3"><Link to={`/branches/branch/${branch.idSucursal}`} className="block p-2">{branch.ubicacion}</Link></p>
                 </li>
               )
             })

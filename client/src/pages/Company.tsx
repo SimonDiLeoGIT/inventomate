@@ -1,13 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { SideNavbar } from "../components/Global/SideNavbar";
 import { getCompany } from "../utils/Services/company.database.service";
 import { CompanyBanner } from "../components/Company/CompanyBanner";
-import { Searcher } from "../components/Searcher";
 import { CompanyBranches } from "../components/Company/CompanyBranches";
-import { Pagination } from "../components/Global/Pagination";
 
 export const Company = () => {
 
@@ -35,8 +32,6 @@ export const Company = () => {
     }
 
     isAuthenticated && getToken()
-
-    console.log(branches)
 
   }, [isAuthenticated])
 
