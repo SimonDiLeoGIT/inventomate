@@ -1,5 +1,5 @@
 import React from "react"
-import { BarChart } from "../Chart/BarChart"
+import { BarChart } from "../../Chart/BarChart"
 
 interface props {
   nextOrders: NextOrders

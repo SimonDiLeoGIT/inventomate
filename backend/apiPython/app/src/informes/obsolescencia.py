@@ -87,8 +87,10 @@ def calcular_obsolescencia(data):
         # Determinar si el producto es obsoleto
         obsoleto = OG > 0.2
 
-        productos_obsoletos.setdefault(producto["categoria"], [])
-        productos_obsoletos[producto["categoria"]].append({
+        categoria_producto = producto["categoria"]
+        
+        productos_obsoletos.setdefault(categoria_producto, [])
+        productos_obsoletos[categoria_producto].append({
             "id_producto": id_producto,
             "nombre": nombre,
             "precio_actual": producto["precio"],
@@ -103,14 +105,16 @@ def calcular_obsolescencia(data):
         grafico_X.append(nombre)
         grafico_Y.append(OG)
         
-        grafico_por_categoria.setdefault(producto["categoria"], {"X": [], "Y": []})
-        grafico_por_categoria[producto["categoria"]]["X"].append(nombre)
-        grafico_por_categoria[producto["categoria"]]["Y"].append(OG)
+        grafico_por_categoria.setdefault(categoria_producto, {"X": [], "Y": []})
+        grafico_por_categoria[categoria_producto]["X"].append(nombre)
+        grafico_por_categoria[categoria_producto]["Y"].append(OG)
         
-        X, Y = ordenar_coordenadas_por_Y(grafico_por_categoria[producto["categoria"]]["X"],grafico_por_categoria[producto["categoria"]]["Y"])
-        grafico_por_categoria[producto["categoria"]]["X"] = X[:10]
-        grafico_por_categoria[producto["categoria"]]["Y"] = Y[:10]
+        X, Y = ordenar_coordenadas_por_Y(grafico_por_categoria[categoria_producto]["X"], grafico_por_categoria[categoria_producto]["Y"])
+        grafico_por_categoria[categoria_producto]["X"] = X[:10]
+        grafico_por_categoria[categoria_producto]["Y"] = Y[:10]
         
+        producto_obsoleto = {"nombre_categoria": categoria_producto,
+                             }
         
     grafico = {"X": grafico_X, "Y": grafico_Y, "umbral_de_obsolesencia": 0.2}
 
@@ -121,15 +125,17 @@ def calcular_obsolescencia(data):
         "umbral_de_obsolesencia": 0.2
     }
     
+    
+    
     return {"productos_obsoletos": productos_obsoletos,
             "grafico": grafico,
             "grafico_top10_por_categoria": grafico_por_categoria,
             "grafico_top10_general": grafico_general
     }
 
-# if (__name__) == "__main__":
-#       with open("response.json", "r") as archivo:
-#           datos = json.load(archivo)
-#       res = calcular_obsolescencia(datos)
-#       with open("res.json", 'w') as file:
-#           json.dump(res, file, indent=4)
+if (__name__) == "__main__":
+      with open("response.json", "r") as archivo:
+          datos = json.load(archivo)
+      res = calcular_obsolescencia(datos)
+      with open("res.json", 'w') as file:
+          json.dump(res, file, indent=4)
