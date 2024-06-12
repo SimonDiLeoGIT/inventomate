@@ -10,6 +10,34 @@ def obtener_stock_producto(id_producto, data):
             return producto['stock_actual']
     return None
 
+def ordenar_por_Y2(grafico_por_categoria):
+    for categoria, datos in grafico_por_categoria.items():
+        # Emparejar los elementos de las tres listas
+        pares = list(zip(datos["X"], datos["Y"], datos["Y2"]))
+        # Ordenar los pares por el valor en Y2
+        pares_ordenados = sorted(pares, key=lambda x: x[2])
+        # Separar las listas ordenadas
+        X_ordenado, Y_ordenado, Y2_ordenado = zip(*pares_ordenados)
+        # Convertir de tuplas a listas
+        datos["X"] = list(X_ordenado)
+        datos["Y"] = list(Y_ordenado)
+        datos["Y2"] = list(Y2_ordenado)
+    return grafico_por_categoria
+
+def ordenar_grafico_por_Y2(grafico_general):
+    # Emparejar los elementos de las tres listas
+    pares = list(zip(grafico_general["X"], grafico_general["Y"], grafico_general["Y2"]))
+    # Ordenar los pares por el valor en Y2
+    pares_ordenados = sorted(pares, key=lambda x: x[2])
+    # Separar las listas ordenadas
+    X_ordenado, Y_ordenado, Y2_ordenado = zip(*pares_ordenados)
+    # Convertir de tuplas a listas
+    grafico_general["X"] = list(X_ordenado)
+    grafico_general["Y"] = list(Y_ordenado)
+    grafico_general["Y2"] = list(Y2_ordenado)
+    return grafico_general
+
+
 def sugerir(json_data):
     fechas = []
     ventas_por_producto = {}
@@ -66,7 +94,7 @@ def sugerir(json_data):
     top_por_categoria = {}
     top_general = []
     grafico_por_categoria = {}
-    grafico_general = {"X": [], "Y":[]}
+    grafico_general = {"X": [], "Y":[], "Y2":[]}
     
     for id_producto in set(list(ventas_por_producto.keys())):
   
@@ -119,6 +147,7 @@ def sugerir(json_data):
             "nombre_producto": nombre_producto,
             "stock_actual": stockProducto,
             "cantidad_a_comprar": cantidad_a_comprar,
+            "porcentaje_cubierto_con_stock_actual": porcentaje,
             "justificacion": justificacion
         }
         
@@ -126,7 +155,7 @@ def sugerir(json_data):
         
         pedidos.setdefault(categoria_producto, [])
         pedidos[categoria_producto].append(pedido)
-        grafico_por_categoria.setdefault(categoria_producto, {"X": [], "Y": []})
+        grafico_por_categoria.setdefault(categoria_producto, {"X": [], "Y": [], "Y2": []})
         
         
         top_por_categoria.setdefault(categoria_producto, [])
@@ -135,30 +164,38 @@ def sugerir(json_data):
             "nombre_producto": nombre_producto,
             "stock_actual": stockProducto,
             "cantidad_a_comprar": cantidad_a_comprar,
+            "porcentaje_cubierto_con_stock_actual": porcentaje,
             "categoria": categoria_producto
         })
         
         grafico_por_categoria[categoria_producto]["Y"].append(cantidad_a_comprar)
+        grafico_por_categoria[categoria_producto]["Y2"].append(porcentaje)
         grafico_por_categoria[categoria_producto]["X"].append(nombre_producto)
         
-        # Ordenar la lista por 'cantidad_a_comprar' en orden descendente y quedarte con los 10 mayores
+        # Ordenar la lista por menor porcentaje cubierto
         top_por_categoria[categoria_producto] = sorted(
             top_por_categoria[categoria_producto], 
-            key=lambda x: x["cantidad_a_comprar"], 
+            key=lambda x: x["porcentaje_cubierto_con_stock_actual"], 
             reverse=True
-        )[:10]
+        )
     
+    # Ordeno el grafico por categoria por menor porcentaje cubierto
+    grafico_por_categoria = ordenar_por_Y2(grafico_por_categoria)
     
     for categoria in top_por_categoria:
         top_general.extend(top_por_categoria[categoria])
 
+
     # Ordenar la lista general por 'cantidad_a_comprar' en orden descendente y quedarse con los 10 mayores
-    top_general = sorted(top_general, key=lambda x: x["cantidad_a_comprar"], reverse=True)[:10]
+    top_general = sorted(top_general, key=lambda x: x["porcentaje_cubierto_con_stock_actual"])[:10]
 
     for producto in top_general:
         grafico_general["X"].append(producto["nombre_producto"])
         grafico_general["Y"].append(producto["cantidad_a_comprar"])
+        grafico_general["Y2"].append(producto["porcentaje_cubierto_con_stock_actual"])
 
+    grafico_general = ordenar_grafico_por_Y2(grafico_general
+                                             )
     # Crear el JSON procesado
     json_procesado = {
         "fecha_actual": date.today().isoformat(),

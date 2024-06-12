@@ -3,7 +3,6 @@ import json
 import pprint
 import statistics
 
-
 def obtener_datos_cliente(info_cliente, categoria):
     precio_min = 0
     precio_max = 0
@@ -23,6 +22,7 @@ def procesar_tendencias(datos):
     resultado = {}
     resultado["fecha_actual"] = date.today().strftime("%Y-%m-%d")
     resultado["trends"] = datos["trends"]
+    resultado["justificacion"] = "Estas recomendaciones se derivan del análisis de las categorías predichas por el predictor de Mercado Libre. Hemos pasado nuestros productos a este predictor y agrupado las categorías con el top 20 basado en la coincidencia de nuestros productos con las categorías predichas. Esto nos permite identificar oportunidades relevantes y alineadas con el mercado actual."
     
     for trend in resultado["trends"]:
         categoria = trend["category_name"].strip()
@@ -69,7 +69,6 @@ def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, a
                     variacion_precios.append(precioProducto)
                     variacion_tendencia.append(trendPosition)
                     
-            
     
     grafico_precios = {
         "X": meses,
@@ -85,18 +84,43 @@ def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, a
     
     en_rango = ((actual_precio >= min_precio_cat) and (actual_precio <= max_precio_cat))
     
+    grafico_precios = ordenarGraficoPorFecha(grafico_precios)
+    grafico_tendencia = ordenarGraficoPorFecha(grafico_tendencia)
+    media_precios = round(statistics.mean(variacion_precios), 2)
+    media_trends = round(statistics.mean(variacion_tendencia), 2)
+    
+    justificacion_precio = f"La ganancia promedio para productos similares es del {porcentaje_cat}%, calculada a partir de datos historicos de ventas y compras. Si encuentra este producto a este precio, sería una buena oportunidad de compra para mantener esa rentabilidad."
+    justificacion_en_rango = f"El producto está dentro del rango de productos similares comercializados por la empresa, con precios que varían entre ${min_precio_cat} y ${max_precio_cat}"
+    justificacion_no_en_rango = f"El producto no se encuentra dentro del rango de productos similares comercializados por la empresa, ya que analizamos que los precios varian entre ${min_precio_cat} y ${max_precio_cat}"
+    
+    precio_actual = variacion_precios[-1]
+    precio_debajo_promedio = (precio_actual < round(statistics.mean(variacion_precios), 2))
+    justificacion_factor = f"El precio del producto esta por debajo de su promedio de los ultimos 12 meses en Mercado Libre, indicando una buena oportunidad de compra."
+    porcentaje_superior = round((((precio_actual - media_precios) / media_precios) * 100), 2)
+    justificacion_no_factor = f"El precio del producto esta un {porcentaje_superior}% por encima de promedio de los ultimos 12 meses en Mercado Libre."
+    
     procesamiento = {
-        "variacion_precio": ordenarGraficoPorFecha(grafico_precios),
-        "variacion_tendencia": ordenarGraficoPorFecha(grafico_tendencia),
-        "media_precio": round(statistics.mean(variacion_precios), 2),
-        "media_trendPosition": round(statistics.mean(variacion_tendencia), 2),
+        "variacion_precio": grafico_precios,
+        "variacion_tendencia": grafico_tendencia,
+        "media_precio": media_precios,
+        "media_trendPosition": media_trends,
         "desvio_precio": desvio(variacion_precios),
         "desvio_trendPosition": desvio(variacion_tendencia),
         "meses_en_tendencia": len(meses) - 1,
         "minimo_precio": min(variacion_precios),
         "maximo_precio": max(variacion_precios),
-        "precio_sugerido": precio_sugerido,
-        "en_rango_categoria": en_rango
+        "precio_sugerido": {
+            "precio" : precio_sugerido,
+            "justificacion": justificacion_precio
+            },
+        "en_rango_categoria": {
+            "en_rango": en_rango,
+            "justificacion": justificacion_en_rango if en_rango else justificacion_no_en_rango 
+            },
+        "factor": {
+            "precio_debajo_promedio": precio_debajo_promedio,
+            "justificacion": justificacion_factor if precio_debajo_promedio else justificacion_no_factor
+        },
     }
     
     return procesamiento
