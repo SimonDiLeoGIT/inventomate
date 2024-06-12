@@ -14,4 +14,6 @@ public interface EmpresaService {
 	EmpresaProfileResponse updateEmpresa(String idAuth0, EditEmpresaRequest editEmpresaRequest);
 
 	void deleteEmpresa(String idAuth0) throws Auth0Exception;
+
+	Boolean existsBdEmpresa(String idAuth0);
 }

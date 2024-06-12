@@ -52,6 +52,7 @@ public class InformeServiceImpl implements InformeService {
 		TrendsDTO response1 = mlService.getTendencias(productos);
 		List<CategoriaMeli> response2 = mlService.getHistorico(response1.getTrends());
 		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1,response2);
+		
 		String idMongo = flaskService.postDatosInformeTendencias(responseMeli);
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.ANALISIS_DE_TENDENCIA);
 		procesarInforme(sucursal, informe);
