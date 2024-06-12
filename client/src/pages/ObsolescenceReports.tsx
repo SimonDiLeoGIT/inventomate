@@ -18,8 +18,9 @@ export const ObsolescenceReports = () => {
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [database, setDatabase] = useState<boolean>(true)
-  const [obsolescenceReports, setObsolescenceReport] = useState<Report[]>([])
+  const [obsolescenceReports, setObsolescenceReport] = useState<Report>()
   const [branch, setBranch] = useState<string>('')
+  const totalArticles = 10
 
   useEffect(() => {
 
@@ -57,19 +58,19 @@ export const ObsolescenceReports = () => {
     } else {
       setDatabase(false)
     }
-    await getReports(branch)
+    await getReports(branch, 0, 'desc', null, null, null)
     setRequesting(false)
   }
 
-  const getReports = async (idBranch: string) => {
+  const getReports = async (idBranch: string, currentPage: number, sortOrder: 'asc' | 'desc', dateFrom: string | null, dateTo: string | null, viewed: boolean | null) => {
     const accessToken = await getAccessTokenSilently()
-    const response = await getObsoletProductsReports(accessToken, idBranch)
+    const response = await getObsoletProductsReports(accessToken, idBranch, currentPage, totalArticles, sortOrder, dateFrom, dateTo, viewed)
     response && setObsolescenceReport(response)
   }
 
   const handleChangeOption = async (idBranch: string) => {
     setBranch(idBranch)
-    getReports(idBranch)
+    getReports(idBranch, 0, 'desc', null, null, null)
   }
 
   return (
@@ -85,11 +86,13 @@ export const ObsolescenceReports = () => {
               ?
               <SelectBranch />
               :
-              ((obsolescenceReports !== null && obsolescenceReports.length > 0) ?
-                <Reports reports={obsolescenceReports} idBranch={branch} />
+              obsolescenceReports
+                ?
+
+                <Reports reports={obsolescenceReports} idBranch={branch} getReport={getReports} />
                 :
                 <EmptyHistory />
-              ))
+          )
             :
             <NoDatabaseConnection />
         }

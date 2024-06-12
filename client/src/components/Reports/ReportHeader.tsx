@@ -44,7 +44,7 @@ export const ReportHeader: React.FC<props> = ({ title, button_text, handleChange
         {currentUser?.roles.some(role => role.idRol === 1)
           &&
           <select
-            className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer"
+            className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
             onChange={(e) => handleChangeOption(e.target.value)}
             id="select_branch"
           >
@@ -65,7 +65,7 @@ export const ReportHeader: React.FC<props> = ({ title, button_text, handleChange
             branch !== ''
             &&
             <button
-              className="-bg--color-semidark-violet -text--color-white font-semibold p-2 rounded-lg max-w-sm hover:opacity-80"
+              className="-bg--color-semidark-violet -text--color-white font-semibold p-4 rounded-lg max-w-sm hover:opacity-80 mt-2"
               onClick={() => buttonEvent()}
             >
               {button_text}
