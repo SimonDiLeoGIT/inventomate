@@ -147,7 +147,7 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl apply -f ingress.yaml 
-          sleep 120
+          sleep 300
 
       - name: Generate TLS certificates
         working-directory: ./client
