@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@Builder
 @NoArgsConstructor
+@Builder
 @Data
-public class CategoriaGanancia {
+public class CategoriaRangoPrecios {
 
 	private int idCategoria;
-	private String nombre;
-	private Double porcentajeGananciaPromedio;
+	private String nombreCategoria;
+	private double precioMinimo;
+	private double precioMaximo;
 	
 }
