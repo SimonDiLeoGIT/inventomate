@@ -13,7 +13,7 @@ spec:
           - backend:
               service:
                 port:
-                  number: 80
+                  number: 443
                 name: frontend-inventomate
             path: /
             pathType: Prefix

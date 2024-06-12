@@ -50,11 +50,11 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 3000
+      targetPort: 80
     - name: https
       protocol: TCP
       port: 443
-      targetPort: 3000
+      targetPort: 443
     - name: client
       protocol: TCP
       port: 4040
