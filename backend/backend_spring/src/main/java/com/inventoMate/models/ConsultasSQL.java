@@ -159,7 +159,7 @@ public class ConsultasSQL implements Consultas {
 				+ "INNER JOIN ultimas_compras uc ON p.producto_id = uc.producto_id AND uc.rn = 1 "
 				+ "GROUP BY p.categoria_id, c.nombre";
 
-		return jdbcTemplate.queryForList(sql, idSucCliente).stream()
+		return jdbcTemplate.queryForList(sql, idSucCliente, idSucCliente).stream()
 				.map(row -> CategoriaGanancia.builder().idCategoria((Integer) row.get("categoria_id"))
 						.nombre((String) row.get("nombre_categoria"))
 						.porcentajeGananciaPromedio((Double) row.get("ganancia_promedio")).build())
