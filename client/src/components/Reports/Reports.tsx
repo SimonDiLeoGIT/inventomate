@@ -42,7 +42,7 @@ export const Reports: React.FC<props> = ({ reports, idBranch, getReport }) => {
   }
 
   function handleSelect(id: keyof Content, op: string) {
-    if (id === "id") {
+    if (id === "fecha") {
       sortByID(op)
     } else {
       if (id === "visto") {
@@ -80,11 +80,11 @@ export const Reports: React.FC<props> = ({ reports, idBranch, getReport }) => {
       />
       <ul className="rounded-lg overflow-hidden shadow-md -shadow--color-black-shadow">
         <li className="grid grid-cols-3 border-b -bg--color-mate-dark-violet -text--color-white font-bold">
+          <p className="p-2">Id</p>
           <div className="flex items-center relative">
-            <p className="p-2">Id</p>
-            <TableSelector options={['asc', 'desc']} id='id' handleSelect={handleSelect} />
+            <p className="p-2">Date</p>
+            <TableSelector options={['asc', 'desc']} id='fecha' handleSelect={handleSelect} />
           </div>
-          <p className="p-2">Date</p>
           <div className="flex items-center relative">
             <p className="p-2">State</p>
             <TableSelector options={['new', 'viewed', 'all']} id='visto' handleSelect={handleSelect} />

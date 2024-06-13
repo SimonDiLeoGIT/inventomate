@@ -42,11 +42,11 @@ export const ObsolescenceReports = () => {
     setRequesting(true)
     const accessToken = await getAccessTokenSilently()
 
-    if (await existsDatabaseConnection()) {
+    if (await existsDatabaseConnection(accessToken)) {
       try {
         await getNewObsoletProducts(accessToken, branch)
       } catch (e: any) {
-
+        return e
       }
       setDatabase(true)
     } else {

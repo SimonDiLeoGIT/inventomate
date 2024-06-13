@@ -43,7 +43,7 @@ export const TrendsReports = () => {
     setRequesting(true)
     const accessToken = await getAccessTokenSilently()
 
-    if (await existsDatabaseConnection()) {
+    if (await existsDatabaseConnection(accessToken)) {
       await getNewTrends(accessToken, branch)
     } else {
       setDatabase(false)
