@@ -22,7 +22,7 @@ def procesar_tendencias(datos):
     resultado = {}
     resultado["fecha_actual"] = date.today().strftime("%Y-%m-%d")
     resultado["trends"] = datos["trends"]
-    resultado["justificacion"] = "Estas recomendaciones se derivan del análisis de las categorías predichas por el predictor de Mercado Libre. Hemos pasado nuestros productos a este predictor y agrupado las categorías con el top 20 basado en la coincidencia de nuestros productos con las categorías predichas. Esto nos permite identificar oportunidades relevantes y alineadas con el mercado actual."
+    resultado["justificacion"] = "Estas recomendaciones se derivan del análisis de las categorías predichas por el predictor de Mercado Libre. Hemos pasado los productos que comercializa en su sucursal a este predictor y agrupado las categorías con el top 10 basado en la coincidencia de nuestros productos con las categorías predichas. Esto nos permite identificar oportunidades relevantes y alineadas con el mercado actual."
     
     for trend in resultado["trends"]:
         categoria = trend["category_name"].strip()
@@ -110,6 +110,8 @@ def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, a
         "meses_en_tendencia": len(meses) - 1,
         "minimo_precio": min(variacion_precios),
         "maximo_precio": max(variacion_precios),
+        "minimo_trendPosition" : min(variacion_tendencia),
+        "maximo_trendPosition" : max(variacion_tendencia),
         "precio_sugerido": {
             "precio" : precio_sugerido,
             "justificacion": justificacion_precio
