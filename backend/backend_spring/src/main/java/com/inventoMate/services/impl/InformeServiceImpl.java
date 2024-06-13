@@ -1,6 +1,8 @@
 package com.inventoMate.services.impl;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +24,7 @@ import com.inventoMate.entities.Decision;
 import com.inventoMate.entities.Empresa;
 import com.inventoMate.entities.Informe;
 import com.inventoMate.entities.Sucursal;
+import com.inventoMate.entities.TiempoInforme;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.entities.Usuario;
 import com.inventoMate.entities.Valoracion;
@@ -32,6 +35,7 @@ import com.inventoMate.mapper.ValoracionMapper;
 import com.inventoMate.models.EmailSender;
 import com.inventoMate.repositories.DecisionRepository;
 import com.inventoMate.repositories.InformeRepository;
+import com.inventoMate.repositories.TiempoInformeRepository;
 import com.inventoMate.repositories.UsuarioRepository;
 import com.inventoMate.repositories.ValoracionRepository;
 import com.inventoMate.services.FlaskService;
@@ -53,10 +57,12 @@ public class InformeServiceImpl implements InformeService {
 	private final DecisionRepository decisionRepository;
 	private final DecisionMapper decisionMapper;
 	private final ValoracionMapper valoracionMapper;
+	private final TiempoInformeRepository tiempoInformeRepository;
 	private final EmailSender emailSender;
 
 	@Override
 	public void informeDeTendencia(String idAuth0, Long idSucursal) {
+		LocalTime tiempoInicio = LocalTime.now();
 		Sucursal sucursal = obtenerSucursal(idAuth0, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
 		List<ProductoSucursalInfo> productos = empresa.obtenerProductos(sucursal);
@@ -68,10 +74,26 @@ public class InformeServiceImpl implements InformeService {
 		String idMongo = flaskService.postDatosInformeTendencias(responseMeli);
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.ANALISIS_DE_TENDENCIA);
 		procesarInforme(sucursal, informe);
+		LocalTime tiempoFinal = LocalTime.now();
+		crearTiempoInforme(tiempoInicio,tiempoFinal,informe);
+	}
+
+	private void crearTiempoInforme(LocalTime tiempoInicio, LocalTime tiempoFinal, Informe informe) {
+		TiempoInforme tiempoInforme = new TiempoInforme();
+		tiempoInforme.setTiempoInicio(tiempoInicio);
+		tiempoInforme.setTiempoFin(tiempoFinal);
+		tiempoInforme.setInforme(informe);
+		tiempoInforme.setFecha(LocalDate.now());
+		tiempoInforme.setTipoInforme(informe.getTipoInforme());
+		long duracionSegundos = ChronoUnit.SECONDS.between(tiempoInicio, tiempoFinal);
+	    tiempoInforme.setDuracionSegundos(duracionSegundos);
+		informe.setTiempoInforme(tiempoInforme);
+		tiempoInformeRepository.save(tiempoInforme);
 	}
 
 	@Override
 	public void informeDeProyeccion(String subject, Long idSucursal, LocalDate fechaProyeccion) {
+		LocalTime tiempoInicio = LocalTime.now();
 		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
 		var historiaDeCompras = empresa.obtenerHistoricoDeCompras(sucursal);
@@ -79,12 +101,14 @@ public class InformeServiceImpl implements InformeService {
 		String idMongo = flaskService.postDatosInformeProyeccionDeVentas(
 				mapper.mapToHistoricoMovimientos(historiaDeVentas, historiaDeCompras, fechaProyeccion, idSucursal));
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.PROYECCION_DE_VENTAS);
-
 		procesarInforme(sucursal, informe);
+		LocalTime tiempoFinal = LocalTime.now();
+		crearTiempoInforme(tiempoInicio,tiempoFinal,informe);
 	}
 
 	@Override
 	public void informeDeSiguientesPedidos(String subject, Long idSucursal) {
+		LocalTime tiempoInicio = LocalTime.now();
 		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
 		var historiaDeCompras = empresa.obtenerHistoricoDeCompras(sucursal);
@@ -93,12 +117,14 @@ public class InformeServiceImpl implements InformeService {
 		String idMongo = flaskService.postDatosInformeSiguientesPedidos(
 				mapper.mapToProductoInformation(historiaDeVentas, historiaDeCompras, productosDeSucursal, idSucursal));
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.SIGUIENTES_PEDIDOS);
-
 		procesarInforme(sucursal, informe);
+		LocalTime tiempoFinal = LocalTime.now();
+		crearTiempoInforme(tiempoInicio,tiempoFinal,informe);
 	}
 
 	@Override
 	public void informeDeObsolescencia(String subject, Long idSucursal) {
+		LocalTime tiempoInicio = LocalTime.now();
 		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
 		var historiaDeVentas = empresa.obtenerHistoricoDeVentas(sucursal);
@@ -106,8 +132,9 @@ public class InformeServiceImpl implements InformeService {
 		String idMongo = flaskService.postDatosInformeObsolescencia(
 				mapper.mapToProductoInformation(historiaDeVentas, productosDeSucursalObsolescencia, idSucursal));
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.OBSOLESCENCIA);
-
 		procesarInforme(sucursal, informe);
+		LocalTime tiempoFinal = LocalTime.now();
+		crearTiempoInforme(tiempoInicio,tiempoFinal,informe);
 	}
 
 	@Override
