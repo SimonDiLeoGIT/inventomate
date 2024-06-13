@@ -1,15 +1,19 @@
 package com.inventoMate.services.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.inventoMate.dtos.tiempoInforme.TiempoInformeDTO;
 import com.inventoMate.dtos.valoracion.ValoracionDTO;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.entities.Valoracion;
+import com.inventoMate.mapper.TiempoInformeMapper;
 import com.inventoMate.mapper.ValoracionMapper;
+import com.inventoMate.repositories.TiempoInformeRepository;
 import com.inventoMate.repositories.ValoracionRepository;
 import com.inventoMate.services.AdminService;
 
@@ -20,6 +24,8 @@ import lombok.AllArgsConstructor;
 public class AdminServiceImpl implements AdminService {
 
 	private final ValoracionRepository valoracionRepository;
+	private final TiempoInformeRepository tiempoInformeRepository;
+	private final TiempoInformeMapper tiempoInformeMapper;
 	private final ValoracionMapper valoracionMapper;
 
 	@Override
@@ -28,6 +34,11 @@ public class AdminServiceImpl implements AdminService {
 		Page<Valoracion> valoraciones = valoracionRepository.findByFilters(tipoInforme, estrellas, fechaInicio,
 				fechaFin, pageable);
 		return valoraciones.map(valoracionMapper::mapToValoracionDTO);
+	}
+
+	@Override
+	public List<TiempoInformeDTO> getTiempos() {
+		return tiempoInformeMapper.mapToTiempoInformeDTO(tiempoInformeRepository.findAll());
 	}
 
 }

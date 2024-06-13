@@ -1,6 +1,7 @@
 package com.inventoMate.controllers;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventoMate.dtos.tiempoInforme.TiempoInformeDTO;
 import com.inventoMate.dtos.valoracion.ValoracionDTO;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.services.AdminService;
@@ -38,6 +40,11 @@ public class AdminController {
 		Page<ValoracionDTO> valoraciones = adminService.getValoraciones(pageable, tipoInforme, estrellas, desde,
 				hasta);
 		return ResponseEntity.ok(valoraciones);
+	}
+	
+	@GetMapping("/tiempos")
+	public ResponseEntity<List<TiempoInformeDTO>> getStatsInformes() {
+		return ResponseEntity.ok(adminService.getTiempos());
 	}
 
 }
