@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaGanancia;
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaRangoPrecios;
 import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
@@ -103,5 +105,15 @@ public class Empresa {
 	public List<ProductoSucursalInfo> obtenerProductos(Sucursal sucursal) {
 		bdEmpresa.connect();
 		return bdEmpresa.obtenerProductos(sucursal.getIdSucCliente());
+	}
+
+	public List<CategoriaRangoPrecios> obtenerRangoPreciosCategoria(Sucursal sucursal) {
+		bdEmpresa.connect();
+		return bdEmpresa.obtenerRangoPreciosCategoria(sucursal.getIdSucCliente());
+	}
+
+	public List<CategoriaGanancia> obtenerGananciaCategoria(Sucursal sucursal) {
+		bdEmpresa.connect();
+		return bdEmpresa.obtenerGananciaCategoria(sucursal.getIdSucCliente());
 	}
 }

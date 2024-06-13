@@ -2,6 +2,8 @@ package com.inventoMate.dtos.meli;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +18,6 @@ public class TrendsDTO {
 
 	private List<CategoryTrendDTO> trends;
 	JSONObject historico;
-	
+	@JsonProperty("informacion_cliente")
+	JSONObject informacionCliente;
 }

@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaGanancia;
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaRangoPrecios;
 import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
@@ -105,5 +107,13 @@ public class BdEmpresa {
 
 	public List<ProductoSucursalInfo> obtenerProductos(Long idSucCliente) {
 		return consultasSQL.getProductInformationByIdSucursal(new JdbcTemplate(this.datasource), idSucCliente);
+	}
+
+	public List<CategoriaRangoPrecios> obtenerRangoPreciosCategoria(Long idSucCliente) {
+		return consultasSQL.getRangoPreciosPorCategoria(new JdbcTemplate(this.datasource), idSucCliente);
+	}
+
+	public List<CategoriaGanancia> obtenerGananciaCategoria(Long idSucCliente) {
+		return consultasSQL.getProductoPorcentajeGanancia(new JdbcTemplate(this.datasource), idSucCliente);
 	}
 }
