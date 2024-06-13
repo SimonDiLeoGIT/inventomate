@@ -24,12 +24,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Grant execute permission for Maven Wrapper
-        run: chmod +x ./backend/backend_spring/mvnw
-
-      - name: Build with Maven
-        working-directory: ./backend/backend_spring
-        run: ./mvnw clean package -DskipTests
+      
 
       
       - name: Build and push python api image
@@ -187,7 +182,14 @@ jobs:
             context: ./client
             push: true
             tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
+      
+      - name: Grant execute permission for Maven Wrapper
+        run: chmod +x ./backend/backend_spring/mvnw
 
+      - name: Build with Maven
+        working-directory: ./backend/backend_spring
+        run: ./mvnw clean package -DskipTests
+    
       - name: Build and push spring image
         uses: docker/build-push-action@v5
         with:
