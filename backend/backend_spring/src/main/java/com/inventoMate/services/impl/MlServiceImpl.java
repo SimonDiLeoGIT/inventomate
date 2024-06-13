@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import org.springframework.stereotype.Service;
 
 import com.inventoMate.configuration.meli.MeliProperties;
+import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.meli.CategoryDTO;
 import com.inventoMate.dtos.meli.CategoryTrendDTO;
 import com.inventoMate.dtos.meli.TrendsDTO;
@@ -36,16 +37,18 @@ public class MlServiceImpl implements MlService {
 
 	class MapNode {
 		String categoryName;
+		String categoryNameBd;
 		List<String> products;
 
-		MapNode(String categoryName) {
+		MapNode(String categoryName, String categoryNameBd) {
 			this.categoryName = categoryName;
+			this.categoryNameBd = categoryNameBd;
 			products = new LinkedList<>();
 		}
 	}
 
 	@Override
-	public TrendsDTO getTendencias(List<String> products) {
+	public TrendsDTO getTendencias(List<ProductoSucursalInfo> products) {
 		HashMap<String, MapNode> categoryProducts = categorizeProducts(products);
 		var trendsResponse = new TrendsDTO();
 		var trends = new LinkedList<CategoryTrendDTO>();
@@ -58,7 +61,7 @@ public class MlServiceImpl implements MlService {
 			categoryTrend.setKeywords(getTrends(categoryId));
 			categoryTrend.setCategoryName(entry.getValue().categoryName);
 			categoryTrend.setProducts(new LinkedList<>());
-
+			categoryTrend.setCategoryNameBd(entry.getValue().categoryNameBd);
 			bestSellerDTO.getContent().subList(0, 10).forEach(item -> {
 				var product = meliClient.getProductById(item.getId(), setAccessToken()).getProducts().get(0);
 				var info = meliClient.getProductAdditionalInfo(item.getId(), setAccessToken());
@@ -86,18 +89,18 @@ public class MlServiceImpl implements MlService {
 		}
 	}
 
-	private HashMap<String, MapNode> categorizeProducts(List<String> products) {
+	private HashMap<String, MapNode> categorizeProducts(List<ProductoSucursalInfo> products) {
 		var categoryProducts = new HashMap<String, MapNode>();
 
 		products.forEach(product -> {
-			String encodedProductName = URLEncoder.encode(product, StandardCharsets.UTF_8).replace("+", "%20");
+			String encodedProductName = URLEncoder.encode(product.getNombre(), StandardCharsets.UTF_8).replace("+", "%20");
 			CategoryDTO category = meliClient.predictCategory(1, encodedProductName, setAccessToken()).get(0);
 
 			if (!categoryProducts.containsKey(category.getCategoryId())) {
-				categoryProducts.put(category.getCategoryId(), new MapNode(category.getCategoryName()));
+				categoryProducts.put(category.getCategoryId(), new MapNode(category.getCategoryName(),product.getCategoria()));
 			}
 			var node = categoryProducts.get(category.getCategoryId());
-			node.products.add(product);
+			node.products.add(product.getNombre());
 			categoryProducts.put(category.getCategoryId(), node);
 		});
 		return categoryProducts;

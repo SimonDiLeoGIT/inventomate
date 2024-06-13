@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaGanancia;
 import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaRangoPrecios;
+import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.informes.DecisionRequest;
 import com.inventoMate.dtos.informes.DecisionResponse;
 import com.inventoMate.dtos.informes.InformeDTO;
@@ -52,7 +53,7 @@ public class InformeServiceImpl implements InformeService {
 	public void informeDeTendencia(String idAuth0, Long idSucursal) {
 		Sucursal sucursal = obtenerSucursal(idAuth0, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
-		List<String> productos = empresa.obtenerProductosDeSucursal(sucursal);
+		List<ProductoSucursalInfo> productos = empresa.obtenerProductos(sucursal);
 		TrendsDTO response1 = mlService.getTendencias(productos);
 		List<CategoriaMeli> response2 = mlService.getHistorico(response1.getTrends());
 		List<CategoriaRangoPrecios> response3 = empresa.obtenerRangoPreciosCategoria(sucursal);

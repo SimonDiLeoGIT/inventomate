@@ -14,11 +14,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-@JsonPropertyOrder({ "category_name", "keywords", "products", "product_matchers" })
+@JsonPropertyOrder({ "category_name","category_name_bd", "keywords", "products", "product_matchers" })
 public class CategoryTrendDTO {
 
 	@JsonProperty("category_name")
 	private String categoryName;
+	@JsonProperty("category_name_bd")
+	private String categoryNameBd;
 	private List<String> keywords;
 	private List<ProductDTO> products;
 	@JsonProperty("product_matchers")
