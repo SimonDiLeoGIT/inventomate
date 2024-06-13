@@ -41,4 +41,9 @@ public class TiempoInformeMapperImpl implements TiempoInformeMapper {
 				.build();
 	}
 
+	@Override
+	public TiempoInformeDTO mapToTiempoInformeDTO(TiempoInforme tiempoInforme) {
+		return mapper.map(tiempoInforme, TiempoInformeDTO.class);
+	}
+
 }

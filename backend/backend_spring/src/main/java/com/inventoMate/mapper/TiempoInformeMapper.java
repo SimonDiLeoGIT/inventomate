@@ -9,6 +9,8 @@ import com.inventoMate.entities.TiempoInforme;
 public interface TiempoInformeMapper {
 
 	List<TiempoInformeDTO> mapToTiempoInformeDTO(List<TiempoInforme> tiempoInformes);
+	
+	TiempoInformeDTO mapToTiempoInformeDTO(TiempoInforme tiempoInforme);
 
 	InformeStatsResponse mapToInformeStatsResponse(int cantInformes, int cantInformesTendencias,
 			int cantInformesProyeccion, int cantInformesNexTrends, int cantInformesObsolescencia,

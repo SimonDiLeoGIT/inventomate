@@ -1,7 +1,6 @@
 package com.inventoMate.services.impl;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +10,7 @@ import com.inventoMate.dtos.informes.InformeStatsResponse;
 import com.inventoMate.dtos.tiempoInforme.TiempoInformeDTO;
 import com.inventoMate.dtos.valoracion.ValoracionDTO;
 import com.inventoMate.dtos.valoracion.ValoracionStatsResponse;
+import com.inventoMate.entities.TiempoInforme;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.entities.Valoracion;
 import com.inventoMate.mapper.TiempoInformeMapper;
@@ -37,11 +37,12 @@ public class AdminServiceImpl implements AdminService {
 				fechaFin, pageable);
 		return valoraciones.map(valoracionMapper::mapToValoracionDTO);
 	}
-
+	
 	@Override
-	public List<TiempoInformeDTO> getTiempos() {
-		return tiempoInformeMapper.mapToTiempoInformeDTO(tiempoInformeRepository.findAll());
-	}
+    public Page<TiempoInformeDTO> getTiemposInforme(Pageable pageable, TipoInforme tipoInforme, LocalDate fechaInicio, LocalDate fechaFin) {
+        Page<TiempoInforme> tiemposInformePage = tiempoInformeRepository.findByTipoInformeAndFechas(tipoInforme, fechaInicio, fechaFin, pageable);
+        return tiemposInformePage.map(tiempoInformeMapper::mapToTiempoInformeDTO);
+    }
 
 	@Override
 	public ValoracionStatsResponse getValoracionesStats(LocalDate desde, LocalDate hasta) {

@@ -1,7 +1,6 @@
 package com.inventoMate.services;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,10 +15,11 @@ public interface AdminService {
 
 	Page<ValoracionDTO> getValoraciones(Pageable pageable, TipoInforme tipoInforme, Integer estrellas, LocalDate fechaInicio, LocalDate fechaFin);
 
-	List<TiempoInformeDTO> getTiempos();
-
 	ValoracionStatsResponse getValoracionesStats(LocalDate desde, LocalDate hasta);
 
 	InformeStatsResponse getInformeStats(LocalDate desde, LocalDate hasta);
+
+	Page<TiempoInformeDTO> getTiemposInforme(Pageable pageable, TipoInforme tipoInforme, LocalDate fechaInicio,
+			LocalDate fechaFin);
 
 }
