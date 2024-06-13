@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DecisionResponse {
 
-    @JsonProperty("usuario_decision")
-    private UsuarioDTO usuarioDecision;
+	@JsonProperty("usuario_decision")
+	private UsuarioDTO usuarioDecision;
 
-    @JsonProperty("decision")
-    private DecisionDTO decision;
+	@JsonProperty("decision")
+	private DecisionDTO decision;
 }

@@ -3,6 +3,8 @@ package com.inventoMate.mapper;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaGanancia;
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaRangoPrecios;
 import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.bdEmpresas.tablas.VentaDetalle;
@@ -35,6 +37,7 @@ public interface InformeMapper {
 	JSONObject mapToProductoInformation(List<VentaDetalle> historiaDeVentas,
 			List<ProductoSucursalInfo> productosDeSucursal, Long idSucursal);
 
-	TrendsDTO mapToInformeDeTendencia(TrendsDTO response1, List<CategoriaMeli> response2);
+	TrendsDTO mapToInformeDeTendencia(TrendsDTO response1, List<CategoriaMeli> response2,
+			List<CategoriaRangoPrecios> response3, List<CategoriaGanancia> response4);
 
 }

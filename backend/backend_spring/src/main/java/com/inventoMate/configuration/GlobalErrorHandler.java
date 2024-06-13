@@ -69,12 +69,12 @@ public class GlobalErrorHandler {
 	public ErrorMessage handleInvitacionExpired(final HttpServletRequest request, final Exception error) {
 		return ErrorMessage.from(error.getMessage(), HttpStatus.FORBIDDEN.value());
 	}
-	
+
 	@ExceptionHandler(ClientAbortException.class)
 	public ErrorMessage handleClientAbortException(final HttpServletRequest request, final Exception error) {
 		return ErrorMessage.from(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
 	}
-	
+
 	@ExceptionHandler(IOException.class)
 	public ErrorMessage handleIOException(final HttpServletRequest request, final Exception error) {
 		return ErrorMessage.from(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());

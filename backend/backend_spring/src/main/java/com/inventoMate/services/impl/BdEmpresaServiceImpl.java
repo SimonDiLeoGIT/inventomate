@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.inventoMate.dtos.bdEmpresas.BdEmpresaDTO;
 import com.inventoMate.entities.BdEmpresa;
 import com.inventoMate.entities.Empresa;
+import com.inventoMate.entities.Sucursal;
 import com.inventoMate.entities.Usuario;
 import com.inventoMate.exceptions.ResourceNotFoundException;
 import com.inventoMate.mapper.BdEmpresaMapper;
@@ -105,6 +106,26 @@ public class BdEmpresaServiceImpl implements BdEmpresaService {
 				() -> new ResourceNotFoundException("Bd-empresa", "empresa", empresa.getIdEmpresa().toString()));
 
 		return mapper.mapToBdEmpresaDTO(bdEmpresa);
+	}
+
+	@Override
+	public boolean existsBdEmpresa(String idAuth0, Long idSucursal) {
+		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
+
+		Empresa empresa = usuario.getEmpresa();
+
+		if (empresa == null) {
+			throw new ResourceNotFoundException("Usuarios", "id_empresa", usuario.getIdUsuario().toString());
+		}
+
+		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
+
+		if (sucursal == null) {
+			throw new ResourceNotFoundException("Usuarios", "id_sucursal", "null");
+		}
+
+		return empresa.getBdEmpresa() != null;
 	}
 
 }

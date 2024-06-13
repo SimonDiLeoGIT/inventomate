@@ -2,12 +2,12 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
-import { SideNavbar } from "../components/SideNavbar"
-import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
+import { SideNavbar } from "../components/Global/SideNavbar"
+import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
-import { MakeDecision } from "../components/MakeDecision"
-import { Chart, registerables } from 'chart.js'
-Chart.register(...registerables)
+import { TopTen } from "../components/Reports/NextOrders/TopTen"
+import { Overview } from "../components/Reports/NextOrders/Overview"
+import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
 
 export const NextOrders = () => {
 
@@ -18,8 +18,11 @@ export const NextOrders = () => {
 
   const { setUser } = useUser()
 
-  const [nextOrders, setNextOrders] = useState<NextOrder>()
+  const [nextOrders, setNextOrders] = useState<NextOrders>()
 
+  const [overview, setOverview] = useState<boolean>(false);
+  const [urgently, setUrgently] = useState<boolean>(true);
+  const [assessment, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -38,6 +41,25 @@ export const NextOrders = () => {
 
   }, [isAuthenticated])
 
+  function selectOverview() {
+    setOverview(true)
+    setUrgently(false)
+    setAssessment(false)
+  }
+
+  function selectUrgently() {
+    setOverview(false)
+    setUrgently(true)
+    setAssessment(false)
+  }
+
+  function selectAssessment() {
+    setOverview(false)
+    setUrgently(false)
+    setAssessment(true)
+  }
+
+
   return (
     <main className="-text--color-black flex">
       <section className="hidden relative lg:block w-64">
@@ -47,64 +69,44 @@ export const NextOrders = () => {
         <header className="p-2">
           <ReportHeaderTitle title="Next Orders" />
         </header>
-        <ul className="my-4">
+        <section>
+          <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${urgently && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => selectUrgently()}
+            >
+              Top Ten
+            </h2>
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${overview && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => selectOverview()}
+            >
+              Overview
+            </h2>
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${assessment && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => selectAssessment()}
+            >
+              Assessment
+            </h2>
+          </header>
           {
-            nextOrders?.pedidos.map((order) => {
-              return (
-                <li className="-bg--color-border-very-lightest-grey rounded-lg shadow-md -shadow--color-black-shadow mb-4 overflow-hidden">
-                  <ul>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Product Id
-                      </p>
-                      <p>
-                        {order.id_producto}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 -bg--color-white p-2">
-                      <p className="m-auto ml-0">
-                        Product Name
-                      </p>
-                      <p>
-                        {order.nombre_producto}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Actual Stock
-                      </p>
-                      <p>
-                        {order.stock_actual}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2 -bg--color-white">
-                      <p className="m-auto ml-0">
-                        Quantity To Order
-                      </p>
-                      <p>
-                        {order.cantidad_a_comprar}
-                      </p>
-                    </li>
-                    <li className="grid grid-cols-2 p-2">
-                      <p className="m-auto ml-0">
-                        Justification
-                      </p>
-                      <p>
-                        {order.justificacion}
-                      </p>
-                    </li>
-                  </ul>
-                </li>
-              )
-            })
+            nextOrders && idBranch && idInforme &&
+            (
+              urgently
+                ?
+                <TopTen nextOrders={nextOrders} />
+                :
+                (
+                  overview
+                    ?
+                    <Overview nextOrders={nextOrders} />
+                    :
+                    <ReportRating idBranch={idBranch} idInforme={idInforme} />
+                )
+            )
           }
-        </ul>
-        <div className="my-4">
-          {
-            idInforme && idBranch &&
-            <MakeDecision idReport={idInforme} idBranch={idBranch} />
-          }
-        </div>
+        </section>
       </section>
     </main>
   )

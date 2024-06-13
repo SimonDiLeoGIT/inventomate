@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaGanancia;
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaRangoPrecios;
 import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleCompra;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleVenta;
@@ -211,36 +213,72 @@ public class InformeMapperImpl implements InformeMapper {
 		return result;
 	}
 
-	 @Override
-	    public TrendsDTO mapToInformeDeTendencia(TrendsDTO response1, List<CategoriaMeli> response2) {
-	        JSONObject historico = new JSONObject();
+	@Override
+	public TrendsDTO mapToInformeDeTendencia(TrendsDTO response1, List<CategoriaMeli> response2,
+			List<CategoriaRangoPrecios> response3, List<CategoriaGanancia> response4) {
+		JSONObject historico = mapToHistoricoMeli(response2);
+		JSONObject informacionCliente = mapInformacionCliente(response3, response4);
 
-	        // Agrupar productos por categoría
-	        response2.forEach(categoria -> {
-	            CategoriaMeliDTO categoriaDTO = mapper.map(categoria, CategoriaMeliDTO.class);
-	            JSONArray fechasArray = new JSONArray();
+		response1.setHistorico(historico);
+		response1.setInformacionCliente(informacionCliente);
 
-	            // Agrupar productos por fecha dentro de cada categoría
-	            Map<LocalDate, List<ProductoMeliDTO>> productosPorFecha = categoria.getProductos().stream()
-	                .map(producto -> mapper.map(producto, ProductoMeliDTO.class))
-	                .collect(Collectors.groupingBy(ProductoMeliDTO::getFecha));
+		return response1;
+	}
 
-	            productosPorFecha.forEach((fecha, productosEnFecha) -> {
-	                JSONObject fechaObject = new JSONObject();
-	                JSONArray productosArray = new JSONArray();
+	private JSONObject mapInformacionCliente(List<CategoriaRangoPrecios> response3, List<CategoriaGanancia> response4) {
+		JSONObject informacionCliente = new JSONObject();
 
-	                productosEnFecha.forEach(productoDTO -> {
-	                    productosArray.add(productoDTO);
-	                });
+		JSONArray minimosMaximosCategorias = new JSONArray();
+		for (CategoriaRangoPrecios categoria : response3) {
+			JSONObject categoriaJson = new JSONObject();
+			categoriaJson.put("idCategoria", categoria.getIdCategoria());
+			categoriaJson.put("nombre_categoria", categoria.getNombreCategoria());
+			categoriaJson.put("precio_minimo", categoria.getPrecioMinimo());
+			categoriaJson.put("precio_maximo", categoria.getPrecioMaximo());
+			minimosMaximosCategorias.add(categoriaJson);
+		}
 
-	                fechaObject.put(fecha.toString(), productosArray);
-	                fechasArray.add(fechaObject);
-	            });
+		JSONArray porcentajeGananciaCategorias = new JSONArray();
+		for (CategoriaGanancia categoria : response4) {
+			JSONObject categoriaJson = new JSONObject();
+			categoriaJson.put("idCategoria", categoria.getIdCategoria());
+			categoriaJson.put("nombre_categoria", categoria.getNombre());
+			categoriaJson.put("porcentaje_ganancia", categoria.getPorcentajeGananciaPromedio());
+			porcentajeGananciaCategorias.add(categoriaJson);
+		}
 
-	            historico.put(categoriaDTO.getNombre(), fechasArray);
-	        });
+		informacionCliente.put("minimos_maximos_categorias", minimosMaximosCategorias);
+		informacionCliente.put("porcentaje_ganancia_categorias", porcentajeGananciaCategorias);
 
-	        response1.setHistorico(historico);
-	        return response1;
-	    }
+		return informacionCliente;
+	}
+
+	private JSONObject mapToHistoricoMeli(List<CategoriaMeli> response2) {
+		JSONObject historico = new JSONObject();
+		response2.forEach(categoria -> {
+			CategoriaMeliDTO categoriaDTO = mapper.map(categoria, CategoriaMeliDTO.class);
+			JSONArray fechasArray = new JSONArray();
+
+			// Agrupar productos por fecha dentro de cada categoría
+			Map<LocalDate, List<ProductoMeliDTO>> productosPorFecha = categoria.getProductos().stream()
+					.map(producto -> mapper.map(producto, ProductoMeliDTO.class))
+					.collect(Collectors.groupingBy(ProductoMeliDTO::getFecha));
+
+			productosPorFecha.forEach((fecha, productosEnFecha) -> {
+				JSONObject fechaObject = new JSONObject();
+				JSONArray productosArray = new JSONArray();
+
+				productosEnFecha.forEach(productoDTO -> {
+					productosArray.add(productoDTO);
+				});
+
+				fechaObject.put(fecha.toString(), productosArray);
+				fechasArray.add(fechaObject);
+			});
+
+			historico.put(categoriaDTO.getNombre(), fechasArray);
+		});
+		return historico;
+	}
+
 }

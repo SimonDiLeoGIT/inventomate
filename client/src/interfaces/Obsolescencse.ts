@@ -1,12 +1,15 @@
-interface Obsolescense {
+interface Obsolescence {
   id: string
   grafico: Grafico
-  productos_obsoletos: ObsoletProducts[]
+  grafico_top10_general: Grafico
+  grafico_top10_por_categoria: Record<string, Grafico>
+  productos_obsoletos: Record<string, ObsoletProducts[]>
 }
 
 interface Grafico {
   X: string[]
   Y: number[]
+  umbral_de_obsolesencia: number
 }
 
 interface ObsoletProducts {
@@ -19,4 +22,8 @@ interface ObsoletProducts {
   promo_recomendada: number
   stock_actual: number
   ventas_ultimos_3_meses: number
+}
+
+interface ObsoletProductsWithCategory extends ObsoletProducts {
+  categoria: string
 }

@@ -10,7 +10,7 @@ public enum TipoInforme {
 	ANALISIS_DE_TENDENCIA("http://localhost:5173/company/reports/new-trends", "New Trends Analysis", "Trend Analyst"),
 	SIGUIENTES_PEDIDOS("http://localhost:5173/company/reports/next-orders", "Next Orders", "Procurement Manager"),
 	OBSOLESCENCIA("http://localhost:5173/company/reports/anti-obsolescense", "Anti Obsolescense", "Sales Analyst");
-	
+
 	private final String url;
 	private final String name;
 	private final String rolePermission;

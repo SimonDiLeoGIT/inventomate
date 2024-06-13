@@ -11,6 +11,6 @@ import jakarta.transaction.Transactional;
 public interface ProductoMeliRepository extends JpaRepository<ProductoMeli, Long> {
 
 	@Transactional
-    void deleteByFechaBefore(LocalDate fecha);
-	
+	void deleteByFechaBefore(LocalDate fecha);
+
 }

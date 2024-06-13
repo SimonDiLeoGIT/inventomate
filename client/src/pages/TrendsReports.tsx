@@ -2,11 +2,11 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import { useEffect, useState } from "react"
 import { getNewTrends, getTrends } from "../utils/Services/trends.database.service"
-import { SideNavbar } from "../components/SideNavbar"
+import { SideNavbar } from "../components/Global/SideNavbar"
 import { EmptyHistory } from "../components/Errors/EmptyHistory"
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
-import { Reports } from "../components/Reports"
-import { ReportHeader } from "../components/ReportHeader"
+import { Reports } from "../components/Reports/Reports"
+import { ReportHeader } from "../components/Reports/ReportHeader"
 import { SelectBranch } from "../components/Messages/SelectBranch"
 import { getDatabaseConnection } from "../utils/Services/database.database.service"
 
@@ -18,8 +18,10 @@ export const TrendsReports = () => {
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [database, setDatabase] = useState<boolean>(true)
-  const [trendReports, setTrendReports] = useState<Report[] | null>(null)
+  const [trendReports, setTrendReports] = useState<Report>()
   const [branch, setBranch] = useState<string>('')
+  const totalArticles = 10
+
 
   useEffect(() => {
 
@@ -34,7 +36,6 @@ export const TrendsReports = () => {
       setBranch(currentUser?.sucursal?.idSucursal.toString())
 
   }, [isAuthenticated])
-
 
   const getDatabase = async (accessToken: string): Promise<boolean> => {
     const dc = await getDatabaseConnection(accessToken)
@@ -53,19 +54,19 @@ export const TrendsReports = () => {
     } else {
       setDatabase(false)
     }
-    await getReports(branch)
+    await getReports(branch, 0, 'desc', null, null, null)
     setRequesting(false)
   }
 
-  const getReports = async (idBranch: string) => {
+  const getReports = async (idBranch: string, currentPage: number, sortOrder: 'asc' | 'desc', dateFrom: string | null, dateTo: string | null, viewed: boolean | null) => {
     const accessToken = await getAccessTokenSilently()
-    const response = await getTrends(accessToken, idBranch)
+    const response = await getTrends(accessToken, idBranch, currentPage, totalArticles, sortOrder, dateFrom, dateTo, viewed)
     setTrendReports(response)
   }
 
   const handleChangeOption = async (idBranch: string) => {
     setBranch(idBranch)
-    await getReports(idBranch)
+    await getReports(idBranch, 0, 'desc', null, null, null)
   }
 
   return (
@@ -81,11 +82,12 @@ export const TrendsReports = () => {
               ?
               <SelectBranch />
               :
-              ((trendReports !== null && trendReports.length > 0) ?
-                <Reports reports={trendReports} idBranch={branch} />
+              trendReports
+                ?
+                <Reports reports={trendReports} idBranch={branch} getReport={getReports} />
                 :
                 <EmptyHistory />
-              ))
+          )
             :
             <NoDatabaseConnection />
         }

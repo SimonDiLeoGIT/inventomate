@@ -1,8 +1,3 @@
-interface ForecastChart {
-  X: string[]
-  Y: number[]
-}
-
 interface ProductForecast {
   cantidad_ventas: number
   cantidad_ventas_estimadas: number
@@ -10,9 +5,9 @@ interface ProductForecast {
   cantidad_ventas_estimadas_proximo_semestre: number
   diferencia: number
   ganancia: number
-  graficoCantidadVendidaXAnio: ForecastChart
-  graficoCantidadVendidaXFecha: ForecastChart
-  graficoCantidadVendidaXSemestre: ForecastChart
+  graficoCantidadVendidaXAnio: Charts
+  graficoCantidadVendidaXFecha: Charts
+  graficoCantidadVendidaXSemestre: Charts
   id_producto: number
   inversion: number
   nombre_producto: string
@@ -20,6 +15,8 @@ interface ProductForecast {
 
 interface Forecast {
   _id: string
-  estimaciones_por_producto: ProductForecast[]
+  estimaciones_por_producto: Record<string, ProductForecast[]>
   fecha_estimada: string
+  grafico_general_top10: Charts
+  grafico_por_categoria_top10: Record<string, Charts>
 }

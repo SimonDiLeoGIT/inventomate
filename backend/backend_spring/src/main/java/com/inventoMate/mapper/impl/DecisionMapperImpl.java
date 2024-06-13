@@ -22,22 +22,15 @@ public class DecisionMapperImpl implements DecisionMapper {
 
 	@Override
 	public Decision mapToDecision(DecisionRequest decisionRequest, Informe informe, Usuario usuario) {
-		return Decision.builder()
-				.aceptado(decisionRequest.isAceptado())
-				.justificacion(decisionRequest.getJustificacion())
-				.informe(informe)
-				.idEmpleado(usuario.getIdUsuario())
+		return Decision.builder().aceptado(decisionRequest.isAceptado())
+				.justificacion(decisionRequest.getJustificacion()).informe(informe).idEmpleado(usuario.getIdUsuario())
 				.build();
 	}
 
 	@Override
 	public DecisionResponse mapToDecisionResponse(Usuario usuario, Decision decision) {
-		return DecisionResponse.builder()
-				.decision(mapper.map(decision, DecisionDTO.class))
-				.usuarioDecision(mapper.map(usuario, UsuarioDTO.class))
-				.build();
+		return DecisionResponse.builder().decision(mapper.map(decision, DecisionDTO.class))
+				.usuarioDecision(mapper.map(usuario, UsuarioDTO.class)).build();
 	}
-	
-	
-	
+
 }

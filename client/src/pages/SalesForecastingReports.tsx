@@ -2,11 +2,11 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
 import { useEffect, useState } from "react"
 import { getForecasts, getNewForecast } from "../utils/Services/forecast.database.service"
-import { SideNavbar } from "../components/SideNavbar"
+import { SideNavbar } from "../components/Global/SideNavbar"
 import { EmptyHistory } from "../components/Errors/EmptyHistory"
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
-import { Reports } from "../components/Reports"
-import { ReportHeader } from "../components/ReportHeader"
+import { Reports } from "../components/Reports/Reports"
+import { ReportHeader } from "../components/Reports/ReportHeader"
 import { SelectBranch } from "../components/Messages/SelectBranch"
 import { getDatabaseConnection } from "../utils/Services/database.database.service"
 
@@ -18,8 +18,9 @@ export const SalesForecastingReports = () => {
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [database, setDatabase] = useState<boolean>(true)
-  const [forecastReports, setForecastReport] = useState<Report[]>([])
+  const [forecastReports, setForecastReport] = useState<Report>()
   const [branch, setBranch] = useState<string>('')
+  const totalArticles = 10
 
   useEffect(() => {
 
@@ -55,19 +56,19 @@ export const SalesForecastingReports = () => {
     } else {
       setDatabase(false)
     }
-    await getReports(branch)
+    await getReports(branch, 0, 'desc', null, null, null)
     setRequesting(false)
   }
 
-  const getReports = async (idBranch: string) => {
+  const getReports = async (idBranch: string, currentPage: number, sortOrder: 'asc' | 'desc', dateFrom: string | null, dateTo: string | null, viewed: boolean | null) => {
     const accessToken = await getAccessTokenSilently()
-    const response = await getForecasts(accessToken, idBranch)
+    const response = await getForecasts(accessToken, idBranch, currentPage, totalArticles, sortOrder, dateFrom, dateTo, viewed)
     response && setForecastReport(response)
   }
 
   const handleChangeOption = async (idBranch: string) => {
     setBranch(idBranch)
-    getReports(idBranch)
+    getReports(idBranch, 0, 'desc', null, null, null)
   }
 
   return (
@@ -83,11 +84,12 @@ export const SalesForecastingReports = () => {
               ?
               <SelectBranch />
               :
-              ((forecastReports !== null && forecastReports.length > 0) ?
-                <Reports reports={forecastReports} idBranch={branch} />
+              forecastReports
+                ?
+                <Reports reports={forecastReports} idBranch={branch} getReport={getReports} />
                 :
                 <EmptyHistory />
-              ))
+          )
             :
             <NoDatabaseConnection />
         }

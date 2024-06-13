@@ -4,6 +4,7 @@ from sklearn.linear_model import LinearRegression
 from dateutil.relativedelta import relativedelta
 import calendar
 from datetime import datetime
+from .obsolescencia import ordenar_coordenadas_por_Y
 
 def obtener_estacion(fecha):
     if (fecha.month == 12 and fecha.day >= 21) or (fecha.month == 1) or (fecha.month == 2) or (fecha.month == 3 and fecha.day <= 20):
@@ -28,13 +29,11 @@ def sumar_un_mes(fecha):
 def sumar_un_semestre(fecha):
     fecha_dt = datetime.strptime(fecha, "%Y-%m")
     nuevo_anio = fecha_dt.year
-    nuevo_mes = fecha_dt.month
+    nuevo_mes = fecha_dt.month + 6
     if nuevo_mes > 12:
         nuevo_anio += 1
-        nuevo_mes = 1
-    else:
-        nuevo_mes = 2
-    nueva_fecha = f"{nuevo_anio:04d}-{nuevo_mes}"
+        nuevo_mes -= 12
+    nueva_fecha = f"{nuevo_anio:04d}-{nuevo_mes:02d}"
     return nueva_fecha
 
 def sumar_un_anio(fecha):
@@ -43,8 +42,6 @@ def sumar_un_anio(fecha):
     nuevo_mes = fecha_dt.month
     nueva_fecha = f"{nuevo_anio:04d}"
     return nueva_fecha
-
-
 
 
 def prediccionPorProductoPorAnio(id_producto, datos_producto):
@@ -67,8 +64,6 @@ def prediccionPorProductoPorAnio(id_producto, datos_producto):
     grafico_x.sort()
     nuevo_anio = sumar_un_anio(grafico_x[-1])
     grafico_x.append(nuevo_anio)
-    
-
     coordenadas = {"X": grafico_x, "Y": grafico_y}
     return prediccion[0], coordenadas
 
@@ -76,12 +71,12 @@ def prediccionPorProductoPorAnio(id_producto, datos_producto):
 
 def prediccionPorProductoPorSemestre(id_producto, datos_producto):
     resumen_ventas = datos_producto.groupby(["semestre"]).agg({"cantidad":"sum", "precio_unitario":"mean", "%promo":"mean"}).reset_index()
+    
     X = resumen_ventas[["%promo", "precio_unitario"]]
     y = resumen_ventas["cantidad"]
     modelo = LinearRegression()
     modelo.fit(X, y)
-    #print("Xi:\n" + str(X))
-    #print("Y:\n" + str(y))
+    
     ultimo_semestre = resumen_ventas["semestre"].max()
     valores_ultimo_semestre = resumen_ventas[resumen_ventas["semestre"] == ultimo_semestre].iloc[0][["%promo", "precio_unitario"]]
     X_prediccion = pd.DataFrame([[valores_ultimo_semestre["%promo"], valores_ultimo_semestre["precio_unitario"]]], columns=["%promo", "precio_unitario"])
@@ -89,10 +84,9 @@ def prediccionPorProductoPorSemestre(id_producto, datos_producto):
     
     grafico_y = y.tolist()
     grafico_y.append(round(prediccion[0], 2))
-    grafico_x = resumen_ventas["semestre"].tolist()
+    grafico_x = resumen_ventas["semestre"].dt.strftime("%Y-%m").tolist()
     grafico_x = list(set(grafico_x))
     grafico_x.sort()
-    
     nuevo_semestre = sumar_un_semestre(grafico_x[-1])
     grafico_x.append(nuevo_semestre)
     coordenadas = {"X": grafico_x, "Y": grafico_y}
@@ -125,7 +119,6 @@ def prediccionPorProducto(id_producto, datos_producto):
     grafico_x = list(set(grafico_x))
     grafico_x.sort()
     nuevo_mes = sumar_un_mes(grafico_x[-1])
-    
     grafico_x.append(nuevo_mes)
     coordenadas = {"X": grafico_x, "Y": grafico_y}
     return prediccion[0], coordenadas
@@ -212,10 +205,12 @@ def predecir(json_data):
     # suma_precio_unitario_proximo_mes = sum(detalle["precio_unitario"] for detalle in json_data["listado_ventas"][-1]["detalle"])
     # #ganancia_estimada = modelo_ventas.predict([[suma_cantidades_proximo_mes, suma_precio_unitario_proximo_mes]])[0]
 
-    estimaciones_por_producto = []
+    estimaciones_por_producto = {}
+    estimaciones_por_categoria = {}
+    estimaciones_generales = {"X": [], "Y": []}
     #for id_producto in set(list(ventas_por_producto.keys()) + list(compras_por_producto.keys())):
     for id_producto in set(list(ventas_por_producto.keys())):
-        nombre_producto = next((detalle["producto"]["nombre"] for venta in json_data["listado_ventas"] for detalle in venta["detalle"] if detalle["producto"]["id_producto"] == id_producto), None)
+        nombre_producto, categoria_producto = next(((detalle["producto"]["nombre"], detalle["producto"]["categoria"]) for venta in json_data["listado_ventas"] for detalle in venta["detalle"] if detalle["producto"]["id_producto"] == id_producto), (None, None))
         cantidad_ventas = ventas_por_producto[id_producto]["cantidad_vendida"] if id_producto in ventas_por_producto else 0
         inversion = compras_por_producto[id_producto]["inversion"] if id_producto in compras_por_producto else 0
         ganancia = ventas_por_producto[id_producto]["ganancia"] if id_producto in ventas_por_producto else 0
@@ -224,18 +219,18 @@ def predecir(json_data):
         
         ventas_producto = pd.DataFrame([
             {
-                "fecha_hora": datetime.strptime(venta["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f"),
+                "fecha_hora": datetime.strptime(compra["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f"),
                 "%promo": detalle["%promo"],
                 "precio_unitario": detalle["precio_unitario"],
                 "cantidad": detalle["cantidad"],
                 "producto": detalle["producto"],
-                "mes": pd.to_datetime(venta["fecha_hora"], format="%Y-%m-%d %H:%M:%S.%f").to_period("M"),
-                "semestre": f"{pd.to_datetime(venta['fecha_hora'], format='%Y-%m-%d %H:%M:%S.%f').year}-{(pd.to_datetime(venta['fecha_hora'], format='%Y-%m-%d %H:%M:%S.%f').month - 1) // 6 + 1}",
-                "anio": pd.to_datetime(venta["fecha_hora"], format="%Y-%m-%d %H:%M:%S.%f").to_period("Y"),
-                "estacion": obtener_estacion(datetime.strptime(venta["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f"))
+                "mes": pd.to_datetime(compra["fecha_hora"], format="%Y-%m-%d %H:%M:%S.%f").to_period("M"),
+                "semestre": pd.to_datetime(compra["fecha_hora"], format="%Y-%m-%d %H:%M:%S.%f").to_period("6M"),
+                "anio": pd.to_datetime(compra["fecha_hora"], format="%Y-%m-%d %H:%M:%S.%f").to_period("Y"),
+                "estacion": obtener_estacion(datetime.strptime(compra["fecha_hora"], "%Y-%m-%d %H:%M:%S.%f"))
             }
-            for venta in json_data["listado_ventas"]
-            for detalle in venta["detalle"]
+            for compra in json_data["listado_ventas"]
+            for detalle in compra["detalle"]
             if detalle["producto"]["id_producto"] == id_producto
         ])
 
@@ -257,20 +252,39 @@ def predecir(json_data):
             "graficoCantidadVendidaXAnio": coordenadasGraficoAnual
 
         }
-        estimaciones_por_producto.append(estimacion)
+        # Se puede mejorar
+        estimaciones_por_producto.setdefault(categoria_producto, [])
+        estimaciones_por_producto[categoria_producto].append(estimacion)
+        estimaciones_por_categoria.setdefault(categoria_producto, {"X": [], "Y": []})
+        estimaciones_por_categoria[categoria_producto]["X"].append(nombre_producto)
+        estimaciones_por_categoria[categoria_producto]["Y"].append(prediccion)
+        
+        X, Y = ordenar_coordenadas_por_Y(estimaciones_por_categoria[categoria_producto]["X"],estimaciones_por_categoria[categoria_producto]["Y"])
+        estimaciones_por_categoria[categoria_producto]["X"] = X[:10]
+        estimaciones_por_categoria[categoria_producto]["Y"] = Y[:10]
+        
+        estimaciones_generales["X"].append(nombre_producto)
+        estimaciones_generales["Y"].append(prediccion)
+        
+    X, Y = ordenar_coordenadas_por_Y(estimaciones_generales["X"], estimaciones_generales["Y"])
+    estimaciones_generales["X"] = X[:10]
+    estimaciones_generales["Y"] = Y[:10]
+    
 
     json_procesado = {
         "fecha_estimada": fecha_prediccion,
         #"perdida_estimada": perdida_estimada,
         #"ganancia_estimada": ganancia_estimada,
-        "estimaciones_por_producto": estimaciones_por_producto
+        "estimaciones_por_producto": estimaciones_por_producto,
+        "grafico_por_categoria_top10": estimaciones_por_categoria,
+        "grafico_general_top10": estimaciones_generales
     }
     
     return json_procesado
 
-if (__name__) == "__main__":
-     with open("jsonPruebaSemestre.json", "r") as archivo:
-         datos = json.load(archivo)
-     res = predecir(datos)
-     with open("res.json", 'w') as file:
-         json.dump(res, file, indent=4)
+# if (__name__) == "__main__":
+#     with open("predic.json", "r") as archivo:
+#         datos = json.load(archivo)
+#     res = predecir(datos)
+#     with open("res.json", 'w') as file:
+#         json.dump(res, file, indent=4)

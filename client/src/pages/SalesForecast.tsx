@@ -2,12 +2,12 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
-import { SideNavbar } from "../components/SideNavbar"
-import { ReportHeaderTitle } from "../components/ReportHeaderTitle"
-import { ChartSection } from "../components/ChartSection"
+import { SideNavbar } from "../components/Global/SideNavbar"
+import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getForecastById } from "../utils/Services/forecast.database.service"
-import { ProductForecastInfo } from "../components/ProductForecastInfo"
-import { MakeDecision } from "../components/MakeDecision"
+import { ForecastOverview } from "../components/Reports/Forecast/ForecastOverview"
+import { TopTenForecast } from "../components/Reports/Forecast/ToptenForecast"
+import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
 
 export const SalesForecasting = () => {
 
@@ -18,9 +18,12 @@ export const SalesForecasting = () => {
 
   const { setUser } = useUser()
 
-  const [forecast, setForecast] = useState<Forecast | null>()
-  const [product, setProduct] = useState<ProductForecast>()
-  const [type, setType] = useState<number>(1)
+  const [forecast, setForecast] = useState<Forecast>()
+  const [productEstimations, setProductEstimations] = useState<Record<string, ProductForecast[]>>()
+
+  const [overview, setOverview] = useState<boolean>(false);
+  const [topten, setTopten] = useState<boolean>(true);
+  const [assessment, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -32,7 +35,10 @@ export const SalesForecasting = () => {
         const response = await getForecastById(accessToken, idBranch, idInforme)
         setForecast(response)
         console.log(response)
-        setProduct(response?.estimaciones_por_producto[0])
+        const estimations = response?.estimaciones_por_producto
+        if (estimations) {
+          setProductEstimations(estimations)
+        }
       }
 
     }
@@ -41,15 +47,24 @@ export const SalesForecasting = () => {
 
   }, [isAuthenticated])
 
-
-  const handleChangeOption = (id: string) => {
-    const p = forecast?.estimaciones_por_producto.find(product => product.id_producto === parseInt(id))
-    if (p !== undefined) setProduct(p)
+  function selectOverview() {
+    setOverview(true)
+    setTopten(false)
+    setAssessment(false)
   }
 
-  const handleChangeType = (id: string) => {
-    setType(parseInt(id))
+  function selectTopten() {
+    setOverview(false)
+    setTopten(true)
+    setAssessment(false)
   }
+
+  function selectAssessment() {
+    setOverview(false)
+    setTopten(false)
+    setAssessment(true)
+  }
+
 
   return (
     <main className="-text--color-black flex mb-4">
@@ -61,46 +76,49 @@ export const SalesForecasting = () => {
           <ReportHeaderTitle title="Sales Forecasting" />
         </header>
         <section className="my-4">
-          <form className='my-4'>
-            <div className=''>
-              <select
-                className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
-                onChange={(e) => handleChangeOption(e.target.value)}
-              >
-                {
-                  forecast?.estimaciones_por_producto.map(product => {
-                    return (
-                      <option value={product.id_producto} className="-bg--color-white hover:cursor-pointer">{product.nombre_producto}</option>
-                    )
-                  })
-                }
-              </select>
-            </div>
-            <div className='mt-4'>
-              <select
-                className="w-full -bg--color-border-very-lightest-grey p-2 hover:cursor-pointer rounded-lg shadow-md -shadow--color-light-opaque-pink"
-                onChange={(e) => handleChangeType(e.target.value)}
-                id="select_chart"
-              >
-                <option value={1} className="-bg--color-white hover:cursor-pointer">Per Month</option>
-                <option value={2} className="-bg--color-white hover:cursor-pointer">Per Semester</option>
-                <option value={3} className="-bg--color-white hover:cursor-pointer">Per Year</option>
-              </select>
-            </div>
-          </form>
+          <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${topten && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => selectTopten()}
+            >
+              Top Ten
+            </h2>
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${overview && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => selectOverview()}
+            >
+              Overview
+            </h2>
+            <h2
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${assessment && "-bg--color-black bg-opacity-10"} `}
+              onClick={() => selectAssessment()}
+            >
+              Assessment
+            </h2>
+          </header>
           {
-            product
-            &&
-            <>
-              <ChartSection product={product} type={type} />
-              <ProductForecastInfo product={product} />
-            </>
+            productEstimations
+              &&
+              overview
+              ?
+              <ForecastOverview productEstimations={productEstimations} />
+              : (
+                topten
+                  ?
+                  (
+                    forecast && productEstimations
+                    &&
+                    <TopTenForecast forecast={forecast} productEstimations={productEstimations} />
+                  )
+                  :
+                  (
+                    idBranch && idInforme
+                    &&
+                    <ReportRating idBranch={idBranch} idInforme={idInforme} />
+                  )
+              )
           }
         </section>
-        {
-          idInforme && idBranch &&
-          <MakeDecision idBranch={idBranch} idReport={idInforme} />
-        }
       </section>
     </main>
   )

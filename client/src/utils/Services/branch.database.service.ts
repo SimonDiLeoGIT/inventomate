@@ -17,7 +17,7 @@ export const registerBranch = async (accessToken: string, body: { nombre: string
   }
 }
 
-export const getBranch = async (accessToken: string, idBranch: string): Promise<BranchCompany | null> => {
+export const getBranch = async (accessToken: string, idBranch: string): Promise<BranchCompany> => {
   try {
     const response = await axios({
       url: `${url}api/sucursales/` + idBranch,
