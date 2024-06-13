@@ -18,11 +18,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+      
 
       
 
@@ -183,6 +179,12 @@ jobs:
             push: true
             tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
       
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
       - name: Grant execute permission for Maven Wrapper
         run: chmod +x ./backend/backend_spring/mvnw
 
