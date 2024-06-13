@@ -22,7 +22,7 @@ export const NextOrders = () => {
 
   const [overview, setOverview] = useState<boolean>(false);
   const [urgently, setUrgently] = useState<boolean>(true);
-  const [assessment, setAssessment] = useState<boolean>(false);
+  const [comments, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -84,10 +84,10 @@ export const NextOrders = () => {
               Overview
             </h2>
             <h2
-              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${assessment && "-bg--color-black bg-opacity-10"} `}
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${comments && "-bg--color-black bg-opacity-10"} `}
               onClick={() => selectAssessment()}
             >
-              Assessment
+              Comments
             </h2>
           </header>
           {

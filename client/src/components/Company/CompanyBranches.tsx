@@ -123,9 +123,9 @@ export const CompanyBranches: React.FC<props> = ({ branches, user }) => {
             data.map((branch, index) => {
               return (
                 <li className={`grid grid-cols-7 hover:opacity-60 ${(index % 2 === 0) && '-bg--color-border-very-lightest-grey'}`}>
-                  <p><Link to={`/branches/branch/${branch.idSucursal}`} className="block p-2">{branch.idSucCliente}</Link></p>
-                  <p className="col-span-3"><Link to={`/branches/branch/${branch.idSucursal}`} className="block p-2">{branch.nombre}</Link></p>
-                  <p className="col-span-3"><Link to={`/branches/branch/${branch.idSucursal}`} className="block p-2">{branch.ubicacion}</Link></p>
+                  <p><Link to={`./branch/${branch.idSucursal}`} className="block p-2">{branch.idSucCliente}</Link></p>
+                  <p className="col-span-3"><Link to={`./branch/${branch.idSucursal}`} className="block p-2">{branch.nombre}</Link></p>
+                  <p className="col-span-3"><Link to={`./branch/${branch.idSucursal}`} className="block p-2">{branch.ubicacion}</Link></p>
                 </li>
               )
             })

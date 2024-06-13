@@ -18,6 +18,7 @@ import { NextOrders } from "../pages/NextOrders";
 import { Obsolescence } from "../pages/Obsolescence";
 import { ObsolescenceReports } from "../pages/ObsolescenceReports";
 import { HelpPage } from "../pages/HelpPage";
+import { AdminReports } from "../pages/AdminReports";
 
 export const Router = () => {
 
@@ -46,6 +47,7 @@ export const Router = () => {
           <Route path="/company/reports/next-orders/:idBranch/:idInforme" element={<NextOrders />} />
           <Route path="/company/reports/anti-obsolescense" element={<ObsolescenceReports />} />
           <Route path="/company/reports/anti-obsolescense/:idBranch/:idInforme" element={<Obsolescence />} />
+          <Route path="/system/reports" element={<AdminReports />} />
         </Routes>
       </section>
     </BrowserRouter>

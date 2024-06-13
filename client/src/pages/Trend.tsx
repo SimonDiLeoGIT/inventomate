@@ -21,7 +21,7 @@ export const Trend = () => {
   const { trends, setTrends } = useTrends()
 
   const [reportSection, setReportSection] = useState<boolean>(true)
-  const [ratingSection, setRatingSection] = useState<boolean>(false)
+  const [comments, setRatingSection] = useState<boolean>(false)
 
   useEffect(() => {
 
@@ -41,7 +41,7 @@ export const Trend = () => {
   }, [isAuthenticated])
 
   function changeSection() {
-    setRatingSection(!ratingSection)
+    setRatingSection(!comments)
     setReportSection(!reportSection)
   }
 
@@ -62,10 +62,10 @@ export const Trend = () => {
             New Trends
           </h2>
           <h2
-            className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${ratingSection && "-bg--color-black bg-opacity-10"} `}
+            className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${comments && "-bg--color-black bg-opacity-10"} `}
             onClick={() => changeSection()}
           >
-            Assessment
+            Comments
           </h2>
         </header>
         {
