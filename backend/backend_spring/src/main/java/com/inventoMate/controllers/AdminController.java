@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventoMate.dtos.informes.InformeStatsResponse;
 import com.inventoMate.dtos.tiempoInforme.TiempoInformeDTO;
 import com.inventoMate.dtos.valoracion.ValoracionDTO;
 import com.inventoMate.dtos.valoracion.ValoracionStatsResponse;
@@ -43,15 +44,20 @@ public class AdminController {
 	}
 
 	@GetMapping("/valoraciones/stats")
-	public ResponseEntity<ValoracionStatsResponse> getValoracionesStats(
-			@RequestParam(required = false) LocalDate desde,
+	public ResponseEntity<ValoracionStatsResponse> getValoracionesStats(@RequestParam(required = false) LocalDate desde,
 			@RequestParam(required = false) LocalDate hasta) {
-		return ResponseEntity.ok(adminService.getValoracionesStats(desde,hasta));
+		return ResponseEntity.ok(adminService.getValoracionesStats(desde, hasta));
 	}
 
 	@GetMapping("/tiempos")
 	public ResponseEntity<List<TiempoInformeDTO>> getStatsInformes() {
 		return ResponseEntity.ok(adminService.getTiempos());
+	}
+
+	@GetMapping("/informes/stats")
+	public ResponseEntity<InformeStatsResponse> getInformeStats(@RequestParam(required = false) LocalDate desde,
+			@RequestParam(required = false) LocalDate hasta) {
+		return ResponseEntity.ok(adminService.getInformeStats(desde,hasta));
 	}
 
 }

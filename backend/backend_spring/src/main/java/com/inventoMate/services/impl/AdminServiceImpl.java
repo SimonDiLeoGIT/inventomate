@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.inventoMate.dtos.informes.InformeStatsResponse;
 import com.inventoMate.dtos.tiempoInforme.TiempoInformeDTO;
 import com.inventoMate.dtos.valoracion.ValoracionDTO;
 import com.inventoMate.dtos.valoracion.ValoracionStatsResponse;
@@ -67,6 +68,28 @@ public class AdminServiceImpl implements AdminService {
 				cantValoracionesObsolescencia, cantValoracionesProyeccion, cantValoracionesTendencias,
 				promedioValoraciones, promedioValoracionesNexTrends, promedioValoracionesObsolescencia,
 				promedioValoracionesProyeccion, promedioValoracionesTendencias);
+	}
+
+	@Override
+	public InformeStatsResponse getInformeStats(LocalDate desde, LocalDate hasta) {
+		
+        int cantInformes = (int) tiempoInformeRepository.countByFechas(desde, hasta);
+        int cantInformesTendencias = tiempoInformeRepository.countByTipoInformeAndFechas(TipoInforme.ANALISIS_DE_TENDENCIA, desde, hasta);
+        int cantInformesProyeccion = tiempoInformeRepository.countByTipoInformeAndFechas(TipoInforme.PROYECCION_DE_VENTAS, desde, hasta);
+        int cantInformesNexTrends = tiempoInformeRepository.countByTipoInformeAndFechas(TipoInforme.SIGUIENTES_PEDIDOS, desde, hasta);
+        int cantInformesObsolescencia = tiempoInformeRepository.countByTipoInformeAndFechas(TipoInforme.OBSOLESCENCIA, desde, hasta);
+
+        Double tiemposPromedio = tiempoInformeRepository.averageDuracionSegundosByTipoInformeAndFechas(TipoInforme.ANALISIS_DE_TENDENCIA, desde, hasta);
+        Double tiemposPromedioTendencias = tiempoInformeRepository.averageDuracionSegundosByTipoInformeAndFechas(TipoInforme.ANALISIS_DE_TENDENCIA, desde, hasta);
+        Double tiemposPromedioProyeccion = tiempoInformeRepository.averageDuracionSegundosByTipoInformeAndFechas(TipoInforme.PROYECCION_DE_VENTAS, desde, hasta);
+        Double tiemposPromedioNexTrends = tiempoInformeRepository.averageDuracionSegundosByTipoInformeAndFechas(TipoInforme.SIGUIENTES_PEDIDOS, desde, hasta);
+        Double tiemposPromedioObsolescencia = tiempoInformeRepository.averageDuracionSegundosByTipoInformeAndFechas(TipoInforme.OBSOLESCENCIA, desde, hasta);
+
+        // Mapear los resultados a InformeStatsResponse usando el mapper
+        return tiempoInformeMapper.mapToInformeStatsResponse(
+                cantInformes, cantInformesTendencias, cantInformesProyeccion, cantInformesNexTrends, cantInformesObsolescencia,
+                tiemposPromedio, tiemposPromedioTendencias, tiemposPromedioProyeccion, tiemposPromedioNexTrends, tiemposPromedioObsolescencia
+        );
 	}
 
 }

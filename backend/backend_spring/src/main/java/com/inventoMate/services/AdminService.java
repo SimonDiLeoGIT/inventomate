@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.inventoMate.dtos.informes.InformeStatsResponse;
 import com.inventoMate.dtos.tiempoInforme.TiempoInformeDTO;
 import com.inventoMate.dtos.valoracion.ValoracionDTO;
 import com.inventoMate.dtos.valoracion.ValoracionStatsResponse;
@@ -18,5 +19,7 @@ public interface AdminService {
 	List<TiempoInformeDTO> getTiempos();
 
 	ValoracionStatsResponse getValoracionesStats(LocalDate desde, LocalDate hasta);
+
+	InformeStatsResponse getInformeStats(LocalDate desde, LocalDate hasta);
 
 }

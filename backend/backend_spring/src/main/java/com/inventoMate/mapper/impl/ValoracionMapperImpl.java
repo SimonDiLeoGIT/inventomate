@@ -41,11 +41,19 @@ public class ValoracionMapperImpl implements ValoracionMapper {
 			Double promedioValoraciones, Double promedioValoracionesNexTrends, Double promedioValoracionesObsolescencia,
 			Double promedioValoracionesProyeccion, Double promedioValoracionesTendencias) {
 		return ValoracionStatsResponse.builder().cantValoraciones(cantValoraciones)
-				.cantValoracionesNexTrends(cantValoracionesNexTrends).cantValoracionesObsolescencia(cantValoracionesObsolescencia)
-				.cantValoracionesProyeccion(cantValoracionesProyeccion).cantValoracionesTendencias(cantValoracionesTendencias)
-				.promedioValoraciones(promedioValoraciones).promedioValoracionesNexTrends(promedioValoracionesNexTrends)
-				.promedioValoracionesObsolescencia(promedioValoracionesObsolescencia).promedioValoracionesProyeccion(promedioValoracionesProyeccion)
-				.promedioValoracionesProyeccion(promedioValoracionesProyeccion).promedioValoracionesTendencias(promedioValoracionesTendencias)
+				.cantValoracionesTendencias(cantValoracionesTendencias)
+				.cantValoracionesProyeccion(cantValoracionesProyeccion)
+				.cantValoracionesNexTrends(cantValoracionesNexTrends)
+				.cantValoracionesObsolescencia(cantValoracionesObsolescencia)
+				.promedioValoraciones(promedioValoraciones != null ? promedioValoraciones : 0.0)
+				.promedioValoracionesTendencias(
+						promedioValoracionesTendencias != null ? promedioValoracionesTendencias : 0.0)
+				.promedioValoracionesProyeccion(
+						promedioValoracionesProyeccion != null ? promedioValoracionesProyeccion : 0.0)
+				.promedioValoracionesNexTrends(
+						promedioValoracionesNexTrends != null ? promedioValoracionesNexTrends : 0.0)
+				.promedioValoracionesObsolescencia(
+						promedioValoracionesObsolescencia != null ? promedioValoracionesObsolescencia : 0.0)
 				.build();
 	}
 
