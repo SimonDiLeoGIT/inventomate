@@ -2,17 +2,26 @@ import axios, { AxiosError } from "axios"
 import { handleApiError } from "../errorHander"
 import { url } from "./api.service"
 
-export const getNextOrders = async (accessToken: string, idBranch: string): Promise<Report[]> => {
+export const getNextOrders = async (accessToken: string, idBranch: string, page: number | 0, size: number | 10, direction: 'asc' | 'desc', desde: string | null, hasta: string | null, visto: boolean | null): Promise<Report> => {
+
+  let data = `?page=${page}&size=${size}&sortDirection=${direction}`
+
+  if (desde !== null) {
+    data += `&desde=${desde}`
+  }
+  if (hasta !== null) {
+    data += `&hasta=${hasta}`
+  }
+  if (visto !== null) {
+    data += `&visto=${visto}`
+  }
+
   try {
     const response = await axios({
-      url: `${url}api/informes/siguientes-pedidos/${idBranch}`,
+      url: `${url}api/informes/siguientes-pedidos/${idBranch}${data}`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
-      },
-      data: {
-        page: 0,
-        size: 10
       }
     })
     console.log(response)

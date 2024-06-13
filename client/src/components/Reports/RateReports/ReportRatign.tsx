@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { useAuth0 } from "@auth0/auth0-react"
-import rate_icon from '../../../assets/icons/rating.svg'
-import close_icon from '../../../assets/icons/close.svg'
 import done from '../../../assets/icons/done.svg'
 import { DoneMessage } from "../../Messages/DoneMessage"
 import { Doughnut } from "react-chartjs-2"

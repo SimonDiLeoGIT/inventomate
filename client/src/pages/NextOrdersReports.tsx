@@ -18,8 +18,9 @@ export const NextOrdersReports = () => {
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [database, setDatabase] = useState<boolean>(true)
-  const [nextOrdersReports, setNextOrdersReport] = useState<Report[] | null>(null)
+  const [nextOrdersReports, setNextOrdersReport] = useState<Report>()
   const [branch, setBranch] = useState<string>('')
+  const totalArticles = 10
 
   useEffect(() => {
 
@@ -56,20 +57,20 @@ export const NextOrdersReports = () => {
     } else {
       setDatabase(false)
     }
-    await getReports(branch)
+    await getReports(branch, 0, 'desc', null, null, null)
     setRequesting(false)
   }
 
-  const getReports = async (idBranch: string) => {
+  const getReports = async (idBranch: string, currentPage: number, sortOrder: 'asc' | 'desc', dateFrom: string | null, dateTo: string | null, viewed: boolean | null) => {
     const accessToken = await getAccessTokenSilently()
-    const response = await getNextOrders(accessToken, idBranch)
+    const response = await getNextOrders(accessToken, idBranch, currentPage, totalArticles, sortOrder, dateFrom, dateTo, viewed)
     response && setNextOrdersReport(response)
     console.log(response)
   }
 
   const handleChangeOption = async (idBranch: string) => {
     setBranch(idBranch)
-    getReports(idBranch)
+    getReports(branch, 0, 'desc', null, null, null)
   }
 
   return (
@@ -85,11 +86,12 @@ export const NextOrdersReports = () => {
               ?
               <SelectBranch />
               :
-              ((nextOrdersReports !== null && nextOrdersReports?.length > 0) ?
-                <Reports reports={nextOrdersReports} idBranch={branch} />
+              nextOrdersReports
+                ?
+                <Reports reports={nextOrdersReports} idBranch={branch} getReport={getReports} />
                 :
                 <EmptyHistory />
-              ))
+          )
             :
             <NoDatabaseConnection />
         }
