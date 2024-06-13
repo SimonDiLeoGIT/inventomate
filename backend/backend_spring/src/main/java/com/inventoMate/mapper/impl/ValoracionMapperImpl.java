@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.inventoMate.dtos.valoracion.ValoracionDTO;
 import com.inventoMate.dtos.valoracion.ValoracionRequest;
+import com.inventoMate.dtos.valoracion.ValoracionStatsResponse;
 import com.inventoMate.entities.Valoracion;
 import com.inventoMate.mapper.ValoracionMapper;
 
@@ -32,6 +33,20 @@ public class ValoracionMapperImpl implements ValoracionMapper {
 	@Override
 	public ValoracionDTO mapToValoracionDTO(Valoracion valoracion) {
 		return mapper.map(valoracion, ValoracionDTO.class);
+	}
+
+	@Override
+	public ValoracionStatsResponse mapToValoracionStatsResponse(int cantValoraciones, int cantValoracionesNexTrends,
+			int cantValoracionesObsolescencia, int cantValoracionesProyeccion, int cantValoracionesTendencias,
+			Double promedioValoraciones, Double promedioValoracionesNexTrends, Double promedioValoracionesObsolescencia,
+			Double promedioValoracionesProyeccion, Double promedioValoracionesTendencias) {
+		return ValoracionStatsResponse.builder().cantValoraciones(cantValoraciones)
+				.cantValoracionesNexTrends(cantValoracionesNexTrends).cantValoracionesObsolescencia(cantValoracionesObsolescencia)
+				.cantValoracionesProyeccion(cantValoracionesProyeccion).cantValoracionesTendencias(cantValoracionesTendencias)
+				.promedioValoraciones(promedioValoraciones).promedioValoracionesNexTrends(promedioValoracionesNexTrends)
+				.promedioValoracionesObsolescencia(promedioValoracionesObsolescencia).promedioValoracionesProyeccion(promedioValoracionesProyeccion)
+				.promedioValoracionesProyeccion(promedioValoracionesProyeccion).promedioValoracionesTendencias(promedioValoracionesTendencias)
+				.build();
 	}
 
 }

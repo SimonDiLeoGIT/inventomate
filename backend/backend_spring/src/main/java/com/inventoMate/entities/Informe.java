@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,9 @@ public class Informe {
 	@Enumerated(EnumType.STRING)
 	private TipoInforme tipoInforme;
 
+	@OneToOne(mappedBy = "informe", cascade = CascadeType.ALL)
+	private TiempoInforme tiempoInforme;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_sucursal", nullable = true)
 	private Sucursal sucursal;

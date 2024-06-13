@@ -1,6 +1,7 @@
 package com.inventoMate.controllers;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventoMate.dtos.tiempoInforme.TiempoInformeDTO;
 import com.inventoMate.dtos.valoracion.ValoracionDTO;
+import com.inventoMate.dtos.valoracion.ValoracionStatsResponse;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.services.AdminService;
 
@@ -28,16 +31,27 @@ public class AdminController {
 	private final AdminService adminService;
 
 	@GetMapping("/valoraciones")
-	public ResponseEntity<Page<ValoracionDTO>> getStatsInformes(@RequestParam(defaultValue = "0") int page,
+	public ResponseEntity<Page<ValoracionDTO>> getValoracionesInformes(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sort,
 			@RequestParam(defaultValue = "desc") String order, @RequestParam(required = false) TipoInforme tipoInforme,
 			@RequestParam(required = false) Integer estrellas, @RequestParam(required = false) LocalDate desde,
 			@RequestParam(required = false) LocalDate hasta) {
 		Sort.Direction sortDirection = Sort.Direction.fromString(order);
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sort));
-		Page<ValoracionDTO> valoraciones = adminService.getValoraciones(pageable, tipoInforme, estrellas, desde,
-				hasta);
+		Page<ValoracionDTO> valoraciones = adminService.getValoraciones(pageable, tipoInforme, estrellas, desde, hasta);
 		return ResponseEntity.ok(valoraciones);
+	}
+
+	@GetMapping("/valoraciones/stats")
+	public ResponseEntity<ValoracionStatsResponse> getValoracionesStats(
+			@RequestParam(required = false) LocalDate desde,
+			@RequestParam(required = false) LocalDate hasta) {
+		return ResponseEntity.ok(adminService.getValoracionesStats(desde,hasta));
+	}
+
+	@GetMapping("/tiempos")
+	public ResponseEntity<List<TiempoInformeDTO>> getStatsInformes() {
+		return ResponseEntity.ok(adminService.getTiempos());
 	}
 
 }
