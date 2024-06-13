@@ -26,13 +26,14 @@ def procesar_tendencias(datos):
     
     for trend in resultado["trends"]:
         categoria = trend["category_name"].strip()
+        categoria_bd = trend["category_name_bd"].strip()
         for producto in trend["products"]:
             prod_nombre = producto["name"].strip()
             historico_categoria = datos["historico"][categoria]
             actual_trend_position = producto["trend_position"]
             if producto["additional_info"]["buy_box_winner"] is not None:
                 actual_precio = float(producto["additional_info"]["buy_box_winner"]["price"])
-                min_precio, max_precio, porcentaje = obtener_datos_cliente(datos["informacion_cliente"], categoria)
+                min_precio, max_precio, porcentaje = obtener_datos_cliente(datos["informacion_cliente"], categoria_bd)
                 procesamiento = procesar_producto(
                     historico_categoria, prod_nombre, 
                     actual_trend_position, 
@@ -152,7 +153,7 @@ def desvio(datos):
 
 
 if (__name__) == "__main__":
-    with open("ejemplo.json", "r", encoding="utf-8") as archivo:
+    with open("json_data_original.json", "r", encoding="utf-8") as archivo:
         datos = json.load(archivo)
         res = procesar_tendencias(datos)
     with open("res.json", 'w') as file:
