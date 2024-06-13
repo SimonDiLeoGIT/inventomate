@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventoMate.dtos.informes.DecisionRequest;
 import com.inventoMate.dtos.informes.DecisionResponse;
 import com.inventoMate.dtos.informes.InformeDTO;
+import com.inventoMate.dtos.valoracion.ValoracionRequest;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.payload.ApiResponse;
 import com.inventoMate.services.InformeService;
@@ -38,6 +39,13 @@ import lombok.AllArgsConstructor;
 public class InformeController {
 
 	private final InformeService informeService;
+
+	@PostMapping("/valorar/{idInforme}/sucursales/{idSucursal}")
+	public ResponseEntity<ApiResponse> postInformeTendencia(@AuthenticationPrincipal Jwt jwt,
+			@PathVariable Long idInforme, @PathVariable Long idSucursal, @RequestBody ValoracionRequest valoracion) {
+		informeService.valorarInforme(jwt.getSubject(), idInforme, idSucursal, valoracion);
+		return ResponseEntity.ok().body(new ApiResponse(true, "Informe valorado con exito"));
+	}
 
 	// TENDENCIAS DEL MERCADO
 	@PostMapping("/tendencias/{idSucursal}")

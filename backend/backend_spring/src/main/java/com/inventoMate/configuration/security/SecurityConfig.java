@@ -60,6 +60,10 @@ public class SecurityConfig {
 				.requestMatchers("api/sucursales/{idSucursal}/users/{idUsuario}/delete").hasAuthority("edit:company")
 				// bd empresa
 				.requestMatchers("api/bd-empresa/**").hasAuthority("edit:company")
+				// valoraciones de informes
+				.requestMatchers(HttpMethod.POST, "api/informes/valorar/{idInforme}/sucursales/{idSucursal}")
+				.hasAnyAuthority("decide:suggestions-for-stagnant-products", "decide:demand-prediction-report",
+						"decide:trend-information", "decide:sales-reports")
 				// proyeccion de ventas
 				.requestMatchers(HttpMethod.POST, "api/informes/proyeccion-de-ventas/{idSucursal}")
 				.hasAuthority("decide:sales-reports")
@@ -109,6 +113,8 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.DELETE,
 						"api/informes/decision/{idInforme}/sucursales/{idSucursal}/decisiones/{idDecision}")
 				.hasAuthority("edit:company")
+				// administrador
+				.requestMatchers(HttpMethod.GET, "api/admin/**").hasAuthority("read:stats")
 				// otros
 				.anyRequest().permitAll()).cors(Customizer.withDefaults())
 				.oauth2ResourceServer(

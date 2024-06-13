@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import com.inventoMate.dtos.informes.DecisionRequest;
 import com.inventoMate.dtos.informes.DecisionResponse;
 import com.inventoMate.dtos.informes.InformeDTO;
+import com.inventoMate.dtos.valoracion.ValoracionRequest;
 import com.inventoMate.entities.TipoInforme;
 
 public interface InformeService {
@@ -36,5 +37,7 @@ public interface InformeService {
 
 	Page<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal, TipoInforme tipoInforme,
 			Pageable pageable, LocalDate desde, LocalDate hasta, Boolean visto);
+
+	void valorarInforme(String subject, Long idInforme, Long idSucursal, ValoracionRequest valoracion);
 
 }

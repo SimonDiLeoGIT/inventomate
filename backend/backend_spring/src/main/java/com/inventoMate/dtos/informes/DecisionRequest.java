@@ -11,5 +11,5 @@ public class DecisionRequest {
 
 	private boolean aceptado;
 	private String justificacion;
-	
+
 }

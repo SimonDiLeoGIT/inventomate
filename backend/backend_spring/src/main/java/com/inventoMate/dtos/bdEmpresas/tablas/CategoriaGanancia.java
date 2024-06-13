@@ -14,5 +14,5 @@ public class CategoriaGanancia {
 	private int idCategoria;
 	private String nombre;
 	private Double porcentajeGananciaPromedio;
-	
+
 }

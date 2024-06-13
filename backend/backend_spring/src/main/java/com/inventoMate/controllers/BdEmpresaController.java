@@ -60,5 +60,5 @@ public class BdEmpresaController {
 	public ResponseEntity<BdEmpresaDTO> getBdEmpresaCurrentUser(@AuthenticationPrincipal Jwt jwt) {
 		var idAuth0 = jwt.getSubject();
 		return ResponseEntity.ok(bdEmpresaService.getBdEmpresaCurrentUser(idAuth0));
-	}	
+	}
 }

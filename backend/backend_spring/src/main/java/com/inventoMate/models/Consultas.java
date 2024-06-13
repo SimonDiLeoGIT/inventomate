@@ -19,8 +19,8 @@ public interface Consultas {
 	List<CompraDetalle> getHistoricoDeComprasByIdSucursal(JdbcTemplate jdbcTemplate, Long idSucursal);
 
 	List<ProductoSucursalInfo> getProductInformationByIdSucursal(JdbcTemplate jdbcTemplate, Long idSucCliente);
-	
+
 	List<CategoriaGanancia> getProductoPorcentajeGanancia(JdbcTemplate jdbcTemplate, Long idSucCliente);
-	
+
 	List<CategoriaRangoPrecios> getRangoPreciosPorCategoria(JdbcTemplate jdbcTemplate, Long idSucCliente);
 }

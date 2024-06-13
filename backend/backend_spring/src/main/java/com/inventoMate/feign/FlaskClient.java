@@ -21,7 +21,7 @@ public interface FlaskClient {
 
 	@GetMapping("${flask.url.proyeccion-de-ventas}")
 	Object getDatosInformeDeProyeccionDeVentas(@RequestParam("idMongo") String idMongo);
-	
+
 	@DeleteMapping("${flask.url.proyeccion-de-ventas-delete}")
 	ResponseEntity<?> deleteInformeDeProyeccionDeVentas(@RequestParam("idMongo") String idMongo);
 
@@ -31,7 +31,7 @@ public interface FlaskClient {
 
 	@GetMapping("${flask.url.sugerencias-pedidos}")
 	Object getDatosInformeSiguientesPedidos(@RequestParam("idMongo") String idMongo);
-	
+
 	@DeleteMapping("${flask.url.sugerencias-pedidos-delete}")
 	ResponseEntity<?> deleteInformeSiguientesPedidos(@RequestParam("idMongo") String idMongo);
 
@@ -44,11 +44,11 @@ public interface FlaskClient {
 
 	@DeleteMapping("${flask.url.tendencias-delete}")
 	ResponseEntity<?> deleteInformeTendencias(@RequestParam("idMongo") String idMongo);
-	
+
 	// obsolescencia
 	@PostMapping("${flask.url.obsolescencia-add}")
 	JSONObject postDatosInformeObsolescencia(@RequestBody JSONObject productoInformation);
-	
+
 	@DeleteMapping("${flask.url.obsolescencia-delete}")
 	ResponseEntity<?> deleteInformeObsolescencia(@RequestParam("idMongo") String idMongo);
 

@@ -15,5 +15,5 @@ public class CategoriaRangoPrecios {
 	private String nombreCategoria;
 	private double precioMinimo;
 	private double precioMaximo;
-	
+
 }

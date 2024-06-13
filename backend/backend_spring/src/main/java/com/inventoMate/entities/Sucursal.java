@@ -130,14 +130,13 @@ public class Sucursal {
 		List<Informe> filteredInformes = getInformes().stream().filter(informe -> informe.getTipoInforme().equals(tipo))
 				.filter(informe -> (startDate == null || !informe.getFecha().isBefore(startDate)))
 				.filter(informe -> (endDate == null || !informe.getFecha().isAfter(endDate)))
-				.filter(informe -> (visto == null || informe.isVisto() == visto))
-				.collect(Collectors.toList());
+				.filter(informe -> (visto == null || informe.isVisto() == visto)).collect(Collectors.toList());
 
 		boolean ascending = pageable.getSort().stream().filter(order -> order.getProperty().equals("fecha")).findFirst()
 				.map(Order::isAscending).orElse(true);
 
-		filteredInformes.sort((i1, i2) -> ascending ? i1.getId().compareTo(i2.getId())
-				: i2.getId().compareTo(i1.getId()));
+		filteredInformes
+				.sort((i1, i2) -> ascending ? i1.getId().compareTo(i2.getId()) : i2.getId().compareTo(i1.getId()));
 
 		int start = (int) pageable.getOffset();
 		int end = Math.min((start + pageable.getPageSize()), filteredInformes.size());

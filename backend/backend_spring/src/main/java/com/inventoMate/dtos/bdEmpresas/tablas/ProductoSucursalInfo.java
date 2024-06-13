@@ -17,5 +17,5 @@ public class ProductoSucursalInfo {
 	private Timestamp fechaPrimerCompra;
 	private Double precioVenta;
 	private String categoria;
-	
+
 }

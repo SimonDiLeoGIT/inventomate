@@ -12,5 +12,5 @@ public class DecisionDTO {
 	private Long id;
 	private String justificacion;
 	private boolean aceptado;
-	
+
 }

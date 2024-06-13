@@ -11,7 +11,9 @@ import com.inventoMate.entities.CategoriaMeli;
 public interface MlService {
 
 	TrendsDTO getTendencias(List<ProductoSucursalInfo> products);
+
 	Map<String, String> refreshToken();
+
 	List<CategoriaMeli> getHistorico(List<CategoryTrendDTO> trends);
-	
+
 }

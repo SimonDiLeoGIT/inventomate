@@ -79,8 +79,9 @@ public class MlServiceImpl implements MlService {
 
 	private void guardarHistoricoDeCategoria(Entry<String, MapNode> entry) {
 		CategoriaMeli categoria = categoriaMeliRepository.findByIdMeli(entry.getKey()).orElse(null);
-		// si no tengo registro de la categoria entonces la guardo y ahora cada mes obtendre el historico
-		if(categoria == null) {
+		// si no tengo registro de la categoria entonces la guardo y ahora cada mes
+		// obtendre el historico
+		if (categoria == null) {
 			categoria = new CategoriaMeli();
 			categoria.setIdMeli(entry.getKey());
 			categoria.setNombre(entry.getValue().categoryName);
@@ -93,11 +94,13 @@ public class MlServiceImpl implements MlService {
 		var categoryProducts = new HashMap<String, MapNode>();
 
 		products.forEach(product -> {
-			String encodedProductName = URLEncoder.encode(product.getNombre(), StandardCharsets.UTF_8).replace("+", "%20");
+			String encodedProductName = URLEncoder.encode(product.getNombre(), StandardCharsets.UTF_8).replace("+",
+					"%20");
 			CategoryDTO category = meliClient.predictCategory(1, encodedProductName, setAccessToken()).get(0);
 
 			if (!categoryProducts.containsKey(category.getCategoryId())) {
-				categoryProducts.put(category.getCategoryId(), new MapNode(category.getCategoryName(),product.getCategoria()));
+				categoryProducts.put(category.getCategoryId(),
+						new MapNode(category.getCategoryName(), product.getCategoria()));
 			}
 			var node = categoryProducts.get(category.getCategoryId());
 			node.products.add(product.getNombre());
@@ -130,7 +133,7 @@ public class MlServiceImpl implements MlService {
 		var historico = new LinkedList<CategoriaMeli>();
 		trends.forEach(trend -> {
 			var cat = categoriaMeliRepository.findByNombre(trend.getCategoryName()).orElse(null);
-			if(cat != null) {
+			if (cat != null) {
 				historico.add(cat);
 			}
 		});
