@@ -84,3 +84,16 @@ export const getDatabaseConnection = async (accessToken: string): Promise<Databa
     return null
   }
 }
+
+export const existsDatabaseConnection = async (): Promise<boolean> => {
+  try {
+    const response = await axios({
+      url: `${url}api/empresas/exists/bd-empresa`,
+      method: 'GET',
+    })
+    console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error
+  }
+}
