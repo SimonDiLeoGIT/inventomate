@@ -112,19 +112,19 @@ public class BdEmpresaServiceImpl implements BdEmpresaService {
 	public boolean existsBdEmpresa(String idAuth0, Long idSucursal) {
 		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id_auth0", idAuth0));
-		
+
 		Empresa empresa = usuario.getEmpresa();
-		
-		if(empresa == null) {
+
+		if (empresa == null) {
 			throw new ResourceNotFoundException("Usuarios", "id_empresa", usuario.getIdUsuario().toString());
 		}
-		
+
 		Sucursal sucursal = empresa.obtenerSucursal(idSucursal);
-		
-		if(sucursal == null) {
+
+		if (sucursal == null) {
 			throw new ResourceNotFoundException("Usuarios", "id_sucursal", "null");
 		}
-		
+
 		return empresa.getBdEmpresa() != null;
 	}
 

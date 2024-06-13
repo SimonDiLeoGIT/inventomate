@@ -13,5 +13,5 @@ public class ProductoCategoria {
 
 	private String producto;
 	private String categoria;
-	
+
 }

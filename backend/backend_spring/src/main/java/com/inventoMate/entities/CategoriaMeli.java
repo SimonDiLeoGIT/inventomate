@@ -26,12 +26,12 @@ public class CategoriaMeli {
 	private String idMeli;
 	@OneToMany(mappedBy = "categoriaMeli", cascade = CascadeType.ALL)
 	private List<ProductoMeli> productos;
-	
+
 	public void agregarProducto(ProductoMeli producto) {
-		if(productos == null) {
+		if (productos == null) {
 			productos = new LinkedList<ProductoMeli>();
 		}
 		productos.add(producto);
 	}
-	
+
 }

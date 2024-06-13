@@ -16,6 +16,7 @@ import com.inventoMate.dtos.informes.DecisionRequest;
 import com.inventoMate.dtos.informes.DecisionResponse;
 import com.inventoMate.dtos.informes.InformeDTO;
 import com.inventoMate.dtos.meli.TrendsDTO;
+import com.inventoMate.dtos.valoracion.ValoracionRequest;
 import com.inventoMate.entities.CategoriaMeli;
 import com.inventoMate.entities.Decision;
 import com.inventoMate.entities.Empresa;
@@ -23,13 +24,16 @@ import com.inventoMate.entities.Informe;
 import com.inventoMate.entities.Sucursal;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.entities.Usuario;
+import com.inventoMate.entities.Valoracion;
 import com.inventoMate.exceptions.ResourceNotFoundException;
 import com.inventoMate.mapper.DecisionMapper;
 import com.inventoMate.mapper.InformeMapper;
+import com.inventoMate.mapper.ValoracionMapper;
 import com.inventoMate.models.EmailSender;
 import com.inventoMate.repositories.DecisionRepository;
 import com.inventoMate.repositories.InformeRepository;
 import com.inventoMate.repositories.UsuarioRepository;
+import com.inventoMate.repositories.ValoracionRepository;
 import com.inventoMate.services.FlaskService;
 import com.inventoMate.services.InformeService;
 import com.inventoMate.services.MlService;
@@ -41,12 +45,14 @@ import lombok.AllArgsConstructor;
 public class InformeServiceImpl implements InformeService {
 
 	private final UsuarioRepository usuarioRepository;
+	private final ValoracionRepository valoracionRepository;
 	private final MlService mlService;
 	private final InformeMapper mapper;
 	private final FlaskService flaskService;
 	private final InformeRepository informeRepository;
 	private final DecisionRepository decisionRepository;
 	private final DecisionMapper decisionMapper;
+	private final ValoracionMapper valoracionMapper;
 	private final EmailSender emailSender;
 
 	@Override
@@ -58,7 +64,7 @@ public class InformeServiceImpl implements InformeService {
 		List<CategoriaMeli> response2 = mlService.getHistorico(response1.getTrends());
 		List<CategoriaRangoPrecios> response3 = empresa.obtenerRangoPreciosCategoria(sucursal);
 		List<CategoriaGanancia> response4 = empresa.obtenerGananciaCategoria(sucursal);
-		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1,response2,response3,response4);
+		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1, response2, response3, response4);
 		String idMongo = flaskService.postDatosInformeTendencias(responseMeli);
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.ANALISIS_DE_TENDENCIA);
 		procesarInforme(sucursal, informe);
@@ -227,5 +233,18 @@ public class InformeServiceImpl implements InformeService {
 		sucursal.setEmailSender(emailSender);
 		sucursal.generarNotificacionDeInforme(informe);
 		informeRepository.save(informe);
+	}
+
+	@Override
+	public void valorarInforme(String subject, Long idInforme, Long idSucursal, ValoracionRequest valoracionRequest) {
+		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
+		Informe informe = sucursal.obtenerInforme(idInforme);
+		if (informe == null)
+			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
+		Valoracion valoracion = valoracionMapper.mapToValoracion(valoracionRequest);
+		valoracion.setInforme(informe);
+		valoracion.setFecha(LocalDate.now());
+		informe.agregarValoracion(valoracion);
+		valoracionRepository.save(valoracion);
 	}
 }

@@ -59,7 +59,7 @@ public class EmpresaController {
 		empresaService.deleteEmpresa(idAuth0);
 		return ResponseEntity.ok().body(new ApiResponse(true, "Empresa deleted successfully"));
 	}
-	
+
 	@GetMapping("/exists/bd-empresa")
 	public ResponseEntity<Boolean> existsBdEmpresa(@AuthenticationPrincipal Jwt jwt) {
 		var idAuth0 = jwt.getSubject();

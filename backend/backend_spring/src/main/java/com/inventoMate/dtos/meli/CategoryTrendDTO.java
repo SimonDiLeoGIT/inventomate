@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-@JsonPropertyOrder({ "category_name","category_name_bd", "keywords", "products", "product_matchers" })
+@JsonPropertyOrder({ "category_name", "category_name_bd", "keywords", "products", "product_matchers" })
 public class CategoryTrendDTO {
 
 	@JsonProperty("category_name")

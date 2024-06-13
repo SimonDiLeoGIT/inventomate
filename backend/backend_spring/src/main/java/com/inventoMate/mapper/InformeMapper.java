@@ -37,6 +37,7 @@ public interface InformeMapper {
 	JSONObject mapToProductoInformation(List<VentaDetalle> historiaDeVentas,
 			List<ProductoSucursalInfo> productosDeSucursal, Long idSucursal);
 
-	TrendsDTO mapToInformeDeTendencia(TrendsDTO response1, List<CategoriaMeli> response2, List<CategoriaRangoPrecios> response3, List<CategoriaGanancia> response4);
+	TrendsDTO mapToInformeDeTendencia(TrendsDTO response1, List<CategoriaMeli> response2,
+			List<CategoriaRangoPrecios> response3, List<CategoriaGanancia> response4);
 
 }
