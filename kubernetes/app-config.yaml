@@ -5,7 +5,7 @@ metadata:
   name: app-config
   namespace: inventomate
 data:
-  PORT: "8080"
+  PORT: "8443"
   OKTA_OAUTH2_ISSUER: "https://dev-xzd1nw16hc11vsj7.us.auth0.com/"
   OKTA_OAUTH2_AUDIENCE: "grupo3SIP2024"
   CLIENT_ORIGIN_URL: "http://35.227.28.109:4040"
