@@ -43,25 +43,25 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ValoracionStatsResponse getValoracionesStats() {
+	public ValoracionStatsResponse getValoracionesStats(LocalDate desde, LocalDate hasta) {
 
-		int cantValoraciones = (int) valoracionRepository.count();
+		int cantValoraciones = (int) valoracionRepository.countByFechas(desde, hasta);
 		int cantValoracionesTendencias = valoracionRepository
-				.countByTipoInforme(TipoInforme.ANALISIS_DE_TENDENCIA);
+				.countByTipoInformeAndFechas(TipoInforme.ANALISIS_DE_TENDENCIA,desde,hasta);
 		int cantValoracionesProyeccion = valoracionRepository
-				.countByTipoInforme(TipoInforme.PROYECCION_DE_VENTAS);
-		int cantValoracionesNexTrends = valoracionRepository.countByTipoInforme(TipoInforme.SIGUIENTES_PEDIDOS);
-		int cantValoracionesObsolescencia = valoracionRepository.countByTipoInforme(TipoInforme.OBSOLESCENCIA);
+				.countByTipoInformeAndFechas(TipoInforme.PROYECCION_DE_VENTAS,desde,hasta);
+		int cantValoracionesNexTrends = valoracionRepository.countByTipoInformeAndFechas(TipoInforme.SIGUIENTES_PEDIDOS,desde,hasta);
+		int cantValoracionesObsolescencia = valoracionRepository.countByTipoInformeAndFechas(TipoInforme.OBSOLESCENCIA,desde,hasta);
 
-		Double promedioValoraciones = valoracionRepository.averageByCantEstrellas();
+		Double promedioValoraciones = valoracionRepository.averageCantEstrellasByFechas(desde,hasta);
 		Double promedioValoracionesTendencias = valoracionRepository
-				.averageByCantEstrellasAndTipoInforme(TipoInforme.ANALISIS_DE_TENDENCIA);
+				.averageCantEstrellasByTipoInformeAndFechas(TipoInforme.ANALISIS_DE_TENDENCIA,desde,hasta);
 		Double promedioValoracionesProyeccion = valoracionRepository
-				.averageByCantEstrellasAndTipoInforme(TipoInforme.PROYECCION_DE_VENTAS);
+				.averageCantEstrellasByTipoInformeAndFechas(TipoInforme.PROYECCION_DE_VENTAS, desde, hasta);
 		Double promedioValoracionesNexTrends = valoracionRepository
-				.averageByCantEstrellasAndTipoInforme(TipoInforme.SIGUIENTES_PEDIDOS);
+				.averageCantEstrellasByTipoInformeAndFechas(TipoInforme.SIGUIENTES_PEDIDOS, desde, hasta);
 		Double promedioValoracionesObsolescencia = valoracionRepository
-				.averageByCantEstrellasAndTipoInforme(TipoInforme.OBSOLESCENCIA);
+				.averageCantEstrellasByTipoInformeAndFechas(TipoInforme.OBSOLESCENCIA, desde, hasta);
 
 		return valoracionMapper.mapToValoracionStatsResponse(cantValoraciones, cantValoracionesNexTrends,
 				cantValoracionesObsolescencia, cantValoracionesProyeccion, cantValoracionesTendencias,

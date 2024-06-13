@@ -17,6 +17,6 @@ public interface AdminService {
 
 	List<TiempoInformeDTO> getTiempos();
 
-	ValoracionStatsResponse getValoracionesStats();
+	ValoracionStatsResponse getValoracionesStats(LocalDate desde, LocalDate hasta);
 
 }

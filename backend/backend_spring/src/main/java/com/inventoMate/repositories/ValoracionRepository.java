@@ -21,12 +21,39 @@ public interface ValoracionRepository extends JpaRepository<Valoracion, Long> {
 	Page<Valoracion> findByFilters(@Param("tipoInforme") TipoInforme tipoInforme, @Param("estrellas") Integer estrellas,
 			@Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin, Pageable pageable);
 
-    @Query("SELECT COUNT(v) FROM Valoracion v WHERE v.informe.tipoInforme = :tipoInforme")
-    int countByTipoInforme(@Param("tipoInforme") TipoInforme tipoInforme);
+	 @Query("SELECT COUNT(v) FROM Valoracion v WHERE " +
+	           "(:tipoInforme IS NULL OR v.informe.tipoInforme = :tipoInforme) AND " +
+	           "(:fechaInicio IS NULL OR v.fecha >= :fechaInicio) AND " +
+	           "(:fechaFin IS NULL OR v.fecha <= :fechaFin)")
+	    int countByTipoInformeAndFechas(
+	            @Param("tipoInforme") TipoInforme tipoInforme,
+	            @Param("fechaInicio") LocalDate fechaInicio,
+	            @Param("fechaFin") LocalDate fechaFin
+	    );
 
-    @Query("SELECT AVG(v.cantEstrellas) FROM Valoracion v")
-    Double averageByCantEstrellas();
+	    @Query("SELECT COUNT(v) FROM Valoracion v WHERE " +
+	           "(:fechaInicio IS NULL OR v.fecha >= :fechaInicio) AND " +
+	           "(:fechaFin IS NULL OR v.fecha <= :fechaFin)")
+	    long countByFechas(
+	            @Param("fechaInicio") LocalDate fechaInicio,
+	            @Param("fechaFin") LocalDate fechaFin
+	    );
 
-    @Query("SELECT AVG(v.cantEstrellas) FROM Valoracion v WHERE v.informe.tipoInforme = :tipoInforme")
-    Double averageByCantEstrellasAndTipoInforme(@Param("tipoInforme") TipoInforme tipoInforme);
+	    @Query("SELECT AVG(v.cantEstrellas) FROM Valoracion v WHERE " +
+	           "(:tipoInforme IS NULL OR v.informe.tipoInforme = :tipoInforme) AND " +
+	           "(:fechaInicio IS NULL OR v.fecha >= :fechaInicio) AND " +
+	           "(:fechaFin IS NULL OR v.fecha <= :fechaFin)")
+	    Double averageCantEstrellasByTipoInformeAndFechas(
+	            @Param("tipoInforme") TipoInforme tipoInforme,
+	            @Param("fechaInicio") LocalDate fechaInicio,
+	            @Param("fechaFin") LocalDate fechaFin
+	    );
+
+	    @Query("SELECT AVG(v.cantEstrellas) FROM Valoracion v WHERE " +
+	           "(:fechaInicio IS NULL OR v.fecha >= :fechaInicio) AND " +
+	           "(:fechaFin IS NULL OR v.fecha <= :fechaFin)")
+	    Double averageCantEstrellasByFechas(
+	            @Param("fechaInicio") LocalDate fechaInicio,
+	            @Param("fechaFin") LocalDate fechaFin
+	    );
 }

@@ -38,16 +38,17 @@ public class AdminController {
 			@RequestParam(required = false) LocalDate hasta) {
 		Sort.Direction sortDirection = Sort.Direction.fromString(order);
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sort));
-		Page<ValoracionDTO> valoraciones = adminService.getValoraciones(pageable, tipoInforme, estrellas, desde,
-				hasta);
+		Page<ValoracionDTO> valoraciones = adminService.getValoraciones(pageable, tipoInforme, estrellas, desde, hasta);
 		return ResponseEntity.ok(valoraciones);
 	}
-	
+
 	@GetMapping("/valoraciones/stats")
-	public ResponseEntity<ValoracionStatsResponse> getValoracionesStats() {
-		return ResponseEntity.ok(adminService.getValoracionesStats());
+	public ResponseEntity<ValoracionStatsResponse> getValoracionesStats(
+			@RequestParam(required = false) LocalDate desde,
+			@RequestParam(required = false) LocalDate hasta) {
+		return ResponseEntity.ok(adminService.getValoracionesStats(desde,hasta));
 	}
-	
+
 	@GetMapping("/tiempos")
 	public ResponseEntity<List<TiempoInformeDTO>> getStatsInformes() {
 		return ResponseEntity.ok(adminService.getTiempos());
