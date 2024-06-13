@@ -1,30 +1,43 @@
 package com.inventoMate.services.impl;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaGanancia;
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaRangoPrecios;
+import com.inventoMate.dtos.bdEmpresas.tablas.ProductoSucursalInfo;
 import com.inventoMate.dtos.informes.DecisionRequest;
 import com.inventoMate.dtos.informes.DecisionResponse;
 import com.inventoMate.dtos.informes.InformeDTO;
 import com.inventoMate.dtos.meli.TrendsDTO;
+import com.inventoMate.dtos.valoracion.ValoracionRequest;
 import com.inventoMate.entities.CategoriaMeli;
 import com.inventoMate.entities.Decision;
 import com.inventoMate.entities.Empresa;
 import com.inventoMate.entities.Informe;
 import com.inventoMate.entities.Sucursal;
+import com.inventoMate.entities.TiempoInforme;
 import com.inventoMate.entities.TipoInforme;
 import com.inventoMate.entities.Usuario;
+import com.inventoMate.entities.Valoracion;
 import com.inventoMate.exceptions.ResourceNotFoundException;
 import com.inventoMate.mapper.DecisionMapper;
 import com.inventoMate.mapper.InformeMapper;
+import com.inventoMate.mapper.ValoracionMapper;
 import com.inventoMate.models.EmailSender;
 import com.inventoMate.repositories.DecisionRepository;
 import com.inventoMate.repositories.InformeRepository;
+import com.inventoMate.repositories.TiempoInformeRepository;
 import com.inventoMate.repositories.UsuarioRepository;
+import com.inventoMate.repositories.ValoracionRepository;
 import com.inventoMate.services.FlaskService;
 import com.inventoMate.services.InformeService;
 import com.inventoMate.services.MlService;
@@ -36,29 +49,51 @@ import lombok.AllArgsConstructor;
 public class InformeServiceImpl implements InformeService {
 
 	private final UsuarioRepository usuarioRepository;
+	private final ValoracionRepository valoracionRepository;
 	private final MlService mlService;
 	private final InformeMapper mapper;
 	private final FlaskService flaskService;
 	private final InformeRepository informeRepository;
 	private final DecisionRepository decisionRepository;
 	private final DecisionMapper decisionMapper;
+	private final ValoracionMapper valoracionMapper;
+	private final TiempoInformeRepository tiempoInformeRepository;
 	private final EmailSender emailSender;
 
 	@Override
 	public void informeDeTendencia(String idAuth0, Long idSucursal) {
+		LocalTime tiempoInicio = LocalTime.now();
 		Sucursal sucursal = obtenerSucursal(idAuth0, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
-		List<String> productos = empresa.obtenerProductosDeSucursal(sucursal);
+		List<ProductoSucursalInfo> productos = empresa.obtenerProductos(sucursal);
 		TrendsDTO response1 = mlService.getTendencias(productos);
 		List<CategoriaMeli> response2 = mlService.getHistorico(response1.getTrends());
-		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1,response2);
+		List<CategoriaRangoPrecios> response3 = empresa.obtenerRangoPreciosCategoria(sucursal);
+		List<CategoriaGanancia> response4 = empresa.obtenerGananciaCategoria(sucursal);
+		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1, response2, response3, response4);
 		String idMongo = flaskService.postDatosInformeTendencias(responseMeli);
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.ANALISIS_DE_TENDENCIA);
 		procesarInforme(sucursal, informe);
+		LocalTime tiempoFinal = LocalTime.now();
+		crearTiempoInforme(tiempoInicio,tiempoFinal,informe);
+	}
+
+	private void crearTiempoInforme(LocalTime tiempoInicio, LocalTime tiempoFinal, Informe informe) {
+		TiempoInforme tiempoInforme = new TiempoInforme();
+		tiempoInforme.setTiempoInicio(tiempoInicio);
+		tiempoInforme.setTiempoFin(tiempoFinal);
+		tiempoInforme.setInforme(informe);
+		tiempoInforme.setFecha(LocalDate.now());
+		tiempoInforme.setTipoInforme(informe.getTipoInforme());
+		long duracionSegundos = ChronoUnit.SECONDS.between(tiempoInicio, tiempoFinal);
+	    tiempoInforme.setDuracionSegundos(duracionSegundos);
+		informe.setTiempoInforme(tiempoInforme);
+		tiempoInformeRepository.save(tiempoInforme);
 	}
 
 	@Override
 	public void informeDeProyeccion(String subject, Long idSucursal, LocalDate fechaProyeccion) {
+		LocalTime tiempoInicio = LocalTime.now();
 		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
 		var historiaDeCompras = empresa.obtenerHistoricoDeCompras(sucursal);
@@ -66,12 +101,14 @@ public class InformeServiceImpl implements InformeService {
 		String idMongo = flaskService.postDatosInformeProyeccionDeVentas(
 				mapper.mapToHistoricoMovimientos(historiaDeVentas, historiaDeCompras, fechaProyeccion, idSucursal));
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.PROYECCION_DE_VENTAS);
-
 		procesarInforme(sucursal, informe);
+		LocalTime tiempoFinal = LocalTime.now();
+		crearTiempoInforme(tiempoInicio,tiempoFinal,informe);
 	}
 
 	@Override
 	public void informeDeSiguientesPedidos(String subject, Long idSucursal) {
+		LocalTime tiempoInicio = LocalTime.now();
 		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
 		var historiaDeCompras = empresa.obtenerHistoricoDeCompras(sucursal);
@@ -80,12 +117,14 @@ public class InformeServiceImpl implements InformeService {
 		String idMongo = flaskService.postDatosInformeSiguientesPedidos(
 				mapper.mapToProductoInformation(historiaDeVentas, historiaDeCompras, productosDeSucursal, idSucursal));
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.SIGUIENTES_PEDIDOS);
-
 		procesarInforme(sucursal, informe);
+		LocalTime tiempoFinal = LocalTime.now();
+		crearTiempoInforme(tiempoInicio,tiempoFinal,informe);
 	}
 
 	@Override
 	public void informeDeObsolescencia(String subject, Long idSucursal) {
+		LocalTime tiempoInicio = LocalTime.now();
 		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
 		Empresa empresa = sucursal.getEmpresa();
 		var historiaDeVentas = empresa.obtenerHistoricoDeVentas(sucursal);
@@ -93,17 +132,19 @@ public class InformeServiceImpl implements InformeService {
 		String idMongo = flaskService.postDatosInformeObsolescencia(
 				mapper.mapToProductoInformation(historiaDeVentas, productosDeSucursalObsolescencia, idSucursal));
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.OBSOLESCENCIA);
-
 		procesarInforme(sucursal, informe);
+		LocalTime tiempoFinal = LocalTime.now();
+		crearTiempoInforme(tiempoInicio,tiempoFinal,informe);
 	}
 
 	@Override
-	public List<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
-			TipoInforme tipoInformes) {
-		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
-		List<Informe> informes = sucursal.obtenerInformes(tipoInformes);
+	public Page<InformeDTO> getInformesByIdSucursalAndTipoInforme(String subject, Long idSucursal,
+			TipoInforme tipoInforme, Pageable pageable, LocalDate desde, LocalDate hasta, Boolean visto) {
 
-		return mapper.mapToInformeDTO(informes);
+		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
+		Page<Informe> informes = sucursal.obtenerInformes(tipoInforme, pageable, desde, hasta, visto);
+
+		return informes.map(mapper::mapToInformeDTO);
 	}
 
 	@Override
@@ -219,5 +260,18 @@ public class InformeServiceImpl implements InformeService {
 		sucursal.setEmailSender(emailSender);
 		sucursal.generarNotificacionDeInforme(informe);
 		informeRepository.save(informe);
+	}
+
+	@Override
+	public void valorarInforme(String subject, Long idInforme, Long idSucursal, ValoracionRequest valoracionRequest) {
+		Sucursal sucursal = obtenerSucursal(subject, idSucursal);
+		Informe informe = sucursal.obtenerInforme(idInforme);
+		if (informe == null)
+			throw new ResourceNotFoundException("Informe", "id_sucursal", sucursal.getIdSucursal().toString());
+		Valoracion valoracion = valoracionMapper.mapToValoracion(valoracionRequest);
+		valoracion.setInforme(informe);
+		valoracion.setFecha(LocalDate.now());
+		informe.agregarValoracion(valoracion);
+		valoracionRepository.save(valoracion);
 	}
 }

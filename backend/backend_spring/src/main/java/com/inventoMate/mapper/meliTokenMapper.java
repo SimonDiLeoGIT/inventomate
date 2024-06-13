@@ -6,6 +6,6 @@ import com.inventoMate.entities.MeliToken;
 
 public interface meliTokenMapper {
 
-	MeliToken mapToMeliToken(Map<String,String> response);
-	
+	MeliToken mapToMeliToken(Map<String, String> response);
+
 }

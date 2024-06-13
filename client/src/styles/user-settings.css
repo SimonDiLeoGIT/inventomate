@@ -1,38 +1,7 @@
+@import url('./global/menu.css');
+
 .none-scroll {
   overflow: hidden;
-}
-
-
-@keyframes open-user-menu {
-  from {
-    transform: translateX(100vh);
-  }
-
-  to {
-    transform: translateX(0vh);
-  }
-}
-
-@keyframes close-user-menu {
-  from {
-    transform: translateX(0vh);
-  }
-
-  to {
-    transform: translateX(100vh);
-  }
-}
-
-.open-user-menu {
-  animation: open-user-menu forwards;
-  animation-duration: 400ms;
-  animation-delay: 0ms;
-}
-
-.close-user-menu {
-  animation: close-user-menu forwards;
-  animation-duration: 400ms;
-  animation-delay: 0ms;
 }
 
 

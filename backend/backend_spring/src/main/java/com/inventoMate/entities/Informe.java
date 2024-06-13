@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,17 +38,23 @@ public class Informe {
 	@Enumerated(EnumType.STRING)
 	private TipoInforme tipoInforme;
 
+	@OneToOne(mappedBy = "informe", cascade = CascadeType.ALL)
+	private TiempoInforme tiempoInforme;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_sucursal", nullable = true)
 	private Sucursal sucursal;
 
 	@OneToMany(mappedBy = "informe", cascade = CascadeType.ALL)
 	private List<Decision> decisiones;
-	
+
+	@OneToMany(mappedBy = "informe", cascade = CascadeType.ALL)
+	private List<Valoracion> valoraciones;
+
 	private boolean visto;
 
 	public void agregarDecision(Decision decision) {
-		if(decisiones == null) {
+		if (decisiones == null) {
 			decisiones = new LinkedList<Decision>();
 		}
 		decisiones.add(decision);
@@ -58,8 +65,17 @@ public class Informe {
 	}
 
 	public Decision eliminarDecision(Long idDecision) {
-		Decision decisionEliminar = decisiones.stream().filter(decision -> decision.getId().equals(idDecision)).findFirst().orElse(null);
-		if(decisionEliminar != null) decisiones.remove(decisionEliminar);
+		Decision decisionEliminar = decisiones.stream().filter(decision -> decision.getId().equals(idDecision))
+				.findFirst().orElse(null);
+		if (decisionEliminar != null)
+			decisiones.remove(decisionEliminar);
 		return decisionEliminar;
+	}
+
+	public void agregarValoracion(Valoracion valoracion) {
+		if (valoraciones == null) {
+			valoraciones = new LinkedList<Valoracion>();
+		}
+		valoraciones.add(valoracion);
 	}
 }

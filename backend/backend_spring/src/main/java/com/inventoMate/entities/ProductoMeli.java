@@ -31,5 +31,5 @@ public class ProductoMeli {
 	@ManyToOne
 	@JoinColumn(name = "id_categoria")
 	private CategoriaMeli categoriaMeli;
-	
+
 }

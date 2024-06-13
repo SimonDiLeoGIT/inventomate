@@ -12,4 +12,5 @@ public interface BdEmpresaService {
 
 	BdEmpresaDTO getBdEmpresaCurrentUser(String idAuth0);
 
+	boolean existsBdEmpresa(String idAuth0, Long idSucursal);
 }

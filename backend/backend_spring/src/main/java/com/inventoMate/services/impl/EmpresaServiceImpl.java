@@ -114,4 +114,19 @@ public class EmpresaServiceImpl implements EmpresaService {
 		empresaRepository.delete(empresa);
 	}
 
+	@Override
+	public Boolean existsBdEmpresa(String idAuth0) {
+
+		Usuario usuario = usuarioRepository.findByIdAuth0(idAuth0)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "IdAuth0", idAuth0));
+
+		Empresa empresa = usuario.obtenerEmpresa();
+
+		if (empresa == null) {
+			throw new ResourceNotFoundException("Empresa", "empleado", "null");
+		}
+
+		return empresa.getBdEmpresa() != null;
+	}
+
 }

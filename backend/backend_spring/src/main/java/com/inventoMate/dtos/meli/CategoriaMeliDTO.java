@@ -17,5 +17,5 @@ public class CategoriaMeliDTO {
 	private String nombre;
 	private String idMeli;
 	private List<ProductoMeliDTO> productos;
-	
+
 }
