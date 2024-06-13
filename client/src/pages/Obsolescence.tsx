@@ -7,7 +7,7 @@ import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getObsolescenceById } from "../utils/Services/obsolescence.database.service"
 import { TopTen } from "../components/Reports/Obsolescence/TopTen"
 import { Overview } from "../components/Reports/Obsolescence/Overview"
-import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
+import { ReportRating } from "../components/Reports/ChatReports/ChatReport"
 
 export const Obsolescence = () => {
 

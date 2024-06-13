@@ -53,26 +53,17 @@ export const MakeDecision: React.FC<props> = ({ idReport, idBranch, setShow, set
           rows={2}
         />
       </div>
-      <div className="mt-4">
+      <div className="mt-4 text-end">
         {
           !loading
             ?
-            <div className="grid grid-cols-2 gap-4 w-1/4 m-auto mr-0">
-              <button
-                className="-bg--color-ful-red -text--color-white rounded-lg p-2 font-semibold text-lg hover:opacity-80"
-                onClick={() => setDecisionSuccess(false)}
-                type="submit"
-              >
-                Reject
-              </button>
-              <button
-                className="-bg--color-green -text--color-white rounded-lg p-2 font-semibold text-lg hover:opacity-80"
-                onClick={() => setDecisionSuccess(true)}
-                type="submit"
-              >
-                Accept
-              </button>
-            </div>
+            <button
+              className="-bg--color-semidark-violet -text--color-white rounded-lg p-2 font-semibold text-lg hover:opacity-80 w-24"
+              onClick={() => setDecisionSuccess(true)}
+              type="submit"
+            >
+              Send
+            </button>
             :
             <WaitingResponse message="Reporting Your Reasons" />
         }

@@ -4,6 +4,7 @@ import { ArrowButtons } from "../components/Reports/Trends/ArrowButtons"
 import { useTrends } from "../hook/useTrends";
 import { ProductFeatures } from "../components/Reports/Trends/ProductFeatures";
 import { ProductStatistics } from "../components/Reports/Trends/ProductStatistics";
+import { Justification } from "../components/Reports/Justification";
 
 export const Product = () => {
 
@@ -60,19 +61,51 @@ export const Product = () => {
             &&
             <p className="-bg--color-semidark-violet -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute top-2 right-2">New Trend</p>
           }
+          {
+            product?.procesamiento.en_rango_categoria.en_rango
+              ?
+              <p className="-bg--color-semidark-violet -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute top-2 right-2">Recommended</p>
+              :
+              <p className="-bg--color-ful-red -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute bottom-2 right-2">Not Recommended</p>
+          }
         </div>
         <section className="md:grid">
-          <div className="p-4 -text--color-black md:grid place-content-center">
+          <div className="p-4 -text--color-black">
             <h1 className="text-xl">
-              <strong>
+              <p className="font-semibold">
                 {product?.name}
-              </strong>
-            </h1>
-            <div className="mt-2 flex items-center">
+              </p>
               <p className=" -bg--color-light-opaque-pink inline-block p-1 text-sm -text--color-semidark-violet font-medium rounded-md">{product?.trend_position}° Trend Position</p>
-              <p className="m-auto mr-2 text-lg">{product?.additional_info?.buy_box_winner?.currency_id}${product?.additional_info?.buy_box_winner?.price}</p>
-            </div>
+            </h1>
+            <ul className="mt-2 grid gap-2">
+              <li className="">
+                <p className="">
+                  <strong className="font-semibold">Market Price </strong>
+                  {
+                    product?.additional_info?.buy_box_winner?.original_price !== null
+                    &&
+                    <s className="text-sm -bg--color-border-very-lightest-grey p-1 rounded-md shadow-md">{product?.additional_info?.buy_box_winner?.currency_id}${product?.additional_info?.buy_box_winner?.original_price}</s>
+                  }
+                  {product?.additional_info?.buy_box_winner?.currency_id}${product?.additional_info?.buy_box_winner?.price}
+                </p>
+              </li>
+              <li className="">
+                <p><strong className="font-semibold -text--color-semidark-violet">Suggested Price</strong> {product?.additional_info?.buy_box_winner?.currency_id}${product?.procesamiento.precio_sugerido.precio}</p>
+                {
+                  product
+                  &&
+                  <Justification justificacion={product?.procesamiento.precio_sugerido.justificacion} />
+                }
+              </li>
+            </ul>
           </div>
+        </section>
+        <section className="col-span-2 my-4">
+          {
+            product
+            &&
+            <Justification justificacion={product?.procesamiento.en_rango_categoria.justificacion} />
+          }
         </section>
         <section className="w-11/12 m-auto col-span-2 md:w-full">
           <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">

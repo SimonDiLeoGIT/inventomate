@@ -35,6 +35,7 @@ export const NextOrdersReports = () => {
       setBranch(currentUser?.sucursal?.idSucursal.toString())
       handleChangeOption(currentUser?.sucursal?.idSucursal.toString())
     }
+
   }, [isAuthenticated])
 
   const handleGetNewReport = async () => {
@@ -63,7 +64,7 @@ export const NextOrdersReports = () => {
 
   const handleChangeOption = async (idBranch: string) => {
     setBranch(idBranch)
-    getReports(branch, 0, 'desc', null, null, null)
+    getReports(idBranch, 0, 'desc', null, null, null)
   }
 
   return (

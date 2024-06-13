@@ -7,7 +7,7 @@ import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getForecastById } from "../utils/Services/forecast.database.service"
 import { ForecastOverview } from "../components/Reports/Forecast/ForecastOverview"
 import { TopTenForecast } from "../components/Reports/Forecast/ToptenForecast"
-import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
+import { ReportRating } from "../components/Reports/ChatReports/ChatReport"
 
 export const SalesForecasting = () => {
 

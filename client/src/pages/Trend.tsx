@@ -7,7 +7,8 @@ import { SideNavbar } from "../components/Global/SideNavbar"
 import { useTrends } from "../hook/useTrends"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { Products } from "../components/Reports/Trends/Products"
-import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
+import { ReportRating } from "../components/Reports/ChatReports/ChatReport"
+import { Justification } from "../components/Reports/Justification"
 
 export const Trend = () => {
 
@@ -70,16 +71,25 @@ export const Trend = () => {
         {
           reportSection
             ?
-            trends?.trends.map((trend) => {
-              return (
-                <section className="p-2">
-                  <header className="mb-2">
-                    <h2 className="font-semibold text-lg py-2">{trend.category_name}</h2>
-                  </header>
-                  <Products trend={trend} />
-                </section>
-              )
-            })
+            (
+              trends
+              &&
+              <section>
+                <Justification justificacion={trends?.justificacion} />
+                {
+                  trends?.trends.map((trend) => {
+                    return (
+                      <section className="p-2">
+                        <header className="mb-2">
+                          <h2 className="font-semibold text-lg py-2">{trend.category_name}</h2>
+                        </header>
+                        <Products trend={trend} />
+                      </section>
+                    )
+                  })
+                }
+              </section>
+            )
             :
             idBranch && idInforme
             &&
