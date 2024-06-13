@@ -21,4 +21,12 @@ public interface ValoracionRepository extends JpaRepository<Valoracion, Long> {
 	Page<Valoracion> findByFilters(@Param("tipoInforme") TipoInforme tipoInforme, @Param("estrellas") Integer estrellas,
 			@Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin, Pageable pageable);
 
+    @Query("SELECT COUNT(v) FROM Valoracion v WHERE v.informe.tipoInforme = :tipoInforme")
+    int countByTipoInforme(@Param("tipoInforme") TipoInforme tipoInforme);
+
+    @Query("SELECT AVG(v.cantEstrellas) FROM Valoracion v")
+    Double averageByCantEstrellas();
+
+    @Query("SELECT AVG(v.cantEstrellas) FROM Valoracion v WHERE v.informe.tipoInforme = :tipoInforme")
+    Double averageByCantEstrellasAndTipoInforme(@Param("tipoInforme") TipoInforme tipoInforme);
 }
