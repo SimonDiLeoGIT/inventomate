@@ -9,7 +9,7 @@ WORKDIR /app
 COPY target/backend_spring-0.0.1-SNAPSHOT.jar inventomate.jar
 
 # Copia el archivo keystore.p12 al contenedor
-COPY keystore.p12 keystore.p12
+COPY keystore.p12 .
 
 # Expone el puerto HTTPS en el que la aplicación se ejecuta
 EXPOSE 8443
