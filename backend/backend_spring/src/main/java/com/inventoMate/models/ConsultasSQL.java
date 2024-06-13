@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.inventoMate.dtos.bdEmpresas.tablas.Categoria;
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaGanancia;
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaRangoPrecios;
 import com.inventoMate.dtos.bdEmpresas.tablas.CompraDetalle;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleCompra;
 import com.inventoMate.dtos.bdEmpresas.tablas.DetalleVenta;
@@ -136,6 +138,46 @@ public class ConsultasSQL implements Consultas {
 						.productId((Integer) row.get("producto_id")).stock((Integer) row.get("stock"))
 						.fechaPrimerCompra((Timestamp) row.get("fecha_primera_compra"))
 						.categoria((String) row.get("nombre_categoria")).precioVenta((Double) row.get("precio_venta"))
+						.build())
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<CategoriaGanancia> getProductoPorcentajeGanancia(JdbcTemplate jdbcTemplate, Long idSucCliente) {
+		String sql = "WITH ultimas_ventas AS (" + "    SELECT d.producto_id, d.precio_venta, "
+				+ "           ROW_NUMBER() OVER (PARTITION BY d.producto_id ORDER BY v.fecha_hora DESC) AS rn "
+				+ "    FROM detalle d " + "    INNER JOIN venta v ON d.venta_id = v.id "
+				+ "    WHERE v.sucursal_id = ? " + "), " + "ultimas_compras AS ("
+				+ "    SELECT dc.producto_id, dc.precio_compra, "
+				+ "           ROW_NUMBER() OVER (PARTITION BY dc.producto_id ORDER BY c.fecha_hora DESC) AS rn "
+				+ "    FROM detalle_compra dc " + "    INNER JOIN compra c ON dc.compra_id = c.id "
+				+ "    WHERE c.sucursal_id = ? " + ") " + "SELECT p.categoria_id, c.nombre AS nombre_categoria, "
+				+ "       AVG((uv.precio_venta - uc.precio_compra) / uc.precio_compra * 100) AS ganancia_promedio "
+				+ "FROM producto p " + "INNER JOIN categoria c ON p.categoria_id = c.categoria_id "
+				+ "INNER JOIN sucursal_producto sp ON p.producto_id = sp.producto_id "
+				+ "INNER JOIN ultimas_ventas uv ON p.producto_id = uv.producto_id AND uv.rn = 1 "
+				+ "INNER JOIN ultimas_compras uc ON p.producto_id = uc.producto_id AND uc.rn = 1 "
+				+ "GROUP BY p.categoria_id, c.nombre";
+
+		return jdbcTemplate.queryForList(sql, idSucCliente).stream()
+				.map(row -> CategoriaGanancia.builder().idCategoria((Integer) row.get("categoria_id"))
+						.nombre((String) row.get("nombre_categoria"))
+						.porcentajeGananciaPromedio((Double) row.get("ganancia_promedio")).build())
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<CategoriaRangoPrecios> getRangoPreciosPorCategoria(JdbcTemplate jdbcTemplate, Long idSucCliente) {
+		String sql = "SELECT p.categoria_id, c.nombre AS nombre_categoria, "
+				+ "MIN(sp.precio_venta) AS precio_minimo, MAX(sp.precio_venta) AS precio_maximo "
+				+ "FROM sucursal_producto sp " + "INNER JOIN producto p ON sp.producto_id = p.producto_id "
+				+ "INNER JOIN categoria c ON p.categoria_id = c.categoria_id " + "WHERE sp.sucursal_id = ? "
+				+ "GROUP BY p.categoria_id, c.nombre";
+
+		return jdbcTemplate.queryForList(sql, idSucCliente).stream()
+				.map(row -> CategoriaRangoPrecios.builder().idCategoria((Integer) row.get("categoria_id"))
+						.nombreCategoria((String) row.get("nombre_categoria"))
+						.precioMaximo((Double) row.get("precio_maximo")).precioMinimo((Double) row.get("precio_minimo"))
 						.build())
 				.collect(Collectors.toList());
 	}

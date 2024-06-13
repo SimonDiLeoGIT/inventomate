@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaGanancia;
+import com.inventoMate.dtos.bdEmpresas.tablas.CategoriaRangoPrecios;
 import com.inventoMate.dtos.informes.DecisionRequest;
 import com.inventoMate.dtos.informes.DecisionResponse;
 import com.inventoMate.dtos.informes.InformeDTO;
@@ -53,7 +55,9 @@ public class InformeServiceImpl implements InformeService {
 		List<String> productos = empresa.obtenerProductosDeSucursal(sucursal);
 		TrendsDTO response1 = mlService.getTendencias(productos);
 		List<CategoriaMeli> response2 = mlService.getHistorico(response1.getTrends());
-		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1, response2);
+		List<CategoriaRangoPrecios> response3 = empresa.obtenerRangoPreciosCategoria(sucursal);
+		List<CategoriaGanancia> response4 = empresa.obtenerGananciaCategoria(sucursal);
+		TrendsDTO responseMeli = mapper.mapToInformeDeTendencia(response1,response2,response3,response4);
 		String idMongo = flaskService.postDatosInformeTendencias(responseMeli);
 		Informe informe = mapper.mapToInforme(idMongo, TipoInforme.ANALISIS_DE_TENDENCIA);
 		procesarInforme(sucursal, informe);
