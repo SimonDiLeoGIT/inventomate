@@ -18,7 +18,7 @@ export const NextOrdersReports = () => {
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [database, setDatabase] = useState<boolean>(true)
-  const [nextOrdersReports, setNextOrdersReport] = useState<Report[]>([])
+  const [nextOrdersReports, setNextOrdersReport] = useState<Report[] | null>(null)
   const [branch, setBranch] = useState<string>('')
 
   useEffect(() => {
@@ -32,7 +32,6 @@ export const NextOrdersReports = () => {
 
     if (currentUser?.sucursal?.idSucursal !== undefined)
       setBranch(currentUser?.sucursal?.idSucursal.toString())
-
   }, [isAuthenticated])
 
 
@@ -65,6 +64,7 @@ export const NextOrdersReports = () => {
     const accessToken = await getAccessTokenSilently()
     const response = await getNextOrders(accessToken, idBranch)
     response && setNextOrdersReport(response)
+    console.log(response)
   }
 
   const handleChangeOption = async (idBranch: string) => {
@@ -85,7 +85,7 @@ export const NextOrdersReports = () => {
               ?
               <SelectBranch />
               :
-              ((nextOrdersReports !== null && nextOrdersReports.length > 0) ?
+              ((nextOrdersReports !== null && nextOrdersReports?.length > 0) ?
                 <Reports reports={nextOrdersReports} idBranch={branch} />
                 :
                 <EmptyHistory />

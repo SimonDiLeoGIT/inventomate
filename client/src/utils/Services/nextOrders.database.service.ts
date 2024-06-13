@@ -5,10 +5,14 @@ import { url } from "./api.service"
 export const getNextOrders = async (accessToken: string, idBranch: string): Promise<Report[]> => {
   try {
     const response = await axios({
-      url: `${url}api/informes/siguientes-pedidos/` + idBranch,
+      url: `${url}api/informes/siguientes-pedidos/${idBranch}`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
+      },
+      data: {
+        page: 0,
+        size: 10
       }
     })
     console.log(response)
@@ -22,7 +26,7 @@ export const getNextOrders = async (accessToken: string, idBranch: string): Prom
 export const getNewNextOrders = async (accessToken: string, idBranch: string): Promise<Report[]> => {
   try {
     const response = await axios({
-      url: `${url}api/informes/siguientes-pedidos/` + idBranch,
+      url: `${url}api/informes/siguientes-pedidos/${idBranch}`,
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -36,7 +40,7 @@ export const getNewNextOrders = async (accessToken: string, idBranch: string): P
   }
 }
 
-export const getNextOrderById = async (accessToken: string, idBranch: string, idInforme: string): Promise<NextOrder> => {
+export const getNextOrderById = async (accessToken: string, idBranch: string, idInforme: string): Promise<NextOrders> => {
   try {
     const response = await axios({
       url: `${url}api/informes/siguientes-pedidos/` + idInforme + '/sucursales/' + idBranch,
