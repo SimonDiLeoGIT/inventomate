@@ -1,6 +1,6 @@
 import React from "react"
-import { BarChart } from "./BarChart"
 import { LineChart } from "./LineChart"
+import { BarChart } from "../../Chart/BarChart"
 
 interface props {
   product: Product
@@ -11,7 +11,7 @@ export const ProductStatistics: React.FC<props> = ({ product }) => {
     <section className="">
       <article>
         <h3 className="font-semibold py-4 text-lg -text--color-mate-dark-violet">Price Data</h3>
-        <BarChart x={product?.procesamiento.variacion_precio.X} y={product?.procesamiento.variacion_precio.Y} label="Price Variation" />
+        <BarChart grafico={product?.procesamiento.variacion_precio} label="Price Variation" />
         <ul className="w-/full m-auto rounded-lg overflow-hidden shadow-md -shadow--color-black-shadow mt-8">
           <li className={`grid grid-cols-2 gap-2 p-2 lg:py-4 -bg--color-border-very-lightest-grey`}>
             <p>Price Deviation</p>

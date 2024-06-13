@@ -4,12 +4,13 @@ import { useParams } from "react-router-dom"
 import { useUser } from "../hook/useUser"
 import { SideNavbar } from "../components/Global/SideNavbar"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
-import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
-import { TopTen } from "../components/Reports/NextOrders/TopTen"
-import { Overview } from "../components/Reports/NextOrders/Overview"
+import { MakeDecision } from "../components/Reports/RateReports/MakeDecision"
+import { getObsolescenceById } from "../utils/Services/obsolescence.database.service"
+import { TopTen } from "../components/Reports/Obsolescence/TopTen"
+import { Overview } from "../components/Reports/Obsolescence/Overview"
 import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
 
-export const NextOrders = () => {
+export const Obsolescence = () => {
 
   const { idBranch } = useParams()
   const { idInforme } = useParams()
@@ -18,7 +19,7 @@ export const NextOrders = () => {
 
   const { setUser } = useUser()
 
-  const [nextOrders, setNextOrders] = useState<NextOrders>()
+  const [obsolescence, setObsolescence] = useState<Obsolescence>()
 
   const [overview, setOverview] = useState<boolean>(false);
   const [urgently, setUrgently] = useState<boolean>(true);
@@ -31,8 +32,8 @@ export const NextOrders = () => {
       setUser(accessToken)
 
       if (idBranch && idInforme) {
-        const response = await getNextOrderById(accessToken, idBranch, idInforme)
-        setNextOrders(response)
+        const response = await getObsolescenceById(accessToken, idBranch, idInforme)
+        setObsolescence(response)
       }
 
     }
@@ -40,6 +41,7 @@ export const NextOrders = () => {
     isAuthenticated && getToken()
 
   }, [isAuthenticated])
+
 
   function selectOverview() {
     setOverview(true)
@@ -67,7 +69,7 @@ export const NextOrders = () => {
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
         <header className="p-2">
-          <ReportHeaderTitle title="Next Orders" />
+          <ReportHeaderTitle title="Obsolescence" />
         </header>
         <section>
           <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
@@ -91,16 +93,16 @@ export const NextOrders = () => {
             </h2>
           </header>
           {
-            nextOrders && idBranch && idInforme &&
+            obsolescence && idBranch && idInforme &&
             (
               urgently
                 ?
-                <TopTen nextOrders={nextOrders} />
+                <TopTen obsolescence={obsolescence} />
                 :
                 (
                   overview
                     ?
-                    <Overview nextOrders={nextOrders} />
+                    <Overview obsolescence={obsolescence} />
                     :
                     <ReportRating idBranch={idBranch} idInforme={idInforme} />
                 )

@@ -81,7 +81,7 @@ export const TrendsReports = () => {
               ?
               <SelectBranch />
               :
-              ((trendReports !== null && trendReports.length > 0) ?
+              ((trendReports !== null && trendReports?.length > 0) ?
                 <Reports reports={trendReports} idBranch={branch} />
                 :
                 <EmptyHistory />

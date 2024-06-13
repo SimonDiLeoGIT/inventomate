@@ -46,7 +46,7 @@ export const UserSettings = () => {
 
       <aside className={`fixed w-screen h-screen overflow-hidden top-20 left-0 ${!isOpen && 'hidden'} opacity-animation`}>
         <section
-          className={`fixed w-screen h-screen top-20 right-0 -bg--color-white z-10 ${open ? ' open-user-menu' : ' close-user-menu'} overflow-hidden max-w-96 md:left-auto`}
+          className={`fixed w-screen h-screen top-20 right-0 -bg--color-white z-10 ${open ? ' open-right-menu' : ' close-right-menu'} overflow-hidden max-w-96 md:left-auto`}
           onClick={() => handleMenuOpen()}
         >
           <ul className=" border-b -border--color-border-light-grey w-11/12 m-auto">

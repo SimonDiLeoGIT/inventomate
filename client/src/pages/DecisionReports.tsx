@@ -10,7 +10,7 @@ import { EmptyHistory } from "../components/Errors/EmptyHistory"
 import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
 import { getDatabaseConnection } from "../utils/Services/database.database.service"
 import { getCompany } from "../utils/Services/company.database.service"
-import { ReportsForDecisions } from "../components/Reports/Decisions/ReportsForDecisions"
+import { ReportsForDecisions } from "../components/Reports/RateReports/ReportsForDecisions"
 
 export const DecisionReports = () => {
 

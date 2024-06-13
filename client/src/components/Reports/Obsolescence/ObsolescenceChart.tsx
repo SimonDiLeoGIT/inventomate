@@ -1,33 +1,24 @@
 import React from "react"
-import { Bar } from 'react-chartjs-2'
-import { Chart, registerables } from 'chart.js'
-Chart.register(...registerables)
+import { ObsolescenceBarChart } from "./ObsolesenceBarChart"
 
 interface props {
-  grafico: Grafico
+  obsolescence: Obsolescence
+  category: string
 }
 
-export const ObsolescenceChart: React.FC<props> = ({ grafico }) => {
+export const ObsolescenceChart: React.FC<props> = ({ obsolescence, category }) => {
   return (
-    <div className='hover:cursor-pointer rounded-xl shadow-md -shadow--color-black-shadow p-4'>
-      <Bar
-        className='w-full'
-        data={{
-          labels: grafico.X.map(x => x),
-          datasets: [
-            {
-              label: "Obsolescence",
-              data: grafico.Y.map(y => y),
-              backgroundColor: 'rgba(65, 0, 82, 0.8)',
-              borderColor: 'rgba(171, 127, 182)'
-            }
-          ]
-        }}
-        options={{
-          maintainAspectRatio: false, // Permite al gráfico ajustarse al tamaño del contenedor
-          responsive: true, // Permite al gráfico ser responsive
-        }}
-      />
-    </div>
+    <section>
+      {obsolescence &&
+        category === "General"
+        ?
+        <ObsolescenceBarChart grafico={obsolescence?.grafico_top10_general} label="Degree of Obsolescence" />
+        :
+        obsolescence && Object.keys(obsolescence.grafico_top10_por_categoria).map(categoria => (
+          categoria === category &&
+          <ObsolescenceBarChart grafico={obsolescence?.grafico_top10_por_categoria[categoria]} label="Degree of Obsolescence" />
+        ))
+      }
+    </section>
   )
 }
