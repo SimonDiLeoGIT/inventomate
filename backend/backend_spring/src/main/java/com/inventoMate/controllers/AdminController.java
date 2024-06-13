@@ -1,7 +1,6 @@
 package com.inventoMate.controllers;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventoMate.dtos.informes.InformeStatsResponse;
 import com.inventoMate.dtos.tiempoInforme.TiempoInformeDTO;
 import com.inventoMate.dtos.valoracion.ValoracionDTO;
 import com.inventoMate.dtos.valoracion.ValoracionStatsResponse;
@@ -43,15 +43,29 @@ public class AdminController {
 	}
 
 	@GetMapping("/valoraciones/stats")
-	public ResponseEntity<ValoracionStatsResponse> getValoracionesStats(
-			@RequestParam(required = false) LocalDate desde,
+	public ResponseEntity<ValoracionStatsResponse> getValoracionesStats(@RequestParam(required = false) LocalDate desde,
 			@RequestParam(required = false) LocalDate hasta) {
-		return ResponseEntity.ok(adminService.getValoracionesStats(desde,hasta));
+		return ResponseEntity.ok(adminService.getValoracionesStats(desde, hasta));
 	}
 
-	@GetMapping("/tiempos")
-	public ResponseEntity<List<TiempoInformeDTO>> getStatsInformes() {
-		return ResponseEntity.ok(adminService.getTiempos());
+	@GetMapping("/informes/tiempos")
+	public ResponseEntity<Page<TiempoInformeDTO>> getTiempos(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sort,
+			@RequestParam(defaultValue = "desc") String sortDirection, @RequestParam(required = false) TipoInforme tipoInforme,
+			@RequestParam(required = false) LocalDate desde, @RequestParam(required = false) LocalDate hasta) {
+
+		Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+		Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sort));
+
+		Page<TiempoInformeDTO> tiempos = adminService.getTiemposInforme(pageable,tipoInforme,desde,hasta);
+
+		return ResponseEntity.ok(tiempos);
+	}
+
+	@GetMapping("/informes/stats")
+	public ResponseEntity<InformeStatsResponse> getInformeStats(@RequestParam(required = false) LocalDate desde,
+			@RequestParam(required = false) LocalDate hasta) {
+		return ResponseEntity.ok(adminService.getInformeStats(desde, hasta));
 	}
 
 }
