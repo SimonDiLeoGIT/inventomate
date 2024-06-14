@@ -1,10 +1,10 @@
 import axios from "axios";
 import { url } from "../api.service";
 
-export const getRatingStats = async (accessToken: string): Promise<RatingStats> => {
+export const getReportStats = async (accessToken: string): Promise<ReportStats> => {
   try {
     const response = await axios({
-      url: `${url}api/admin/valoraciones/stats`,
+      url: `${url}api/admin/informes/stats`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -17,14 +17,14 @@ export const getRatingStats = async (accessToken: string): Promise<RatingStats> 
   }
 }
 
-export const getRatings = async (accessToken: string, page: number | 0, size: number | 10, sort: keyof RatingContent, order: 'asc' | 'desc', reportType: string | null, desde: string | null, hasta: string | null): Promise<Rating> => {
+export const getTimeReports = async (accessToken: string, page: number | 0, size: number | 10, sort: keyof ReportContent, order: 'asc' | 'desc', reportType: string | null, desde: string | null, hasta: string | null): Promise<TimeReport> => {
+  // ?page=0&size=10&sort=duracionSegundos&sortDirection=asc&tipoInforme=ANALISIS_DE_TENDENCIA&desde=2023-01-01&hasta=2025-12-31
 
-  let data = `?page=${page}&size=${size}&sort=${sort}&order=${order}`
+  let data = `?page=${page}&size=${size}&sort=${sort}&sortDirection=${order}`
 
   if (reportType !== null) {
     data += `&tipoInforme=${reportType}`
   }
-
   if (desde !== null) {
     data += `&desde=${desde}`
   }
@@ -34,7 +34,7 @@ export const getRatings = async (accessToken: string, page: number | 0, size: nu
 
   try {
     const response = await axios({
-      url: `${url}api/admin/valoraciones${data}`,
+      url: `${url}api/admin/informes/tiempos${data}`,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

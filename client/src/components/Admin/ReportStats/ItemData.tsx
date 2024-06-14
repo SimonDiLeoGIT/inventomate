@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import close_icon from '../../../assets/icons/close.svg'
 
 interface props {
-  item: ReportContent
+  item: RatingContent
   index: number
 }
 
@@ -27,7 +27,7 @@ export const ItemData: React.FC<props> = ({ item, index }) => {
         <p className="p-2">{item.id}</p>
         <p className="p-2 col-span-2">{item.fecha}</p>
         <p className="p-2 col-span-2">{item.informe.tipoInforme}</p>
-        <p className="p-2 col-span-2">{item.duracionSegundos} sec.</p>
+        <p className="p-2 col-span-2">{item.cantEstrellas}</p>
       </li>
 
       <aside className={`fixed w-screen h-screen overflow-hidden top-0 left-0 ${!isOpen && 'hidden'} opacity-animation grid place-content-center`}>
@@ -55,8 +55,8 @@ export const ItemData: React.FC<props> = ({ item, index }) => {
               Assessment
             </header>
             <ul className="py-2">
-              <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">Rate:</span> {item.tiempoInicio}</li>
-              <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">Reasons:</span> {item.tiempoFin}</li>
+              <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">Rate:</span> {item.cantEstrellas}</li>
+              <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">Reasons:</span> {item.valoracion}</li>
             </ul>
           </section>
 
