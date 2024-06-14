@@ -8,6 +8,7 @@ import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
 import { TopTen } from "../components/Reports/NextOrders/TopTen"
 import { Overview } from "../components/Reports/NextOrders/Overview"
 import { ReportChat } from "../components/Reports/ChatReports/ChatReport"
+import { ReportRating } from "../components/Admin/ReportRating/ReportRating"
 
 export const NextOrders = () => {
 
@@ -66,8 +67,13 @@ export const NextOrders = () => {
         <SideNavbar />
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
-        <header className="p-2">
+        <header className="p-2 relative">
           <ReportHeaderTitle title="Next Orders" />
+          {
+            idBranch && idInforme
+            &&
+            <ReportRating idBranch={idBranch} idReport={idInforme} />
+          }
         </header>
         <section>
           <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
