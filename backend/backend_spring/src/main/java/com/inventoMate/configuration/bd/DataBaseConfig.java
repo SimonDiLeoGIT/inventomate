@@ -24,14 +24,21 @@ public class DataBaseConfig {
 		if (rolRepository.count() == 0) {
 			System.out.println("Sincronizando roles de Auth0 con BD local..");
 			try {
-				auth0RoleService.getAllRoles().forEach(role -> {
+				var roles = auth0RoleService.getAllRoles();
+				roles.subList(1, roles.size()).forEach(role -> {
 					Rol rol = new Rol();
 					rol.setDescripcion(role.getDescription());
 					rol.setIdRolAuth0(role.getId());
 					rol.setNombreRol(role.getName());
 					rol.setUsuarios(Collections.emptyList());
-					rolRepository.save(rol);
+					rolRepository.save(rol);					
 				});
+				Rol rol = new Rol();
+				rol.setDescripcion(roles.get(0).getDescription());
+				rol.setIdRolAuth0(roles.get(0).getId());
+				rol.setNombreRol(roles.get(0).getName());
+				rol.setUsuarios(Collections.emptyList());
+				rolRepository.save(rol);
 			} catch (Auth0Exception e) {
 				System.out.println("No se pudo sincronizar los roles de Auth0 con BD local..");
 				e.printStackTrace();
