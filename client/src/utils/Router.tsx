@@ -20,6 +20,7 @@ import { ObsolescenceReports } from "../pages/ObsolescenceReports";
 import { HelpPage } from "../pages/HelpPage";
 import { AdminReports } from "../pages/Admin/AdminReports";
 import { RatingReports } from "../pages/Admin/RatingReports";
+import { ReportStats } from "../pages/Admin/ReportsStats";
 
 export const Router = () => {
 
@@ -50,7 +51,7 @@ export const Router = () => {
           <Route path="/company/reports/anti-obsolescense/:idBranch/:idInforme" element={<Obsolescence />} />
           <Route path="/system/reports" element={<AdminReports />} />
           <Route path="/system/reports/rating" element={<RatingReports />} />
-          <Route path="/system/reports/stats" element={<AdminReports />} />
+          <Route path="/system/reports/stats" element={<ReportStats />} />
           <Route path="/system/reports/errors" element={<AdminReports />} />
         </Routes>
       </section>

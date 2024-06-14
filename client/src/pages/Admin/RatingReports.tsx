@@ -24,15 +24,15 @@ export const RatingReports = () => {
       setAccesToken(accessToken)
       const response = await getRatingStats(accessToken)
       setRatingStats(response)
-      getRatingData(accessToken, 0, 10, 'id', 'asc', null)
+      getRatingData(accessToken, 0, 10, 'id', 'asc', null, null, null)
     }
 
     isAuthenticated && getToken()
 
   }, [isAuthenticated])
 
-  const getRatingData = async (accessToken: string, currentPage: number, size: number, sort: keyof RatingContent, order: 'asc' | 'desc', reportType: string | null) => {
-    const overview = await getRatings(accessToken, currentPage, size, sort, order, reportType)
+  const getRatingData = async (accessToken: string, currentPage: number, size: number, sort: keyof RatingContent, order: 'asc' | 'desc', reportType: string | null, from: string | null, to: string | null) => {
+    const overview = await getRatings(accessToken, currentPage, size, sort, order, reportType, from, to)
     setRatingOverview(overview)
   }
 
