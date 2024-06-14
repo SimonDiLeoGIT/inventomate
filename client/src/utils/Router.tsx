@@ -21,6 +21,7 @@ import { HelpPage } from "../pages/HelpPage";
 import { AdminReports } from "../pages/Admin/AdminReports";
 import { RatingReports } from "../pages/Admin/RatingReports";
 import { ReportStats } from "../pages/Admin/ReportsStats";
+import { Errors } from "../pages/Admin/Errors";
 
 export const Router = () => {
 
@@ -52,7 +53,7 @@ export const Router = () => {
           <Route path="/system/reports" element={<AdminReports />} />
           <Route path="/system/reports/rating" element={<RatingReports />} />
           <Route path="/system/reports/stats" element={<ReportStats />} />
-          <Route path="/system/reports/errors" element={<AdminReports />} />
+          <Route path="/system/reports/errors" element={<Errors />} />
         </Routes>
       </section>
     </BrowserRouter>
