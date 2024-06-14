@@ -74,7 +74,7 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
       console.log(rolesSelected)
       const accessToken = await getAccessTokenSilently()
       await editMemberRoles(accessToken, idBranch, user.idUsuario, rolesSelected)
-      closeForm()
+      handleMenuOpen()
       setShow(true)
       setVisible(true)
       setTimeout(() => {
@@ -86,11 +86,6 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
     }
     setLoading(false)
   }
-
-  const closeForm = () => {
-    setIsOpen(false)
-  }
-
 
   return (
     <>
@@ -108,7 +103,7 @@ export const EditMemberRoles: React.FC<props> = ({ idBranch, user }) => {
             <h1 className="text-lg font-semibold">{user.nickname}</h1>
             <button
               className="absolute right-4 top-4"
-              onClick={() => closeForm()}
+              onClick={() => handleMenuOpen()}
             >
               <img src={close_icon} className="w-5" />
             </button>

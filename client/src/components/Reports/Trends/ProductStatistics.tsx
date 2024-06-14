@@ -21,6 +21,14 @@ export const ProductStatistics: React.FC<props> = ({ product }) => {
             <p>Price Average</p>
             <p>${product.procesamiento.media_precio}</p>
           </li>
+          <li className={`grid grid-cols-2 gap-2 p-2 lg:py-4 -bg--color-border-very-lightest-grey`}>
+            <p>Minimum Price</p>
+            <p>${product.procesamiento.minimo_precio}</p>
+          </li>
+          <li className={`grid grid-cols-2 gap-2 p-2 lg:py-4 `}>
+            <p>Maximum Price</p>
+            <p>${product.procesamiento.maximo_precio}</p>
+          </li>
         </ul>
       </article>
       <article>
@@ -34,6 +42,14 @@ export const ProductStatistics: React.FC<props> = ({ product }) => {
           <li className={`grid grid-cols-2 gap-2 p-2 lg:py-4 `}>
             <p>Trend Position Average</p>
             <p>{product.procesamiento.media_trendPosition}</p>
+          </li>
+          <li className={`grid grid-cols-2 gap-2 p-2 lg:py-4 -bg--color-border-very-lightest-grey`}>
+            <p>Minimum Trend Position</p>
+            <p>{product.procesamiento.minimo_trendPosition}</p>
+          </li>
+          <li className={`grid grid-cols-2 gap-2 p-2 lg:py-4 `}>
+            <p>Maximum Trend Position</p>
+            <p>{product.procesamiento.maximo_trendPosition}</p>
           </li>
           <li className={`grid grid-cols-2 gap-2 p-2 lg:py-4 -bg--color-border-very-lightest-grey`}>
             <p>Months in Trends</p>

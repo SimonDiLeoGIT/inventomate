@@ -7,7 +7,7 @@ import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getForecastById } from "../utils/Services/forecast.database.service"
 import { ForecastOverview } from "../components/Reports/Forecast/ForecastOverview"
 import { TopTenForecast } from "../components/Reports/Forecast/ToptenForecast"
-import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
+import { ReportChat } from "../components/Reports/ChatReports/ChatReport"
 
 export const SalesForecasting = () => {
 
@@ -23,7 +23,7 @@ export const SalesForecasting = () => {
 
   const [overview, setOverview] = useState<boolean>(false);
   const [topten, setTopten] = useState<boolean>(true);
-  const [assessment, setAssessment] = useState<boolean>(false);
+  const [comments, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -90,10 +90,10 @@ export const SalesForecasting = () => {
               Overview
             </h2>
             <h2
-              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${assessment && "-bg--color-black bg-opacity-10"} `}
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${comments && "-bg--color-black bg-opacity-10"} `}
               onClick={() => selectAssessment()}
             >
-              Assessment
+              Comments
             </h2>
           </header>
           {
@@ -114,7 +114,7 @@ export const SalesForecasting = () => {
                   (
                     idBranch && idInforme
                     &&
-                    <ReportRating idBranch={idBranch} idInforme={idInforme} />
+                    <ReportChat idBranch={idBranch} idInforme={idInforme} />
                   )
               )
           }
