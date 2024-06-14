@@ -101,7 +101,7 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
   const closeForm = () => {
     setusername('')
     setRolesSelected([])
-    setIsOpen(false)
+    handleMenuOpen()
   }
 
   return (

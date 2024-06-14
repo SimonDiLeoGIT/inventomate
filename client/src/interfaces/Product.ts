@@ -31,14 +31,31 @@ interface Product {
 interface Process {
   desvio_precio: number
   desvio_trendPosition: number
+  en_rango_categoria: InRangeCategory
+  factor: Factor
+  maximo_precio: number
+  maximo_trendPosition: number
   media_precio: number
   media_trendPosition: number
+  minimo_precio: number
+  minimo_trendPosition: number
+  precio_sugerido: SuggestionPrice
   meses_en_tendencia: number
-  variacion_precio: VariationChart
-  variacion_tendencia: VariationChart
+  variacion_precio: Charts
+  variacion_tendencia: Charts
 }
 
-interface VariationChart {
-  X: string[]
-  Y: number[]
+interface InRangeCategory {
+  en_rango: boolean
+  justificacion: string
+}
+
+interface Factor {
+  justificacion: string
+  precio_debajo_promedio: boolean
+}
+
+interface SuggestionPrice {
+  justificacion: string
+  precio: number
 }

@@ -8,7 +8,7 @@ import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
 import { Reports } from "../components/Reports/Reports"
 import { ReportHeader } from "../components/Reports/ReportHeader"
 import { SelectBranch } from "../components/Messages/SelectBranch"
-import { getDatabaseConnection } from "../utils/Services/database.database.service"
+import { existsDatabaseConnection } from "../utils/Services/database.database.service"
 
 export const TrendsReports = () => {
 
@@ -32,24 +32,18 @@ export const TrendsReports = () => {
 
     isAuthenticated && getToken()
 
-    if (currentUser?.sucursal?.idSucursal !== undefined)
+    if (currentUser?.sucursal?.idSucursal !== undefined) {
       setBranch(currentUser?.sucursal?.idSucursal.toString())
+      handleChangeOption(currentUser?.sucursal?.idSucursal.toString())
+    }
 
   }, [isAuthenticated])
-
-  const getDatabase = async (accessToken: string): Promise<boolean> => {
-    const dc = await getDatabaseConnection(accessToken)
-    if (dc === null) {
-      return false
-    } else
-      return true
-  }
 
   const handleGetNewTrends = async () => {
     setRequesting(true)
     const accessToken = await getAccessTokenSilently()
 
-    if (await getDatabase(accessToken)) {
+    if (await existsDatabaseConnection(accessToken)) {
       await getNewTrends(accessToken, branch)
     } else {
       setDatabase(false)
