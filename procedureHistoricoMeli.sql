@@ -1,3 +1,4 @@
+USE bd-inventomate;
 -- Variables para datos
 SET @fecha_actual = '2024-06-04';
 
