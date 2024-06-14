@@ -8,6 +8,7 @@ import { getForecastById } from "../utils/Services/forecast.database.service"
 import { ForecastOverview } from "../components/Reports/Forecast/ForecastOverview"
 import { TopTenForecast } from "../components/Reports/Forecast/ToptenForecast"
 import { ReportChat } from "../components/Reports/ChatReports/ChatReport"
+import { ReportRating } from "../components/Admin/ReportRating/ReportRating"
 
 export const SalesForecasting = () => {
 
@@ -72,8 +73,13 @@ export const SalesForecasting = () => {
         <SideNavbar />
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
-        <header className="">
+        <header className="p-2 relative">
           <ReportHeaderTitle title="Sales Forecasting" />
+          {
+            idBranch && idInforme
+            &&
+            <ReportRating idBranch={idBranch} idReport={idInforme} />
+          }
         </header>
         <section className="my-4">
           <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">

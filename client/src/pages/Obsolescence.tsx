@@ -8,6 +8,7 @@ import { getObsolescenceById } from "../utils/Services/obsolescence.database.ser
 import { TopTen } from "../components/Reports/Obsolescence/TopTen"
 import { Overview } from "../components/Reports/Obsolescence/Overview"
 import { ReportChat } from "../components/Reports/ChatReports/ChatReport"
+import { ReportRating } from "../components/Admin/ReportRating/ReportRating"
 
 export const Obsolescence = () => {
 
@@ -67,8 +68,13 @@ export const Obsolescence = () => {
         <SideNavbar />
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
-        <header className="p-2">
+        <header className="p-2 relative">
           <ReportHeaderTitle title="Obsolescence" />
+          {
+            idBranch && idInforme
+            &&
+            <ReportRating idBranch={idBranch} idReport={idInforme} />
+          }
         </header>
         <section>
           <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
