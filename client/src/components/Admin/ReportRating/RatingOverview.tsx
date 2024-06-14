@@ -2,43 +2,64 @@ import React, { useEffect, useState } from "react"
 import { TableSelector } from "../../TableSelector"
 import { NoDataFound } from "../../Errors/NoDataFound"
 import { Pagination } from "../../Global/Pagination"
-import { getRatings } from "../../../utils/Services/Admin/rating.service"
+import { ItemData } from "./ItemData"
 
 interface Filters {
   sort: keyof RatingContent
   order: 'asc' | 'desc'
-  reportType: string | null
 }
+
+type ReportType = "ANALISIS_DE_TENDENCIA" | "PROYECCION_DE_VENTAS" | "OBSOLESCENCIA" | "SIGUIENTES_PEDIDOS" | "All";
 
 interface props {
   data: Rating
   accessToken: string
+  getRatingData: (accessToken: string, currentPage: number, size: number, sort: keyof RatingContent, order: 'asc' | 'desc', reportType: string | null) => void
 }
 
-export const RatingOverview: React.FC<props> = ({ data, accessToken }) => {
+export const RatingOverview: React.FC<props> = ({ data, accessToken, getRatingData }) => {
 
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [totalPages, setTotalPages] = useState<number>(0)
   const [filters, setFilters] = useState<Filters>({
     sort: 'id',
-    order: 'asc',
-    reportType: null
+    order: 'asc'
   })
+  const [reportType, setReportType] = useState<string | null>(null)
+
+  const ascDesc = ['asc', 'desc']
+  const types = ["ANALISIS_DE_TENDENCIA", "PROYECCION_DE_VENTAS", "OBSOLESCENCIA", "SIGUIENTES_PEDIDOS", "All"]
 
   useEffect(() => {
-    getRatings(accessToken, currentPage, 10, filters.sort, filters.order, filters.reportType)
-    console.log(data)
-  }, [currentPage, filters])
+    getRatingData(accessToken, currentPage, 10, filters.sort, filters.order, reportType)
+    console.log('datita: ', data)
+  }, [currentPage, filters.order, filters.sort, filters, reportType])
 
   useEffect(() => {
     setTotalPages(data.totalPages)
+    console.log('cambió la data')
   }, [data])
 
-  function handleSelect(field: string, op: string) {
-    setFilters((prev: any) => ({
-      ...prev,
-      [field]: op
-    }))
+  useEffect(() => {
+    console.log(filters)
+  }, [filters])
+
+  function isKeyOfRatingContent(key: any): key is keyof RatingContent {
+    const validKeys: Array<keyof RatingContent> = ['id', 'fecha', 'cantEstrellas']
+    return validKeys.includes(key);
+  }
+
+  function handleSelect(field: keyof RatingContent | string, op: 'asc' | 'desc' | ReportType) {
+    if (isKeyOfRatingContent(field) && (op === 'asc' || op === 'desc')) {
+      setFilters(
+        {
+          sort: field,
+          order: op
+        }
+      )
+    } else {
+      op === 'All' ? setReportType(null) : setReportType(op)
+    }
   }
 
   const handlePageClick = (event: any) => {
@@ -54,17 +75,23 @@ export const RatingOverview: React.FC<props> = ({ data, accessToken }) => {
 
   return (
     <section>
-
       <ul className="rounded-lg overflow-hidden shadow-md -shadow--color-black-shadow">
-        <li className="grid grid-cols-3 border-b -bg--color-mate-dark-violet -text--color-white font-bold">
-          <p className="p-2">Id</p>
-          <div className="flex items-center relative">
-            <p className="p-2">Date</p>
-            <TableSelector options={['asc', 'desc']} id='fecha' handleSelect={handleSelect} />
+        <li className="grid grid-cols-7 border-b -bg--color-mate-dark-violet -text--color-white font-bold">
+          <div className="flex items-center relative ">
+            <p className="p-2">Id</p>
+            <TableSelector options={ascDesc} id='id' handleSelect={handleSelect} />
           </div>
-          <div className="flex items-center relative">
-            <p className="p-2">State</p>
-            <TableSelector options={['new', 'viewed', 'all']} id='visto' handleSelect={handleSelect} />
+          <div className="flex items-center relative col-span-2">
+            <p className="p-2">Date</p>
+            <TableSelector options={ascDesc} id='fecha' handleSelect={handleSelect} />
+          </div>
+          <div className="flex items-center relative col-span-2">
+            <p className="p-2">Type</p>
+            <TableSelector options={types} id='tipoInforme' handleSelect={handleSelect} />
+          </div>
+          <div className="flex items-center relative col-span-2">
+            <p className="p-2">Rate</p>
+            <TableSelector options={ascDesc} id='cantEstrellas' handleSelect={handleSelect} />
           </div>
         </li>
         {
@@ -76,9 +103,9 @@ export const RatingOverview: React.FC<props> = ({ data, accessToken }) => {
             :
             data.content.map((item, index) => {
               return (
-                <li className={`grid grid-cols-3 hover:opacity-80 ${(index % 2 === 0) && '-bg--color-border-very-lightest-grey'} `}>
-                  {item.id}
-                </li>
+                <ul>
+                  <ItemData item={item} index={index} />
+                </ul>
               )
             })
         }

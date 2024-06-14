@@ -4,7 +4,7 @@ import down_arrow from '../assets/icons/down-arrow.svg'
 interface props {
   options: string[]
   id: any
-  handleSelect: (id: any, op: string) => void
+  handleSelect: (id: any, op: any) => void
 }
 
 export const TableSelector: React.FC<props> = ({ options, id, handleSelect }) => {

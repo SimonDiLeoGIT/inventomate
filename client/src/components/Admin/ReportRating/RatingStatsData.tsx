@@ -4,7 +4,7 @@ interface props {
 
 export const RatingStatsData: React.FC<props> = ({ stats }) => {
   return (
-    <ul className="w-/full m-auto rounded-lg overflow-hidden shadow-md -shadow--color-black-shadow">
+    <ul className="w-full m-auto rounded-lg overflow-hidden shadow-md -shadow--color-black-shadow">
       <li className={`grid grid-cols-2 gap-2 p-2 lg:py-4 -bg--color-border-very-lightest-grey`}>
         <p>Quantity of Assessments</p>
         <p>{stats.cantValoraciones}</p>
