@@ -307,7 +307,7 @@ jobs:
 
                   SET v_counter = v_counter + 1;
               END WHILE;
-          END //
+            END //
 
           DELIMITER ;
 
