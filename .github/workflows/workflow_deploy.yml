@@ -263,7 +263,8 @@ jobs:
       - name: Execute MySQL commands
         run: |
           POD_NAME=$(kubectl get pods -n inventomate -l app=mysql -o jsonpath='{.items[0].metadata.name}')
-          kubectl exec -n inventomate $POD_NAME -- mysql -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo $POD_NAME
+          kubectl exec -n inventomate $POD_NAME -- mysql -u root -e "
             SET @fecha_actual = '2024-06-04';
 
             DELIMITER //
