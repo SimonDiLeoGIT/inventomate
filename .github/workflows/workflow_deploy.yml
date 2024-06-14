@@ -82,8 +82,6 @@ jobs:
       - name: MYSQL deploy
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f init-mysql.yaml
-          
           kubectl apply -f mysql.yaml
 
           sleep 12
