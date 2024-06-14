@@ -45,8 +45,5 @@ public class DataBaseConfig {
 			}
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> f644aacfefa5a85a8266c6e9a9933144c66fab82
+
