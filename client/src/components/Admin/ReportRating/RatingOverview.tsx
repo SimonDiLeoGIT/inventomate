@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { TableSelector } from "../../TableSelector"
 import { NoDataFound } from "../../Errors/NoDataFound"
 import { Pagination } from "../../Global/Pagination"
-import { ItemData } from "../ReportStats/ItemData"
+import { ItemData } from "./ItemData"
 import { Filters } from "../../Reports/Filters"
 
 interface Filters {

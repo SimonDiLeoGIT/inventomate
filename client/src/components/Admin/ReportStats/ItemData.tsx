@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import close_icon from '../../../assets/icons/close.svg'
 
 interface props {
-  item: RatingContent
+  item: ReportContent
   index: number
 }
 
@@ -27,7 +27,7 @@ export const ItemData: React.FC<props> = ({ item, index }) => {
         <p className="p-2">{item.id}</p>
         <p className="p-2 col-span-2">{item.fecha}</p>
         <p className="p-2 col-span-2">{item.informe.tipoInforme}</p>
-        <p className="p-2 col-span-2">{item.cantEstrellas}</p>
+        <p className="p-2 col-span-2">{item.duracionSegundos} sec.</p>
       </li>
 
       <aside className={`fixed w-screen h-screen overflow-hidden top-0 left-0 ${!isOpen && 'hidden'} opacity-animation grid place-content-center`}>
@@ -48,18 +48,11 @@ export const ItemData: React.FC<props> = ({ item, index }) => {
             <ul className="grid grid-cols-2 py-2">
               <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">ID:</span> {item.informe.id}</li>
               <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">Date:</span> {item.informe.fecha}</li>
+              <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">Start time:</span> {item.tiempoInicio}</li>
+              <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">End time:</span> {item.tiempoFin}</li>
+              <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">Response time:</span> {item.duracionSegundos}</li>
             </ul>
           </section>
-          <section>
-            <header className="font-semibold -text--color-mate-dark-violet">
-              Assessment
-            </header>
-            <ul className="py-2">
-              <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">Rate:</span> {item.cantEstrellas}</li>
-              <li className=""><span className="mr-2 font-semibold -text--color-mate-dark-violet">Reasons:</span> {item.valoracion}</li>
-            </ul>
-          </section>
-
         </section>
       </aside>
     </>

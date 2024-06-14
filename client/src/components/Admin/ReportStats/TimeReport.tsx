@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { TableSelector } from "../../TableSelector"
 import { NoDataFound } from "../../Errors/NoDataFound"
 import { Pagination } from "../../Global/Pagination"
-import { ItemData } from "../ReportRating/ItemData"
+import { ItemData } from "./ItemData"
 import { Filters } from "../../Reports/Filters"
 
 interface Filters {
@@ -97,8 +97,8 @@ export const TimeReport: React.FC<props> = ({ data, accessToken, getTimeReportsI
             <TableSelector options={types} id='tipoInforme' handleSelect={handleSelect} />
           </div>
           <div className="flex items-center relative col-span-2">
-            <p className="p-2">Rate</p>
-            <TableSelector options={ascDesc} id='cantEstrellas' handleSelect={handleSelect} />
+            <p className="p-2">Time</p>
+            <TableSelector options={ascDesc} id='duracionSegundos' handleSelect={handleSelect} />
           </div>
         </li>
         {
