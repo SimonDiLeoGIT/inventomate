@@ -264,4 +264,4 @@ jobs:
         run: |
           POD_NAME=$(kubectl get pods -n inventomate -l app=mysql -o jsonpath='{.items[0].metadata.name}')
           echo "The MySQL Pod Name is: $POD_NAME"
-          kubectl exec -n inventomate $POD_NAME -- mysql -u root < procedureHistoricoMeli.sql
+          kubectl exec -i $POD_NAME -n inventomate -- mysql -u root < procedureHistoricoMeli.sql
