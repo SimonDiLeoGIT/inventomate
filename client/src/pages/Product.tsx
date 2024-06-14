@@ -69,7 +69,7 @@ export const Product = () => {
               <p className="-bg--color-ful-red -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute bottom-2 right-2">Not Recommended</p>
           }
         </div>
-        <section className="md:grid">
+        <section className="md:grid place-content-center">
           <div className="p-4 -text--color-black">
             <h1 className="text-xl">
               <p className="font-semibold">
@@ -91,11 +91,6 @@ export const Product = () => {
               </li>
               <li className="">
                 <p><strong className="font-semibold -text--color-semidark-violet">Suggested Price</strong> {product?.additional_info?.buy_box_winner?.currency_id}${product?.procesamiento.precio_sugerido.precio}</p>
-                {
-                  product
-                  &&
-                  <Justification justificacion={product?.procesamiento.precio_sugerido.justificacion} />
-                }
               </li>
             </ul>
           </div>

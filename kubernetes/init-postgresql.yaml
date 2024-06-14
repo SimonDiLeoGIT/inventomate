@@ -82,47 +82,53 @@ data:
 
 
     -- Insertar datos en la tabla de sucursales (asumiendo que ya existen dos sucursales con ID 1 y 2)
-    INSERT INTO SUCURSAL (sucursal_id, nombre) VALUES 
-    (1, 'Sucursal A'),
-    (2, 'Sucursal B');
+INSERT INTO SUCURSAL (sucursal_id, nombre) VALUES 
+(1, 'Sucursal A'),
+(2, 'Sucursal B');
 
-    -- Insertar datos en la tabla de categorías (asumiendo que ya existen categorías con ID 1 y 2)
-    INSERT INTO CATEGORIA (categoria_id, nombre) VALUES 
-    (1, 'Notebooks'),
-    (2, 'iPhones');
+-- Insertar datos en la tabla de categorías (asumiendo que ya existen categorías con ID 1 y 2)
+INSERT INTO CATEGORIA (categoria_id, nombre) VALUES 
+(1, 'Notebooks'),
+(2, 'iPhones');
 
-    -- Insertar productos (notebooks) en la tabla de productos
-    INSERT INTO PRODUCTO (producto_id, nombre, descripcion, categoria_id) VALUES 
-    (1, 'Notebook Dell XPS 13', 'Descripción del Dell XPS 13', 1),
-    (2, 'Notebook HP Spectre x360', 'Descripción del HP Spectre x360', 1),
-    (3, 'Notebook Lenovo ThinkPad X1 Carbon', 'Descripción del ThinkPad X1 Carbon', 1),
-    (4, 'Notebook Apple MacBook Pro', 'Descripción del MacBook Pro', 1),
-    (5, 'Notebook Asus ZenBook', 'Descripción del Asus ZenBook', 1),
-    (6, 'Notebook Microsoft Surface Laptop', 'Descripción del Surface Laptop', 1),
-    (7, 'Notebook Acer Swift 5', 'Descripción del Acer Swift 5', 1),
-    (8, 'Notebook Samsung Galaxy Book Flex', 'Descripción del Galaxy Book Flex', 1),
-    (9, 'Notebook Huawei MateBook X Pro', 'Descripción del MateBook X Pro', 1),
-    (10, 'Notebook LG Gram', 'Descripción del LG Gram', 1);
+-- Insertar productos (notebooks) en la tabla de productos
+INSERT INTO PRODUCTO (producto_id, nombre, descripcion, categoria_id) VALUES 
+(1, 'Notebook Dell XPS 13', 'Descripción del Dell XPS 13', 1),
+(2, 'Notebook HP Spectre x360', 'Descripción del HP Spectre x360', 1),
+(3, 'Notebook Lenovo ThinkPad X1 Carbon', 'Descripción del ThinkPad X1 Carbon', 1),
+(4, 'Notebook Apple MacBook Pro', 'Descripción del MacBook Pro', 1),
+(5, 'Notebook Asus ZenBook', 'Descripción del Asus ZenBook', 1),
+(6, 'Notebook Microsoft Surface Laptop', 'Descripción del Surface Laptop', 1),
+(7, 'Notebook Acer Swift 5', 'Descripción del Acer Swift 5', 1),
+(8, 'Notebook Samsung Galaxy Book Flex', 'Descripción del Galaxy Book Flex', 1),
+(9, 'Notebook Huawei MateBook X Pro', 'Descripción del MateBook X Pro', 1),
+(10, 'Notebook LG Gram', 'Descripción del LG Gram', 1);
 
-    -- Insertar productos (iPhones) en la tabla de productos
-    INSERT INTO PRODUCTO (producto_id, nombre, descripcion, categoria_id) VALUES 
-    (11, 'iPhone 13 Pro', 'Descripción del iPhone 13 Pro', 2),
-    (12, 'iPhone 13', 'Descripción del iPhone 13', 2),
-    (13, 'iPhone 13 mini', 'Descripción del iPhone 13 mini', 2),
-    (14, 'iPhone 13 Pro Max', 'Descripción del iPhone 13 Pro Max', 2),
-    (15, 'iPhone 12 Pro', 'Descripción del iPhone 12 Pro', 2),
-    (16, 'iPhone 12', 'Descripción del iPhone 12', 2),
-    (17, 'iPhone 12 mini', 'Descripción del iPhone 12 mini', 2),
-    (18, 'iPhone 12 Pro Max', 'Descripción del iPhone 12 Pro Max', 2),
-    (19, 'iPhone SE', 'Descripción del iPhone SE', 2),
-    (20, 'iPhone 11', 'Descripción del iPhone 11', 2);
+-- Insertar productos (iPhones) en la tabla de productos
+INSERT INTO PRODUCTO (producto_id, nombre, descripcion, categoria_id) VALUES 
+(11, 'iPhone 13 Pro', 'Descripción del iPhone 13 Pro', 2),
+(12, 'iPhone 13', 'Descripción del iPhone 13', 2),
+(13, 'iPhone 13 mini', 'Descripción del iPhone 13 mini', 2),
+(14, 'iPhone 13 Pro Max', 'Descripción del iPhone 13 Pro Max', 2),
+(15, 'iPhone 12 Pro', 'Descripción del iPhone 12 Pro', 2),
+(16, 'iPhone 12', 'Descripción del iPhone 12', 2),
+(17, 'iPhone 12 mini', 'Descripción del iPhone 12 mini', 2),
+(18, 'iPhone 12 Pro Max', 'Descripción del iPhone 12 Pro Max', 2),
+(19, 'iPhone SE', 'Descripción del iPhone SE', 2),
+(20, 'iPhone 11', 'Descripción del iPhone 11', 2);
 
-    -- Insertar productos en la tabla intermedia sucursal_producto para cada sucursal
-    INSERT INTO sucursal_producto (sucursal_id, producto_id, stock, precio_venta)
-    SELECT s.sucursal_id, p.producto_id, 0, 0
-    FROM SUCURSAL s
-    CROSS JOIN PRODUCTO p
-    WHERE p.categoria_id IN (1, 2); -- Selección de productos de las categorías "notebooks" (ID 1) e "iPhones" (ID 2)
+-- Insertar productos en la tabla intermedia sucursal_producto para cada sucursal con stock y precio_venta aleatorios
+INSERT INTO sucursal_producto (sucursal_id, producto_id, stock, precio_venta)
+SELECT s.sucursal_id, p.producto_id, 
+       (TRUNC(RANDOM() * 100) + 1)::int AS stock, -- Stock aleatorio entre 1 y 100
+       CASE 
+           WHEN p.categoria_id = 1 THEN ROUND((RANDOM() * 800000 + 700000)::numeric, 2) -- Precio de venta aleatorio entre 700000 y 1500000 con dos decimales para "notebooks"
+           WHEN p.categoria_id = 2 THEN ROUND((RANDOM() * 400000 + 600000)::numeric, 2) -- Precio de venta aleatorio entre 600000 y 1000000 con dos decimales para "iPhones"
+       END AS precio_venta
+FROM SUCURSAL s
+CROSS JOIN PRODUCTO p
+WHERE p.categoria_id IN (1, 2); -- Selección de productos de las categorías "notebooks" (ID 1) e "iPhones" (ID 2)
+
 
     -- Insertar datos ficticios de ventas y detalles de ventas
     WITH dates AS (
