@@ -7,7 +7,7 @@ import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
 import { Reports } from "../components/Reports/Reports"
 import { ReportHeader } from "../components/Reports/ReportHeader"
 import { SelectBranch } from "../components/Messages/SelectBranch"
-import { getDatabaseConnection } from "../utils/Services/database.database.service"
+import { existsDatabaseConnection } from "../utils/Services/database.database.service"
 import { getNewNextOrders, getNextOrders } from "../utils/Services/nextOrders.database.service"
 
 export const NextOrdersReports = () => {
@@ -31,24 +31,18 @@ export const NextOrdersReports = () => {
 
     isAuthenticated && getToken()
 
-    if (currentUser?.sucursal?.idSucursal !== undefined)
+    if (currentUser?.sucursal?.idSucursal !== undefined) {
       setBranch(currentUser?.sucursal?.idSucursal.toString())
+      handleChangeOption(currentUser?.sucursal?.idSucursal.toString())
+    }
+
   }, [isAuthenticated])
-
-
-  const getDatabase = async (accessToken: string): Promise<boolean> => {
-    const dc = await getDatabaseConnection(accessToken)
-    if (dc === null) {
-      return false
-    } else
-      return true
-  }
 
   const handleGetNewReport = async () => {
     setRequesting(true)
     const accessToken = await getAccessTokenSilently()
 
-    if (await getDatabase(accessToken)) {
+    if (await existsDatabaseConnection(accessToken)) {
       try {
         await getNewNextOrders(accessToken, branch)
       } catch (e: any) {
@@ -70,7 +64,7 @@ export const NextOrdersReports = () => {
 
   const handleChangeOption = async (idBranch: string) => {
     setBranch(idBranch)
-    getReports(branch, 0, 'desc', null, null, null)
+    getReports(idBranch, 0, 'desc', null, null, null)
   }
 
   return (

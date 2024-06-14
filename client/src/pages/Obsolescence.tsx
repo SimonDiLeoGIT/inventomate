@@ -7,7 +7,7 @@ import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getObsolescenceById } from "../utils/Services/obsolescence.database.service"
 import { TopTen } from "../components/Reports/Obsolescence/TopTen"
 import { Overview } from "../components/Reports/Obsolescence/Overview"
-import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
+import { ReportChat } from "../components/Reports/ChatReports/ChatReport"
 
 export const Obsolescence = () => {
 
@@ -22,7 +22,7 @@ export const Obsolescence = () => {
 
   const [overview, setOverview] = useState<boolean>(false);
   const [urgently, setUrgently] = useState<boolean>(true);
-  const [assessment, setAssessment] = useState<boolean>(false);
+  const [comments, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -85,10 +85,10 @@ export const Obsolescence = () => {
               Overview
             </h2>
             <h2
-              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${assessment && "-bg--color-black bg-opacity-10"} `}
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${comments && "-bg--color-black bg-opacity-10"} `}
               onClick={() => selectAssessment()}
             >
-              Assessment
+              Comments
             </h2>
           </header>
           {
@@ -103,7 +103,7 @@ export const Obsolescence = () => {
                     ?
                     <Overview obsolescence={obsolescence} />
                     :
-                    <ReportRating idBranch={idBranch} idInforme={idInforme} />
+                    <ReportChat idBranch={idBranch} idInforme={idInforme} />
                 )
             )
           }
