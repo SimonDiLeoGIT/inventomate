@@ -26,7 +26,13 @@ spec:
           value: bd-inventomate
         ports:
         - containerPort: 3306
-
+        volumeMounts:
+        - name: init-script
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: init-script
+        configMap:
+          name: init-mysql
 ---
 # mysql-service.yaml
 apiVersion: v1
