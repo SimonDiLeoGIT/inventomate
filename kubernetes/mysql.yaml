@@ -1,4 +1,3 @@
-# mysql-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,12 +15,12 @@ spec:
       containers:
       - name: mysql
         image: mysql:latest
+        args: []
         env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: PASSWORD_DATABASE
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "true"  # Permite el acceso sin contraseña para root
+        - name: MYSQL_ROOT_HOST
+          value: "%"  # Permite acceso desde cualquier host (puedes limitarlo según necesites)
         - name: MYSQL_DATABASE
           value: bd-inventomate
         ports:
