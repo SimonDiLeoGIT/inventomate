@@ -9,6 +9,18 @@ data:
     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
     FLUSH PRIVILEGES;
 
+    CREATE TABLE IF NOT EXISTS `bd-inventomate.productos_meli` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `id_meli` varchar(255) NOT NULL,
+      `trend_position` int(11) NOT NULL,
+      `fecha` date NOT NULL,
+      `nombre` varchar(255) NOT NULL,
+      `precio` decimal(10,2) NOT NULL,
+      `divisa` varchar(255) NOT NULL,
+      `id_categoria` bigint(20) NOT NULL,
+      PRIMARY KEY (`id`)  
+    );
+
     -- Variables para datos
     SET @fecha_actual = '2024-06-04';
 
