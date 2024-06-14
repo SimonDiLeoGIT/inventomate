@@ -7,7 +7,7 @@ import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
 import { TopTen } from "../components/Reports/NextOrders/TopTen"
 import { Overview } from "../components/Reports/NextOrders/Overview"
-import { ReportRating } from "../components/Reports/ChatReports/ChatReport"
+import { ReportChat } from "../components/Reports/ChatReports/ChatReport"
 
 export const NextOrders = () => {
 
@@ -102,7 +102,7 @@ export const NextOrders = () => {
                     ?
                     <Overview nextOrders={nextOrders} />
                     :
-                    <ReportRating idBranch={idBranch} idInforme={idInforme} />
+                    <ReportChat idBranch={idBranch} idInforme={idInforme} />
                 )
             )
           }

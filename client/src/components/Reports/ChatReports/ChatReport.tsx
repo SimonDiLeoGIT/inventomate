@@ -11,7 +11,7 @@ interface props {
   idInforme: string
 }
 
-export const ReportRating: React.FC<props> = ({ idBranch, idInforme }) => {
+export const ReportChat: React.FC<props> = ({ idBranch, idInforme }) => {
 
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0()

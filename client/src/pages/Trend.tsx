@@ -7,8 +7,9 @@ import { SideNavbar } from "../components/Global/SideNavbar"
 import { useTrends } from "../hook/useTrends"
 import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { Products } from "../components/Reports/Trends/Products"
-import { ReportRating } from "../components/Reports/ChatReports/ChatReport"
 import { Justification } from "../components/Reports/Justification"
+import { ReportRating } from "../components/Admin/ReportRating/ReportRating"
+import { ReportChat } from "../components/Reports/ChatReports/ChatReport"
 
 export const Trend = () => {
 
@@ -53,6 +54,11 @@ export const Trend = () => {
       <section className={`m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12`}>
         <header className="p-2 relative">
           <ReportHeaderTitle title="New Trends" />
+          {
+            idBranch && idInforme
+            &&
+            <ReportRating idBranch={idBranch} idReport={idInforme} />
+          }
         </header>
         <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
           <h2
@@ -93,7 +99,7 @@ export const Trend = () => {
             :
             idBranch && idInforme
             &&
-            <ReportRating idBranch={idBranch} idInforme={idInforme} />
+            <ReportChat idBranch={idBranch} idInforme={idInforme} />
         }
       </section>
     </main>

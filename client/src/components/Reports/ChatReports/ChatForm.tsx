@@ -45,7 +45,7 @@ export const MakeDecision: React.FC<props> = ({ idReport, idBranch, setShow, set
   return (
     <form className="p-4 m-auto drop-shadow-lg " onSubmit={handleSubmit}>
       <div className="grid my-2">
-        <label className="font-semibold -text--color-violet-user-email text-sm">Write your assessment</label>
+        <label className="font-semibold -text--color-violet-user-email text-sm">Write your comment</label>
         <textarea
           value={decisionMessage}
           onChange={(e) => setDecisionMessage(e.target.value)}

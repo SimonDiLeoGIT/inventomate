@@ -7,7 +7,7 @@ import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getForecastById } from "../utils/Services/forecast.database.service"
 import { ForecastOverview } from "../components/Reports/Forecast/ForecastOverview"
 import { TopTenForecast } from "../components/Reports/Forecast/ToptenForecast"
-import { ReportRating } from "../components/Reports/ChatReports/ChatReport"
+import { ReportChat } from "../components/Reports/ChatReports/ChatReport"
 
 export const SalesForecasting = () => {
 
@@ -114,7 +114,7 @@ export const SalesForecasting = () => {
                   (
                     idBranch && idInforme
                     &&
-                    <ReportRating idBranch={idBranch} idInforme={idInforme} />
+                    <ReportChat idBranch={idBranch} idInforme={idInforme} />
                   )
               )
           }
