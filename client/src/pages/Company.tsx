@@ -1,11 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../hook/useUser";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { SideNavbar } from "../components/Global/SideNavbar";
 import { getCompany } from "../utils/Services/company.database.service";
 import { CompanyBanner } from "../components/Company/CompanyBanner";
-import { Searcher } from "../components/Searcher";
 import { CompanyBranches } from "../components/Company/CompanyBranches";
 
 export const Company = () => {
@@ -15,6 +13,7 @@ export const Company = () => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [company, setCompany] = useState<Company | null>(null)
+  const [branches, setBranches] = useState<Branch[]>([]);
 
   useEffect(() => {
 
@@ -26,6 +25,7 @@ export const Company = () => {
 
         const response = await getCompany(accessToken)
         setCompany(response)
+        setBranches(response?.sucursales)
       } catch (e: any) {
         console.log('ocurrión un error solicitando la compania')
       }
@@ -44,15 +44,11 @@ export const Company = () => {
         <CompanyBanner />
         <section className="my-4">
           <h2 className="font-bold -text--color-semidark-violet py-2 text-lg">Branches</h2>
-          <div className="grid grid-cols-2">
-            <Searcher />
-            {
-              currentUser?.roles.some(rol => rol.idRol === 1)
-              &&
-              <Link to='/company/register-branch' className="-bg--color-border-very-lightest-grey p-2 rounded-lg font-semibold -text--color-mate-dark-violet w-32 text-center m-auto mr-0">+ Add Branch</Link>
-            }
-          </div>
-          <CompanyBranches company={company} />
+          {
+            company && currentUser
+            &&
+            <CompanyBranches branches={branches} user={currentUser} />
+          }
         </section>
       </section>
     </main>

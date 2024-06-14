@@ -13,10 +13,17 @@ export const Products: React.FC<props> = ({ trend }) => {
         return (
           <article className="-bg--color-form-background-semi-white shadow-md -shadow--color-border-light-grey p-2 block relative">
             <figure className="overflow-hidden">
-              <div className="h-48 grid place-content-center overflow-hidden">
+              <div className="h-48 grid place-content-center overflow-hidden relative">
                 <Link to={`./${trend.category_name}/${product.trend_position}`}>
                   <img src={product.pictures[0].url} className=" m-auto h-48 object-contain overflow-hidden duration-500 hover:scale-110" />
                 </Link>
+                {
+                  product.procesamiento.en_rango_categoria.en_rango
+                    ?
+                    <p className="-bg--color-semidark-violet -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute top-2 right-0">Recommended</p>
+                    :
+                    <p className="-bg--color-ful-red -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute bottom-2 right-0">Not Recommended</p>
+                }
               </div>
               <figcaption className="p-2 -text--color-black md:text-base">
                 <p className="-bg--color-light-opaque-pink inline-block p-1 text-sm -text--color-semidark-violet font-medium rounded-md">{product.trend_position}° Trend Position</p>

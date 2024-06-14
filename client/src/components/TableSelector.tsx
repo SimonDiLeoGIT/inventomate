@@ -4,7 +4,7 @@ import down_arrow from '../assets/icons/down-arrow.svg'
 interface props {
   options: string[]
   id: any
-  handleSelect: (id: any, op: string) => void
+  handleSelect: (id: any, op: any) => void
 }
 
 export const TableSelector: React.FC<props> = ({ options, id, handleSelect }) => {
@@ -31,7 +31,7 @@ export const TableSelector: React.FC<props> = ({ options, id, handleSelect }) =>
         <img src={down_arrow} className="w-4" />
       </button>
 
-      <aside className={`absolute right-4 top-6 ${!isOpen && 'hidden'} -bg--color-light-pink z-50 rounded-md overflow-hidden shadow-md -shadow--color-semidark-violet `}>
+      <aside className={`absolute right-4 top-6 w-16 ${!isOpen && 'hidden'} -bg--color-light-pink z-50 rounded-md overflow-hidden shadow-md -shadow--color-semidark-violet `}>
         <ul className="text-sm">
           {
             options.map(op => {

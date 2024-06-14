@@ -8,7 +8,7 @@ import { NoDatabaseConnection } from "../components/Errors/NoDatabaseConnection"
 import { Reports } from "../components/Reports/Reports"
 import { ReportHeader } from "../components/Reports/ReportHeader"
 import { SelectBranch } from "../components/Messages/SelectBranch"
-import { getDatabaseConnection } from "../utils/Services/database.database.service"
+import { existsDatabaseConnection } from "../utils/Services/database.database.service"
 
 export const TrendsReports = () => {
 
@@ -18,8 +18,10 @@ export const TrendsReports = () => {
 
   const [requesting, setRequesting] = useState<boolean>(false)
   const [database, setDatabase] = useState<boolean>(true)
-  const [trendReports, setTrendReports] = useState<Report[] | null>(null)
+  const [trendReports, setTrendReports] = useState<Report>()
   const [branch, setBranch] = useState<string>('')
+  const totalArticles = 10
+
 
   useEffect(() => {
 
@@ -30,42 +32,35 @@ export const TrendsReports = () => {
 
     isAuthenticated && getToken()
 
-    if (currentUser?.sucursal?.idSucursal !== undefined)
+    if (currentUser?.sucursal?.idSucursal !== undefined) {
       setBranch(currentUser?.sucursal?.idSucursal.toString())
+      handleChangeOption(currentUser?.sucursal?.idSucursal.toString())
+    }
 
   }, [isAuthenticated])
-
-
-  const getDatabase = async (accessToken: string): Promise<boolean> => {
-    const dc = await getDatabaseConnection(accessToken)
-    if (dc === null) {
-      return false
-    } else
-      return true
-  }
 
   const handleGetNewTrends = async () => {
     setRequesting(true)
     const accessToken = await getAccessTokenSilently()
 
-    if (await getDatabase(accessToken)) {
+    if (await existsDatabaseConnection(accessToken)) {
       await getNewTrends(accessToken, branch)
     } else {
       setDatabase(false)
     }
-    await getReports(branch)
+    await getReports(branch, 0, 'desc', null, null, null)
     setRequesting(false)
   }
 
-  const getReports = async (idBranch: string) => {
+  const getReports = async (idBranch: string, currentPage: number, sortOrder: 'asc' | 'desc', dateFrom: string | null, dateTo: string | null, viewed: boolean | null) => {
     const accessToken = await getAccessTokenSilently()
-    const response = await getTrends(accessToken, idBranch)
+    const response = await getTrends(accessToken, idBranch, currentPage, totalArticles, sortOrder, dateFrom, dateTo, viewed)
     setTrendReports(response)
   }
 
   const handleChangeOption = async (idBranch: string) => {
     setBranch(idBranch)
-    await getReports(idBranch)
+    await getReports(idBranch, 0, 'desc', null, null, null)
   }
 
   return (
@@ -81,11 +76,12 @@ export const TrendsReports = () => {
               ?
               <SelectBranch />
               :
-              ((trendReports !== null && trendReports?.length > 0) ?
-                <Reports reports={trendReports} idBranch={branch} />
+              trendReports
+                ?
+                <Reports reports={trendReports} idBranch={branch} getReport={getReports} />
                 :
                 <EmptyHistory />
-              ))
+          )
             :
             <NoDatabaseConnection />
         }

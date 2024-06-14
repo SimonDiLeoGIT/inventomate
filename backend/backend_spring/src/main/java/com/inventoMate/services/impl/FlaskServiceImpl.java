@@ -66,11 +66,11 @@ public class FlaskServiceImpl implements FlaskService {
 	private Object getDatosInformeDeProyeccionDeVentas(String idMongo) {
 		return flaskServiceFeignClient.getDatosInformeDeProyeccionDeVentas(idMongo);
 	}
-	
+
 	private HttpStatusCode deleteDatosInformeDeProyeccionDeVentas(String idMongo) {
 		return flaskServiceFeignClient.deleteInformeDeProyeccionDeVentas(idMongo).getStatusCode();
 	}
-	
+
 	// siguientes pedidos
 	@Override
 	public String postDatosInformeSiguientesPedidos(JSONObject jsonObject) {
@@ -80,7 +80,7 @@ public class FlaskServiceImpl implements FlaskService {
 	private Object getDatosInformeSiguientesPedidos(String idMongo) {
 		return flaskServiceFeignClient.getDatosInformeSiguientesPedidos(idMongo);
 	}
-	
+
 	private HttpStatusCode deleteDatosInformeSiguientesPedidos(String idMongo) {
 		return flaskServiceFeignClient.deleteInformeSiguientesPedidos(idMongo).getStatusCode();
 	}
@@ -94,7 +94,7 @@ public class FlaskServiceImpl implements FlaskService {
 	private Object getDatosInformeTendencias(String idMongo) {
 		return flaskServiceFeignClient.getDatosInformeTendencias(idMongo);
 	}
-	
+
 	private HttpStatusCode deleteDatosInformeTendencias(String idMongo) {
 		return flaskServiceFeignClient.deleteInformeTendencias(idMongo).getStatusCode();
 	}
@@ -104,11 +104,11 @@ public class FlaskServiceImpl implements FlaskService {
 	public String postDatosInformeObsolescencia(JSONObject productoInformation) {
 		return flaskServiceFeignClient.postDatosInformeObsolescencia(productoInformation).get("ID-Mongo").toString();
 	}
-	
+
 	private HttpStatusCode deleteDatosInformeObsolescencia(String idMongo) {
 		return flaskServiceFeignClient.deleteInformeObsolescencia(idMongo).getStatusCode();
 	}
-	
+
 	private Object getDatosInformeObsolescencia(String idMongo) {
 		return flaskServiceFeignClient.getDatosInformeObsolescencia(idMongo);
 	}

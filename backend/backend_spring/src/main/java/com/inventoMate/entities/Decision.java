@@ -23,7 +23,7 @@ public class Decision {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;	
+	private Long id;
 	private boolean aceptado;
 	@Column(length = 2000)
 	private String justificacion;
@@ -32,5 +32,5 @@ public class Decision {
 	@ManyToOne
 	@JoinColumn(name = "id_informe")
 	private Informe informe;
-	
+
 }

@@ -12,11 +12,8 @@ public class MeliTokenMapperImpl implements meliTokenMapper {
 
 	@Override
 	public MeliToken mapToMeliToken(Map<String, String> response) {
-		return MeliToken.builder()
-				.accessToken(response.get("access_token"))
-				.id("Bearer")
-				.refreshToken(response.get("refresh_token"))
-				.build();
+		return MeliToken.builder().accessToken(response.get("access_token")).id("Bearer")
+				.refreshToken(response.get("refresh_token")).build();
 	}
 
 }

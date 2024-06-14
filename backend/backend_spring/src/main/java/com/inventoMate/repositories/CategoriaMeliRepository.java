@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.inventoMate.entities.CategoriaMeli;
 
 @Repository
-public interface CategoriaMeliRepository extends JpaRepository<CategoriaMeli, Long>{
+public interface CategoriaMeliRepository extends JpaRepository<CategoriaMeli, Long> {
 
 	Optional<CategoriaMeli> findByIdMeli(String key);
 

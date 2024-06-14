@@ -16,10 +16,10 @@ import { TermsAndCondition } from "../pages/TermsAndConditions"
 import { NextOrdersReports } from "../pages/NextOrdersReports";
 import { NextOrders } from "../pages/NextOrders";
 import { Obsolescence } from "../pages/Obsolescence";
-import { DecisionReports } from "../pages/DecisionReports";
-import { Decisions } from "../pages/Decisions";
 import { ObsolescenceReports } from "../pages/ObsolescenceReports";
 import { HelpPage } from "../pages/HelpPage";
+import { AdminReports } from "../pages/Admin/AdminReports";
+import { RatingReports } from "../pages/Admin/RatingReports";
 
 export const Router = () => {
 
@@ -48,8 +48,10 @@ export const Router = () => {
           <Route path="/company/reports/next-orders/:idBranch/:idInforme" element={<NextOrders />} />
           <Route path="/company/reports/anti-obsolescense" element={<ObsolescenceReports />} />
           <Route path="/company/reports/anti-obsolescense/:idBranch/:idInforme" element={<Obsolescence />} />
-          <Route path="/company/reports/decisions" element={<DecisionReports />} />
-          <Route path="/company/reports/decisions/:type/:idBranch/:idInforme" element={<Decisions />} />
+          <Route path="/system/reports" element={<AdminReports />} />
+          <Route path="/system/reports/rating" element={<RatingReports />} />
+          <Route path="/system/reports/stats" element={<AdminReports />} />
+          <Route path="/system/reports/errors" element={<AdminReports />} />
         </Routes>
       </section>
     </BrowserRouter>

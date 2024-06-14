@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import decisions from '../../assets/icons/decisions.svg'
 import obsolesecnce from '../../assets/icons/anti-obsolescence.svg'
 import trends from '../../assets/icons/new-trends.svg'
 import orders from '../../assets/icons/next-orders.svg'
@@ -20,18 +19,6 @@ export const MenuOptions = () => {
         Reports
       </h3>
       <ul className="p-2 border-b -border--color-border-light-grey">
-        {
-          currentUser?.roles.some(rol => rol.idRol === 1) &&
-          <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">
-            <Link
-              to='/company/reports/decisions'
-              className="flex px-1 py-2"
-            >
-              <img src={decisions} alt="Company Settings" className="w-5 mr-2" />
-              Members Decisions
-            </Link>
-          </li>
-        }
         {
           (currentUser?.roles.some(rol => rol.idRol === 1) || currentUser?.roles.some(rol => rol.idRol === 3)) &&
           <li className="mb-1 hover:cursor-pointer hover:opacity-60 rounded-lg">

@@ -7,7 +7,8 @@ import { ReportHeaderTitle } from "../components/Reports/ReportHeaderTitle"
 import { getNextOrderById } from "../utils/Services/nextOrders.database.service"
 import { TopTen } from "../components/Reports/NextOrders/TopTen"
 import { Overview } from "../components/Reports/NextOrders/Overview"
-import { ReportRating } from "../components/Reports/RateReports/ReportRatign"
+import { ReportChat } from "../components/Reports/ChatReports/ChatReport"
+import { ReportRating } from "../components/Admin/ReportRating/ReportRating"
 
 export const NextOrders = () => {
 
@@ -22,7 +23,7 @@ export const NextOrders = () => {
 
   const [overview, setOverview] = useState<boolean>(false);
   const [urgently, setUrgently] = useState<boolean>(true);
-  const [assessment, setAssessment] = useState<boolean>(false);
+  const [comments, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -66,8 +67,13 @@ export const NextOrders = () => {
         <SideNavbar />
       </section>
       <section className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
-        <header className="p-2">
+        <header className="p-2 relative">
           <ReportHeaderTitle title="Next Orders" />
+          {
+            idBranch && idInforme
+            &&
+            <ReportRating idBranch={idBranch} idReport={idInforme} />
+          }
         </header>
         <section>
           <header className="my-2 flex border-b-2 -text--color-mate-dark-violet -border--color-mate-dark-violet">
@@ -84,10 +90,10 @@ export const NextOrders = () => {
               Overview
             </h2>
             <h2
-              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${assessment && "-bg--color-black bg-opacity-10"} `}
+              className={`text-lg font-semibold p-4 px-8 hover:cursor-pointer hover:opacity-80 ${comments && "-bg--color-black bg-opacity-10"} `}
               onClick={() => selectAssessment()}
             >
-              Assessment
+              Comments
             </h2>
           </header>
           {
@@ -102,7 +108,7 @@ export const NextOrders = () => {
                     ?
                     <Overview nextOrders={nextOrders} />
                     :
-                    <ReportRating idBranch={idBranch} idInforme={idInforme} />
+                    <ReportChat idBranch={idBranch} idInforme={idInforme} />
                 )
             )
           }

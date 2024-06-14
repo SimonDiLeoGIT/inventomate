@@ -23,5 +23,5 @@ public class MeliToken {
 	private String refreshToken;
 	@Column(name = "access_token")
 	private String accessToken;
-	
+
 }
