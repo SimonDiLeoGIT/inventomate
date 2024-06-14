@@ -234,7 +234,7 @@ jobs:
             echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP"
           fi
 
-      #Espera a que este la ip en el load balancer y luego la imprime
+      #Espera a que este la i p en el load balancer y luego la imprime
       - name: Wait for Frontend Load Balancer IP
         id: wait-for-lb-ip
         run: |
