@@ -7,19 +7,19 @@ data:
   init.sql: |
     -- Crear tabla de sucursales
     CREATE TABLE SUCURSAL (
-        sucursal_id SERIAL PRIMARY KEY, -- Usa SERIAL para autoincremento
+        sucursal_id INTEGER PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL
     );
 
     -- Crear tabla de categorías
     CREATE TABLE CATEGORIA (
-        categoria_id SERIAL PRIMARY KEY, -- Usa SERIAL para autoincremento
+        categoria_id INTEGER PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL
     );
 
     -- Crear tabla de productos
     CREATE TABLE PRODUCTO (
-        producto_id SERIAL PRIMARY KEY, -- Usa SERIAL para autoincremento
+        producto_id INTEGER PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
         descripcion VARCHAR(100),
         categoria_id INTEGER,
@@ -39,7 +39,7 @@ data:
 
     -- Crear tabla de compras
     CREATE TABLE compra (
-        id SERIAL PRIMARY KEY, -- Usa SERIAL para autoincremento
+        id SERIAL PRIMARY KEY, -- Utiliza SERIAL para que la columna id sea autoincremental
         sucursal_id INTEGER NOT NULL,
         fecha_hora TIMESTAMP,
         total DOUBLE PRECISION NOT NULL,
@@ -48,7 +48,7 @@ data:
 
     -- Crear tabla de detalles de compra
     CREATE TABLE detalle_compra (
-        id SERIAL PRIMARY KEY, -- Usa SERIAL para autoincremento
+        id SERIAL PRIMARY KEY, -- Utiliza SERIAL para que la columna id sea autoincremental
         compra_id INTEGER NOT NULL,
         producto_id INTEGER NOT NULL,
         cantidad INTEGER NOT NULL,
@@ -60,7 +60,7 @@ data:
 
     -- Crear tabla de ventas
     CREATE TABLE venta (
-        id SERIAL PRIMARY KEY, -- Usa SERIAL para autoincremento
+        id SERIAL PRIMARY KEY, -- Utiliza SERIAL para que la columna id sea autoincremental
         sucursal_id INTEGER NOT NULL,
         fecha_hora TIMESTAMP,
         total DOUBLE PRECISION NOT NULL,
@@ -69,7 +69,7 @@ data:
 
     -- Crear tabla de detalles de venta
     CREATE TABLE detalle (
-        id SERIAL PRIMARY KEY, -- Usa SERIAL para autoincremento
+        id SERIAL PRIMARY KEY, -- Utiliza SERIAL para que la columna id sea autoincremental
         venta_id INTEGER NOT NULL,
         producto_id INTEGER NOT NULL,
         cantidad INTEGER NOT NULL,
@@ -79,7 +79,6 @@ data:
         FOREIGN KEY (venta_id) REFERENCES venta(id),
         FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id)
     );
-
 
     -- Insertar datos en la tabla de sucursales (asumiendo que ya existen dos sucursales con ID 1 y 2)
     INSERT INTO SUCURSAL (sucursal_id, nombre) VALUES 
@@ -117,64 +116,112 @@ data:
     (19, 'iPhone SE', 'Descripción del iPhone SE', 2),
     (20, 'iPhone 11', 'Descripción del iPhone 11', 2);
 
-    -- Insertar productos en la tabla intermedia sucursal_producto para cada sucursal
+    -- Insertar productos en la tabla intermedia sucursal_producto para cada sucursal con stock y precio_venta aleatorios
     INSERT INTO sucursal_producto (sucursal_id, producto_id, stock, precio_venta)
-    SELECT s.sucursal_id, p.producto_id, 0, 0
+    SELECT s.sucursal_id, p.producto_id, 
+        CASE 
+            WHEN p.producto_id IN (1, 5, 7, 15, 18, 20) THEN (TRUNC(RANDOM() * 1000) + 100)::int -- Stock mucho más alto para productos específicos que no se venden
+            ELSE (TRUNC(RANDOM() * 100) + 1)::int -- Stock aleatorio entre 1 y 100 para otros productos
+        END AS stock,
+        CASE 
+            WHEN p.categoria_id = 1 THEN ROUND((RANDOM() * 800000 + 700000)::numeric, 2) -- Precio de venta aleatorio entre 700000 y 1500000 con dos decimales para "notebooks"
+            WHEN p.categoria_id = 2 THEN ROUND((RANDOM() * 400000 + 600000)::numeric, 2) -- Precio de venta aleatorio entre 600000 y 1000000 con dos decimales para "iPhones"
+        END AS precio_venta
     FROM SUCURSAL s
     CROSS JOIN PRODUCTO p
     WHERE p.categoria_id IN (1, 2); -- Selección de productos de las categorías "notebooks" (ID 1) e "iPhones" (ID 2)
 
-    -- Insertar datos ficticios de ventas y detalles de ventas
+    -- Insertar datos ficticios de compras
     WITH dates AS (
         SELECT generate_series(
             DATE_TRUNC('YEAR', CURRENT_DATE - INTERVAL '1 YEAR'),
             CURRENT_DATE,
             INTERVAL '1 day'
         )::DATE AS fecha
+    ),
+    compra_data AS (
+        INSERT INTO compra (sucursal_id, fecha_hora, total)
+        SELECT 
+            1 AS sucursal_id,
+            fecha,
+            0 AS total -- Total inicial como 0, se actualizará después
+        FROM dates
+        RETURNING id, fecha_hora
+    ),
+    detalle_data AS (
+        INSERT INTO detalle_compra (compra_id, producto_id, cantidad, precio_compra, subtotal)
+        SELECT
+            c.id AS compra_id,
+            sp.producto_id,
+            ROUND(random() * 20) + 1 AS cantidad, -- Cantidad entre 1 y 20
+            ROUND((sp.precio_venta * (1 - (random() * 0.2 + 0.1)))::numeric, 2) AS precio_compra, -- Precio de compra entre 10% y 30% menos que el precio de venta
+            ROUND(((ROUND(random() * 20) + 1) * (sp.precio_venta * (1 - (random() * 0.2 + 0.1)))::numeric)::numeric, 2) AS subtotal -- Subtotal calculado acorde al precio de compra y cantidad
+        FROM compra_data c
+        CROSS JOIN sucursal_producto sp
+        RETURNING compra_id, subtotal
+    ),
+    totales AS (
+        SELECT compra_id, SUM(subtotal) AS total
+        FROM detalle_data
+        GROUP BY compra_id
     )
-    INSERT INTO venta (sucursal_id, fecha_hora, total)
-    SELECT 
-        1 AS sucursal_id,
-        fecha,
-        CAST(random() * 1000 + 500 AS NUMERIC(10, 2)) AS total
-    FROM dates;
-
-    INSERT INTO detalle (venta_id, producto_id, cantidad, precio_venta, subtotal, promo)
-    SELECT
-        v.id AS venta_id,
-        sp.producto_id,
-        ROUND(random() * 10) AS cantidad,
-        CAST(random() * 500 + 500 AS NUMERIC(10, 2)) AS precio_venta,
-        CAST(ROUND(random() * 10) * (random() * 500 + 500) AS NUMERIC(10, 2)) AS subtotal,
-        FLOOR(random() * 101) AS promo -- Generar un nÃºmero entero entre 0 y 100
-    FROM venta v
-    CROSS JOIN sucursal_producto sp
-    WHERE v.sucursal_id = 1
-    AND v.fecha_hora BETWEEN DATE_TRUNC('YEAR', CURRENT_DATE - INTERVAL '1 YEAR') AND CURRENT_DATE;
-
-    -- Insertar datos ficticios de compras y detalles de compras
+    -- Actualizar el total en la tabla de compra
+    UPDATE compra c
+    SET total = t.total
+    FROM totales t
+    WHERE c.id = t.compra_id;
+    -- Insertar datos ficticios de ventas
     WITH dates AS (
         SELECT generate_series(
             DATE_TRUNC('YEAR', CURRENT_DATE - INTERVAL '1 YEAR'),
             CURRENT_DATE,
             INTERVAL '1 day'
         )::DATE AS fecha
+    ),
+    productos_no_vendidos AS (
+        SELECT unnest(ARRAY[1, 5, 7, 15, 18, 20]) AS producto_id
+    ),
+    venta_data AS (
+        INSERT INTO venta (sucursal_id, fecha_hora, total)
+        SELECT 
+            1 AS sucursal_id,
+            fecha,
+            0 AS total -- Total inicial como 0, se actualizará después
+        FROM dates
+        RETURNING id, fecha_hora
+    ),
+    detalle_data AS (
+        INSERT INTO detalle (venta_id, producto_id, cantidad, precio_venta, subtotal, promo)
+        SELECT
+            v.id AS venta_id,
+            sp.producto_id,
+            CASE
+                WHEN pv.producto_id IS NOT NULL AND v.fecha_hora >= CURRENT_DATE - INTERVAL '2 months' THEN 0
+                WHEN pv.producto_id IS NOT NULL THEN ROUND(random() * 10) + 1 -- Venta normal si no es un producto no vendido reciente
+                ELSE ROUND(random() * 5) + 1 -- Venta normal reducida en 50% para productos no en la lista de no vendidos
+            END AS cantidad,
+            CASE
+                WHEN p.categoria_id = 1 THEN ROUND((random() * (1500000 - 700000) + 700000)::numeric, 2) -- Precio de venta entre 700,000 y 1,500,000 para notebooks
+                WHEN p.categoria_id = 2 THEN ROUND((random() * (1000000 - 600000) + 600000)::numeric, 2) -- Precio de venta entre 600,000 y 1,000,000 para iPhones
+            END AS precio_venta,
+            CASE
+                WHEN p.categoria_id = 1 THEN ROUND((random() * 5 + 1)::numeric * (random() * (1500000 - 700000) + 700000)::numeric, 2) -- Subtotal calculado acorde a notebooks
+                WHEN p.categoria_id = 2 THEN ROUND((random() * 5 + 1)::numeric * (random() * (1000000 - 600000) + 600000)::numeric, 2) -- Subtotal calculado acorde a iPhones
+            END AS subtotal,
+            FLOOR(random() * 101) AS promo -- Generar un nÃºmero entero entre 0 y 100
+        FROM venta_data v
+        CROSS JOIN sucursal_producto sp
+        JOIN producto p ON sp.producto_id = p.producto_id
+        LEFT JOIN productos_no_vendidos pv ON sp.producto_id = pv.producto_id
+        RETURNING venta_id, subtotal
+    ),
+    totales AS (
+        SELECT venta_id, SUM(subtotal) AS total
+        FROM detalle_data
+        GROUP BY venta_id
     )
-    INSERT INTO compra (sucursal_id, fecha_hora, total)
-    SELECT 
-        1 AS sucursal_id,
-        fecha,
-        CAST(random() * 2000 + 1000 AS NUMERIC(10, 2)) AS total
-    FROM dates;
-
-    INSERT INTO detalle_compra (compra_id, producto_id, cantidad, precio_compra, subtotal)
-    SELECT
-        c.id AS compra_id,
-        sp.producto_id,
-        ROUND(random() * 20) AS cantidad,
-        CAST(random() * 800 + 400 AS NUMERIC(10, 2)) AS precio_compra,
-        CAST(ROUND(random() * 20) * (random() * 800 + 400) AS NUMERIC(10, 2)) AS subtotal
-    FROM compra c
-    CROSS JOIN sucursal_producto sp
-    WHERE c.sucursal_id = 1
-    AND c.fecha_hora BETWEEN DATE_TRUNC('YEAR', CURRENT_DATE - INTERVAL '1 YEAR') AND CURRENT_DATE;
+    -- Actualizar el total en la tabla de venta
+    UPDATE venta v
+    SET total = t.total
+    FROM totales t
+    WHERE v.id = t.venta_id;
