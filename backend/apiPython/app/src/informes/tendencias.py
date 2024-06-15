@@ -94,11 +94,15 @@ def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, a
     justificacion_en_rango = f"El producto está dentro del rango de productos similares comercializados por la empresa, con precios que varían entre ${min_precio_cat} y ${max_precio_cat}"
     justificacion_no_en_rango = f"El producto no se encuentra dentro del rango de productos similares comercializados por la empresa, ya que analizamos que los precios varian entre ${min_precio_cat} y ${max_precio_cat}"
     
-    precio_actual = variacion_precios[-1]
+    precio_actual = grafico_precios["Y"][-1]
+    trend_actual = grafico_tendencia["Y"][-1]
     precio_debajo_promedio = (precio_actual < round(statistics.mean(variacion_precios), 2))
     justificacion_factor = f"El precio del producto esta por debajo de su promedio de los ultimos 12 meses en Mercado Libre, indicando una buena oportunidad de compra."
     porcentaje_superior = round((((precio_actual - media_precios) / media_precios) * 100), 2)
     justificacion_no_factor = f"El precio del producto esta un {porcentaje_superior}% por encima de promedio de los ultimos 12 meses en Mercado Libre."
+    
+    recomendado = ((trend_actual <= media_trends) and en_rango and precio_debajo_promedio)
+    justificacion_recomendado = "Recomendamos este producto porque su posicion tendecista se encuentra por encima del promedio historico, ademas se encuentra dentro del rango de precios categorico y su precio esta por debajo del promedio historico" if recomendado else None
     
     procesamiento = {
         "variacion_precio": grafico_precios,
@@ -124,6 +128,10 @@ def procesar_producto(historico_categoria, prod_nombre, actual_trend_position, a
             "precio_debajo_promedio": precio_debajo_promedio,
             "justificacion": justificacion_factor if precio_debajo_promedio else justificacion_no_factor
         },
+        "recomendacion": {
+            "recomendado": recomendado,
+            "justificacion": justificacion_recomendado
+        }
     }
     
     return procesamiento
