@@ -47,30 +47,120 @@ Para alcanzar nuestro objetivo nos centramos en:
 
 
 ### Desarrollado con
-
 <br />
+<h2>Backend</h2>
 <ul>
-<p align="center">
-  <li><a href="https://spring.io/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/242573da-5595-47ec-8f0f-c35ca627a1c9" alt="Spring" alt="Spring" width=120></img></a></li>
-  <li><a href="https://react.dev/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/0890ddfa-4508-4c41-adf3-3bde30481724" alt="react" alt="react" width=120></img></a></li>
-  <li><a href="https://flask.palletsprojects.com/en/3.0.x/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/813d73e5-8d04-47e9-91fc-a3f4120c545c" alt="flask" alt="flask" width=120></img></a></li>
-  <li><a href="https://www.mongodb.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/03377808-9654-4438-9f94-f8ac2e17d431" alt="mongo" alt="mongo" width=120></img></a></li>
-  <li><a href="https://www.mysql.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/7404eeb1-a125-4e8c-bd2a-58879bae8715" alt="mysql" alt="mysql" width=120></img></a></li>
-  <li><a href="https://github.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/b4b6769f-ef4a-4952-bff1-8901535b3316" alt="github" alt="github" width=120></img></a></li>
-  <li><a href="https://www.java.com/es/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/31d2afe6-169c-47ad-a3f6-a333eb074653" alt="java" alt="java" width=120></img></a></li>
-  <li><a href="https://auth0.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/b0d53b03-181e-45d6-bd98-fdfe1984c4cb" alt="auth0" alt="auth0" width=120></img></a></li>
-  <li><a href="https://tailwindcss.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/c5dee148-e972-4312-bb58-7c29a78ad144" alt="tailwindcss" alt="tailwindcss" width=120></img></a></li>
-  <li><a href="https://vitejs.dev/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/71470879/51c6f82c-e8d1-4561-81af-94113da98844" alt="vite" alt="vite" width=120></img></a></li>
-  <li><a href="https://www.typescriptlang.org/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/d16406c4-2518-48c8-b553-ef100e76f423" alt="typescript" alt="typescript" width=120></img></a></li>
-  <li><a href="https://kubernetes.io/es/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/51e4b7ec-9f75-4ab2-a69a-67fb7ba927c6" alt="kubernetes" alt="kubernetes" width=120></img></a></li>
-  <li><a href="https://www.docker.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/0c85347e-e8bf-44a9-b2b6-954d068308cd" alt="docker" alt="docker" width=120></img></a></li>
-  <li><a href="https://www.selenium.dev/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/35f625ac-b9b9-41fe-8303-8ead63146d96" alt="selenium" alt="selenium" width=120></img></a></li>
-  <li><a href="https://site.mockito.org/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/0d249136-7d8c-462d-b672-207f1c9b3fcd" alt="mockito" alt="mockito" width=120></img></a></li>
-  <li><a href="https://www.postman.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/a298f11e-058c-4d39-8439-83a25e377fab" alt="postman" alt="postman" width=120></img></a></li>
-  <li><a href="https://www.python.org/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/94c320ad-1e96-416d-818e-82ddd28a1d06" alt="python" alt="python" width=120></img></a></li>
-  <li><a href="https://developers.mercadolibre.com.ar/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/41d23256-296c-43cd-a230-e7440957d504" alt="ML" alt="ML" width=120></img></a></li>
-</p>
+  <li>
+    <a href="https://spring.io/projects/spring-boot">
+      <img src="https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot&logoColor=green" alt="SpringBoot" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://flask.palletsprojects.com/en/3.0.x/">
+      <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.java.com/es/">
+      <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.python.org/">
+      <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" width=120>
+    </a>
+  </li>
 </ul>
+
+<h2>Frontend</h2>
+<ul>
+  <li>
+    <a href="https://react.dev/">
+      <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://tailwindcss.com/">
+      <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://vitejs.dev/">
+      <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.typescriptlang.org/">
+      <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" width=120>
+    </a>
+  </li>
+</ul>
+
+<h2>Databases</h2>
+<ul>
+  <li>
+    <a href="https://www.mongodb.com/">
+      <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.mysql.com/">
+      <img src="https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" width=120>
+    </a>
+  </li>
+</ul>
+
+<h2>DevOps and Infrastructure</h2>
+<ul>
+  <li>
+    <a href="https://www.docker.com/">
+      <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://kubernetes.io/es/">
+      <img src="https://img.shields.io/badge/Kubernetes-3069DE?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes" width=120>
+    </a>
+  </li>
+</ul>
+
+<h2>Testing and Quality Assurance</h2>
+<ul>
+  <li>
+    <a href="https://www.selenium.dev/">
+      <img src="https://img.shields.io/badge/Selenium-43B02A?style=for-the-badge&logo=Selenium&logoColor=white" alt="Selenium" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://site.mockito.org/">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Mockito_Logo.png" alt="Mockito" width=120>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.postman.com/">
+      <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white" alt="Postman" width=120>
+    </a>
+  </li>
+</ul>
+
+<h2>Authentication</h2>
+<ul>
+  <li>
+    <a href="https://auth0.com/">
+      <img src="https://sm.pcmag.com/pcmag_uk/review/a/auth0/auth0_cpgh.jpg" alt="Auth0" width=120>
+    </a>
+  </li>
+</ul>
+
+<h2>Source Control and Collaboration</h2>
+<ul>
+  <li>
+    <a href="https://github.com/">
+      <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" width=120>
+    </a>
+  </li>
+</ul>
+
 <br />
 
 <!-- DOCUMENTACION -->
