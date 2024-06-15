@@ -54,11 +54,11 @@ Para alcanzar nuestro objetivo nos centramos en:
 
 <br />
 <p align="center">
-  <a href="https://spring.io/"><img src="![spring](https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/242573da-5595-47ec-8f0f-c35ca627a1c9)" alt="Spring" alt="Spring" width=120></img></a>
-  <a href="https://react.dev/"><img src="images/react.png" alt="react" alt="react" width=120></img> --></a>
+  <a href="https://spring.io/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/242573da-5595-47ec-8f0f-c35ca627a1c9" alt="Spring" alt="Spring" width=120></img></a>
+  <a href="https://react.dev/"><img src="![react](https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/0890ddfa-4508-4c41-adf3-3bde30481724" alt="react" alt="react" width=120></img> --></a>
   <a href="https://flask.palletsprojects.com/en/3.0.x/"><img src="![flask](https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/813d73e5-8d04-47e9-91fc-a3f4120c545c)" alt="flask" alt="flask" width=120></img></a>
-  <a href="https://www.mongodb.com/"><img src="images/mongo.png" alt="mongo" alt="mongo" width=120></img></a>
-  <a href="https://www.mysql.com/"><img src="images/mysql.png" alt="mysql" alt="mysql" width=120></img></a>
+  <a href="https://www.mongodb.com/"><img src="![mongo](https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/03377808-9654-4438-9f94-f8ac2e17d431)" alt="mongo" alt="mongo" width=120></img></a>
+  <a href="https://www.mysql.com/"><img src="![mysql](https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/7404eeb1-a125-4e8c-bd2a-58879bae8715)" alt="mysql" alt="mysql" width=120></img></a>
   <a href="https://github.com/"><img src="images/github.png" alt="github" alt="github" width=120></img></a>
   <a href="https://www.java.com/es/"><img src="images/java.png" alt="java" alt="java" width=120></img></a>
   <a href="https://auth0.com/"><img src="images/auth0.png" alt="auth0" alt="auth0" width=120></img></a>
