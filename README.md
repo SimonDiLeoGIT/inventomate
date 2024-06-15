@@ -112,13 +112,13 @@ Es posible probar la aplicacion en vivo desde [aquí][demo-url]
 
 
 
-<!-- MARKDOWN LINKS & IMAGES -->
+<!-- MARKDOWN LINKS -->
 
-[contributors-shield]: https://github.com/SimonDiLeoGIT/inventomate.svg?style=for-the-badge
+[contributors-shield]: https://github.com/SimonDiLeoGIT/inventomate.svg?style=flat-square
 [contributors-url]: https://github.com/SimonDiLeoGIT/inventomate/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/SimonDiLeoGIT/inventomate.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/SimonDiLeoGIT/inventomate.svg?style=flat-square
 [forks-url]: https://github.com/SimonDiLeoGIT/inventomate/network/members
-[stars-shield]: https://img.shields.io/github/stars/SimonDiLeoGIT/inventomate.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/SimonDiLeoGIT/inventomate.svg?style=flat-square
 [stars-url]: https://github.com/SimonDiLeoGIT/inventomate/stargazers
-[issues-shield]: https://img.shields.io/github/issues/SimonDiLeoGIT/inventomate.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/SimonDiLeoGIT/inventomate.svg?style=flat-square
 [issues-url]: https://github.com/SimonDiLeoGIT/inventomate/issues
