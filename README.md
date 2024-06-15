@@ -6,7 +6,7 @@
 <!-- PROJECT LOGO -->
 <br />
   <p align="center">
-    <a href="https://github.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/42fbfa3e-2324-44c4-ac95-dae555fc8a7a" alt="Logo" width="120" height="120"></a>
+    <a href="https://inventomate.xyz"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/42fbfa3e-2324-44c4-ac95-dae555fc8a7a" alt="Logo" width="120" height="120"></a>
     <h1 align="center">InventoMate</h1>
     <h3 align="center">Sistema de análisis de inventario predictivo</h3>
     <p align="center"><a href="https://github.com/SimonDiLeoGIT/inventomate.git"><strong>Explorar los documentos</strong></a></p>
