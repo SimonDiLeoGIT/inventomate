@@ -2,7 +2,7 @@ name: Inventomate
 
 on:
   push:
-    branches: ['feature/despliegue-nuevo']
+    branches: ['feature/despliegue-3']
 
 jobs:
   build-images:
