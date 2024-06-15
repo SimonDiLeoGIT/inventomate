@@ -38,10 +38,10 @@
 El principal objetivo de **InventoMate** es el de impulsar el crecimiento de las ventas del cliente mientras se minimizan las pérdidas de recursos, como dinero y tiempo. 
 
 Para alcanzar nuestro objetivo nos centramos en:
-*Ayudar al cliente a optimizar la gestión del inventario de la empresa.
-*Otorgar al cliente la información necesaria para realizar una toma de decisiones estratégica informadas.
-*Lograr que el cliente se mantenga competitivo en el mercado.
-*Ayudar al cliente a satisfacer las demandas cambiantes del mercado.
+* Ayudar al cliente a optimizar la gestión del inventario de la empresa.
+* Otorgar al cliente la información necesaria para realizar una toma de decisiones estratégica informadas.
+* Lograr que el cliente se mantenga competitivo en el mercado.
+* Ayudar al cliente a satisfacer las demandas cambiantes del mercado.
 <br />
 
 
