@@ -105,7 +105,7 @@ Es posible probar la aplicacion en vivo desde [aquí][demo-url]
 <!-- DOCUMENTACION -->
 ## Documentacion
 
-[Documentacion](https://github.com/user-attachments/files/15845172/InventoMat-Especificacion.General.de.Requerimientos-140624-235346.pdf)
+[Documentacion completa](https://github.com/user-attachments/files/15845172/InventoMat-Especificacion.General.de.Requerimientos-140624-235346.pdf)
 
 
 
