@@ -51,7 +51,7 @@ Para alcanzar nuestro objetivo nos centramos en:
 <br />
 <p align="center">
   <a href="https://spring.io/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/242573da-5595-47ec-8f0f-c35ca627a1c9" alt="Spring" alt="Spring" width=120></img></a>
-  <a href="https://react.dev/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/0890ddfa-4508-4c41-adf3-3bde30481724" alt="react" alt="react" width=120></img> --></a>
+  <a href="https://react.dev/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/0890ddfa-4508-4c41-adf3-3bde30481724" alt="react" alt="react" width=120></img></a>
   <a href="https://flask.palletsprojects.com/en/3.0.x/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/813d73e5-8d04-47e9-91fc-a3f4120c545c" alt="flask" alt="flask" width=120></img></a>
   <a href="https://www.mongodb.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/03377808-9654-4438-9f94-f8ac2e17d431" alt="mongo" alt="mongo" width=120></img></a>
   <a href="https://www.mysql.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/7404eeb1-a125-4e8c-bd2a-58879bae8715" alt="mysql" alt="mysql" width=120></img></a>
@@ -61,7 +61,7 @@ Para alcanzar nuestro objetivo nos centramos en:
   <a href="https://tailwindcss.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/c5dee148-e972-4312-bb58-7c29a78ad144" alt="tailwindcss" alt="tailwindcss" width=120></img></a>
   <a href="https://vitejs.dev/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/27f4ed6a-86cd-4338-884c-736f4cd06e71" alt="vite" alt="vite" width=120></img></a>
   <a href="https://www.typescriptlang.org/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/d16406c4-2518-48c8-b553-ef100e76f423" alt="typescript" alt="typescript" width=120></img></a>
-  <a href="https://kubernetes.io/es/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/51e4b7ec-9f75-4ab2-a69a-67fb7ba927c6" alt="kubernetes" alt="kubernetes" width=120></img> --></a>
+  <a href="https://kubernetes.io/es/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/51e4b7ec-9f75-4ab2-a69a-67fb7ba927c6" alt="kubernetes" alt="kubernetes" width=120></img></a>
   <a href="https://www.docker.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/0c85347e-e8bf-44a9-b2b6-954d068308cd" alt="docker" alt="docker" width=120></img></a>
   <a href="https://www.selenium.dev/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/35f625ac-b9b9-41fe-8303-8ead63146d96" alt="selenium" alt="selenium" width=120></img></a>
   <a href="https://site.mockito.org/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/0d249136-7d8c-462d-b672-207f1c9b3fcd" alt="mockito" alt="mockito" width=120></img></a>
@@ -70,37 +70,6 @@ Para alcanzar nuestro objetivo nos centramos en:
   <a href="https://developers.mercadolibre.com.ar/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/41d23256-296c-43cd-a230-e7440957d504" alt="ML" alt="ML" width=120></img></a>
 </p>
 <br />
-
-<!-- NO VA ENTONCES??????????
-
-<!-- GETTING STARTED FALTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 
-## Demo en vivo
-
-Es posible probar la aplicacion en vivo desde [aquí][demo-url]
-
-
-<!-- INSTALACION 
-### Instalacion desde el codigo fuente
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
--->
-
-
 
 <!-- DOCUMENTACION -->
 ## Documentacion
