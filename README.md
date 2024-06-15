@@ -114,7 +114,7 @@ Es posible probar la aplicacion en vivo desde [aquí][demo-url]
 
 <!-- MARKDOWN LINKS -->
 
-[contributors-shield]: https://github.com/SimonDiLeoGIT/inventomate.svg?style=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/SimonDiLeoGIT/inventomate.svg?style=flat-square
 [contributors-url]: https://github.com/SimonDiLeoGIT/inventomate/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/SimonDiLeoGIT/inventomate.svg?style=flat-square
 [forks-url]: https://github.com/SimonDiLeoGIT/inventomate/network/members
