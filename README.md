@@ -8,7 +8,7 @@
   <p align="center">
     <a href="https://github.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/42fbfa3e-2324-44c4-ac95-dae555fc8a7a" alt="Logo" width="120" height="120"></a>
     <h1 align="center">InventoMate</h1>
-    <h3 align="center">Año: 2024</h3>
+    <h3 align="center">Sistema de análisis de inventario predictivo</h3>
     <p align="center"><a href="https://github.com/SimonDiLeoGIT/inventomate.git"><strong>Explorar los documentos</strong></a></p>
   </p>
 
@@ -46,8 +46,7 @@ Para alcanzar nuestro objetivo nos centramos en:
 
 
 
-### Desarrollado con
-<br />
+## Desarrollado con
 <h2>Backend</h2>
 <ul>
   <li>
@@ -150,6 +149,11 @@ Para alcanzar nuestro objetivo nos centramos en:
       <img src="https://sm.pcmag.com/pcmag_uk/review/a/auth0/auth0_cpgh.jpg" alt="Auth0" width=120>
     </a>
   </li>
+  <li>
+    <a href="https://spring.io/projects/spring-security">
+      <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white" alt="Auth0" width=120>
+    </a>
+  </li>
 </ul>
 
 <h2>Source Control and Collaboration</h2>
@@ -168,7 +172,8 @@ Para alcanzar nuestro objetivo nos centramos en:
 
 [Documentacion completa](https://github.com/user-attachments/files/15845172/InventoMat-Especificacion.General.de.Requerimientos-140624-235346.pdf)
 
-
+## Presentacion
+[Canva](https://www.canva.com/design/DAGIDyj_Lsc/ncwYbft-CVQ-j5W0-6I9yw/edit?utm_content=DAGIDyj_Lsc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 
 
