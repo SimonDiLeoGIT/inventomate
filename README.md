@@ -120,15 +120,14 @@ Es posible probar la aplicacion en vivo desde [aquí][demo-url]
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[product-screenshot]: images/screenshot.png
+
+[contributors-shield]: https://img.shields.io/github/contributors/marianorapa/laravel_auth.svg?style=flat-square](https://github.com/SimonDiLeoGIT/inventomate/graphs/contributors)
+[contributors-url]: https://github.com/marianorapa/laravel_auth/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/marianorapa/laravel_auth.svg?style=flat-square
+[forks-url]: https://github.com/marianorapa/laravel_auth/network/members
+[stars-shield]: https://img.shields.io/github/stars/marianorapa/laravel_auth.svg?style=flat-square
+[stars-url]: https://github.com/marianorapa/laravel_auth/stargazers
+[issues-shield]: https://img.shields.io/github/issues/marianorapa/laravel_auth.svg?style=flat-square
+[issues-url]: https://github.com/marianorapa/laravel_auth/issues
+[license-shield]: https://img.shields.io/github/license/marianorapa/laravel_auth.svg?style=flat-square
+[license-url]: https://github.com/marianorapa/laravel_auth/blob/master/LICENSE.txt
