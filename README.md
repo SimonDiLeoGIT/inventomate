@@ -1,4 +1,3 @@
-[![Contributors][contributors-shield]][contributors-url]
 [![MIT License][license-shield]][license-url]
 
 
@@ -118,13 +117,5 @@ Es posible probar la aplicacion en vivo desde [aquí][demo-url]
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[contributors-shield]: https://github.com/SimonDiLeoGIT/inventomate/graphs/contributors
-[contributors-url]: https://github.com/SimonDiLeoGIT/inventomate/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/marianorapa/laravel_auth.svg?style=flat-square
-[forks-url]: https://github.com/marianorapa/laravel_auth/network/members
-[stars-shield]: https://img.shields.io/github/stars/marianorapa/laravel_auth.svg?style=flat-square
-[stars-url]: https://github.com/marianorapa/laravel_auth/stargazers
-[issues-shield]: https://img.shields.io/github/issues/marianorapa/laravel_auth.svg?style=flat-square
-[issues-url]: https://github.com/marianorapa/laravel_auth/issues
 [license-shield]: https://img.shields.io/github/license/marianorapa/laravel_auth.svg?style=flat-square
 [license-url]: https://github.com/marianorapa/laravel_auth/blob/master/LICENSE.txt
