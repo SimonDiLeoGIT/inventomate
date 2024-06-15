@@ -16,11 +16,12 @@
 
 <!-- INDICE -->
 ## Índice
-*[Autores](#autores)
-*[Acerca del proyecto](#acerca-del-proyecto)
-  *[Desarrollado con](#desarrollado-con)
-*[Documentacion](#documentacion)
-*[Licencia](#licencia)
+
+* [Autores](#autores)
+* [Acerca del proyecto](#acerca-del-proyecto)
+  * [Desarrollado con](#desarrollado-con)
+* [Documentacion](#documentacion)
+* [Licencia](#licencia)
 
 
 <!-- AUTORES -->
