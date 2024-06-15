@@ -117,5 +117,11 @@ Es posible probar la aplicacion en vivo desde [aquí][demo-url]
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[license-shield]: https://img.shields.io/github/license/marianorapa/laravel_auth.svg?style=flat-square
-[license-url]: https://github.com/marianorapa/laravel_auth/blob/master/LICENSE.txt
+[contributors-shield]: https://github.com/SimonDiLeoGIT/inventomate.svg?style=for-the-badge
+[contributors-url]: https://github.com/SimonDiLeoGIT/inventomate/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/SimonDiLeoGIT/inventomate.svg?style=for-the-badge
+[forks-url]: https://github.com/SimonDiLeoGIT/inventomate/network/members
+[stars-shield]: https://img.shields.io/github/stars/SimonDiLeoGIT/inventomate.svg?style=for-the-badge
+[stars-url]: https://github.com/SimonDiLeoGIT/inventomate/stargazers
+[issues-shield]: https://img.shields.io/github/issues/SimonDiLeoGIT/inventomate.svg?style=for-the-badge
+[issues-url]: https://github.com/SimonDiLeoGIT/inventomate/issues
