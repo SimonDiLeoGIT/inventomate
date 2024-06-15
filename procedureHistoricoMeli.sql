@@ -1,4 +1,18 @@
 USE bd-inventomate;
+
+-- Paso 1: Eliminar la clave primaria existente
+ALTER TABLE categoria_meli DROP PRIMARY KEY;
+
+-- Paso 2: Agregar la nueva columna `id` con `AUTO_INCREMENT`
+ALTER TABLE categoria_meli ADD COLUMN id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY;
+
+-- Paso 3: (Opcional) Agregar un índice único en `id_categoria`
+ALTER TABLE categoria_meli ADD UNIQUE (id_categoria);
+
+-- Agregar la clave foránea en la tabla productos_meli
+ALTER TABLE productos_meli ADD CONSTRAINT FKfe5p02m63q5ntipol4ao437bu FOREIGN KEY (id_categoria) REFERENCES categoria_meli (id);
+
+
 -- Variables para datos
 SET @fecha_actual = '2024-06-04';
 
