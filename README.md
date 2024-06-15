@@ -6,7 +6,7 @@
 <!-- PROJECT LOGO -->
 <br />
   <p align="center">
-    <a href=["https://github.com/github_username/repo_name"](https://cdn.discordapp.com/attachments/1216137803969073199/1251326227344785492/Logo.png?ex=666e2bdd&is=666cda5d&hm=2fd5b89f0dbc15f99dc4739ce07bc393582ca69c9739208c83fd238333cf7cdd&)><img src="images/logo.png" alt="Logo" width="80" height="80"></a>
+    <a href=https://cdn.discordapp.com><img src="https://cdn.discordapp.com/attachments/1216137803969073199/1251326227344785492/Logo.png?ex=666e2bdd&is=666cda5d&hm=2fd5b89f0dbc15f99dc4739ce07bc393582ca69c9739208c83fd238333cf7cdd&" alt="Logo" width="80" height="80"></a>
     <h1 align="center">InventoMate</h1>
     <h3 align="center">Año: 2024</h3>
     <p align="center"><a href="https://github.com/SimonDiLeoGIT/inventomate.git"><strong>Explorar los documentos</strong></a></p>
