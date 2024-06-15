@@ -6,7 +6,7 @@
 <!-- PROJECT LOGO -->
 <br />
   <p align="center">
-    <a href="https://github.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/42fbfa3e-2324-44c4-ac95-dae555fc8a7a" alt="Logo" width="80" height="80"></a>
+    <a href="https://github.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/42fbfa3e-2324-44c4-ac95-dae555fc8a7a" alt="Logo" width="120" height="120"></a>
     <h1 align="center">InventoMate</h1>
     <h3 align="center">Año: 2024</h3>
     <p align="center"><a href="https://github.com/SimonDiLeoGIT/inventomate.git"><strong>Explorar los documentos</strong></a></p>
@@ -61,7 +61,7 @@ Para alcanzar nuestro objetivo nos centramos en:
   <a href="https://www.mysql.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/7404eeb1-a125-4e8c-bd2a-58879bae8715" alt="mysql" alt="mysql" width=120></img></a>
   <a href="https://github.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/b4b6769f-ef4a-4952-bff1-8901535b3316" alt="github" alt="github" width=120></img></a>
   <a href="https://www.java.com/es/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/31d2afe6-169c-47ad-a3f6-a333eb074653" alt="java" alt="java" width=120></img></a>
-  <a href="https://auth0.com/"><img src="images/auth0.png" alt="auth0" alt="auth0" width=120></img></a>
+  <a href="https://auth0.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/b0d53b03-181e-45d6-bd98-fdfe1984c4cb" alt="auth0" alt="auth0" width=120></img></a>
   <a href="https://tailwindcss.com/"><img src="images/tailwindcss.png" alt="tailwindcss" alt="tailwindcss" width=120></img></a>
   <a href="https://vitejs.dev/"><img src="images/vite.png" alt="vite" alt="vite" width=120></img></a>
   <a href="https://www.typescriptlang.org/"><img src="images/typescript.png" alt="typescript" alt="typescript" width=120></img></a>
