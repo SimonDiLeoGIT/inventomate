@@ -1,0 +1,29 @@
+@keyframes slideInAndGrow {
+  0% {
+    transform: translateY(-100px) scale(0.8);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-slide-in-grow {
+  animation: slideInAndGrow 0.4s ease-out forwards;
+}
+
+.animate-fade-out {
+  animation: fadeOut 1s ease-in forwards;
+}

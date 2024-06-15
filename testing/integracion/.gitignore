@@ -1,0 +1,3 @@
+/.metadata/
+tests/__pycache__/
+tests/.pytest_cache/

@@ -1,0 +1,22 @@
+@import url('./global/menu.css');
+
+.none-scroll {
+  overflow: hidden;
+}
+
+
+@keyframes opacity-animation {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  to {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+}
+
+.opacity-animation {
+  animation: opacity-animation forwards;
+  animation-duration: 400ms;
+  animation-delay: 200ms;
+}
