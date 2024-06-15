@@ -6,7 +6,7 @@
 <!-- PROJECT LOGO -->
 <br />
   <p align="center">
-    <a href="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/9cb7e3df-9c9e-48a2-96c2-d80d5eb78a9e"><img src="images/Logo.ong" alt="Logo" width="80" height="80"></a>
+    <a href="![Logo](https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/42fbfa3e-2324-44c4-ac95-dae555fc8a7a)"><img src="" alt="Logo" width="80" height="80"></a>
     <h1 align="center">InventoMate</h1>
     <h3 align="center">Año: 2024</h3>
     <p align="center"><a href="https://github.com/SimonDiLeoGIT/inventomate.git"><strong>Explorar los documentos</strong></a></p>
