@@ -59,7 +59,7 @@ Para alcanzar nuestro objetivo nos centramos en:
   <a href="https://www.java.com/es/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/31d2afe6-169c-47ad-a3f6-a333eb074653" alt="java" alt="java" width=120></img></a>
   <a href="https://auth0.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/b0d53b03-181e-45d6-bd98-fdfe1984c4cb" alt="auth0" alt="auth0" width=120></img></a>
   <a href="https://tailwindcss.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/c5dee148-e972-4312-bb58-7c29a78ad144" alt="tailwindcss" alt="tailwindcss" width=120></img></a>
-  <a href="https://vitejs.dev/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/27f4ed6a-86cd-4338-884c-736f4cd06e71" alt="vite" alt="vite" width=120></img></a>
+  <a href="https://vitejs.dev/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/71470879/51c6f82c-e8d1-4561-81af-94113da98844" alt="vite" alt="vite" width=120></img></a>
   <a href="https://www.typescriptlang.org/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/d16406c4-2518-48c8-b553-ef100e76f423" alt="typescript" alt="typescript" width=120></img></a>
   <a href="https://kubernetes.io/es/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/51e4b7ec-9f75-4ab2-a69a-67fb7ba927c6" alt="kubernetes" alt="kubernetes" width=120></img></a>
   <a href="https://www.docker.com/"><img src="https://github.com/SimonDiLeoGIT/inventomate/assets/162532272/0c85347e-e8bf-44a9-b2b6-954d068308cd" alt="docker" alt="docker" width=120></img></a>
