@@ -19,8 +19,6 @@
 *[Autores](#autores)
 *[Acerca del proyecto](#acerca-del-proyecto)
   *[Desarrollado con](#desarrollado-con)
-  <!--*[Demo en vivo](#demo-en-vivo)
-*[Instalacion desde el codigo fuente](#instalacion-desde-el-codigo-fuente)-->
 *[Documentacion](#documentacion)
 *[Licencia](#licencia)
 
@@ -36,8 +34,6 @@
 
 <!-- ACERCA DEL PROYECTO -->
 ## Acerca del proyecto
-
-<!--  FALTA ESTO    [![Vilumar][product-screenshot]]-->
 
 El principal objetivo de **InventoMate** es el de impulsar el crecimiento de las ventas del cliente mientras se minimizan las pérdidas de recursos, como dinero y tiempo. 
 
@@ -109,7 +105,7 @@ Es posible probar la aplicacion en vivo desde [aquí][demo-url]
 <!-- DOCUMENTACION -->
 ## Documentacion
 
-
+[Documentacion](https://github.com/user-attachments/files/15845172/InventoMat-Especificacion.General.de.Requerimientos-140624-235346.pdf)
 
 
 
