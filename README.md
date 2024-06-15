@@ -54,7 +54,7 @@ Para alcanzar nuestro objetivo nos centramos en:
 
 <br />
 <p align="center">
-  <a href="https://spring.io/"><img src="images/sping.png" alt="Spring" alt="Spring" width=120></img></a>
+  <a href="https://spring.io/"><img src="https://es.wikipedia.org/wiki/Spring_Framework#/media/Archivo:Spring_Framework_Logo_2018.svg" alt="Spring" alt="Spring" width=120></img></a>
   <a href="https://react.dev/"><img src="images/react.png" alt="react" alt="react" width=120></img> --></a>
   <a href="https://flask.palletsprojects.com/en/3.0.x/"><img src="images/flask.png" alt="flask" alt="flask" width=120></img></a>
   <a href="https://www.mongodb.com/"><img src="images/mongo.png" alt="mongo" alt="mongo" width=120></img></a>
