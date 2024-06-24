@@ -104,9 +104,6 @@ jobs:
 
       #kubectl create secret generic cloudflare-token-secret --from-literal=api-key=M8cw0_STDKr-qNdilJ1qdlmZIgdgfVDQqtpkZxj1
 
-
-          
-
       #tiro sste comando dos veces para que se configure en webhook
       - name: Install cert-manager
         run: |
