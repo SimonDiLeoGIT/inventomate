@@ -5,7 +5,6 @@ export const url = import.meta.env.VITE_APP_API_SERVER_URL
 
 export class ApiService {
 
-
   async request<T>(
     accessToken: string,
     endpoint: string,
