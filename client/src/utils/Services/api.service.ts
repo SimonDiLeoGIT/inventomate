@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { handleApiError } from '../errorHander';
 
-export const url = "https://api.inventomate.xyz/"
+export const url = import.meta.env.VITE_APP_API_SERVER_URL
 
 export class ApiService {
 
