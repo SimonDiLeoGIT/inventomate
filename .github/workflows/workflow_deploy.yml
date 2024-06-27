@@ -68,31 +68,31 @@ jobs:
           kubectl create namespace inventomate || echo " namespace already exists"
       
 
-      - name: Create Aplication Config
+      - name: Create Application Config
         working-directory: ./kubernetes
         run: |
           kubectl apply -f app-config.yaml --namespace=inventomate \
-            --from-literal=PORT=${{ secrets.PORT }} \
-            --from-literal=OKTA_OAUTH2_ISSUER=${{ secrets.OKTA_OAUTH2_ISSUER }} \
-            --from-literal=OKTA_OAUTH2_AUDIENCE=${{ secrets.OKTA_OAUTH2_AUDIENCE }} \
-            --from-literal=CLIENT_ORIGIN_URL=${{ secrets.CLIENT_ORIGIN_URL }} \
-            --from-literal=AUTH0_DOMAIN=${{ secrets.AUTH0_DOMAIN }} \
-            --from-literal=AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }} \
-            --from-literal=AUTH0_CLIENT_SECRET=${{ secrets.AUTH0_CLIENT_SECRET }} \
-            --from-literal=URL_DATABASE=${{ secrets.URL_DATABASE }} \
-            --from-literal=USER_DATABASE=${{ secrets.USER_DATABASE }} \
-            --from-literal=PASSWORD_DATABASE=${{ secrets.PASSWORD_DATABASE }} \
-            --from-literal=DATABASE_CONNECTION=${{ secrets.DATABASE_CONNECTION }} \
-            --from-literal=MELI_ACCESS_TOKEN=${{ secrets.MELI_ACCESS_TOKEN }} \
-            --from-literal=MELI_APP_ID=${{ secrets.MELI_APP_ID }} \
-            --from-literal=MELI_CLIENT_SECRET=${{ secrets.MELI_CLIENT_SECRET }} \
-            --from-literal=MELI_CODE_LOGIN=${{ secrets.MELI_CODE_LOGIN }} \
-            --from-literal=MELI_REDIRECT_URI=${{ secrets.MELI_REDIRECT_URI }} \
-            --from-literal=MELI_REFRESH_TOKEN=${{ secrets.MELI_REFRESH_TOKEN }} \
-            --from-literal=EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} \
-            --from-literal=EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }} \
-            --from-literal=MONGO_URI=${{ secrets.MONGO_URI }} \
-            --from-literal=FLASK_URL_BASE=${{ secrets.FLASK_URL_BASE }}
+            --from-literal=PORT="${{ secrets.PORT }}" \
+            --from-literal=OKTA_OAUTH2_ISSUER="${{ secrets.OKTA_OAUTH2_ISSUER }}" \
+            --from-literal=OKTA_OAUTH2_AUDIENCE="${{ secrets.OKTA_OAUTH2_AUDIENCE }}" \
+            --from-literal=CLIENT_ORIGIN_URL="${{ secrets.CLIENT_ORIGIN_URL }}" \
+            --from-literal=AUTH0_DOMAIN="${{ secrets.AUTH0_DOMAIN }}" \
+            --from-literal=AUTH0_CLIENT_ID="${{ secrets.AUTH0_CLIENT_ID }}" \
+            --from-literal=AUTH0_CLIENT_SECRET="${{ secrets.AUTH0_CLIENT_SECRET }}" \
+            --from-literal=URL_DATABASE="${{ secrets.URL_DATABASE }}" \
+            --from-literal=USER_DATABASE="${{ secrets.USER_DATABASE }}" \
+            --from-literal=PASSWORD_DATABASE="${{ secrets.PASSWORD_DATABASE }}" \
+            --from-literal=DATABASE_CONNECTION="${{ secrets.DATABASE_CONNECTION }}" \
+            --from-literal=MELI_ACCESS_TOKEN="${{ secrets.MELI_ACCESS_TOKEN }}" \
+            --from-literal=MELI_APP_ID="${{ secrets.MELI_APP_ID }}" \
+            --from-literal=MELI_CLIENT_SECRET="${{ secrets.MELI_CLIENT_SECRET }}" \
+            --from-literal=MELI_CODE_LOGIN="${{ secrets.MELI_CODE_LOGIN }}" \
+            --from-literal=MELI_REDIRECT_URI="${{ secrets.MELI_REDIRECT_URI }}" \
+            --from-literal=MELI_REFRESH_TOKEN="${{ secrets.MELI_REFRESH_TOKEN }}" \
+            --from-literal=EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
+            --from-literal=EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
+            --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}" \
+            --from-literal=FLASK_URL_BASE="${{ secrets.FLASK_URL_BASE }}"
 
       - name: Create Database Secrets
         working-directory: ./kubernetes
