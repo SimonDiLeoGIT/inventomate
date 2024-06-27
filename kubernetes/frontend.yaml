@@ -21,7 +21,7 @@ spec:
         - containerPort: 3000
         volumeMounts:
           - name: config-volume
-            mountPath: /app/.env
+            mountPath: /app/.env.production
       volumes:
         - name: config-volume
 

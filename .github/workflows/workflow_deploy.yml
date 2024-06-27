@@ -71,7 +71,7 @@ jobs:
       - name: Create Application Config
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f app-config.yaml --namespace=inventomate \
+          kubectl create configmap app-config --namespace=inventomate \
             --from-literal=PORT="${{ secrets.PORT }}" \
             --from-literal=OKTA_OAUTH2_ISSUER="${{ secrets.OKTA_OAUTH2_ISSUER }}" \
             --from-literal=OKTA_OAUTH2_AUDIENCE="${{ secrets.OKTA_OAUTH2_AUDIENCE }}" \
