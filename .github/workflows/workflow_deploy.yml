@@ -73,7 +73,6 @@ jobs:
         run: |
           kubectl apply -f app-config.yaml
           kubectl apply -f db-secrets.yaml
-          kubectl apply -f front-config.yaml
 
       - name: MYSQL deploy
         working-directory: ./kubernetes
