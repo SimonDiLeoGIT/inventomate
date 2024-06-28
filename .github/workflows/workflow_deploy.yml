@@ -111,6 +111,14 @@ jobs:
 
           sleep 12
 
+      - name: Create PostgreSQL ConfigMap
+        working-directory: ./kubernetes
+        run: |
+          kubectl create configmap postgresql-config --namespace=inventomate \
+            --from-literal=POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+            --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+            --from-literal=POSTGRES_DB_NAME="${{ secrets.POSTGRES_DB_NAME }}"
+      
       - name: PotgreSQL deploy
         working-directory: ./kubernetes
         run: |
@@ -129,8 +137,6 @@ jobs:
           kubectl apply -f python.yaml
          
 
-      #kubectl create secret generic cloudflare-token-secret --from-literal=api-key=M8cw0_STDKr-qNdilJ1qdlmZIgdgfVDQqtpkZxj1
-
       #tiro sste comando dos veces para que se configure en webhook
       - name: Install cert-manager
         run: |
@@ -141,11 +147,6 @@ jobs:
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
           sleep 60
           
-
-      # - name: Apply cluster-issuer
-      #   working-directory: ./kubernetes
-      #   run: |
-      #     kubectl apply -f cluster-issuer.yaml
 
       - name: Create Cloudflare API Token Secret
         run: |

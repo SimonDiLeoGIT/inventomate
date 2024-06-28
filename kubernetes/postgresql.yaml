@@ -17,11 +17,20 @@ spec:
         image: postgres:latest
         env:
         - name: POSTGRES_USER
-          value: postgres
+          valueFrom:
+            configMapKeyRef:
+              name: postgresql-config
+              key: POSTGRES_USER
         - name: POSTGRES_PASSWORD
-          value: password
+          valueFrom:
+            configMapKeyRef:
+              name: postgresql-config
+              key: POSTGRES_PASSWORD
         - name: POSTGRES_DB
-          value: postgres
+          valueFrom:
+            configMapKeyRef:
+              name: postgresql-config
+              key: POSTGRES_DB_NAME
         ports:
         - containerPort: 5432
         volumeMounts:
