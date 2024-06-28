@@ -94,11 +94,6 @@ jobs:
             --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}" \
             --from-literal=FLASK_URL_BASE="${{ secrets.FLASK_URL_BASE }}"
 
-      # - name: Create Database Secrets
-      #   working-directory: ./kubernetes
-      #   run: |
-      #     kubectl apply -f db-secrets.yaml
-
 
       - name: Create Init MySQL ConfigMap
         working-directory: ./kubernetes
@@ -147,10 +142,39 @@ jobs:
           sleep 60
           
 
-      - name: Apply cluster-issuer
-        working-directory: ./kubernetes
+      # - name: Apply cluster-issuer
+      #   working-directory: ./kubernetes
+      #   run: |
+      #     kubectl apply -f cluster-issuer.yaml
+
+      - name: Create Cloudflare API Token Secret
         run: |
-          kubectl apply -f cluster-issuer.yaml
+          kubectl create secret generic cloudflare-api-token \
+            --namespace=cert-manager \
+            --from-literal=api-token=${{ secrets.CLUSTER_API_TOKEN }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+        
+      - name: Create ClusterIssuer
+        run: |
+          cat <<EOF | kubectl apply -f -
+          apiVersion: cert-manager.io/v1
+          kind: ClusterIssuer
+          metadata:
+            name: letsencrypt-prod
+          spec:
+            acme:
+              email: ${{ secrets.CLUSTER_ISSUER_EMAIL }}
+              server: ${{ secrets.CLUSTER_ISSUER_SERVER }}
+              privateKeySecretRef:
+                name: ${{ secrets.CLUSTER_ISSUER_PRIVATE_KEY_NAME }}
+              solvers:
+              - dns01:
+                  cloudflare:
+                    email: ${{ secrets.CLUSTER_ISSUER_EMAIL }}
+                    apiTokenSecretRef:
+                      name: ${{ secrets.CLUSTER_API_TOKEN_NAME }}
+                      key: api-token
+          EOF
 
       - name: Apply Ingress
         working-directory: ./kubernetes
