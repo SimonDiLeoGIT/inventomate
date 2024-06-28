@@ -81,6 +81,7 @@ jobs:
             --from-literal=URL_DATABASE="${{ secrets.URL_DATABASE }}" \
             --from-literal=USER_DATABASE="${{ secrets.USER_DATABASE }}" \
             --from-literal=PASSWORD_DATABASE="${{ secrets.PASSWORD_DATABASE }}" \
+            --from-literal=NAME_DATABASE="${{ secrets.NAME_DATABASE }}" \
             --from-literal=DATABASE_CONNECTION="${{ secrets.DATABASE_CONNECTION }}" \
             --from-literal=MELI_ACCESS_TOKEN="${{ secrets.MELI_ACCESS_TOKEN }}" \
             --from-literal=MELI_APP_ID="${{ secrets.MELI_APP_ID }}" \
@@ -93,15 +94,23 @@ jobs:
             --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}" \
             --from-literal=FLASK_URL_BASE="${{ secrets.FLASK_URL_BASE }}"
 
-      - name: Create Database Secrets
+      # - name: Create Database Secrets
+      #   working-directory: ./kubernetes
+      #   run: |
+      #     kubectl apply -f db-secrets.yaml
+
+
+      - name: Create Init MySQL ConfigMap
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f db-secrets.yaml
+          kubectl create configmap init-mysql --namespace=inventomate \
+            --from-literal=init-mysql.sql="ALTER USER 'root'@'%' IDENTIFIED BY '${{ secrets.PASSWORD_DATABASE }}'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;" \
+          --dry-run=client -o yaml | kubectl apply -f -
+
 
       - name: MYSQL deploy
         working-directory: ./kubernetes
         run: |
-          kubectl apply -f init-mysql.yaml
           
           kubectl apply -f mysql.yaml
 

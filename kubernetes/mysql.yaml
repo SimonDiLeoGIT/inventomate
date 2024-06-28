@@ -17,12 +17,22 @@ spec:
         image: mysql:latest
         args: []
         env:
-        - name: MYSQL_ALLOW_EMPTY_PASSWORD
-          value: "true"  # Permite el acceso sin contraseña para root
-        - name: MYSQL_ROOT_HOST
-          value: "%"  # Permite acceso desde cualquier host (puedes limitarlo según necesites)
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PASSWORD_DATABASE
         - name: MYSQL_DATABASE
-          value: bd-inventomate
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: NAME_DATABASE
+        # - name: MYSQL_ALLOW_EMPTY_PASSWORD
+        #   value: "true"  # Permite el acceso sin contraseña para root
+        # - name: MYSQL_ROOT_HOST
+        #   value: "%"  # Permite acceso desde cualquier host (puedes limitarlo según necesites)
+        # - name: MYSQL_DATABASE
+        #   value: bd-inventomate
         ports:
         - containerPort: 3306
         volumeMounts:
