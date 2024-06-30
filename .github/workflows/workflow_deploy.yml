@@ -71,28 +71,28 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl create configmap app-config --namespace=inventomate \
-            --from-literal=PORT='${{ secrets.PORT }}' \
-            --from-literal=OKTA_OAUTH2_ISSUER='${{ secrets.OKTA_OAUTH2_ISSUER }}' \
-            --from-literal=OKTA_OAUTH2_AUDIENCE='${{ secrets.OKTA_OAUTH2_AUDIENCE }}' \
-            --from-literal=CLIENT_ORIGIN_URL='${{ secrets.CLIENT_ORIGIN_URL }}' \
-            --from-literal=AUTH0_DOMAIN='${{ secrets.AUTH0_DOMAIN }}' \
-            --from-literal=AUTH0_CLIENT_ID='${{ secrets.AUTH0_CLIENT_ID }}' \
-            --from-literal=AUTH0_CLIENT_SECRET='${{ secrets.AUTH0_CLIENT_SECRET }}' \
+            --from-literal=PORT="${{ secrets.PORT }}" \
+            --from-literal=OKTA_OAUTH2_ISSUER="${{ secrets.OKTA_OAUTH2_ISSUER }}" \
+            --from-literal=OKTA_OAUTH2_AUDIENCE="${{ secrets.OKTA_OAUTH2_AUDIENCE }}" \
+            --from-literal=CLIENT_ORIGIN_URL="${{ secrets.CLIENT_ORIGIN_URL }}" \
+            --from-literal=AUTH0_DOMAIN="${{ secrets.AUTH0_DOMAIN }}" \
+            --from-literal=AUTH0_CLIENT_ID="${{ secrets.AUTH0_CLIENT_ID }}" \
+            --from-literal=AUTH0_CLIENT_SECRET="${{ secrets.AUTH0_CLIENT_SECRET }}" \
             --from-literal=URL_DATABASE='${{ secrets.URL_DATABASE }}' \
-            --from-literal=USER_DATABASE='${{ secrets.USER_DATABASE }}' \
-            --from-literal=PASSWORD_DATABASE='${{ secrets.PASSWORD_DATABASE }}' \
-            --from-literal=NAME_DATABASE='${{ secrets.NAME_DATABASE }}' \
-            --from-literal=DATABASE_CONNECTION='${{ secrets.DATABASE_CONNECTION }}' \
-            --from-literal=MELI_ACCESS_TOKEN='${{ secrets.MELI_ACCESS_TOKEN }}' \
-            --from-literal=MELI_APP_ID='${{ secrets.MELI_APP_ID }}' \
-            --from-literal=MELI_CLIENT_SECRET='${{ secrets.MELI_CLIENT_SECRET }}' \
-            --from-literal=MELI_CODE_LOGIN='${{ secrets.MELI_CODE_LOGIN }}' \
-            --from-literal=MELI_REDIRECT_URI='${{ secrets.MELI_REDIRECT_URI }}' \
-            --from-literal=MELI_REFRESH_TOKEN='${{ secrets.MELI_REFRESH_TOKEN }}' \
-            --from-literal=EMAIL_PASSWORD='${{ secrets.EMAIL_PASSWORD }}' \
-            --from-literal=EMAIL_USERNAME='${{ secrets.EMAIL_USERNAME }}' \
-            --from-literal=MONGO_URI='${{ secrets.MONGO_URI }}' \
-            --from-literal=FLASK_URL_BASE='${{ secrets.FLASK_URL_BASE }}'
+            --from-literal=USER_DATABASE="${{ secrets.USER_DATABASE }}" \
+            --from-literal=PASSWORD_DATABASE="${{ secrets.PASSWORD_DATABASE }}" \
+            --from-literal=NAME_DATABASE="${{ secrets.NAME_DATABASE }}" \
+            --from-literal=DATABASE_CONNECTION="${{ secrets.DATABASE_CONNECTION }}" \
+            --from-literal=MELI_ACCESS_TOKEN="${{ secrets.MELI_ACCESS_TOKEN }}" \
+            --from-literal=MELI_APP_ID="${{ secrets.MELI_APP_ID }}" \
+            --from-literal=MELI_CLIENT_SECRET="${{ secrets.MELI_CLIENT_SECRET }}" \
+            --from-literal=MELI_CODE_LOGIN="${{ secrets.MELI_CODE_LOGIN }}" \
+            --from-literal=MELI_REDIRECT_URI="${{ secrets.MELI_REDIRECT_URI }}" \
+            --from-literal=MELI_REFRESH_TOKEN="${{ secrets.MELI_REFRESH_TOKEN }}" \
+            --from-literal=EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
+            --from-literal=EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
+            --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}" \
+            --from-literal=FLASK_URL_BASE="${{ secrets.FLASK_URL_BASE }}"
 
 
       - name: Create Init MySQL ConfigMap
@@ -115,9 +115,9 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl create configmap postgresql-config --namespace=inventomate \
-            --from-literal=POSTGRES_USER='${{ secrets.POSTGRES_USER }}' \
-            --from-literal=POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
-            --from-literal=POSTGRES_DB_NAME='${{ secrets.POSTGRES_DB_NAME }}'
+            --from-literal=POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+            --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+            --from-literal=POSTGRES_DB_NAME="${{ secrets.POSTGRES_DB_NAME }}"
       
       - name: PotgreSQL deploy
         working-directory: ./kubernetes
@@ -131,7 +131,7 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl create configmap mongo-config --namespace=inventomate \
-            --from-literal=MONGO_URI='${{ secrets.MONGO_URI }}'
+            --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}"
       
       - name: Mongo deploy
         working-directory: ./kubernetes
@@ -292,7 +292,6 @@ jobs:
             echo "::set-output name=load_balancer_ip::$LOAD_BALANCER_IP"
           fi
 
-        
       #Espera a que este  la ip en el load balancer y luego la imprime
       - name: Wait for Frontend Load Balancer IP
         id: wait-for-lb-ip
