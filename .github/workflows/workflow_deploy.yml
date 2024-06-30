@@ -277,7 +277,7 @@ jobs:
           INTERVAL=10
           COUNT=0
 
-          while [ '$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != '$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
+          while [ "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != "$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
             echo "Waiting for external IP..."
             sleep $INTERVAL
             COUNT=$((COUNT+1))
@@ -303,7 +303,7 @@ jobs:
           INTERVAL=10
           COUNT=0
 
-          while [ '$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != '$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
+          while [ "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != "$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
             echo "Waiting for external IP..."
             sleep $INTERVAL
             COUNT=$((COUNT+1))
