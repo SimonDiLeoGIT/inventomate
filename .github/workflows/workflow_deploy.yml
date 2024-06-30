@@ -92,7 +92,8 @@ jobs:
             --from-literal=EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
             --from-literal=EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
             --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}" \
-            --from-literal=FLASK_URL_BASE="${{ secrets.FLASK_URL_BASE }}"
+            --from-literal=FLASK_URL_BASE="${{ secrets.FLASK_URL_BASE }}" \
+            --from-literal=INVITATION_REDIRECT_URI="${{ secrets.INVITATION_REDIRECT_URI }}"
 
 
       - name: Create Init MySQL ConfigMap
