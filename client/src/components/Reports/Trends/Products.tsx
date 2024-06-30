@@ -20,7 +20,7 @@ export const Products: React.FC<props> = ({ trend }) => {
                 {
                   product.procesamiento.en_rango_categoria.en_rango
                     ?
-                    <p className="-bg--color-semidark-violet -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute top-2 right-0">Recommended</p>
+                    <p className="-bg--color-green -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute bottom-2 right-0">Recommended</p>
                     :
                     <p className="-bg--color-ful-red -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute bottom-2 right-0">Not Recommended</p>
                 }

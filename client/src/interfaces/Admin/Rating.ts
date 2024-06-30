@@ -28,7 +28,7 @@ interface Rating {
 interface RatingContent {
   id: number,
   fecha: string,
-  informe: Report[]
+  informe: Report
   cantEstrellas: number
   valoracion: string
 }

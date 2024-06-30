@@ -24,19 +24,25 @@ export const RatingReports = () => {
       setAccesToken(accessToken)
       const response = await getRatingStats(accessToken)
       setRatingStats(response)
-      const overview = await getRatings(accessToken, 0, 10, 'id', 'asc', null)
-      setRatingOverview(overview)
+      getRatingData(accessToken, 0, 10, 'id', 'asc', null, null, null)
     }
 
     isAuthenticated && getToken()
 
   }, [isAuthenticated])
 
+  const getRatingData = async (accessToken: string, currentPage: number, size: number, sort: keyof RatingContent, order: 'asc' | 'desc', reportType: string | null, from: string | null, to: string | null) => {
+    const overview = await getRatings(accessToken, currentPage, size, sort, order, reportType, from, to)
+    setRatingOverview(overview)
+  }
+
   return (
     <main className="m-auto mt-4 w-11/12 lg:w-7/12 xl:w-7/12">
       <AdminReportsNavbar />
-      {ratingStats && <RatingStatsData stats={ratingStats} />}
-      {ratingOverview && <RatingOverview data={ratingOverview} accessToken={myAccessToken} />}
+      <div className="my-4 grid gap-4">
+        {ratingStats && <RatingStatsData stats={ratingStats} />}
+        {ratingOverview && <RatingOverview data={ratingOverview} accessToken={myAccessToken} getRatingData={getRatingData} />}
+      </div>
     </main>
   )
 }

@@ -127,7 +127,7 @@ def sugerir(json_data):
         
         stockProducto = obtener_stock_producto(id_producto, json_data)
         cantidad_a_comprar = math.ceil(prediccion - stockProducto)
-
+        porcentaje = 0
         if cantidad_a_comprar > 0:
             porcentaje = round(((stockProducto / prediccion) * 100), 2)
             justificacion = (
@@ -136,6 +136,8 @@ def sugerir(json_data):
                 f"esperada del próximo mes. Se cumple un {porcentaje}% de la demanda con el stock actual."
             )
         else:
+            cantidad_a_comprar = 0
+            porcentaje = 100
             justificacion = (
                 f"La cantidad de {nombre_producto} que tenemos en stock actualmente ({stockProducto}) "
                 f"alcanza para satisfacer la demanda esperada del próximo mes ({prediccion})."
@@ -176,7 +178,7 @@ def sugerir(json_data):
         top_por_categoria[categoria_producto] = sorted(
             top_por_categoria[categoria_producto], 
             key=lambda x: x["porcentaje_cubierto_con_stock_actual"], 
-            reverse=True
+            reverse=False
         )
     
     # Ordeno el grafico por categoria por menor porcentaje cubierto

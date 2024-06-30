@@ -6,19 +6,19 @@ import { ItemData } from "./ItemData"
 import { Filters } from "../../Reports/Filters"
 
 interface Filters {
-  sort: keyof RatingContent
+  sort: keyof ReportContent
   order: 'asc' | 'desc'
 }
 
 type ReportType = "ANALISIS_DE_TENDENCIA" | "PROYECCION_DE_VENTAS" | "OBSOLESCENCIA" | "SIGUIENTES_PEDIDOS" | "All";
 
 interface props {
-  data: Rating
+  data: TimeReport
   accessToken: string
-  getRatingData: (accessToken: string, currentPage: number, size: number, sort: keyof RatingContent, order: 'asc' | 'desc', reportType: string | null, from: string | null, to: string | null) => void
+  getTimeReportsInfo: (accessToken: string, currentPage: number, size: number, sort: keyof ReportContent, order: 'asc' | 'desc', reportType: string | null, from: string | null, to: string | null) => void
 }
 
-export const RatingOverview: React.FC<props> = ({ data, accessToken, getRatingData }) => {
+export const TimeReport: React.FC<props> = ({ data, accessToken, getTimeReportsInfo }) => {
 
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [totalPages, setTotalPages] = useState<number>(0)
@@ -27,14 +27,14 @@ export const RatingOverview: React.FC<props> = ({ data, accessToken, getRatingDa
     order: 'asc'
   })
   const [reportType, setReportType] = useState<string | null>(null)
-  const [dateFrom, setDateFrom] = useState<string | null>(null);
-  const [dateTo, setDateTo] = useState<string | null>(null);
 
   const ascDesc = ['asc', 'desc']
   const types = ["ANALISIS_DE_TENDENCIA", "PROYECCION_DE_VENTAS", "OBSOLESCENCIA", "SIGUIENTES_PEDIDOS", "All"]
+  const [dateFrom, setDateFrom] = useState<string | null>(null);
+  const [dateTo, setDateTo] = useState<string | null>(null);
 
   useEffect(() => {
-    getRatingData(accessToken, currentPage, 10, filters.sort, filters.order, reportType, dateFrom, dateTo)
+    getTimeReportsInfo(accessToken, currentPage, 10, filters.sort, filters.order, reportType, dateFrom, dateTo)
     console.log('datita: ', data)
   }, [currentPage, filters.order, filters.sort, filters, reportType, dateFrom, dateTo])
 
@@ -47,13 +47,13 @@ export const RatingOverview: React.FC<props> = ({ data, accessToken, getRatingDa
     console.log(filters)
   }, [filters])
 
-  function isKeyOfRatingContent(key: any): key is keyof RatingContent {
-    const validKeys: Array<keyof RatingContent> = ['id', 'fecha', 'cantEstrellas']
+  function isKeyOfReportContent(key: any): key is keyof ReportContent {
+    const validKeys: Array<keyof ReportContent> = ['id', 'fecha', 'duracionSegundos', 'tipoInforme']
     return validKeys.includes(key);
   }
 
-  function handleSelect(field: keyof RatingContent | string, op: 'asc' | 'desc' | ReportType) {
-    if (isKeyOfRatingContent(field) && (op === 'asc' || op === 'desc')) {
+  function handleSelect(field: keyof ReportContent | string, op: 'asc' | 'desc' | ReportType) {
+    if (isKeyOfReportContent(field) && (op === 'asc' || op === 'desc')) {
       setFilters(
         {
           sort: field,
@@ -97,8 +97,8 @@ export const RatingOverview: React.FC<props> = ({ data, accessToken, getRatingDa
             <TableSelector options={types} id='tipoInforme' handleSelect={handleSelect} />
           </div>
           <div className="flex items-center relative col-span-2">
-            <p className="p-2">Rate</p>
-            <TableSelector options={ascDesc} id='cantEstrellas' handleSelect={handleSelect} />
+            <p className="p-2">Time</p>
+            <TableSelector options={ascDesc} id='duracionSegundos' handleSelect={handleSelect} />
           </div>
         </li>
         {

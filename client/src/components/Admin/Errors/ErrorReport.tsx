@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react"
 import { TableSelector } from "../../TableSelector"
-import { NoDataFound } from "../../Errors/NoDataFound"
 import { Pagination } from "../../Global/Pagination"
 import { ItemData } from "./ItemData"
 import { Filters } from "../../Reports/Filters"
+import { NoDataFound } from "../../Errors/NoDataFound"
 
 interface Filters {
-  sort: keyof RatingContent
+  sort: keyof ErrorContent
   order: 'asc' | 'desc'
 }
 
-type ReportType = "ANALISIS_DE_TENDENCIA" | "PROYECCION_DE_VENTAS" | "OBSOLESCENCIA" | "SIGUIENTES_PEDIDOS" | "All";
-
 interface props {
-  data: Rating
+  data: Errors
   accessToken: string
-  getRatingData: (accessToken: string, currentPage: number, size: number, sort: keyof RatingContent, order: 'asc' | 'desc', reportType: string | null, from: string | null, to: string | null) => void
+  getErrorssInfo: (accessToken: string, currentPage: number, size: number, sort: keyof ErrorContent, order: 'asc' | 'desc', from: string | null, to: string | null) => void
 }
 
-export const RatingOverview: React.FC<props> = ({ data, accessToken, getRatingData }) => {
+export const ErrorsReport: React.FC<props> = ({ data, accessToken, getErrorssInfo }) => {
 
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [totalPages, setTotalPages] = useState<number>(0)
@@ -26,17 +24,15 @@ export const RatingOverview: React.FC<props> = ({ data, accessToken, getRatingDa
     sort: 'id',
     order: 'asc'
   })
-  const [reportType, setReportType] = useState<string | null>(null)
+
+  const ascDesc = ['asc', 'desc']
   const [dateFrom, setDateFrom] = useState<string | null>(null);
   const [dateTo, setDateTo] = useState<string | null>(null);
 
-  const ascDesc = ['asc', 'desc']
-  const types = ["ANALISIS_DE_TENDENCIA", "PROYECCION_DE_VENTAS", "OBSOLESCENCIA", "SIGUIENTES_PEDIDOS", "All"]
-
   useEffect(() => {
-    getRatingData(accessToken, currentPage, 10, filters.sort, filters.order, reportType, dateFrom, dateTo)
+    getErrorssInfo(accessToken, currentPage, 10, filters.sort, filters.order, dateFrom, dateTo)
     console.log('datita: ', data)
-  }, [currentPage, filters.order, filters.sort, filters, reportType, dateFrom, dateTo])
+  }, [currentPage, filters.order, filters.sort, filters, dateFrom, dateTo])
 
   useEffect(() => {
     setTotalPages(data.totalPages)
@@ -47,22 +43,13 @@ export const RatingOverview: React.FC<props> = ({ data, accessToken, getRatingDa
     console.log(filters)
   }, [filters])
 
-  function isKeyOfRatingContent(key: any): key is keyof RatingContent {
-    const validKeys: Array<keyof RatingContent> = ['id', 'fecha', 'cantEstrellas']
-    return validKeys.includes(key);
-  }
-
-  function handleSelect(field: keyof RatingContent | string, op: 'asc' | 'desc' | ReportType) {
-    if (isKeyOfRatingContent(field) && (op === 'asc' || op === 'desc')) {
-      setFilters(
-        {
-          sort: field,
-          order: op
-        }
-      )
-    } else {
-      op === 'All' ? setReportType(null) : setReportType(op)
-    }
+  function handleSelect(field: keyof ErrorContent, op: 'asc' | 'desc') {
+    setFilters(
+      {
+        sort: field,
+        order: op
+      }
+    )
   }
 
   const handlePageClick = (event: any) => {
@@ -93,12 +80,12 @@ export const RatingOverview: React.FC<props> = ({ data, accessToken, getRatingDa
             <TableSelector options={ascDesc} id='fecha' handleSelect={handleSelect} />
           </div>
           <div className="flex items-center relative col-span-2">
-            <p className="p-2">Type</p>
-            <TableSelector options={types} id='tipoInforme' handleSelect={handleSelect} />
+            <p className="p-2">Title</p>
+            <TableSelector options={ascDesc} id='titulo' handleSelect={handleSelect} />
           </div>
           <div className="flex items-center relative col-span-2">
-            <p className="p-2">Rate</p>
-            <TableSelector options={ascDesc} id='cantEstrellas' handleSelect={handleSelect} />
+            <p className="p-2">Code</p>
+            <TableSelector options={ascDesc} id='codigo' handleSelect={handleSelect} />
           </div>
         </li>
         {
