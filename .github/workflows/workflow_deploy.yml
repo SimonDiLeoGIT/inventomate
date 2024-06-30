@@ -71,29 +71,28 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl create configmap app-config --namespace=inventomate \
-            --from-literal=PORT="${{ secrets.PORT }}" \
-            --from-literal=OKTA_OAUTH2_ISSUER="${{ secrets.OKTA_OAUTH2_ISSUER }}" \
-            --from-literal=OKTA_OAUTH2_AUDIENCE="${{ secrets.OKTA_OAUTH2_AUDIENCE }}" \
-            --from-literal=CLIENT_ORIGIN_URL="${{ secrets.CLIENT_ORIGIN_URL }}" \
-            --from-literal=AUTH0_DOMAIN="${{ secrets.AUTH0_DOMAIN }}" \
-            --from-literal=AUTH0_CLIENT_ID="${{ secrets.AUTH0_CLIENT_ID }}" \
-            --from-literal=AUTH0_CLIENT_SECRET="${{ secrets.AUTH0_CLIENT_SECRET }}" \
-            --from-literal=URL_DATABASE="${{ secrets.URL_DATABASE }}" \
-            --from-literal=USER_DATABASE="${{ secrets.USER_DATABASE }}" \
-            --from-literal=PASSWORD_DATABASE="${{ secrets.PASSWORD_DATABASE }}" \
-            --from-literal=NAME_DATABASE="${{ secrets.NAME_DATABASE }}" \
-            --from-literal=DATABASE_CONNECTION="${{ secrets.DATABASE_CONNECTION }}" \
-            --from-literal=MELI_ACCESS_TOKEN="${{ secrets.MELI_ACCESS_TOKEN }}" \
-            --from-literal=MELI_APP_ID="${{ secrets.MELI_APP_ID }}" \
-            --from-literal=MELI_CLIENT_SECRET="${{ secrets.MELI_CLIENT_SECRET }}" \
-            --from-literal=MELI_CODE_LOGIN="${{ secrets.MELI_CODE_LOGIN }}" \
-            --from-literal=MELI_REDIRECT_URI="${{ secrets.MELI_REDIRECT_URI }}" \
-            --from-literal=MELI_REFRESH_TOKEN="${{ secrets.MELI_REFRESH_TOKEN }}" \
-            --from-literal=EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
-            --from-literal=EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
-            --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}" \
-            --from-literal=FLASK_URL_BASE="${{ secrets.FLASK_URL_BASE }}" \
-            --from-literal=INVITATION_REDIRECT_URI="${{ secrets.INVITATION_REDIRECT_URI }}"
+            --from-literal=PORT='${{ secrets.PORT }}' \
+            --from-literal=OKTA_OAUTH2_ISSUER='${{ secrets.OKTA_OAUTH2_ISSUER }}' \
+            --from-literal=OKTA_OAUTH2_AUDIENCE='${{ secrets.OKTA_OAUTH2_AUDIENCE }}' \
+            --from-literal=CLIENT_ORIGIN_URL='${{ secrets.CLIENT_ORIGIN_URL }}' \
+            --from-literal=AUTH0_DOMAIN='${{ secrets.AUTH0_DOMAIN }}' \
+            --from-literal=AUTH0_CLIENT_ID='${{ secrets.AUTH0_CLIENT_ID }}' \
+            --from-literal=AUTH0_CLIENT_SECRET='${{ secrets.AUTH0_CLIENT_SECRET }}' \
+            --from-literal=URL_DATABASE='${{ secrets.URL_DATABASE }}' \
+            --from-literal=USER_DATABASE='${{ secrets.USER_DATABASE }}' \
+            --from-literal=PASSWORD_DATABASE='${{ secrets.PASSWORD_DATABASE }}' \
+            --from-literal=NAME_DATABASE='${{ secrets.NAME_DATABASE }}' \
+            --from-literal=DATABASE_CONNECTION='${{ secrets.DATABASE_CONNECTION }}' \
+            --from-literal=MELI_ACCESS_TOKEN='${{ secrets.MELI_ACCESS_TOKEN }}' \
+            --from-literal=MELI_APP_ID='${{ secrets.MELI_APP_ID }}' \
+            --from-literal=MELI_CLIENT_SECRET='${{ secrets.MELI_CLIENT_SECRET }}' \
+            --from-literal=MELI_CODE_LOGIN='${{ secrets.MELI_CODE_LOGIN }}' \
+            --from-literal=MELI_REDIRECT_URI='${{ secrets.MELI_REDIRECT_URI }}' \
+            --from-literal=MELI_REFRESH_TOKEN='${{ secrets.MELI_REFRESH_TOKEN }}' \
+            --from-literal=EMAIL_PASSWORD='${{ secrets.EMAIL_PASSWORD }}' \
+            --from-literal=EMAIL_USERNAME='${{ secrets.EMAIL_USERNAME }}' \
+            --from-literal=MONGO_URI='${{ secrets.MONGO_URI }}' \
+            --from-literal=FLASK_URL_BASE='${{ secrets.FLASK_URL_BASE }}'
 
 
       - name: Create Init MySQL ConfigMap
@@ -116,9 +115,9 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl create configmap postgresql-config --namespace=inventomate \
-            --from-literal=POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
-            --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
-            --from-literal=POSTGRES_DB_NAME="${{ secrets.POSTGRES_DB_NAME }}"
+            --from-literal=POSTGRES_USER='${{ secrets.POSTGRES_USER }}' \
+            --from-literal=POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
+            --from-literal=POSTGRES_DB_NAME='${{ secrets.POSTGRES_DB_NAME }}'
       
       - name: PotgreSQL deploy
         working-directory: ./kubernetes
@@ -132,7 +131,7 @@ jobs:
         working-directory: ./kubernetes
         run: |
           kubectl create configmap mongo-config --namespace=inventomate \
-            --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}"
+            --from-literal=MONGO_URI='${{ secrets.MONGO_URI }}'
       
       - name: Mongo deploy
         working-directory: ./kubernetes
@@ -190,8 +189,8 @@ jobs:
         run: |
           kubectl apply -f ingress.yaml 
           for i in {1..30}; do
-            status=$(kubectl get certificate -A -o jsonpath="{.items[?(@.metadata.name=='helloworld-http-tls')].status.conditions[?(@.type=='Ready')].status}")
-            if [ "$status" == "True" ]; then
+            status=$(kubectl get certificate -A -o jsonpath="{.items[?(@.metadata.name=='helloworld-http-tls')].status.conditions[?(@.type=='Ready')].status}')
+            if [ '$status" == "True" ]; then
               echo "Certificate is ready."
               break
             fi
@@ -200,7 +199,7 @@ jobs:
           done
 
           # If the loop completes without the certificate being ready, exit with an error
-          if [ "$status" != "True" ]; then
+          if [ '$status" != "True" ]; then
             echo "Certificate was not ready in time." >&2
             exit 1
           fi
@@ -278,7 +277,7 @@ jobs:
           INTERVAL=10
           COUNT=0
 
-          while [ "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != "$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
+          while [ '$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != '$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
             echo "Waiting for external IP..."
             sleep $INTERVAL
             COUNT=$((COUNT+1))
@@ -304,7 +303,7 @@ jobs:
           INTERVAL=10
           COUNT=0
 
-          while [ "$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != "$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
+          while [ '$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')" != '$EXPECTED_IP" ] && [ $COUNT -lt $MAX_ATTEMPTS ]; do
             echo "Waiting for external IP..."
             sleep $INTERVAL
             COUNT=$((COUNT+1))
