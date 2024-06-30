@@ -125,6 +125,13 @@ jobs:
           kubectl apply -f init-postgresql.yaml
           
           kubectl apply -f postgresql.yaml
+
+
+      - name: Create Mongo ConfigMap
+        working-directory: ./kubernetes
+        run: |
+          kubectl create configmap mongo-config --namespace=inventomate \
+            --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}"
       
       - name: Mongo deploy
         working-directory: ./kubernetes
