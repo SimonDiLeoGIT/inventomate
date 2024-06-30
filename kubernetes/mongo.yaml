@@ -18,12 +18,6 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27017
-        env:
-        - name: MONGO_URI
-          valueFrom:
-            configMapKeyRef:
-              name: mongo-config
-              key: MONGO_URI
         
 ---
 # mongodb-service.yaml

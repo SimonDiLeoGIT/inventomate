@@ -19,6 +19,11 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
+        - name: MONGO_URI
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: MONGO_URI
 ---
 # python-service.yaml
 apiVersion: v1
