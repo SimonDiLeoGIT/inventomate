@@ -72,6 +72,7 @@ jobs:
         run: |
           kubectl create configmap app-config --namespace=inventomate \
             --from-literal=PORT="${{ secrets.PORT }}" \
+            --from-literal=SERVER_SSL_ENABLED="${{ secrets.SERVER_SSL_ENABLED }}" \
             --from-literal=OKTA_OAUTH2_ISSUER="${{ secrets.OKTA_OAUTH2_ISSUER }}" \
             --from-literal=OKTA_OAUTH2_AUDIENCE="${{ secrets.OKTA_OAUTH2_AUDIENCE }}" \
             --from-literal=CLIENT_ORIGIN_URL="${{ secrets.CLIENT_ORIGIN_URL }}" \

@@ -18,7 +18,7 @@ export const Products: React.FC<props> = ({ trend }) => {
                   <img src={product.pictures[0].url} className=" m-auto h-48 object-contain overflow-hidden duration-500 hover:scale-110" />
                 </Link>
                 {
-                  product.procesamiento.en_rango_categoria.en_rango
+                  product?.procesamiento?.en_rango_categoria?.en_rango
                     ?
                     <p className="-bg--color-green -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute bottom-2 right-0">Recommended</p>
                     :
@@ -31,7 +31,7 @@ export const Products: React.FC<props> = ({ trend }) => {
               </figcaption>
             </figure>
             {
-              product.procesamiento.meses_en_tendencia === 0
+              product?.procesamiento?.meses_en_tendencia === 0
               &&
               <p className="-bg--color-semidark-violet -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute top-2 right-2">New Trend</p>
             }
