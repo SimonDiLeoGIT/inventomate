@@ -52,17 +52,17 @@ export const Product = () => {
           {
             product
             &&
-            <ArrowButtons currentImage={currentImage} changeCurrentImage={changeCurrentImage} carousel={false} cant={product?.pictures.length} />
+            <ArrowButtons currentImage={currentImage} changeCurrentImage={changeCurrentImage} carousel={false} cant={product?.pictures?.length} />
           }
           {
             product
             &&
-            product.procesamiento.meses_en_tendencia === 0
+            product?.procesamiento?.meses_en_tendencia === 0
             &&
             <p className="-bg--color-semidark-violet -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute top-2 right-2">New Trend</p>
           }
           {
-            product?.procesamiento.en_rango_categoria.en_rango
+            product?.procesamiento?.en_rango_categoria?.en_rango
               ?
               <p className="-bg--color-green -text--color-white  inline-block p-1 text-sm  font-medium rounded-md absolute bottom-2 right-2">Recommended</p>
               :
@@ -90,11 +90,11 @@ export const Product = () => {
                 </p>
               </li>
               <li className="">
-                <p><strong className="font-semibold -text--color-semidark-violet">Suggested Price</strong> {product?.additional_info?.buy_box_winner?.currency_id}${product?.procesamiento.precio_sugerido.precio}</p>
+                <p><strong className="font-semibold -text--color-semidark-violet">Suggested Price</strong> {product?.additional_info?.buy_box_winner?.currency_id}${product?.procesamiento?.precio_sugerido?.precio}</p>
                 {
                   product
                   &&
-                  <Justification justificacion={product?.procesamiento.precio_sugerido.justificacion} />
+                  <Justification justificacion={product?.procesamiento?.precio_sugerido?.justificacion} />
                 }
               </li>
             </ul>
@@ -104,7 +104,7 @@ export const Product = () => {
           {
             product
             &&
-            <Justification justificacion={product?.procesamiento.en_rango_categoria.justificacion} />
+            <Justification justificacion={product?.procesamiento?.en_rango_categoria?.justificacion} />
           }
         </section>
         <section className="w-11/12 m-auto col-span-2 md:w-full">
