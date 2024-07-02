@@ -14,12 +14,12 @@ export default defineConfig({
     strictPort: true,
   },
   server: {
+    // Habilita HTTPS en el servidor de desarrollo
     // https: false,
     port: 5173,
     strictPort: true,
     host: true,
     origin: "http://localhost:5173",
-    // Habilita HTTPS en el servidor de desarrollo
   },
   test: {
     globals: true,
