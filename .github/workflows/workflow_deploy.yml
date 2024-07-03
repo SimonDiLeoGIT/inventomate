@@ -82,7 +82,7 @@ jobs:
             --from-literal=USER_DATABASE="${{ secrets.USER_DATABASE }}" \
             --from-literal=PASSWORD_DATABASE="${{ secrets.PASSWORD_DATABASE }}" \
             --from-literal=NAME_DATABASE="${{ secrets.NAME_DATABASE }}" \
-            --from-literal=DATABASE_CONNECTION="${{ secrets.DATABASE_CONNECTION }}" \
+            --from-literal=DATABASE_CONNECTION='${{ secrets.DATABASE_CONNECTION }}' \
             --from-literal=MELI_ACCESS_TOKEN="${{ secrets.MELI_ACCESS_TOKEN }}" \
             --from-literal=MELI_APP_ID="${{ secrets.MELI_APP_ID }}" \
             --from-literal=MELI_CLIENT_SECRET="${{ secrets.MELI_CLIENT_SECRET }}" \
