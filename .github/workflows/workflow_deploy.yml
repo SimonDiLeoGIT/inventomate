@@ -71,7 +71,7 @@ jobs:
           kubectl create configmap app-config --namespace=inventomate \
             --from-literal=PORT="${{ secrets.PORT }}" \
             --from-literal=SERVER_SSL_ENABLED="${{ secrets.SERVER_SSL_ENABLED }}" \
-            --from-literal=SERVER_SSL_KEY_STORE="${{ secrets.SERVER_SSL_KEY_STORE }}" \
+            --from-literal=SERVER_SSL_KEY_STORE='${{ secrets.SERVER_SSL_KEY_STORE }}' \
             --from-literal=SERVER_SSL_KEY_STORE_PASSWORD="${{ secrets.SERVER_SSL_KEY_STORE_PASSWORD }}" \
             --from-literal=SERVER_SSL_KEY_STORE_TYPE="${{ secrets.SERVER_SSL_KEY_STORE_TYPE }}" \
             --from-literal=SERVER_SSL_KEY_ALIAS="${{ secrets.SERVER_SSL_KEY_ALIAS }}" \
