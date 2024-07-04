@@ -143,6 +143,49 @@ jobs:
           kubectl apply -f python.yaml
          
 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v5
+        with:
+            context: ./client
+            push: true
+            tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
+      
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for Maven Wrapper
+        run: chmod +x ./backend/backend_spring/mvnw
+
+      - name: Build with Maven
+        working-directory: ./backend/backend_spring
+        run: ./mvnw clean package -DskipTests
+    
+      - name: Build and push spring image
+        uses: docker/build-push-action@v5
+        with:
+            context: ./backend/backend_spring
+            push: true
+            tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:latest
+            
+      - name: Crear pod backend
+        working-directory: ./kubernetes
+        run: |
+            kubectl apply -f spring.yaml
+
+      - name: Crear pod frontend
+        working-directory: ./kubernetes
+        run: |
+            kubectl apply -f frontend.yaml
+
       #tiro sste comando dos veces para que se configure en webhook
       - name: Install cert-manager
         run: |
@@ -221,49 +264,6 @@ jobs:
           openssl pkcs12 -export -in tls.crt -inkey tls.key -out keystore.p12 -name myalias -passout pass:yourpassword
       
           ls -lah
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push frontend image
-        uses: docker/build-push-action@v5
-        with:
-            context: ./client
-            push: true
-            tags: ${{ secrets.DOCKER_USERNAME }}/frontend-inventomate:latest
-      
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Grant execute permission for Maven Wrapper
-        run: chmod +x ./backend/backend_spring/mvnw
-
-      - name: Build with Maven
-        working-directory: ./backend/backend_spring
-        run: ./mvnw clean package -DskipTests
-    
-      - name: Build and push spring image
-        uses: docker/build-push-action@v5
-        with:
-            context: ./backend/backend_spring
-            push: true
-            tags: ${{ secrets.DOCKER_USERNAME }}/spring-inventomate:latest
-            
-      - name: Crear pod backend
-        working-directory: ./kubernetes
-        run: |
-            kubectl apply -f spring.yaml
-
-      - name: Crear pod frontend
-        working-directory: ./kubernetes
-        run: |
-            kubectl apply -f frontend.yaml
 
       #Espera que este la ip en el load balancer y luego la imprime
       - name: Wait for Spring Load Balancer IP
