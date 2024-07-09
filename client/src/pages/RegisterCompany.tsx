@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { registerCompany } from "../utils/Services/company.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
@@ -12,6 +12,10 @@ export const RegisterCompany = () => {
   const [name, setName] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [logo, setLogo] = useState<string>('')
+
+  useEffect(() => {
+    document.title = 'InventoMate | Register Company'
+  }, [])
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()

@@ -1,4 +1,11 @@
+import { useEffect } from "react"
+
 export const TermsAndCondition = () => {
+
+  useEffect(() => {
+    document.title = 'InventoMate | Terms and Conditions'
+  }, [])
+
   return (
     <main className="m-auto my-4 w-11/12 max-w-3xl">
       <h2 className="font-bold text-xl -text--color-semidark-violet">Terms and Conditions</h2>

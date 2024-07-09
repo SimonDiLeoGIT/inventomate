@@ -25,6 +25,10 @@ export const Trend = () => {
   const [comments, setRatingSection] = useState<boolean>(false)
 
   useEffect(() => {
+    document.title = 'InventoMate | Trends'
+  }, [])
+
+  useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()

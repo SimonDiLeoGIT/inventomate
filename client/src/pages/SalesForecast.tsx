@@ -27,6 +27,10 @@ export const SalesForecasting = () => {
   const [comments, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
+    document.title = 'InventoMate | Sales Forecasting'
+  }, [])
+
+  useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()

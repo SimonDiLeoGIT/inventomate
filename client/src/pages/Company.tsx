@@ -16,6 +16,10 @@ export const Company = () => {
   const [branches, setBranches] = useState<Branch[]>([]);
 
   useEffect(() => {
+    document.title = 'InventoMate | Company'
+  }, [])
+
+  useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()

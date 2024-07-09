@@ -25,6 +25,10 @@ export const Branch = () => {
   const [searchInput, setSearchInput] = useState<string>('')
 
   useEffect(() => {
+    document.title = 'InventoMate | Branch'
+  }, [])
+
+  useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()

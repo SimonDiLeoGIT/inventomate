@@ -18,6 +18,10 @@ export const CompanySettings = () => {
   const [show, setShow] = useState<boolean>(false)
 
   useEffect(() => {
+    document.title = 'InventoMate | Company Settings'
+  }, [])
+
+  useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()

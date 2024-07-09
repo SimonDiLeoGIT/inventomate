@@ -21,6 +21,10 @@ export const Product = () => {
   const [product, setProduct] = useState<Product>()
 
   useEffect(() => {
+    document.title = 'InventoMate | Product'
+  }, [])
+
+  useEffect(() => {
     console.log('posotion: ', position)
     trends?.trends.map(trend => {
       if (trend.category_name === category) {

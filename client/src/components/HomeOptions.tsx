@@ -21,7 +21,7 @@ export const HomeOptions: React.FC<props> = ({ isAuthenticated }) => {
           </div>
           :
           <div className="mt-12 inline-block">
-            <Link to={currentUser?.roles.some(rol => rol.idRol === 1) ? '/company' : `/company/branch/${currentUser?.sucursal?.idSucursal}`} className="block -bg--color-semidark-violet -text--color-white font-bold text-2xl p-4 rounded-2xl border hover:opacity-80"> View Company </Link>
+            <Link to={currentUser?.roles.some(rol => rol.idRol === 1) ? '/company' : `/company/branch/${currentUser?.sucursal?.idSucCliente}`} className="block -bg--color-semidark-violet -text--color-white font-bold text-2xl p-4 rounded-2xl border hover:opacity-80"> View Company </Link>
           </div>
         )
       }

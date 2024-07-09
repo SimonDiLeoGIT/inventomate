@@ -22,6 +22,9 @@ export const TrendsReports = () => {
   const [branch, setBranch] = useState<string>('')
   const totalArticles = 10
 
+  useEffect(() => {
+    document.title = 'InventoMate | Trends'
+  }, [])
 
   useEffect(() => {
 
@@ -33,8 +36,8 @@ export const TrendsReports = () => {
     isAuthenticated && getToken()
 
     if (currentUser?.sucursal?.idSucursal !== undefined) {
-      setBranch(currentUser?.sucursal?.idSucursal.toString())
-      handleChangeOption(currentUser?.sucursal?.idSucursal.toString())
+      setBranch(currentUser?.sucursal?.idSucCliente.toString())
+      handleChangeOption(currentUser?.sucursal?.idSucCliente.toString())
     }
 
   }, [isAuthenticated])

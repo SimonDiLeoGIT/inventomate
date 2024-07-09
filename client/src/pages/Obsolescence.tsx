@@ -26,6 +26,10 @@ export const Obsolescence = () => {
   const [comments, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
+    document.title = 'InventoMate | Obsolescence'
+  }, [])
+
+  useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()

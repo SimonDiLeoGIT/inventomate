@@ -14,6 +14,10 @@ export const Profile = () => {
   const { currentUser, setUser } = useUser()
 
   useEffect(() => {
+    document.title = 'InventoMate | Profile'
+  }, [])
+
+  useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()

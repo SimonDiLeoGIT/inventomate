@@ -26,6 +26,10 @@ export const NextOrders = () => {
   const [comments, setAssessment] = useState<boolean>(false);
 
   useEffect(() => {
+    document.title = 'InventoMate | Next Orders'
+  }, [])
+
+  useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()

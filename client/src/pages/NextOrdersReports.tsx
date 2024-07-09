@@ -23,6 +23,10 @@ export const NextOrdersReports = () => {
   const totalArticles = 10
 
   useEffect(() => {
+    document.title = 'InventoMate | Next Orders'
+  }, [])
+
+  useEffect(() => {
 
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
@@ -32,8 +36,8 @@ export const NextOrdersReports = () => {
     isAuthenticated && getToken()
 
     if (currentUser?.sucursal?.idSucursal !== undefined) {
-      setBranch(currentUser?.sucursal?.idSucursal.toString())
-      handleChangeOption(currentUser?.sucursal?.idSucursal.toString())
+      setBranch(currentUser?.sucursal?.idSucCliente.toString())
+      handleChangeOption(currentUser?.sucursal?.idSucCliente.toString())
     }
 
   }, [isAuthenticated])

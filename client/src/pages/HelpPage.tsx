@@ -11,6 +11,10 @@ export const HelpPage = () => {
   const { setUser } = useUser()
 
   useEffect(() => {
+    document.title = 'InventoMate | Help'
+  }, [])
+
+  useEffect(() => {
     const getToken = async () => {
       const accessToken = await getAccessTokenSilently()
       setUser(accessToken)

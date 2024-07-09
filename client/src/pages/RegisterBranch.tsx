@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { registerBranch } from "../utils/Services/branch.database.service"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useUser } from "../hook/useUser"
@@ -11,6 +11,10 @@ export const RegisterBranch = () => {
   const [id, setID] = useState<number>(0)
   const [name, setName] = useState<string>('')
   const [location, setLocation] = useState<string>('')
+
+  useEffect(() => {
+    document.title = 'InventoMate | Register Branch'
+  }, [])
 
 
   const handleSubmit = async (e: any) => {
