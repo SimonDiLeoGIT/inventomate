@@ -161,6 +161,7 @@ export const InviteUser: React.FC<props> = ({ idBranch }) => {
                 {
                   roles?.map((role) => {
                     return (
+                      role.idRol !== 1 && role.idRol !== 5 &&
                       <li className="p-2 flex items-center -bg--color-border-very-lightest-grey rounded-lg w-full">
                         <p>{role.nombreRol}</p>
                         <input

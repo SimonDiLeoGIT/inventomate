@@ -28,7 +28,7 @@ public class InvitacionController {
 		InvitacionSucursal invitacionSucursal = invitacionService.getInvitacionByToken(token);
 		sucursalService.addUserWithRoles(invitacionSucursal);
 		return new ModelAndView(new RedirectView("https://inventomate.xyz/"));
-		// return new ModelAndView(new RedirectView("http://localhost:8080/"));
+		// return new ModelAndView(new RedirectView("http://localhost:5173/"));
 	}
 
 	@GetMapping("/rechazar/{token}")
